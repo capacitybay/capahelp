@@ -1,6 +1,6 @@
 const CustomerModel = require("../../models/customerModel");
 
-const customerController = async (req, res) => {
+const createCustomerController = async (req, res) => {
   console.log(CustomerModel);
   const {
     first_name,
@@ -29,4 +29,38 @@ const customerController = async (req, res) => {
   }
 };
 
-module.exports = customerController;
+// get all customers controller
+
+const getCustomersController = (req, res) => {
+  try {
+    res.status(200).json("get customer route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+// get a customer controller
+
+const getCustomerController = (req, res) => {
+  try {
+    res.status(200).json("get one customer route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+// update customers
+
+const updateCustomerController = (req, res) => {
+  try {
+    res.status(200).json("update customer route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+module.exports = {
+  createCustomerController,
+  getCustomersController,
+  updateCustomerController,
+  getCustomerController,
+};

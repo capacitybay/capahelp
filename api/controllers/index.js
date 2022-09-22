@@ -1,6 +1,23 @@
 const loginController = require("./loginController");
-const customerController = require("./customerController");
+const {
+  createCustomerController,
+  getCustomersController,
+  updateCustomerController,
+  getCustomerController,
+} = require("./customerController");
+const {
+  getTicketController,
+  createTicketController,
+} = require("./ticketController");
+
 module.exports = {
   loginController,
-  customerController,
+  // ticket
+  getTicketController,
+  createTicketController,
+  // customer
+  createCustomerController,
+  getCustomersController,
+  updateCustomerController,
+  getCustomerController,
 };
