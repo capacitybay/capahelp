@@ -1,0 +1,27 @@
+{
+  "name": "capahelp",
+  "version": "1.0.0",
+  "description": "CapacityBay Help Desk Ticketing System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capacitybay/capahelp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/capacitybay/capahelp/issues"
+  },
+  "homepage": "https://github.com/capacitybay/capahelp#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.2",
+    "nodemon": "^2.0.20"
+  }
+}
