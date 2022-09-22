@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
-const { loginController } = require("../controllers/loginController");
+const { loginController } = require("../controllers");
+// console.log(loginController);
 
 router.get("/login", loginController);
 
