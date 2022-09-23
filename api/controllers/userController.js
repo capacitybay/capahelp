@@ -57,10 +57,40 @@ const updateUser = (req, res) => {
     res.status(500).json(error.message);
   }
 };
+// delete user
+
+const deactivateUser = (req, res) => {
+  try {
+    res.status(200).json("deactivate user route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+// delete user
+
+const reactivateUser = (req, res) => {
+  try {
+    res.status(200).json("reactivate user route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+// delete user
+
+const deleteUser = (req, res) => {
+  try {
+    res.status(200).json("delete customer route");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
 module.exports = {
   createUser,
   getUser,
   updateUser,
   viewUser,
+  deleteUser,
+  deactivateUser,
+  reactivateUser,
 };

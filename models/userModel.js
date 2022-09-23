@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema(
       type: Number,
     },
     active: {
-      type: Boolean,
+      type: Boolean, // will be set to true if the user account  is active
     },
     // this will be changed to date
     last_logged_in: {

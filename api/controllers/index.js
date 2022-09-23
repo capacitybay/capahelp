@@ -4,20 +4,33 @@ const {
   getUser,
   updateUser,
   viewUser,
+  deleteUser,
+  deactivateUser,
+  reactivateUser,
 } = require("./userController");
+
 const {
-  getTicketController,
-  createTicketController,
+  getTicket,
+  createTicket,
+  listTicket,
+  updateTicket,
+  deleteTicket,
 } = require("./ticketController");
 
 module.exports = {
   loginController,
   // ticket
-  getTicketController,
-  createTicketController,
+  getTicket,
+  createTicket,
+  listTicket,
+  updateTicket,
+  deleteTicket,
   // customer
   createUser,
   getUser,
   updateUser,
   viewUser,
+  deleteUser,
+  deactivateUser,
+  reactivateUser,
 };
