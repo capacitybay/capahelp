@@ -1,10 +1,9 @@
 const router = require("../global/sysRoute");
 const login = require("./routes/login");
-const reg_customer = require("./routes/customer");
 const ticket = require("./routes/ticket");
-const customer = require("./routes/customer");
+const user = require("./routes/user");
 router.use(ticket);
 router.use(login);
-router.use(customer);
+router.use(user);
 
 module.exports = router;

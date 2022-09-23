@@ -1,7 +1,7 @@
-const CustomerModel = require("../../models/customerModel");
+const UserModel = require("../../models/userModel");
 
-const createCustomerController = async (req, res) => {
-  console.log(CustomerModel);
+const createUser = async (req, res) => {
+  // console.log(CustomerModel);
   const {
     first_name,
     last_name,
@@ -11,7 +11,7 @@ const createCustomerController = async (req, res) => {
     active,
     last_logged_in,
   } = req.body;
-  const newCustomer = new CustomerModel({
+  const newUser = new UserModel({
     first_name,
     last_name,
     email,
@@ -22,25 +22,25 @@ const createCustomerController = async (req, res) => {
   });
   console.log(req.body);
   try {
-    const savedCustomer = await newCustomer.save();
-    res.status(200).json(savedCustomer);
+    const savedUser = await newUser.save();
+    res.status(200).json(savedUser);
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 
-// get all customers controller
+// get all user controller
 
-const getCustomersController = (req, res) => {
+const getUser = (req, res) => {
   try {
     res.status(200).json("get customer route");
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
-// get a customer controller
+// get a user controller
 
-const getCustomerController = (req, res) => {
+const viewUser = (req, res) => {
   try {
     res.status(200).json("get one customer route");
   } catch (error) {
@@ -48,9 +48,9 @@ const getCustomerController = (req, res) => {
   }
 };
 
-// update customers
+// update users
 
-const updateCustomerController = (req, res) => {
+const updateUser = (req, res) => {
   try {
     res.status(200).json("update customer route");
   } catch (error) {
@@ -59,8 +59,8 @@ const updateCustomerController = (req, res) => {
 };
 
 module.exports = {
-  createCustomerController,
-  getCustomersController,
-  updateCustomerController,
-  getCustomerController,
+  createUser,
+  getUser,
+  updateUser,
+  viewUser,
 };
