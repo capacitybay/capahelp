@@ -17,6 +17,14 @@ const {
   deleteTicket,
 } = require("./ticketController");
 
+const {
+  createDepartment,
+  getDepartment,
+  deleteDepartment,
+  updateDepartment,
+  viewDepartment,
+} = require("./departmentController");
+
 module.exports = {
   loginController,
   // ticket
@@ -33,4 +41,10 @@ module.exports = {
   deleteUser,
   deactivateUser,
   reactivateUser,
+  // department
+  createDepartment,
+  getDepartment,
+  deleteDepartment,
+  updateDepartment,
+  viewDepartment,
 };

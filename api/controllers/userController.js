@@ -75,6 +75,7 @@ const reactivateUser = (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
 // delete user
 
 const deleteUser = (req, res) => {
