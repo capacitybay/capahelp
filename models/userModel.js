@@ -12,13 +12,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
     },
     phone: {
-      type: String,
+      type: Array,
     },
     address: {
       type: String,
     },
-    has_logged_in: {
-      type: Boolean,
+    user_type: {
+      type: Number,
     },
     active: {
       type: Boolean,
