@@ -1,23 +1,50 @@
 const loginController = require("./loginController");
 const {
-  createCustomerController,
-  getCustomersController,
-  updateCustomerController,
-  getCustomerController,
-} = require("./customerController");
+  createUser,
+  getUser,
+  updateUser,
+  viewUser,
+  deleteUser,
+  deactivateUser,
+  reactivateUser,
+} = require("./userController");
+
 const {
-  getTicketController,
-  createTicketController,
+  getTicket,
+  createTicket,
+  listTicket,
+  updateTicket,
+  deleteTicket,
 } = require("./ticketController");
+
+const {
+  createDepartment,
+  getDepartment,
+  deleteDepartment,
+  updateDepartment,
+  viewDepartment,
+} = require("./departmentController");
 
 module.exports = {
   loginController,
   // ticket
-  getTicketController,
-  createTicketController,
+  getTicket,
+  createTicket,
+  listTicket,
+  updateTicket,
+  deleteTicket,
   // customer
-  createCustomerController,
-  getCustomersController,
-  updateCustomerController,
-  getCustomerController,
+  createUser,
+  getUser,
+  updateUser,
+  viewUser,
+  deleteUser,
+  deactivateUser,
+  reactivateUser,
+  // department
+  createDepartment,
+  getDepartment,
+  deleteDepartment,
+  updateDepartment,
+  viewDepartment,
 };

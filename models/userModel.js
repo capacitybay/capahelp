@@ -1,6 +1,6 @@
 const { mongoose, Schema } = require("./getMongoose");
 
-const CustomerSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     first_name: {
       type: String,
@@ -12,16 +12,16 @@ const CustomerSchema = new mongoose.Schema(
       type: String,
     },
     phone: {
-      type: String,
+      type: Array,
     },
     address: {
       type: String,
     },
-    has_logged_in: {
-      type: Boolean,
+    user_type: {
+      type: Number,
     },
     active: {
-      type: Boolean,
+      type: Boolean, // will be set to true if the user account  is active
     },
     // this will be changed to date
     last_logged_in: {
@@ -31,4 +31,4 @@ const CustomerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Customer", CustomerSchema);
+module.exports = mongoose.model("User", UserSchema);
