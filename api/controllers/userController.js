@@ -16,12 +16,17 @@ const createUser = async (req, res) => {
     active,
     last_logged_in,
   } = req.body;
+
+  // validates the provided fields
   const validateData = { first_name, last_name, email, phone, password };
   const { error } = await registerValidation(validateData);
+
+  // checks if the validation return error
   if (error) {
     res.status(400).json(error.message);
   } else {
     try {
+      // hashes user password before storing it
       const encryptedPassword = await hashedPassword(password);
       // create new document
       const newUser = new UserModel({
@@ -33,13 +38,13 @@ const createUser = async (req, res) => {
         location,
         has_logged_in,
         user_type,
-
         active,
         last_logged_in,
       });
-      // console.log(req.body);
 
+      // save user to database
       const savedUser = await newUser.save();
+      // sends response to the frontend
       res.status(200).json(savedUser);
     } catch (err) {
       res.status(500).json(err.message);
