@@ -1,6 +1,22 @@
-const createTicket = (req, res) => {
+const TicketModel = require("../../models/ticketModel");
+
+const createTicket = async (req, res) => {
+  // {
+  //   ticket_type,
+  //   title,
+  //   description,
+  //   customer_id,
+  //   assignee_id,
+  //   dept_id,
+  //   urgency,
+  //   priority,
+  //   ticket_status,
+  //   attachment,
+  // }
+  const newTicket = new TicketModel(req.body);
   try {
-    res.status(200).json("post ticket route");
+    const savedTicket = await newTicket.save();
+    res.status(200).json(savedTicket);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -13,9 +29,18 @@ const getTicket = (req, res) => {
     res.status(500).json(error.message);
   }
 };
-const updateTicket = (req, res) => {
+const updateTicket = async (req, res) => {
+  // testing update
+  let query = { _id: "632f13e364f4d38f4dc1c494" };
   try {
-    res.status(200).json("update ticket route");
+    const updatedTicket = await TicketModel.updateOne(query, {
+      dept_id: req.body.dept_id,
+      priority: req.body.priority,
+      ticket_status: req.body.ticket_status,
+      urgency: req.body.urgency,
+      assignee_id: req.body.assignee_id,
+    });
+    res.status(200).json(updatedTicket);
   } catch (error) {
     res.status(500).json(error.message);
   }
