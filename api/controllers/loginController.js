@@ -1,7 +1,8 @@
 const { loginValidation } = require("../validation/validation");
 const { unHashPassword } = require("../validation/password");
 const UserModel = require("../../models/userModel");
-
+require("dotenv").config;
+const jwt = require("jsonwebtoken");
 const loginController = async (req, res) => {
   // send request data to the validation function
   const { error } = loginValidation(req.body);
@@ -25,8 +26,23 @@ const loginController = async (req, res) => {
         // checks if the unHashing was successful
 
         if (decryptedPassword) {
+          const token = jwt.sign(
+            {
+              id: user._id,
+              role: user.user_type,
+              email: user.email,
+            },
+            process.env.SECRETE,
+            { expiresIn: "5m" }
+          );
           // sends msg to the frontend
-          res.status(200).json(`welcome back ${user.first_name}`);
+          res.cookie("passToken", token, {
+            httpOnly: true,
+            // cookie will expire in 5 mins
+            maxAge: 5 * 60000,
+          });
+          console.log(res);
+          res.status(200).json(user);
         } else {
           res.status(401).json("invalid username or password");
         }

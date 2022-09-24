@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const verify = require("../../auth/authenticateToken");
 const {
   getTicket,
   createTicket,
@@ -11,6 +12,6 @@ router.get("/ticket/view/:ticketId", getTicket);
 router.post("/ticket/new", createTicket);
 router.post("/ticket/list", listTicket);
 router.put("/ticket/update/", updateTicket);
-router.post("/ticket/delete", deleteTicket);
+router.delete("/ticket/delete", verify, deleteTicket);
 
 module.exports = router;
