@@ -1,32 +1,56 @@
 const UserModel = require("../../models/userModel");
+const { hashedPassword } = require("../validation/password");
+const { registerValidation } = require("../validation/validation");
+//
 
 const createUser = async (req, res) => {
-  // console.log(CustomerModel);
   const {
     first_name,
     last_name,
     email,
     phone,
+    password,
     has_logged_in,
+    user_type,
+    location,
     active,
     last_logged_in,
   } = req.body;
-  const newUser = new UserModel({
-    first_name,
-    last_name,
-    email,
-    phone,
-    has_logged_in,
-    active,
-    last_logged_in,
-  });
-  console.log(req.body);
-  try {
-    const savedUser = await newUser.save();
-    res.status(200).json(savedUser);
-  } catch (error) {
-    res.status(500).json(error.message);
+
+  // validates the provided fields
+  const validateData = { first_name, last_name, email, phone, password };
+  const { error } = await registerValidation(validateData);
+
+  // checks if the validation return error
+  if (error) {
+    res.status(400).json(error.message);
+  } else {
+    try {
+      // hashes user password before storing it
+      const encryptedPassword = await hashedPassword(password);
+      // create new document
+      const newUser = new UserModel({
+        first_name,
+        last_name,
+        email,
+        password: encryptedPassword,
+        phone,
+        location,
+        has_logged_in,
+        user_type,
+        active,
+        last_logged_in,
+      });
+
+      // save user to database
+      const savedUser = await newUser.save();
+      // sends response to the frontend
+      res.status(200).json(savedUser);
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
   }
+  // console.log(CustomerModel);
 };
 
 // get all user controller
