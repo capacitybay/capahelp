@@ -1,5 +1,5 @@
-const { loginValidation } = require("../validation/validation");
-const { unHashPassword } = require("../validation/password");
+const { loginValidation } = require("../../validation/validation");
+const { unHashPassword } = require("../../auth/password");
 const UserModel = require("../../models/userModel");
 require("dotenv").config;
 const jwt = require("jsonwebtoken");

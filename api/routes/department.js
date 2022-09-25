@@ -1,3 +1,4 @@
+const { route } = require("../../global/sysRoute");
 const router = require("../../global/sysRoute");
 const {
   createDepartment,

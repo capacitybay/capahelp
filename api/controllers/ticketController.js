@@ -29,9 +29,10 @@ const getTicket = (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
 const updateTicket = async (req, res) => {
   // testing update
-  let query = { _id: "632f13e364f4d38f4dc1c494" };
+  let query = { _id: "63308ffa5a14d6691ea19477" };
   try {
     const updatedTicket = await TicketModel.updateOne(query, {
       dept_id: req.body.dept_id,
