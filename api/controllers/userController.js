@@ -22,12 +22,12 @@ const createUser = async (req, res) => {
   const { error } = await registerValidation(validateData);
 
   // checks if the validation return error
-  if (error) {
-    res.status(400).json(error.message);
-  } else {
+  if (error) return res.status(400).json(error.message);
+  if (!error) {
     try {
       const getUser = await UserModel.findOne({ email: email });
       if (getUser) return res.status(400).json("user already exists");
+
       // hashes user password before storing it
       const encryptedPassword = await hashedPassword(password);
       // create new document
