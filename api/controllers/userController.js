@@ -1,6 +1,6 @@
 const UserModel = require("../../models/userModel");
-const { hashedPassword } = require("../validation/password");
-const { registerValidation } = require("../validation/validation");
+const { hashedPassword } = require("../../auth/password");
+const { registerValidation } = require("../../validation/validation");
 //
 
 const createUser = async (req, res) => {
