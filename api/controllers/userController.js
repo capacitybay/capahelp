@@ -78,11 +78,16 @@ const viewUser = (req, res) => {
 
 const updateUser = (req, res) => {
   try {
+    console.log(req.user);
+    const { id, role } = req.user;
     const userId = req.params.userId;
-    // if(userId === ""){
-    // const updatedUser = UserModel.updateOne();
-    // }
-    res.status(200).json("update customer route");
+    if (userId === id || role === 3) {
+      res.status(200).json("update customer route");
+
+      // const updatedUser = UserModel.updateOne();
+    } else {
+      res.status(200).json("you are not authorized to update customer route");
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
