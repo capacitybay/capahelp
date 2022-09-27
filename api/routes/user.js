@@ -16,7 +16,7 @@ router.post("/user/register", createUser);
 router.get("/user/list", authenticateToken, getUser);
 
 // gets a user
-router.get("/user/view/:userId", viewUser);
+router.get("/user/view/:userId", authenticateToken, viewUser);
 
 // update a user
 router.get("/user/update/:userId", authenticateToken, updateUser);

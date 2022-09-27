@@ -63,9 +63,12 @@ const getUser = async (req, res) => {
   try {
     if (loggedUser.role === 3) {
       const getUsers = await UserModel.find();
-      res.status(200).json(getUsers);
+      res.status(200).json({ success: true, getUsers });
     } else {
-      res.status(401).json("You are not authorized to perform this operation");
+      res.status(401).json({
+        success: false,
+        message: "You are not authorized to perform this operation",
+      });
     }
   } catch (error) {
     res.status(500).json(error.message);
@@ -73,9 +76,19 @@ const getUser = async (req, res) => {
 };
 // get a user controller
 
-const viewUser = (req, res) => {
+const viewUser = async (req, res) => {
+  const loggedUser = req.user;
+
   try {
-    res.status(200).json("get one customer route");
+    if (loggedUser.id === req.params.userId || loggedUser.role === 3) {
+      const userProfile = await UserModel.findOne({ _id: req.params.userId });
+      res.status(200).json(userProfile);
+    } else {
+      res.status(200).json({
+        success: false,
+        message: "You're not  authorized to perform this operation",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
