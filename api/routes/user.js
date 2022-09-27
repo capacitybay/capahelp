@@ -13,7 +13,7 @@ const authenticateToken = require("../../auth/authenticateToken");
 router.post("/user/register", createUser);
 
 // gets all user
-router.get("/user/list", getUser);
+router.get("/user/list", authenticateToken, getUser);
 
 // gets a user
 router.get("/user/view/:userId", viewUser);

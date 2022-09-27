@@ -55,11 +55,18 @@ const createUser = async (req, res) => {
   // console.log(CustomerModel);
 };
 
-// get all user controller
+// get all user controller : this  can only be done by the admin
 
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
+  const loggedUser = req.user;
+
   try {
-    res.status(200).json("get customer route");
+    if (loggedUser.role === 3) {
+      const getUsers = await UserModel.find();
+      res.status(200).json(getUsers);
+    } else {
+      res.status(401).json("You are not authorized to perform this operation");
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
