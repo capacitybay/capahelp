@@ -78,6 +78,10 @@ const viewUser = (req, res) => {
 
 const updateUser = (req, res) => {
   try {
+    const userId = req.params.userId;
+    // if(userId === ""){
+    // const updatedUser = UserModel.updateOne();
+    // }
     res.status(200).json("update customer route");
   } catch (error) {
     res.status(500).json(error.message);
