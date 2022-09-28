@@ -21,7 +21,7 @@ router.get("/user/view/:userId", authenticateToken, viewUser);
 // update a user
 router.put("/user/update/:userId", authenticateToken, updateUser);
 // delete a user
-router.delete("/user/delete/:userId", deleteUser);
+router.delete("/user/delete/:userId", authenticateToken, deleteUser);
 router.put("/user/deactivate/:userId", authenticateToken, deactivateUser);
 router.put("/user/reactivate/:userId", authenticateToken, reactivateUser);
 

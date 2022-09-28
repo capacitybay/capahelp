@@ -205,9 +205,22 @@ const reactivateUser = async (req, res) => {
 
 // delete user
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   try {
-    res.status(200).json("delete customer route");
+    if (
+      req.user.id === req.params.userId ||
+      (req.user.id && req.user.role === 3)
+    ) {
+      const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
+      if (deletedUser.acknowledged) {
+        res.status(200).json({ success: true, message: deletedUser });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to delete a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
