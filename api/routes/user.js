@@ -22,7 +22,7 @@ router.get("/user/view/:userId", authenticateToken, viewUser);
 router.put("/user/update/:userId", authenticateToken, updateUser);
 // delete a user
 router.delete("/user/delete/:userId", deleteUser);
-router.put("/user/deactivate/:userId", deactivateUser);
-router.put("/user/reactivate/:userId", reactivateUser);
+router.put("/user/deactivate/:userId", authenticateToken, deactivateUser);
+router.put("/user/reactivate/:userId", authenticateToken, reactivateUser);
 
 module.exports = router;

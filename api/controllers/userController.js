@@ -119,7 +119,7 @@ const updateUser = async (req, res) => {
       if (getUser)
         return res
           .status(400)
-          .json(`can't use ${email} please use another email `);
+          .json(`can't use ${email}, please use another email `);
       // updates the user
       if (!error) {
         const updatedUser = await UserModel.updateOne(
@@ -140,7 +140,7 @@ const updateUser = async (req, res) => {
         }
       }
     } else {
-      res.status(400).json("you are not authorized to update customer route");
+      res.status(400).json("you are not authorized to update this customer ");
     }
   } catch (error) {
     res.status(500).json(error.message);
@@ -148,18 +148,56 @@ const updateUser = async (req, res) => {
 };
 // delete user
 
-const deactivateUser = (req, res) => {
+const deactivateUser = async (req, res) => {
   try {
-    res.status(200).json("deactivate user route");
+    if (req.user.id && req.user.role === 3) {
+      const blockUser = await UserModel.updateOne(
+        { _id: req.params.userId },
+        {
+          active: false,
+        }
+      );
+
+      if (blockUser.acknowledged) {
+        res.status(200).json({
+          success: true,
+          message: blockUser,
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to deactivate a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 // delete user
 
-const reactivateUser = (req, res) => {
+const reactivateUser = async (req, res) => {
   try {
-    res.status(200).json("reactivate user route");
+    if (req.user.id && req.user.role === 3) {
+      const activateUser = await UserModel.updateOne(
+        { _id: req.params.userId },
+        {
+          active: true,
+        }
+      );
+
+      if (activateUser.acknowledged) {
+        res.status(200).json({
+          success: true,
+          message: activateUser,
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to activate a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
