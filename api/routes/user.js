@@ -1,4 +1,4 @@
-const router = require("../../global/sysRoute");
+const router = require("../../utils/sysRoute");
 
 const {
   createUser,
@@ -9,17 +9,17 @@ const {
   deactivateUser,
   reactivateUser,
 } = require("../controllers");
-
+const authenticateToken = require("../../auth/authenticateToken");
 router.post("/user/register", createUser);
 
 // gets all user
-router.get("/user/list", getUser);
+router.get("/user/list", authenticateToken, getUser);
 
 // gets a user
-router.get("/user/view/:userId", viewUser);
+router.get("/user/view/:userId", authenticateToken, viewUser);
 
 // update a user
-router.put("/user/update/:userId", updateUser);
+router.get("/user/update/:userId", authenticateToken, updateUser);
 // delete a user
 router.delete("/user/delete/:userId", deleteUser);
 router.put("/user/deactivate/:userId", deactivateUser);

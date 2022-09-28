@@ -42,10 +42,9 @@ function loginValidation(data) {
       .string()
       .email({
         minDomainSegments: 2,
-        tlds: { allow: ["com", "net"] },
+        tlds: { allow: ["com", "net", "org"] },
       })
       .required(),
-
     password: joi
       .string()
       .pattern(

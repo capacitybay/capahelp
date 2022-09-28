@@ -1,5 +1,4 @@
-const { route } = require("../../global/sysRoute");
-const router = require("../../global/sysRoute");
+const router = require("../../utils/sysRoute");
 const {
   createDepartment,
   getDepartment,

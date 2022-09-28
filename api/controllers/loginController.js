@@ -26,6 +26,7 @@ const loginController = async (req, res) => {
         // checks if the unHashing was successful
 
         if (decryptedPassword) {
+          // sign jwt token token
           const token = jwt.sign(
             {
               id: user._id,
@@ -33,22 +34,22 @@ const loginController = async (req, res) => {
               email: user.email,
             },
             process.env.SECRETE,
-            { expiresIn: "5m" }
+            { expiresIn: process.env.JWT_EXPIRE }
           );
-          // sends msg to the frontend
-          res.cookie("passToken", token, {
-            httpOnly: true,
-            // cookie will expire in 5 mins
-            maxAge: 5 * 60000,
-          });
-          console.log(res);
-          res.status(200).json(user);
+          // sends cookie to the frontend
+          // res.cookie("Token", token, {
+          //   httpOnly: true,
+          //   // cookie will expire in 5 mins
+          //   maxAge: 5 * 60000,
+          // });
+          // console.log(res);
+          res.status(200).json({ user, jwt: token });
         } else {
-          res.status(401).json("invalid username or password");
+          res.status(401).json("invalid email or password");
         }
       } else {
         // sends error message if email match returns false
-        res.status(401).json("invalid username ");
+        res.status(404).json("invalid email ");
       }
 
       //

@@ -22,10 +22,12 @@ const createUser = async (req, res) => {
   const { error } = await registerValidation(validateData);
 
   // checks if the validation return error
-  if (error) {
-    res.status(400).json(error.message);
-  } else {
+  if (error) return res.status(400).json(error.message);
+  if (!error) {
     try {
+      const getUser = await UserModel.findOne({ email: email });
+      if (getUser) return res.status(400).json("user already exists");
+
       // hashes user password before storing it
       const encryptedPassword = await hashedPassword(password);
       // create new document
@@ -53,20 +55,40 @@ const createUser = async (req, res) => {
   // console.log(CustomerModel);
 };
 
-// get all user controller
+// get all user controller : this  can only be done by the admin
 
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
+  const loggedUser = req.user;
+
   try {
-    res.status(200).json("get customer route");
+    if (loggedUser.role === 3) {
+      const getUsers = await UserModel.find();
+      res.status(200).json({ success: true, getUsers });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: "You are not authorized to perform this operation",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 // get a user controller
 
-const viewUser = (req, res) => {
+const viewUser = async (req, res) => {
+  const loggedUser = req.user;
+
   try {
-    res.status(200).json("get one customer route");
+    if (loggedUser.id === req.params.userId || loggedUser.role === 3) {
+      const userProfile = await UserModel.findOne({ _id: req.params.userId });
+      res.status(200).json(userProfile);
+    } else {
+      res.status(200).json({
+        success: false,
+        message: "You're not  authorized to perform this operation",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -76,7 +98,16 @@ const viewUser = (req, res) => {
 
 const updateUser = (req, res) => {
   try {
-    res.status(200).json("update customer route");
+    console.log(req.user);
+    const { id, role } = req.user;
+    const userId = req.params.userId;
+    if (userId === id || role === 3) {
+      res.status(200).json("update customer route");
+
+      // const updatedUser = UserModel.updateOne();
+    } else {
+      res.status(200).json("you are not authorized to update customer route");
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }

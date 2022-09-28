@@ -1,4 +1,4 @@
-const router = require("../global/sysRoute");
+const router = require("../utils/sysRoute");
 const login = require("./routes/login");
 const ticket = require("./routes/ticket");
 const user = require("./routes/user");

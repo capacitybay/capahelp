@@ -2,21 +2,23 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // verifies if the user is authenticated or not
-const authenticateToken = (req, res, next) => {
-  // const token = req.cookies.passToken;
-  console.log(req);
-  // if (token) {
-  //   jwt.verify(token, process.env.SECRETE_TOKEN, (err, decodedToken) => {
-  //     if (err) res.json(err.message);
-  //     res.status(200).send("you are  authenticated");
-  //     req.user = decodedToken;
-  next();
-  //   });
-  // } else {
-  //   // res.redirect("/login");
+const authenticateToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  let token = null;
+  console.log(authHeader);
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    token = authHeader.split(" ")[1];
+  }
+  if (!token) {
+    return res.status(401).json("You are not authorized to access this route");
+  }
 
-  //   res.status(401).send("you are not authenticated");
-  // }
+  jwt.verify(token, process.env.SECRETE, (error, result) => {
+    if (error) return res.status(403).json("token is not valid");
+    req.user = result;
+    console.log(result);
+    next();
+  });
 };
 
 module.exports = authenticateToken;
