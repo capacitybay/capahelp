@@ -32,11 +32,10 @@ const UserSchema = new mongoose.Schema(
     },
     active: {
       type: Boolean, // will be set to true if the user account  is active
+      default: true,
     },
     // this will be changed to date
-    last_logged_in: {
-      type: String,
-    },
+    last_logged_in: {},
   },
   { timestamps: true }
 );

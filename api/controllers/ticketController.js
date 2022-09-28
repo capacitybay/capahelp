@@ -1,18 +1,6 @@
 const TicketModel = require("../../models/ticketModel");
 
 const createTicket = async (req, res) => {
-  // {
-  //   ticket_type,
-  //   title,
-  //   description,
-  //   customer_id,
-  //   assignee_id,
-  //   dept_id,
-  //   urgency,
-  //   priority,
-  //   ticket_status,
-  //   attachment,
-  // }
   const newTicket = new TicketModel(req.body);
   try {
     const savedTicket = await newTicket.save();
@@ -32,7 +20,9 @@ const getTicket = (req, res) => {
 
 const updateTicket = async (req, res) => {
   // this controller updates the ticket base on the user type
-  let query = { _id: req.params.ticketId };
+  const ticketId = req.params.ticketId;
+
+  let query = { _id: ticketId };
   const {
     dept_id,
     priority,
@@ -46,7 +36,6 @@ const updateTicket = async (req, res) => {
     attachment,
   } = req.body;
 
-  const ticketId = req.params.ticketId;
   try {
     if (ticketId && req.user.role === 3) {
       const adminUpdatedTicket = await TicketModel.updateOne(query, {
@@ -92,6 +81,7 @@ const listTicket = (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
 const deleteTicket = async (req, res) => {
   const ticketId = req.params.ticketId;
 

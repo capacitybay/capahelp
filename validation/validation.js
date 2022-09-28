@@ -65,7 +65,29 @@ function loginValidation(data) {
   });
   return schema.validate(data);
 }
+
+function updateUserValidation(data) {
+  const schema = joi.object({
+    // first name validation
+    first_name: joi.string().min(2).required(),
+    // last name validation
+    last_name: joi.string().min(2).max(30).required(),
+    // email  validation
+    email: joi
+      .string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ["com", "net"] },
+      })
+      .required(),
+
+    phone: joi.string().alphanum().min(10).max(13).required(),
+  });
+  return schema.validate(data);
+}
+
 module.exports = {
   registerValidation,
   loginValidation,
+  updateUserValidation,
 };

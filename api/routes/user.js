@@ -19,7 +19,7 @@ router.get("/user/list", authenticateToken, getUser);
 router.get("/user/view/:userId", authenticateToken, viewUser);
 
 // update a user
-router.get("/user/update/:userId", authenticateToken, updateUser);
+router.put("/user/update/:userId", authenticateToken, updateUser);
 // delete a user
 router.delete("/user/delete/:userId", deleteUser);
 router.put("/user/deactivate/:userId", deactivateUser);
