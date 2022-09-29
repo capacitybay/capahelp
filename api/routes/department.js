@@ -8,7 +8,7 @@ const {
   viewDepartment,
 } = require("../controllers");
 
-router.get("/department/list", getDepartment);
+router.get("/department/list", authenticateToken, getDepartment);
 router.post("/department/create", authenticateToken, createDepartment);
 router.put("/department/update/:deptId", authenticateToken, updateDepartment);
 router.delete(
@@ -16,6 +16,6 @@ router.delete(
   authenticateToken,
   deleteDepartment
 );
-router.get("/department/view", viewDepartment);
+router.get("/department/view/:deptId", authenticateToken, viewDepartment);
 
 module.exports = router;
