@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema(
     },
     user_type: {
       type: Number,
+      default: 0,
       required: true,
     },
     active: {

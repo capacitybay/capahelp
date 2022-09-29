@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
   if (!error) {
     try {
       const getUser = await UserModel.findOne({ email: email });
-      if (getUser) return res.status(400).json("user already exists");
+      if (getUser) return res.status(409).json("user already exists");
 
       // hashes user password before storing it
       const encryptedPassword = await hashedPassword(password);

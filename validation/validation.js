@@ -85,9 +85,27 @@ function updateUserValidation(data) {
   });
   return schema.validate(data);
 }
+async function createDeptValidation(data) {
+  const schema = joi.object({
+    // first name validation
+    dept_name: joi.string().min(2).required(),
+    // last name validation
+    head_agent: joi.string().min(2).max(30).required(),
+    // email  validation
+    email: joi
+      .string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ["com", "net"] },
+      })
+      .required(),
+  });
+  return schema.validate(data);
+}
 
 module.exports = {
   registerValidation,
   loginValidation,
   updateUserValidation,
+  createDeptValidation,
 };
