@@ -1,4 +1,5 @@
 const router = require("../../utils/sysRoute");
+const authenticateToken = require("../../auth/authenticateToken");
 const {
   createDepartment,
   getDepartment,
@@ -8,8 +9,8 @@ const {
 } = require("../controllers");
 
 router.get("/department/list", getDepartment);
-router.post("/department/create", createDepartment);
-router.put("/department/update", updateDepartment);
+router.post("/department/create", authenticateToken, createDepartment);
+router.put("/department/update/:deptId", authenticateToken, updateDepartment);
 router.delete("/department/delete", deleteDepartment);
 router.get("/department/view", viewDepartment);
 
