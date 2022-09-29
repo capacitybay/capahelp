@@ -11,7 +11,11 @@ const {
 router.get("/department/list", getDepartment);
 router.post("/department/create", authenticateToken, createDepartment);
 router.put("/department/update/:deptId", authenticateToken, updateDepartment);
-router.delete("/department/delete", deleteDepartment);
+router.delete(
+  "/department/delete/:deptId",
+  authenticateToken,
+  deleteDepartment
+);
 router.get("/department/view", viewDepartment);
 
 module.exports = router;

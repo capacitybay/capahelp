@@ -2,12 +2,12 @@ const DepartmentModel = require("../../models/departmentModel.js");
 const { createDeptValidation } = require("../../validation/validation");
 const createDepartment = async (req, res) => {
   const { dept_name, head_agent, email, members } = req.body;
-  if (req.user.id && req.user.role === 3) {
-    const validateData = { dept_name, head_agent, email };
-    const { error } = await createDeptValidation(validateData);
-    // checks if error is returned from the validation
-    if (error) return res.status(400).json(error.message);
-    try {
+  try {
+    if (req.user.id && req.user.role === 3) {
+      const validateData = { dept_name, head_agent, email };
+      const { error } = await createDeptValidation(validateData);
+      // checks if error is returned from the validation
+      if (error) return res.status(400).json(error.message);
       // executes if there was no error
       if (!error) {
         const getDept = await DepartmentModel.findOne({
@@ -35,9 +35,14 @@ const createDepartment = async (req, res) => {
           // }
         }
       }
-    } catch (error) {
-      res.status(500).json(error.message);
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to perform this operation",
+      });
     }
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 };
 
@@ -104,7 +109,21 @@ const updateDepartment = async (req, res) => {
 // delete departments
 const deleteDepartment = async (req, res) => {
   try {
-    res.status(200).json("delete department route");
+    if (req.user.id && req.user.role === 3 && req.params.deptId) {
+      const deletedDept = await DepartmentModel.deleteOne({
+        _id: req.params.deptId,
+      });
+      if (deletedDept.acknowledged)
+        return res.status(200).json({ success: true, result: deletedDept });
+      if (!deletedDept.acknowledged)
+        return res.status(400).json({ success: false, result: deletedDept });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "You are not authorized to perform this operation",
+      });
+    }
+    // res.status(200).json("delete department route");
   } catch (error) {
     res.status(500).json(error.message);
   }
