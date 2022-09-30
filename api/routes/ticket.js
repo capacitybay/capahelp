@@ -1,4 +1,5 @@
-const router = require("express").Router();
+const router = require("../../utils/sysRoute");
+
 const authenticateToken = require("../../auth/authenticateToken");
 const {
   getTicket,
@@ -11,7 +12,7 @@ const {
 router.get("/ticket/view/:ticketId", getTicket);
 router.post("/ticket/new", createTicket);
 router.post("/ticket/list", listTicket);
-router.put("/ticket/update/", updateTicket);
-router.delete("/ticket/delete", authenticateToken, deleteTicket);
+router.put("/ticket/update/:ticketId", authenticateToken, updateTicket);
+router.delete("/ticket/delete/:ticketId", authenticateToken, deleteTicket);
 
 module.exports = router;

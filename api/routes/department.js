@@ -1,4 +1,5 @@
 const router = require("../../utils/sysRoute");
+const authenticateToken = require("../../auth/authenticateToken");
 const {
   createDepartment,
   getDepartment,
@@ -7,10 +8,14 @@ const {
   viewDepartment,
 } = require("../controllers");
 
-router.get("/department/list", getDepartment);
-router.post("/department/create", createDepartment);
-router.put("/department/update", updateDepartment);
-router.delete("/department/delete", deleteDepartment);
-router.get("/department/view", viewDepartment);
+router.get("/department/list", authenticateToken, getDepartment);
+router.post("/department/create", authenticateToken, createDepartment);
+router.put("/department/update/:deptId", authenticateToken, updateDepartment);
+router.delete(
+  "/department/delete/:deptId",
+  authenticateToken,
+  deleteDepartment
+);
+router.get("/department/view/:deptId", authenticateToken, viewDepartment);
 
 module.exports = router;

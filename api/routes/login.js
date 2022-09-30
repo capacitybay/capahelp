@@ -1,4 +1,5 @@
-const router = require("express").Router();
+const router = require("../../utils/sysRoute");
+
 const { loginController } = require("../controllers");
 // console.log(loginController);
 

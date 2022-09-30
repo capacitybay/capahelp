@@ -1,18 +1,6 @@
 const TicketModel = require("../../models/ticketModel");
 
 const createTicket = async (req, res) => {
-  // {
-  //   ticket_type,
-  //   title,
-  //   description,
-  //   customer_id,
-  //   assignee_id,
-  //   dept_id,
-  //   urgency,
-  //   priority,
-  //   ticket_status,
-  //   attachment,
-  // }
   const newTicket = new TicketModel(req.body);
   try {
     const savedTicket = await newTicket.save();
@@ -31,21 +19,61 @@ const getTicket = (req, res) => {
 };
 
 const updateTicket = async (req, res) => {
-  // testing update
-  let query = { _id: "63308ffa5a14d6691ea19477" };
+  // this controller updates the ticket base on the user type
+  const ticketId = req.params.ticketId;
+
+  let query = { _id: ticketId };
+  const {
+    dept_id,
+    priority,
+    ticket_status,
+    urgency,
+    assignee_id,
+    ticket_type,
+    title,
+    customer_id,
+    description,
+    attachment,
+  } = req.body;
+
   try {
-    const updatedTicket = await TicketModel.updateOne(query, {
-      dept_id: req.body.dept_id,
-      priority: req.body.priority,
-      ticket_status: req.body.ticket_status,
-      urgency: req.body.urgency,
-      assignee_id: req.body.assignee_id,
-    });
-    res.status(200).json(updatedTicket);
+    if (ticketId && req.user.role === 3) {
+      const adminUpdatedTicket = await TicketModel.updateOne(query, {
+        ticket_type,
+        title,
+        customer_id,
+        description,
+        dept_id,
+        priority,
+        ticket_status,
+        urgency,
+        assignee_id,
+        attachment,
+      });
+      res.status(200).json(adminUpdatedTicket);
+    } else if (ticketId && req.user.id && req.user.role === 0) {
+      const userUpdatedTicket = await TicketModel.updateOne(query, {
+        ticket_type,
+        title,
+        description,
+        attachment,
+      });
+      res.status(200).json({
+        success: true,
+        Msg: "ticket was updated successfully",
+      });
+      res.status(200).json(userUpdatedTicket);
+    } else {
+      res.status(400).json({
+        success: false,
+        Msg: "ticket was not deleted ",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
+
 const listTicket = (req, res) => {
   try {
     res.status(200).json("view ticket route");
@@ -53,9 +81,31 @@ const listTicket = (req, res) => {
     res.status(500).json(error.message);
   }
 };
-const deleteTicket = (req, res) => {
+
+const deleteTicket = async (req, res) => {
+  const ticketId = req.params.ticketId;
+
   try {
-    res.status(200).json("delete ticket route");
+    if (
+      (ticketId && req.user.role === 3) ||
+      (req.user.id && req.user.role === 0)
+    ) {
+      const adminDeleteTicket = await TicketModel.deleteOne({
+        _id: req.params.ticketId,
+      });
+
+      if (adminDeleteTicket.acknowledged) {
+        res.status(200).json({
+          success: true,
+          Msg: "ticket was deleted successfully",
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          Msg: "ticket was not  deleted ",
+        });
+      }
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }

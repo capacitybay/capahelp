@@ -1,6 +1,9 @@
 const UserModel = require("../../models/userModel");
 const { hashedPassword } = require("../../auth/password");
-const { registerValidation } = require("../../validation/validation");
+const {
+  registerValidation,
+  updateUserValidation,
+} = require("../../validation/validation");
 //
 
 const createUser = async (req, res) => {
@@ -26,7 +29,7 @@ const createUser = async (req, res) => {
   if (!error) {
     try {
       const getUser = await UserModel.findOne({ email: email });
-      if (getUser) return res.status(400).json("user already exists");
+      if (getUser) return res.status(409).json("user already exists");
 
       // hashes user password before storing it
       const encryptedPassword = await hashedPassword(password);
@@ -38,16 +41,16 @@ const createUser = async (req, res) => {
         password: encryptedPassword,
         phone,
         location,
-        has_logged_in,
         user_type,
-        active,
-        last_logged_in,
       });
 
       // save user to database
       const savedUser = await newUser.save();
       // sends response to the frontend
-      res.status(200).json(savedUser);
+      res.status(200).json({
+        success: true,
+        savedUser,
+      });
     } catch (err) {
       res.status(500).json(err.message);
     }
@@ -55,7 +58,7 @@ const createUser = async (req, res) => {
   // console.log(CustomerModel);
 };
 
-// get all user controller : this  can only be done by the admin
+// get all user  : this  can only be done by the admin
 
 const getUser = async (req, res) => {
   const loggedUser = req.user;
@@ -96,17 +99,48 @@ const viewUser = async (req, res) => {
 
 // update users
 
-const updateUser = (req, res) => {
-  try {
-    console.log(req.user);
-    const { id, role } = req.user;
-    const userId = req.params.userId;
-    if (userId === id || role === 3) {
-      res.status(200).json("update customer route");
+const updateUser = async (req, res) => {
+  // validates the provided fields
+  const { first_name, last_name, email, phone, location } = req.body;
+  console.log(first_name, last_name, email, phone, location);
+  const { id, role } = req.user;
+  const userId = req.params.userId;
 
-      // const updatedUser = UserModel.updateOne();
+  try {
+    if (userId === id || role === 3) {
+      const validateData = { first_name, last_name, email, phone };
+      console.log(validateData);
+      const { error } = updateUserValidation(validateData);
+      console.log(error);
+      if (error) return res.status(400).json(error.message);
+      // checks if the email already exist
+
+      const getUser = await UserModel.findOne({ email: email });
+      if (getUser)
+        return res
+          .status(400)
+          .json(`can't use ${email}, please use another email `);
+      // updates the user
+      if (!error) {
+        const updatedUser = await UserModel.updateOne(
+          { _id: req.params.userId },
+          {
+            first_name,
+            last_name,
+            email,
+            phone,
+            location,
+          }
+        );
+        if (updatedUser.acknowledged) {
+          res.status(200).json({
+            success: true,
+            msg: updatedUser,
+          });
+        }
+      }
     } else {
-      res.status(200).json("you are not authorized to update customer route");
+      res.status(400).json("you are not authorized to update this customer ");
     }
   } catch (error) {
     res.status(500).json(error.message);
@@ -114,18 +148,56 @@ const updateUser = (req, res) => {
 };
 // delete user
 
-const deactivateUser = (req, res) => {
+const deactivateUser = async (req, res) => {
   try {
-    res.status(200).json("deactivate user route");
+    if (req.user.id && req.user.role === 3) {
+      const blockUser = await UserModel.updateOne(
+        { _id: req.params.userId },
+        {
+          active: false,
+        }
+      );
+
+      if (blockUser.acknowledged) {
+        res.status(200).json({
+          success: true,
+          message: blockUser,
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to deactivate a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 // delete user
 
-const reactivateUser = (req, res) => {
+const reactivateUser = async (req, res) => {
   try {
-    res.status(200).json("reactivate user route");
+    if (req.user.id && req.user.role === 3) {
+      const activateUser = await UserModel.updateOne(
+        { _id: req.params.userId },
+        {
+          active: true,
+        }
+      );
+
+      if (activateUser.acknowledged) {
+        res.status(200).json({
+          success: true,
+          message: activateUser,
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to activate a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -133,9 +205,22 @@ const reactivateUser = (req, res) => {
 
 // delete user
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   try {
-    res.status(200).json("delete customer route");
+    if (
+      req.user.id === req.params.userId ||
+      (req.user.id && req.user.role === 3)
+    ) {
+      const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
+      if (deletedUser.acknowledged) {
+        res.status(200).json({ success: true, message: deletedUser });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "you are not authorized to delete a customer",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
