@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tickets</title>
+    <link rel="stylesheet" href="view/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        input[type=text], select, textarea {
+          width: 60%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        
+        label {
+          padding: 12px 12px 12px 0;
+          display: inline-block;
+        }
+        
+        input[type=submit] {
+          background-color: #04AA6D;
+          color: white;
+          width: 10%;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        input[type=cancel] {
+          background-color: #04AA6D;
+          color: white;
+          width: 10%;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        input[type=submit]:hover {
+          background-color: #45a049;
+        }
+        input[type=cancel]:hover {
+          background-color: #45a049;
+        }
+        
+        .container {
+          border-radius: 5px;
+          background-color: #f2f2f2;
+          padding: 20px;
+        }
+        
+        .col-25 {
+          float: left;
+          width: 25%;
+          margin-top: 6px;
+        }
+        
+        .col-75 {
+          float: left;
+          width: 75%;
+          margin-top: 6px;
+        }
+        
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+          .col-25, .col-75, input[type=submit] {
+            width: 100%;
+            margin-top: 0;
+          }
+        @media screen and (max-width: 600px) {
+          .col-25, .col-75, input[type=cancel] {
+            width: 100%;
+            margin-top: 0;
+          }
+        }
+        </style>
+
+</head>
+<body>
+    <header class="header">
+        <div class="overlay has-fade"></div>
+  
+        <nav class="container container--pall flex flex-jc-sb flex-ai-c">
+          <a href="/" class="header__logo">
+            <img src="images/CapacityBay Logo1.png" alt="CapaHelpDesk" />
+          </a>
+  
+          <a id="btnHamburger" href="#" class="header__toggle hide-for-desktop">
+          <span><a href="home.html">Home</a></span>
+          <span><a href="solution.html">Solution</a></span>
+          <span><a href="tickets.html">Tickets</a></span>
+        </a>
+
+    <div class="header__links hide-for-mobile">
+        <a href="home.html">Home</a>
+        <a href="solution.html">Solution</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="#"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+        <a href="#"><img src="images/EO.png" alt="EO" width="20px"></a>
+      </div>
+    </nav>
+    <div class="btn">
+        <button style="background-color: green; color: white;"><a href="tickets.html"></a>Home</button>
+        Create a ticket
+    </div> 
+    <div class="container">
+        <form action="/action_page.php">
+          <div class="row">
+            <div class="col-25">
+              <label for="email">Customer Email *</label>
+            </div>
+            <div class="col-75">
+              <input type="text" id="email" name="email" placeholder="Your Email .">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="title">Title *</label>
+            </div>
+            <div class="col-75">
+              <input type="text" id="title" name="title *" placeholder="Your title.">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="priority">Priority</label>
+            </div>
+            <div class="col-75">
+              <select id="priority" name="priority">
+                <option value="normal">Normal</option>
+                <option value="good">Good</option>
+                <option value="better">Better</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="subject">Description</label>
+            </div>
+            <div class="col-75">
+              <textarea id="description" name="description" placeholder="Write something.." style="height:200px"></textarea>
+            </div>
+          </div>
+          <div class="file-upload">
+            <input class="file-upload__input" type="file" name="myfile[]" id="myfile" multiple>
+            <label for="file">(File size < 35MB)</label>
+          </div>
+          <div class="row">
+            <input type="cancel" value="Cancel">
+            <input type="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+</body>
+</html>
