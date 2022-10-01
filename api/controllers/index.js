@@ -24,7 +24,8 @@ const {
   updateDepartment,
   viewDepartment,
 } = require("./departmentController");
-
+const resetPassword = require("./resetPasswordController");
+console.log(resetPassword);
 module.exports = {
   loginController,
   // ticket
@@ -47,4 +48,7 @@ module.exports = {
   deleteDepartment,
   updateDepartment,
   viewDepartment,
+
+  // resetPassword
+  resetPassword,
 };
