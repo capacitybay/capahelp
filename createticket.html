@@ -7,87 +7,14 @@
     <title>tickets</title>
     <link rel="stylesheet" href="view/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        * {
-          box-sizing: border-box;
-        }
+  
         
-        input[type=text], select, textarea {
-          width: 60%;
-          padding: 12px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          resize: vertical;
-        }
+       
         
-        label {
-          padding: 12px 12px 12px 0;
-          display: inline-block;
-        }
+      
+      
         
-        input[type=submit] {
-          background-color: #04AA6D;
-          color: white;
-          width: 10%;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        input[type=cancel] {
-          background-color: #04AA6D;
-          color: white;
-          width: 10%;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        
-        input[type=submit]:hover {
-          background-color: #45a049;
-        }
-        input[type=cancel]:hover {
-          background-color: #45a049;
-        }
-        
-        .container {
-          border-radius: 5px;
-          background-color: #f2f2f2;
-          padding: 20px;
-        }
-        
-        .col-25 {
-          float: left;
-          width: 25%;
-          margin-top: 6px;
-        }
-        
-        .col-75 {
-          float: left;
-          width: 75%;
-          margin-top: 6px;
-        }
-        
-        /* Clear floats after the columns */
-        .row:after {
-          content: "";
-          display: table;
-          clear: both;
-        }
-        
-        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-        @media screen and (max-width: 600px) {
-          .col-25, .col-75, input[type=submit] {
-            width: 100%;
-            margin-top: 0;
-          }
-        @media screen and (max-width: 600px) {
-          .col-25, .col-75, input[type=cancel] {
-            width: 100%;
-            margin-top: 0;
-          }
-        }
+       
         </style>
 
 </head>
@@ -115,17 +42,18 @@
       </div>
     </nav>
     <div class="btn">
-        <button style="background-color: green; color: white;"><a href="tickets.html"></a>Home</button>
-        Create a ticket
+        <p style="color: green;"><a href="tickets.html"></a>Home ><p style="color:black">Create a ticket</p>
+        
     </div> 
-    <div class="container">
+    <p style="margin-left: 150px; color: black;"><b>Create a Ticket</b></p>
+    <div class="container1">
         <form action="/action_page.php">
           <div class="row">
             <div class="col-25">
               <label for="email">Customer Email *</label>
             </div>
             <div class="col-75">
-              <input type="text" id="email" name="email" placeholder="Your Email .">
+              <input type="text" id="email" name="email" placeholder="Your Email">
             </div>
           </div>
           <div class="row">
@@ -157,10 +85,10 @@
             </div>
           </div>
           <div class="file-upload">
-            <input class="file-upload__input" type="file" name="myfile[]" id="myfile" multiple>
-            <label for="file">(File size < 35MB)</label>
+            <label for="myfile"><b style="color: green;">Attach a files:</b><small style="color:black;">(File size < 35MB)</small></label>
+            <input type="file" id="myfile" name="myfile" multiple><br><br>
           </div>
-          <div class="row">
+          <div class="row2">
             <input type="cancel" value="Cancel">
             <input type="submit" value="Submit">
           </div>
