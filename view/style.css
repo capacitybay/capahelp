@@ -281,6 +281,7 @@ a:hover {
   width: 200px;
   height: 200px;
   background-color: #D1EFCC;
+  border-radius: 10px;
 }
 
 .flexbox {
@@ -297,6 +298,7 @@ a:hover {
   position: relative;
   flex-direction: row;
   padding: 5px;
+  
 }
 .block1 {
   display: inline-block;
@@ -304,6 +306,7 @@ a:hover {
   width: 200px;
   height: 200px;
   background-color:#D1EFCC;
+  border-radius: 10px;
 }
 .block1 img {
   flex-direction: row;
