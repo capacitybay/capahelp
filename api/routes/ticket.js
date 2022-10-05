@@ -11,7 +11,7 @@ const {
 // this should be a post request
 router.get("/ticket/view/:ticketId", getTicket);
 router.post("/ticket/new", createTicket);
-router.post("/ticket/list", listTicket);
+router.get("/ticket/list", listTicket);
 router.put("/ticket/update/:ticketId", authenticateToken, updateTicket);
 router.delete("/ticket/delete/:ticketId", authenticateToken, deleteTicket);
 
