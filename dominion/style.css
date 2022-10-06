@@ -1,0 +1,475 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+header{ 
+    
+    background-color: #D1EFCC;
+    
+    box-shadow: 5px 4px 4px rgba(0, 0, 0, 0.25);
+}
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.row{
+    max-width: 1040px;
+    width: 90%;
+    margin: 0 auto;
+}
+ul{
+    width: 600px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+ul li{
+    list-style: none;
+}
+ul li a{
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 25px;
+
+}
+.bell{
+    font-size: 2rem;
+}
+.eo{
+    background-color:#FAFFFA;
+    font-size: 20px;
+    color: #1CA76C;
+    font-weight: bold;
+    width: 60px;
+    height: 60px;
+    border-radius: 100% 100%;
+    align-items: center;
+    padding: 15px;
+}
+.home{
+    color: #96780B;
+}
+.main{
+    /* background-color: red; */
+    margin-top: 50px;
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;;
+}
+.article{
+    width: 50%;
+    margin-top: 10px;
+}
+h1.wel{
+    font-size: 2rem;
+    
+}
+span{
+    font-size: 5rem;
+    color: #1CA76C;
+}
+.img-side{
+    width: 45%;
+}
+.img-side img{
+    width: 100%;
+}
+.button{
+    margin-top: 40px;
+    display: flex;
+    width: 340px;
+    height: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+.but1{
+    padding: 10px;
+   background-color: #1CA76C;
+   color: white;
+   font-size: 18px;
+   font-weight: 500;
+   border-radius: 10px;
+   text-decoration: none;
+   border: 3px solid #1CA76c;
+}
+.but2{
+    padding: 10px;
+    color: #1CA76C;
+    background-color: white;
+    font-size: 18px;
+    font-weight: 500px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 3px solid #1CA76c;
+}
+.break{
+    line-height: 60px;
+}
+.but1:hover{
+    transform: scale(1.1);
+    transition: 0.9s;
+}
+.but2:hover{
+    transform: scale(1.1);
+    transition: 0.9s;
+}
+ul li a:hover{
+    background-color: #3c916e;
+    color: white;
+    cursor: pointer;
+}
+.fa-bell-o{
+    font-size: 1.8rem;
+    color: #1CA76c;
+}
+.fa-bell-o:hover{
+    color: white;
+    transform: scale(1.2);
+    transition: 0.9s;
+}
+/* hamburger */
+.hamburger{
+   cursor: pointer;
+   display: none;
+}
+.hamburger .line{
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    margin: 6px ;
+}
+
+/* edit profile css starts from here */
+
+.container{
+    width: 1000px;
+    height: 650px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 20px;
+}
+.homes{
+ font-size: 20px;
+ font-weight: 600;
+ text-decoration: none;
+ color: #37A45C;
+}
+.edit{
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+.user{
+    width: 400px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.h1{
+   font-size: 35px;
+    font-weight: 800;
+}
+.EO2{
+    background-color: #D1EFCC;
+    width: 130px;
+    height: 130px;
+    text-align: center;
+    padding: 35px;
+    border-radius: 50%;
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-left: 50px
+}
+.grid{
+    display: inline-block;
+    background-color: white ;
+    border-radius: 30px;
+    margin-right: 50px;
+}
+.grid1{
+    display: inline-block;
+}
+.grid2{
+    display: inline-block;
+    margin-right: 50px;
+}
+.grid3{
+    display: inline-block;
+}
+.grid4{
+    display: inline-block;
+}
+label{
+    font-size: 20px;
+    font-weight: 500;
+}
+input{
+    width: 400px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid rgb(33, 32, 32);
+}
+select{
+    width: 400px;
+    height:45px;
+    border-radius: 10px;
+    padding: 10px;
+}
+.password{
+    width: 250px;
+    height: 50px;
+    color: #1CA76C;
+    font-weight: 600;
+    font-size: 20px;
+    background-color: white;
+    border: 3px solid #1CA76C;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.password:hover{
+    transform: scale(1.1);
+    transition: 1.8s;
+    cursor: pointer;
+}
+.buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+}
+button{
+    padding: 10px;
+   margin-left: 15px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.butt1{
+    color: #1CA76C;
+    background-color: white;
+    border: 3px solid #1CA76C;
+    border-radius: 10px;
+}
+.butt1:hover{
+    transform: scale(1.1);
+    transition: 1.8s;
+    cursor: pointer;
+}
+.butt2{
+    color: white;
+    background-color: #1CA76C;
+    border: 3px solid #1CA76C;
+    border-radius: 10px;
+}
+.butt2:hover{
+    transform: scale(1.1);
+    transition: 1.8s;
+    cursor: pointer;
+}
+/* edit-profile media-query starts here */
+@media screen and (max-width: 1000px){
+    .container{
+        width: 600px;
+        height: 800px;
+        background-color:white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 650px){
+    .container{
+        width: 400px;
+        height: 800px;
+        background-color:white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+    }
+    .EO2 {
+        background-color: #D1EFCC;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        padding: 25px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-left: 30px;
+    }
+    input{
+        width: 300px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid rgb(33, 32, 32);
+    }
+    #country{
+        width: 300px;
+    }
+}
+@media screen and (max-width: 380px){
+    .container{
+        width: 300px;
+        height: 800px;
+        background-color:white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+    }
+    input{
+        width: 200px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid rgb(33, 32, 32);
+    }
+    #country{
+        width: 200px;
+    }
+.EO2{
+    display: none;
+}
+.edit {
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 50px;
+}
+}
+
+
+
+/* homepage media-query starts here */
+@media screen and (max-width: 1016px) {
+    h1.wel{
+        font-size: 1.7rem;
+        
+    }
+    span{
+        font-size: 3.5rem;
+    }
+}
+@media screen and (max-width: 802px) {
+    h1.wel{
+        font-size: 1.7rem;
+        
+    }
+    span{
+        font-size: 3.5rem;
+    }
+    .main{
+        flex-direction: column;
+    }
+    .article{
+        width: 100%;
+    }
+    .img-side{
+         width: 100%; 
+        display: none;
+    }
+    ul{
+        display: none;
+    }
+    .hamburger{
+        display: block;
+    }
+
+}
+@media screen and (max-width: 360){
+    .button{
+        margin-top: 40px;
+    display: block;
+    width: 80%;
+    height: 50px;
+    font-size: 16px;
+    
+    }
+}
+    
+
+@media screen and (max-width: 366px){
+    .button{
+    margin-top: 10px;
+    display: flex;
+    background-color: re;
+    width: 70%;
+    justify-content: space-around;
+    height: 50px;
+    font-size: 14px;
+    }
+    .but1 {
+        padding: 5px;
+        background-color: #1CA76C;
+        color: white;
+        font-size: 12px;
+        margin-left: 10px;
+        font-weight: 500;
+        border-radius: 7px;
+        text-decoration: none;
+        width: 50%;
+    
+        
+    }
+    .but2{
+        padding: 5px;
+        background-color: white;
+        color: #1CA76C;
+        font-size: 12px;
+        margin-left: 10px;
+        font-weight: 500;
+        border-radius: 7px;
+        text-decoration: none;
+        width: 50%;
+    }
+    }
+    @media screen and(max-width: 300px) 
+    {
+         .but1 {
+        padding: 5px;
+        background-color: #1CA76C;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 7px;
+        text-decoration: none;
+        width: 40%;
+         }
+    
+    .but2 {
+        padding: 5px;
+        background-color: #1CA76C;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 7px;
+        text-decoration: none;
+        width: 40%;
+    
+} 
+
+}
+@media screen and (max-width: 300px){
+    span{
+        font-size: 2.5rem;
+    }
+} 
