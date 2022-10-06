@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background-color: #EDEDED;
+}
+main{
+    width: 80%;
+    /* height: 100vh; */
+    margin: 4em auto;
+    background-color: #FFFFFF;
+    
+}
+.job{
+    padding: 2em;
+}
+
+/* Section 1 */
+.section1{
+    border-bottom: 2px solid #CECECE;
+}
+.section1 .top h1{
+    font-size: 2rem;
+}
+.section1 .top p{
+    font-weight: bold;
+}
+
+/* Section 2 */
+.section2{
+    width: 100%;
+    background-color: #E9FEE6;
+    display: flex;
+    
+   
+}
+.part2{
+    /* padding-top: 1em; */
+}
+.posted{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.eo{
+    padding: 0.5em 0;
+    padding-left: 0.3em;
+    width: 10%;
+   
+    /* background-color: red; */
+    
+}
+.eo h1{
+    width: 60%;
+    color: #1CA76C;
+    background-color: white;
+    border-radius: 100%;
+    text-align: center;
+    padding: 0.2em 0.1em;
+    font-weight: bold;
+    border: 2px solid #D6D2D2;
+    
+}
+p{
+    font-size: 0.8rem;
+}
+.eo h1:hover{
+    cursor: pointer;
+    background-color: #1CA76C;
+    color: #FFFFFF;
+    border: 2px solid white;
+}
+.section2_text{
+    width: 85%;
+    /* background-color: blue; */
+    padding-top: 0.7em;
+    padding-bottom: 2em ;
+}
+
+.section2_text .mai-tea{
+    padding: 0.8em;
+    width: 50%;
+    background-color: #FFFFFF;
+    border: 2px solid #828282;
+  
+}
+.section2_text .mai-tea h1{
+    font-size:1.2rem ; 
+}
+
+/* Section 3 */
+.section3{
+    width: 100%;
+    background-color: #E9FEE6;
+    display: flex;
+    padding-bottom: 2em;
+   
+}
+.txt-area{
+    padding-top: 1em;
+    
+    
+}
+
+.submit-btn{
+    display: flex;
+    justify-content: right;
+}
+.submit-btn a{
+    padding: 0.5em 1em;
+    background-color: #1CA76C;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 10px;
+}
