@@ -1,4 +1,4 @@
-const TicketModel = require("../../models/ticketModel");
+const TicketModel = require('../../models/ticketModel');
 
 const createTicket = async (req, res) => {
   const newTicket = new TicketModel(req.body);
@@ -12,10 +12,11 @@ const createTicket = async (req, res) => {
 
 const getTicket = (req, res) => {
   try {
-    res.status(200).json("get ticket route");
+    res.status(200).json('get ticket new route');
   } catch (error) {
     res.status(500).json(error.message);
   }
+  // resetPassword;
 };
 
 const updateTicket = async (req, res) => {
@@ -60,13 +61,13 @@ const updateTicket = async (req, res) => {
       });
       res.status(200).json({
         success: true,
-        Msg: "ticket was updated successfully",
+        Msg: 'ticket was updated successfully',
       });
       res.status(200).json(userUpdatedTicket);
     } else {
       res.status(400).json({
         success: false,
-        Msg: "ticket was not deleted ",
+        Msg: 'ticket was not deleted ',
       });
     }
   } catch (error) {
@@ -74,9 +75,14 @@ const updateTicket = async (req, res) => {
   }
 };
 
-const listTicket = (req, res) => {
+const listTicket = async (req, res) => {
   try {
-    res.status(200).json("view ticket route");
+    const getAllTickets = await TicketModel.find();
+
+    res.status(200).json({
+      success: true,
+      result: getAllTickets,
+    });
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -97,12 +103,12 @@ const deleteTicket = async (req, res) => {
       if (adminDeleteTicket.acknowledged) {
         res.status(200).json({
           success: true,
-          Msg: "ticket was deleted successfully",
+          Msg: 'ticket was deleted successfully',
         });
       } else {
         res.status(200).json({
           success: false,
-          Msg: "ticket was not  deleted ",
+          Msg: 'ticket was not  deleted ',
         });
       }
     }
