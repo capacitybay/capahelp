@@ -1,0 +1,95 @@
+/* Login Form */
+.hone{
+    color: #199561;
+    padding-top: 10px;
+    position: relative;
+    width: 100%;
+    
+}
+.hone h1{
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+}
+.login-whole #login .hone h3{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #199561;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.login-whole #login .hone h3:hover{
+    padding: 0.13em;
+    border-radius: 100%;
+    background-color: #199561;
+    color: white;
+    cursor: pointer;
+}
+.login-whole{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 99; */
+    /* display: none; */
+}
+.login-whole.show{
+    display: block;
+}
+#login.showForm{
+    /* background-color: white; */
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#login{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    z-index: 100;
+    border-radius: 10px;
+}
+
+
+.login-form{
+    /* background-color: blue; */
+    padding: 1.5em;
+}
+
+.login-form .stretch{
+    width: 100%;
+    outline: none;
+    padding: 0.5em;
+}
+
+.login-form .input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    font-size: 14px;
+    
+}
+.login-form .input label{
+    font-weight: bold;
+    font-size: 13px;
+}
+::placeholder{
+    font-size: 14px;
+    padding: 0.2em;
+}
+
+.login-form .btn4{
+    width: 100%;
+    background-color: #1CA76C;
+    color: white;
+    font-weight: bold;
+    padding: 0.3em;
+    border: 1px solid #1CA76C;
+    border-radius: 5px;
+}
