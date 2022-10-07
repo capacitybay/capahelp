@@ -15,11 +15,8 @@ const createUser = controllerWrapper(async (req, res) => {
     email,
     phone,
     password,
-    has_logged_in,
-    user_type,
+    confirmPassword,
     location,
-    active,
-    last_logged_in,
   } = req.body;
   // checks if payload was sent or checks if th user is logged in
 
@@ -27,7 +24,10 @@ const createUser = controllerWrapper(async (req, res) => {
   const { error } = registerValidation(validateData);
   // checks if the validation return error
   if (error) return res.status(400).json(error.message);
-
+  if (password != confirmPassword)
+    return res
+      .status(400)
+      .json({ success: false, payload: 'password does not match' });
   if (!error) {
     const getUser = await UserModel.findOne({ email: email });
     if (getUser) return res.status(409).json('user already exists');
@@ -69,11 +69,11 @@ const getUser = controllerWrapper(async (req, res, next) => {
   if (loggedUser.role === 3) {
     const getUsers = await UserModel.find();
     if (!getUsers) return next(createCustomError('no user found', 404));
-    res.status(200).json({ success: true, getUsers });
+    res.status(200).json({ success: true, payload: getUsers });
   } else {
     res.status(401).json({
       success: false,
-      message: 'You are not authorized to perform this operation',
+      payload: 'You are not authorized to perform this operation',
     });
   }
 });
@@ -84,7 +84,7 @@ const viewUser = controllerWrapper(async (req, res, next) => {
   if (!loggedUser)
     return res
       .status(401)
-      .json({ success: false, result: 'you are not authenticated!' });
+      .json({ success: false, payload: 'you are not authenticated!' });
 
   if (loggedUser.id === req.params.userId || loggedUser.role === 3) {
     const userProfile = await UserModel.findOne({ _id: req.params.userId });
@@ -92,7 +92,7 @@ const viewUser = controllerWrapper(async (req, res, next) => {
     // res
     //   .status(404)
     //   .json({ success: false, payload: 'user not found' });
-    res.status(200).json({ success: true, result: userProfile });
+    res.status(200).json({ success: true, payload: userProfile });
   } else {
     res.status(401).json({
       success: false,
@@ -130,7 +130,8 @@ const updateUser = controllerWrapper(async (req, res, next) => {
     console.log('validateData');
     const { error } = updateUserValidation(validateData);
     console.log('error');
-    if (error) return res.status(400).json(error.message);
+    if (error)
+      return res.status(400).json({ success: false, payload: error.message });
 
     const findUser = await UserModel.findOne({ email: email });
     console.log('findUser');
@@ -152,16 +153,23 @@ const updateUser = controllerWrapper(async (req, res, next) => {
     if (updatedUser.acknowledged) {
       res.status(200).json({
         success: true,
-        msg: updatedUser,
+        payload: updatedUser,
       });
     }
   } else {
-    res.status(400).json('you are not authorized to update this customer ');
+    res.status(400).json({
+      success: false,
+      payload: 'you are not authorized to update this customer ',
+    });
   }
 });
 // deactivate user
 
 const deactivateUser = controllerWrapper(async (req, res) => {
+  if (!req.user)
+    return res
+      .status(401)
+      .json({ success: false, payload: 'you are not authenticated' });
   if (req.user.id && req.user.role === 3) {
     const blockUser = await UserModel.updateOne(
       { _id: req.params.userId },
@@ -173,67 +181,64 @@ const deactivateUser = controllerWrapper(async (req, res) => {
     if (blockUser.acknowledged) {
       res.status(200).json({
         success: true,
-        message: blockUser,
+        payload: blockUser,
       });
     }
   } else {
-    res.status(400).json({
+    res.status(401).json({
       success: false,
-      message: 'you are not authorized to deactivate a customer',
+      payload: 'you are not authorized to deactivate a customer',
     });
   }
 });
 // delete user
 
-const reactivateUser = async (req, res) => {
-  try {
-    if (req.user.id && req.user.role === 3) {
-      const activateUser = await UserModel.updateOne(
-        { _id: req.params.userId },
-        {
-          active: true,
-        }
-      );
-
-      if (activateUser.acknowledged) {
-        res.status(200).json({
-          success: true,
-          message: activateUser,
-        });
+const reactivateUser = controllerWrapper(async (req, res) => {
+  if (!req.user)
+    return res
+      .status(401)
+      .json({ success: false, payload: 'you are not authenticated' });
+  if (req.user.id && req.user.role === 3) {
+    const activateUser = await UserModel.updateOne(
+      { _id: req.params.userId },
+      {
+        active: true,
       }
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'you are not authorized to activate a customer',
+    );
+
+    if (activateUser.acknowledged) {
+      res.status(200).json({
+        success: true,
+        payload: activateUser,
       });
     }
-  } catch (error) {
-    res.status(500).json(error.message);
+  } else {
+    res.status(401).json({
+      success: false,
+      payload: 'you are not authorized to activate a customer',
+    });
   }
-};
+});
 
 // delete user
 
-const deleteUser = async (req, res) => {
-  try {
-    if (
-      req.user.id === req.params.userId ||
-      (req.user.id && req.user.role === 3)
-    ) {
-      const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
-      if (deletedUser.acknowledged) {
-        res.status(200).json({ success: true, message: deletedUser });
-      }
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'you are not authorized to delete a customer',
-      });
+const deleteUser = controllerWrapper(async (req, res) => {
+  if (!req.user)
+    return res
+      .status(401)
+      .json({ success: false, payload: 'you are not authenticated' });
+  if (req.user.id === req.params.userId || req.user.role === 3) {
+    const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
+    if (deletedUser.acknowledged) {
+      res.status(200).json({ success: true, payload: deletedUser });
     }
-  } catch (error) {
-    res.status(500).json(error.message);
+  } else {
+    res.status(401).json({
+      success: false,
+      payload: 'you are not authorized to delete a customer',
+    });
   }
-};
+});
 
 module.exports = {
   createUser,
