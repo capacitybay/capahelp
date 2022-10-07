@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/v1', routes);
 app.use(error404);
 app.use(errorHandler);
+
 const startApp = async () => {
   try {
     // connect to database
