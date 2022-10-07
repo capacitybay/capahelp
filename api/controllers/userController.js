@@ -5,10 +5,10 @@ const {
   updateUserValidation,
 } = require('../../validation/validation');
 //
-const controllerWrapper = require('../../middleware/controllerWrapper');
+const asyncWrapper = require('../../middleware/controllerWrapper');
 const { createCustomError } = require('../../middleware/customError');
 
-const createUser = controllerWrapper(async (req, res) => {
+const createUser = asyncWrapper(async (req, res) => {
   const {
     first_name,
     last_name,
@@ -60,7 +60,7 @@ const createUser = controllerWrapper(async (req, res) => {
 
 // get all user  : this  can only be done by the admin
 
-const getUser = controllerWrapper(async (req, res, next) => {
+const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
   if (!loggedUser)
     return res
@@ -79,7 +79,7 @@ const getUser = controllerWrapper(async (req, res, next) => {
 });
 // get a user controller
 
-const viewUser = controllerWrapper(async (req, res, next) => {
+const viewUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
   if (!loggedUser)
     return res
@@ -115,7 +115,7 @@ res.send()
  */
 // update users
 
-const updateUser = controllerWrapper(async (req, res, next) => {
+const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
   const { first_name, last_name, email, phone, location } = req.body;
   console.log('req.user');
@@ -165,7 +165,7 @@ const updateUser = controllerWrapper(async (req, res, next) => {
 });
 // deactivate user
 
-const deactivateUser = controllerWrapper(async (req, res) => {
+const deactivateUser = asyncWrapper(async (req, res) => {
   if (!req.user)
     return res
       .status(401)
@@ -193,7 +193,7 @@ const deactivateUser = controllerWrapper(async (req, res) => {
 });
 // delete user
 
-const reactivateUser = controllerWrapper(async (req, res) => {
+const reactivateUser = asyncWrapper(async (req, res) => {
   if (!req.user)
     return res
       .status(401)
@@ -222,7 +222,7 @@ const reactivateUser = controllerWrapper(async (req, res) => {
 
 // delete user
 
-const deleteUser = controllerWrapper(async (req, res) => {
+const deleteUser = asyncWrapper(async (req, res) => {
   if (!req.user)
     return res
       .status(401)
