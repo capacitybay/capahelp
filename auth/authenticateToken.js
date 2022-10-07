@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const { jwt } = require("../utils/packages");
+require("../utils/envSetup").config();
 
 // verifies if the user is authenticated or not
 const authenticateToken = async (req, res, next) => {

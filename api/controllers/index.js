@@ -1,4 +1,4 @@
-const loginController = require("./loginController");
+const loginController = require('./loginController');
 const {
   createUser,
   getUser,
@@ -7,7 +7,7 @@ const {
   deleteUser,
   deactivateUser,
   reactivateUser,
-} = require("./userController");
+} = require('./userController');
 
 const {
   getTicket,
@@ -15,7 +15,7 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
-} = require("./ticketController");
+} = require('./ticketController');
 
 const {
   createDepartment,
@@ -23,9 +23,11 @@ const {
   deleteDepartment,
   updateDepartment,
   viewDepartment,
-} = require("./departmentController");
-const resetPassword = require("./resetPasswordController");
-console.log(resetPassword);
+  removeAgentFromDepartment,
+} = require('./departmentController');
+const resetPassword = require('./resetPasswordController');
+// console.log(resetPassword);
+const addAgentToDept = require('./manageAgentDept');
 module.exports = {
   loginController,
   // ticket
@@ -51,4 +53,6 @@ module.exports = {
 
   // resetPassword
   resetPassword,
+  removeAgentFromDepartment,
+  addAgentToDept,
 };

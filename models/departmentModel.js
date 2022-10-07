@@ -1,4 +1,4 @@
-const { mongoose, Schema } = require("./getMongoose");
+const { mongoose, Schema } = require('./getMongoose');
 
 const DepartmentSchema = new mongoose.Schema(
   {
@@ -16,10 +16,10 @@ const DepartmentSchema = new mongoose.Schema(
     members: {
       type: Array,
 
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Department", DepartmentSchema);
+module.exports = mongoose.model('Department', DepartmentSchema);

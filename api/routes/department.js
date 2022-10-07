@@ -1,21 +1,27 @@
-const router = require("../../utils/sysRoute");
-const authenticateToken = require("../../auth/authenticateToken");
+const { router } = require('../../utils/packages');
+const authenticateToken = require('../../auth/authenticateToken');
 const {
   createDepartment,
   getDepartment,
   deleteDepartment,
   updateDepartment,
   viewDepartment,
-} = require("../controllers");
+  removeAgentFromDepartment,
+} = require('../controllers');
 
-router.get("/department/list", authenticateToken, getDepartment);
-router.post("/department/create", authenticateToken, createDepartment);
-router.put("/department/update/:deptId", authenticateToken, updateDepartment);
+router.get('/department/list', authenticateToken, getDepartment);
+router.post('/department/create', authenticateToken, createDepartment);
+router.put('/department/update/:deptId', authenticateToken, updateDepartment);
 router.delete(
-  "/department/delete/:deptId",
+  '/department/delete/:deptId',
   authenticateToken,
   deleteDepartment
 );
-router.get("/department/view/:deptId", authenticateToken, viewDepartment);
+router.get('/department/view/:deptId', authenticateToken, viewDepartment);
+router.put(
+  '/department/remove_agent/:deptId',
+  authenticateToken,
+  removeAgentFromDepartment
+);
 
 module.exports = router;
