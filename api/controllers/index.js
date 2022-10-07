@@ -7,6 +7,7 @@ const {
   deleteUser,
   deactivateUser,
   reactivateUser,
+  adminCreateUser,
 } = require('./userController');
 
 const {
@@ -55,4 +56,5 @@ module.exports = {
   resetPassword,
   removeAgentFromDepartment,
   addAgentToDept,
+  adminCreateUser,
 };

@@ -8,9 +8,11 @@ const {
   deleteUser,
   deactivateUser,
   reactivateUser,
+  adminCreateUser,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
 router.post('/user/register', createUser);
+router.post('/user/create', authenticateToken, adminCreateUser);
 
 // gets all user
 router.get('/user/list', authenticateToken, getUser);
