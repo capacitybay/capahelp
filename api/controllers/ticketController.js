@@ -63,7 +63,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
   // resetPassword;
 });
 
-const updateTicket = asyncWrapper(async (req, res) => {
+const updateTicket = asyncWrapper(async (req, res, next) => {
   // this controller updates the ticket base on the user type
   if (!req.user)
     return res

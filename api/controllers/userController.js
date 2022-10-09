@@ -6,7 +6,10 @@ const {
 } = require('../../validation/validation');
 //
 const asyncWrapper = require('../../middleware/controllerWrapper');
-const { createCustomError } = require('../../middleware/customError');
+const {
+  createCustomError,
+  CustomError,
+} = require('../../middleware/customError');
 
 const createUser = asyncWrapper(async (req, res) => {
   const {
@@ -119,14 +122,18 @@ const getUser = asyncWrapper(async (req, res, next) => {
       .status(401)
       .json({ success: false, payload: 'you are not authenticated!' });
   if (loggedUser.role === 3) {
-    const getUsers = await UserModel.find();
+    const getUsers = await UserModel.find({}, { password: 0 });
     if (!getUsers) return next(createCustomError('no user found', 404));
-    res.status(200).json({ success: true, payload: getUsers });
+    res
+      .status(200)
+      .json({ success: true, payload: getUsers, hits: getUsers.length });
   } else {
-    res.status(401).json({
-      success: false,
-      payload: 'You are not authorized to perform this operation',
-    });
+    next(
+      createCustomError(
+        'You are not authorized to perform this operation!',
+        401
+      )
+    );
   }
 });
 // get a user controller
@@ -139,17 +146,21 @@ const viewUser = asyncWrapper(async (req, res, next) => {
       .json({ success: false, payload: 'you are not authenticated!' });
 
   if (loggedUser.id === req.params.userId || loggedUser.role === 3) {
-    const userProfile = await UserModel.findOne({ _id: req.params.userId });
+    // get user profile
+    const userProfile = await UserModel.findOne(
+      { _id: req.params.userId },
+      { password: 0 }
+    );
     if (!userProfile) return next(createCustomError('user not found', 404));
-    // res
-    //   .status(404)
-    //   .json({ success: false, payload: 'user not found' });
+
     res.status(200).json({ success: true, payload: userProfile });
   } else {
-    res.status(401).json({
-      success: false,
-      payload: "You're not  authorized to perform this operation",
-    });
+    next(
+      createCustomError(
+        "You're not  authorized to perform this operation!",
+        401
+      )
+    );
   }
 });
 /**
