@@ -9,12 +9,10 @@ const {
   deleteTicket,
 } = require('../controllers');
 
-
-router.get("/ticket/view/:ticketId", getTicket);
-router.post("/ticket/new", createTicket);
-router.get("/ticket/list", listTicket);
-router.put("/ticket/update/:ticketId", authenticateToken, updateTicket);
-router.delete("/ticket/delete/:ticketId", authenticateToken, deleteTicket);
-
+router.get('/ticket/view/:ticketId', authenticateToken, getTicket);
+router.post('/ticket/new', authenticateToken, createTicket);
+router.get('/ticket/list', authenticateToken, listTicket);
+router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
+router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
 module.exports = router;

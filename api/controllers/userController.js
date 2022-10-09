@@ -57,6 +57,58 @@ const createUser = asyncWrapper(async (req, res) => {
 
   // console.log(CustomerModel);
 });
+const adminCreateUser = asyncWrapper(async (req, res) => {
+  const {
+    first_name,
+    last_name,
+    email,
+    phone,
+    password,
+    role,
+    confirmPassword,
+    location,
+  } = req.body;
+  // checks if payload was sent or checks if th user is logged in
+
+  const validateData = { first_name, last_name, email, phone, password };
+  const { error } = registerValidation(validateData);
+  // checks if the validation return error
+  if (error) return res.status(400).json(error.message);
+  if (password != confirmPassword)
+    return res
+      .status(400)
+      .json({ success: false, payload: 'password does not match' });
+  if (!error) {
+    const getUser = await UserModel.findOne({ email: email });
+    if (getUser) return res.status(409).json('user already exists');
+
+    // hashes user password before storing it
+
+    const encryptedPassword = await hashedPassword(password);
+    // create new document
+    const userRole = role === 'admin' ? 3 : role === 'agent' ? 1 : 0;
+    console.log(userRole);
+    const newUser = new UserModel({
+      first_name,
+      last_name,
+      email,
+      password: encryptedPassword,
+      phone,
+      location,
+      user_type: userRole,
+    });
+
+    // save user to database
+    const savedUser = await newUser.save();
+    // sends response to the frontend
+    res.status(200).json({
+      success: true,
+      result: savedUser,
+    });
+  }
+
+  // console.log(CustomerModel);
+});
 
 // get all user  : this  can only be done by the admin
 
@@ -248,4 +300,5 @@ module.exports = {
   deleteUser,
   deactivateUser,
   reactivateUser,
+  adminCreateUser,
 };
