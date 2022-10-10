@@ -13,7 +13,7 @@ const authenticateToken = async (req, res, next) => {
     return res.status(401).json('You are not authorized to access this route');
   }
 
-  jwt.verify(token, process.env.SECRETE, (error, result) => {
+  jwt.verify(token, process.env.JWT_SECRETE, (error, result) => {
     if (error) return res.status(403).json('invalid token');
     req.user = result;
     console.log(result);
