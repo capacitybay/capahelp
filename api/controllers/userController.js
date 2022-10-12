@@ -10,6 +10,7 @@ const {
   createCustomError,
   CustomError,
 } = require('../../middleware/customError');
+const RefreshTokenModel = require('../../models/refreshTokenModel');
 
 const createUser = asyncWrapper(async (req, res) => {
   const {
@@ -50,11 +51,16 @@ const createUser = asyncWrapper(async (req, res) => {
     });
 
     // save user to database
+
     const savedUser = await newUser.save();
     // sends response to the frontend
+    const newTokenStore = new RefreshTokenModel({
+      user_id: savedUser._id,
+    });
+    const createTokenStore = await newTokenStore.save();
     res.status(200).json({
       success: true,
-      result: savedUser,
+      payload: { savedUser, createTokenStore },
     });
   }
 
