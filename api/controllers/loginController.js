@@ -1,9 +1,14 @@
 const { loginValidation } = require('../../validation/validation');
 const { unHashPassword } = require('../../auth/password');
 const UserModel = require('../../models/userModel');
+const RefreshTokenModel = require('../../models/refreshTokenModel');
 require('../../utils/envSetup');
 const { jwt } = require('../../utils/packages');
 const controllerWrapper = require('../../middleware/controllerWrapper');
+const {
+  CustomError,
+  createCustomError,
+} = require('../../middleware/customError');
 
 let refreshTokenStore = [];
 
@@ -34,10 +39,18 @@ const loginController = controllerWrapper(async (req, res) => {
         // sign jwt token token
         const accessToken = generateJwtAccessToken(user);
         const refreshToken = generateJwtRefreshToken(user);
+        // const savedToken = new RefreshTokenModel.
         refreshTokenStore.push(refreshToken);
+        const dbTokenStore = await RefreshTokenModel.findOneAndUpdate(
+          {
+            user_id: user._id,
+          },
+          { refreshToken: refreshToken },
+          { new: true }
+        );
         res.status(200).json({
           success: true,
-          payload: { user, accessToken, refreshToken },
+          payload: { user, accessToken, refreshToken, dbTokenStore },
         });
 
         // sends cookie to the frontend
@@ -82,6 +95,8 @@ const generateJwtRefreshToken = (user) => {
 };
 
 const refreshUserToken = (req, res) => {
+  // console.log('.........');
+
   // get refresh token from logged user
   const refreshToken = req.body.token;
 
@@ -107,17 +122,46 @@ const refreshUserToken = (req, res) => {
       refreshTokenStore = refreshTokenStore.filter(
         (token) => token !== refreshToken
       );
+
+      // RefreshTokenModel.findOneAndUpdate(
+      //   {
+      //     user_id: user.id,
+      //   },
+      //   { refreshToken: '' }
+      //   // { new: true }
+      // )
+      //   .then((result) => {
+      //     console.log();
+      // if (result.refreshToken !== refreshToken)
+      // return res.status(400).json('token does not exist');
       const newJwtAccessToken = generateJwtAccessToken(user);
       const newJwtRefreshAccessToken = generateJwtRefreshToken(user);
       // refreshTokenStore;
       refreshTokenStore.push(newJwtRefreshAccessToken);
-      res.status(200).json({
-        success: true,
-        payload: {
-          accessToken: newJwtAccessToken,
-          refreshToken: newJwtRefreshAccessToken,
+      RefreshTokenModel.findOneAndUpdate(
+        {
+          user_id: user.id,
         },
-      });
+        { refreshToken: newJwtRefreshAccessToken },
+        { new: true }
+      )
+        .then((response) => {
+          res.status(200).json({
+            success: true,
+            payload: {
+              accessToken: newJwtAccessToken,
+              refreshToken: newJwtRefreshAccessToken,
+              new: response,
+            },
+          });
+        })
+        .catch((error) => {
+          createCustomError(error.message, 500);
+        });
+      // })
+      // .catch((error) => {
+      //   createCustomError(error.message, 500);
+      // });
     }
   );
 };
