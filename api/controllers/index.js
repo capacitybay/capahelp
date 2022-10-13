@@ -1,4 +1,4 @@
-const loginController = require('./loginController');
+const { loginController, refreshUserToken } = require('./loginController');
 const {
   createUser,
   getUser,
@@ -57,4 +57,5 @@ module.exports = {
   removeAgentFromDepartment,
   addAgentToDept,
   adminCreateUser,
+  refreshUserToken,
 };

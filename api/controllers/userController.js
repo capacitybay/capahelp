@@ -6,7 +6,11 @@ const {
 } = require('../../validation/validation');
 //
 const asyncWrapper = require('../../middleware/controllerWrapper');
-const { createCustomError } = require('../../middleware/customError');
+const {
+  createCustomError,
+  CustomError,
+} = require('../../middleware/customError');
+const RefreshTokenModel = require('../../models/refreshTokenModel');
 
 const createUser = asyncWrapper(async (req, res) => {
   const {
@@ -47,11 +51,16 @@ const createUser = asyncWrapper(async (req, res) => {
     });
 
     // save user to database
+
     const savedUser = await newUser.save();
     // sends response to the frontend
+    const newTokenStore = new RefreshTokenModel({
+      user_id: savedUser._id,
+    });
+    const createTokenStore = await newTokenStore.save();
     res.status(200).json({
       success: true,
-      result: savedUser,
+      payload: { savedUser, createTokenStore },
     });
   }
 
@@ -64,7 +73,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     email,
     phone,
     password,
-    role,
+    user_type,
     confirmPassword,
     location,
   } = req.body;
@@ -86,7 +95,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
 
     const encryptedPassword = await hashedPassword(password);
     // create new document
-    const userRole = role === 'admin' ? 3 : role === 'agent' ? 1 : 0;
+    const userRole = user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
     console.log(userRole);
     const newUser = new UserModel({
       first_name,
@@ -114,19 +123,24 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
 
 const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
+  console.log(loggedUser);
   if (!loggedUser)
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated!' });
-  if (loggedUser.role === 3) {
-    const getUsers = await UserModel.find();
+  if (loggedUser.user_type === 3) {
+    const getUsers = await UserModel.find({}, { password: 0 });
     if (!getUsers) return next(createCustomError('no user found', 404));
-    res.status(200).json({ success: true, payload: getUsers });
+    res
+      .status(200)
+      .json({ success: true, payload: getUsers, hits: getUsers.length });
   } else {
-    res.status(401).json({
-      success: false,
-      payload: 'You are not authorized to perform this operation',
-    });
+    next(
+      createCustomError(
+        'You are not authorized to perform this operation!',
+        401
+      )
+    );
   }
 });
 // get a user controller
@@ -138,18 +152,22 @@ const viewUser = asyncWrapper(async (req, res, next) => {
       .status(401)
       .json({ success: false, payload: 'you are not authenticated!' });
 
-  if (loggedUser.id === req.params.userId || loggedUser.role === 3) {
-    const userProfile = await UserModel.findOne({ _id: req.params.userId });
+  if (loggedUser.id === req.params.userId || loggedUser.user_type === 3) {
+    // get user profile
+    const userProfile = await UserModel.findOne(
+      { _id: req.params.userId },
+      { password: 0 }
+    );
     if (!userProfile) return next(createCustomError('user not found', 404));
-    // res
-    //   .status(404)
-    //   .json({ success: false, payload: 'user not found' });
+
     res.status(200).json({ success: true, payload: userProfile });
   } else {
-    res.status(401).json({
-      success: false,
-      payload: "You're not  authorized to perform this operation",
-    });
+    next(
+      createCustomError(
+        "You're not  authorized to perform this operation!",
+        401
+      )
+    );
   }
 });
 /**
@@ -175,9 +193,9 @@ const updateUser = asyncWrapper(async (req, res, next) => {
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated' });
-  const { id, role } = req.user;
+  const { id, user_type } = req.user;
   const userId = req.params.userId;
-  if (userId === id || role === 3) {
+  if (userId === id || user_type === 3) {
     const validateData = { first_name, last_name, email, phone };
     console.log('validateData');
     const { error } = updateUserValidation(validateData);
@@ -222,7 +240,7 @@ const deactivateUser = asyncWrapper(async (req, res) => {
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id && req.user.role === 3) {
+  if (req.user.id && req.user.user_type === 3) {
     const blockUser = await UserModel.updateOne(
       { _id: req.params.userId },
       {
@@ -250,7 +268,7 @@ const reactivateUser = asyncWrapper(async (req, res) => {
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id && req.user.role === 3) {
+  if (req.user.id && req.user.user_type === 3) {
     const activateUser = await UserModel.updateOne(
       { _id: req.params.userId },
       {
@@ -279,7 +297,7 @@ const deleteUser = asyncWrapper(async (req, res) => {
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id === req.params.userId || req.user.role === 3) {
+  if (req.user.id === req.params.userId || req.user.user_type === 3) {
     const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
     if (deletedUser.acknowledged) {
       res.status(200).json({ success: true, payload: deletedUser });

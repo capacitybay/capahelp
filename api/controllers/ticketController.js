@@ -46,7 +46,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
       .json({ success: false, payload: 'You are not authenticated' });
 
   //
-  if (req.user.id && req.user.role === 3) {
+  if (req.user.id && req.user.user_type === 3) {
     const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
     // console.log(req.params);
     if (!ticket) return next(createCustomError('no ticket found!', 404));
@@ -63,7 +63,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
   // resetPassword;
 });
 
-const updateTicket = asyncWrapper(async (req, res) => {
+const updateTicket = asyncWrapper(async (req, res, next) => {
   // this controller updates the ticket base on the user type
   if (!req.user)
     return res
@@ -93,7 +93,7 @@ const updateTicket = asyncWrapper(async (req, res) => {
       .status(404)
       .json({ success: false, payload: `invalid ticket is ${ticketId}` });
   // checks if user is an admin
-  if (ticketId && req.user.role === 3) {
+  if (ticketId && req.user.user_type === 3) {
     const adminUpdatedTicket = await TicketModel.updateOne(query, {
       ticket_type,
       title,
@@ -107,7 +107,10 @@ const updateTicket = asyncWrapper(async (req, res) => {
       attachment,
     });
     res.status(200).json({ success: true, payload: adminUpdatedTicket });
-  } else if (findTicket.customer_id === req.user.id && req.user.role === 0) {
+  } else if (
+    findTicket.customer_id === req.user.id &&
+    req.user.user_type === 0
+  ) {
     const userUpdatedTicket = await TicketModel.updateOne(query, {
       ticket_type,
       title,
@@ -143,14 +146,14 @@ const listTicket = asyncWrapper(async (req, res) => {
   // checks is user is authenticated
   verifyUser(req, res);
 
-  const { id, role } = req.user;
+  const { id, user_type } = req.user;
 
-  if (id && role === 3) {
+  if (id && user_type === 3) {
     const tickets = await TicketModel.find();
 
     checkTickets(tickets);
   }
-  if (id && role === 0) {
+  if (id && user_type === 0) {
     const tickets = await TicketModel.find({ customer_id: id });
     checkTickets(tickets);
   }
@@ -174,9 +177,9 @@ const deleteTicket = asyncWrapper(async (req, res, next) => {
   // checks is user is authenticated
   verifyUser(req, res);
   const ticketId = req.params.ticketId;
-  const { id, role } = req.user;
+  const { id, user_type } = req.user;
   // console.log();
-  if (ticketId && role === 3) {
+  if (ticketId && user_type === 3) {
     const deleteTicket = await TicketModel.deleteOne({
       _id: req.params.ticketId,
     });
@@ -184,7 +187,7 @@ const deleteTicket = asyncWrapper(async (req, res, next) => {
   }
   // req.body.customer_id is gotten from the application state
 
-  if (role === 0 && id === req.body.customer_id) {
+  if (user_type === 0 && id === req.body.customer_id) {
     const deleteTicket = await TicketModel.deleteOne({
       customer_id: req.body.customer_id,
     });
