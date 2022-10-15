@@ -4,8 +4,11 @@ const {
   updateDeptValidation,
 } = require('../../validation/validation');
 const asyncWrapper = require('../../middleware/controllerWrapper');
+// creates new department
 const createDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members } = req.body;
+  // verify if user is authenticated
+  verifyUser(req, res);
   if (req.user.id && req.user.role === 3) {
     const validateData = { dept_name, head_agent, email };
     const { error } = await createDeptValidation(validateData);
@@ -19,7 +22,7 @@ const createDepartment = asyncWrapper(async (req, res) => {
       if (getDept) {
         res.status(409).json({
           success: false,
-          message: 'department already created',
+          payload: 'department already created',
         });
       } else {
         const newDepartment = new DepartmentModel({
@@ -30,10 +33,9 @@ const createDepartment = asyncWrapper(async (req, res) => {
         });
         const savedDept = await newDepartment.save();
         // if (savedDept.acknowledged) {
-        res.status(200).json({
+        res.status(201).json({
           success: true,
-          message: 'department created',
-          obj: savedDept,
+          payload: savedDept,
         });
         // }
       }
@@ -41,7 +43,7 @@ const createDepartment = asyncWrapper(async (req, res) => {
   } else {
     res.status(401).json({
       success: false,
-      message: 'you are not authorized to perform this operation',
+      payload: 'you are not authorized to perform this operation',
     });
   }
 });
@@ -49,46 +51,48 @@ const createDepartment = asyncWrapper(async (req, res) => {
 // get all departments
 const getDepartment = asyncWrapper(async (req, res) => {
   // verifies if the user is authenticated
-  if (req.user.id && req.user.role === 3) {
-    const getAllDept = await DepartmentModel.find();
-
-    if (!getAllDept)
-      return res
-        .status(404)
-        .json({ success: false, result: 'No department found' });
-    // sends response to frontend
-    res.status(200).json({ success: true, result: getAllDept });
-  } else {
-    res.status(403).json({
+  verifyUser(req, res);
+  if (req.user.user_type !== 3)
+    return res.status(403).json({
       success: false,
-      result: 'you are not authorized to access this resource',
+      payload: 'you are not authorized to access this resource',
     });
-  }
+  const getAllDept = await DepartmentModel.find();
+  if (!getAllDept)
+    return res
+      .status(404)
+      .json({ success: false, payload: 'No department found' });
+  // sends response to frontend
+  res
+    .status(200)
+    .json({ success: true, payload: getAllDept, hits: getAllDept.length });
 });
 
 // get a  department with its id
 
 const viewDepartment = asyncWrapper(async (req, res) => {
   // verifies if the user is authenticated
-  if (!req.user.id && !req.user.role === 3)
-    return res
-      .status(401)
-      .json({ success: false, result: 'You are not authenticated' });
+  verifyUser(req, res);
+  if (req.user.user_type !== 3)
+    return res.status(403).json({
+      success: false,
+      payload: 'You are not authorized to perform this operation',
+    });
   // checks if department id is provided{not functional yet}
   if (!req.params)
     return res
       .status(400)
-      .json({ success: false, result: 'Select a valid  department' });
+      .json({ success: false, payload: 'Select a valid  department' });
 
   const getDept = await DepartmentModel.findOne({ _id: req.params.deptId });
   // cj
   if (!getDept)
     return res
       .status(404)
-      .json({ success: false, result: 'department not found' });
+      .json({ success: false, payload: 'department not found' });
   res.status(200).json({
     success: true,
-    result: getDept,
+    payload: getDept,
   });
 });
 
@@ -99,17 +103,17 @@ const viewDepartment = asyncWrapper(async (req, res) => {
 
 const updateDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members } = req.body;
-
-  if (!req.user.id && !req.user.role === 3)
-    return res.status(401).json({
+  verifyUser(req, res);
+  if (req.user.user_type !== 3)
+    return res.status(403).json({
       success: false,
-      result: 'You are not authorized to access this resource',
+      payload: 'You are not authorized to access this resource',
     });
 
   if (!req.params.deptId)
     return res
       .status(400)
-      .json({ success: false, result: 'Please select a department' });
+      .json({ success: false, payload: 'Please select a department' });
   //still working on this
   const validateData = { dept_name, head_agent, email };
   const { error } = await updateDeptValidation(validateData);
@@ -133,32 +137,28 @@ const updateDepartment = asyncWrapper(async (req, res) => {
       }
     );
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      result: updatedDept,
+      payload: updatedDept,
     });
   }
 });
 
 const removeAgentFromDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, userId } = req.body;
-  console.log(userId);
+  // console.log(userId);
+  verifyUser(req, res);
 
-  if (!req.user)
+  if (req.user.user_type !== 3)
     return res.status(401).json({
       success: false,
-      result: 'You are not authenticated',
-    });
-  if (!req.user.id && !req.user.role === 3)
-    return res.status(401).json({
-      success: false,
-      result: 'You are not authorized to access this resource',
+      payload: 'You are not authorized to access this resource',
     });
 
   if (!req.params.deptId)
     return res
       .status(400)
-      .json({ success: false, result: 'Please select a department' });
+      .json({ success: false, payload: 'Please select a department' });
   const validateData = { dept_name, head_agent, email };
   const { error } = await updateDeptValidation(validateData);
   if (error) return res.status(400).json(error.message);
@@ -180,7 +180,7 @@ const removeAgentFromDepartment = asyncWrapper(async (req, res) => {
       );
       res.status(200).json({
         success: true,
-        result: deleteAgent,
+        payload: deleteAgent,
       });
     }
     // return res.status(409).json('user already exist in department');
@@ -189,21 +189,21 @@ const removeAgentFromDepartment = asyncWrapper(async (req, res) => {
 
 // delete departments
 const deleteDepartment = asyncWrapper(async (req, res) => {
-  if (req.user.id && req.user.role === 3 && req.params.deptId) {
-    const deletedDept = await DepartmentModel.deleteOne({
-      _id: req.params.deptId,
-    });
-    if (deletedDept.acknowledged)
-      return res.status(200).json({ success: true, result: deletedDept });
-    // checks if the query returns true
-    if (!deletedDept.acknowledged)
-      return res.status(400).json({ success: false, result: deletedDept });
-  } else {
-    res.status(400).json({
+  verifyUser(req, res);
+  if (req.user.role !== 3)
+    return res.status(400).json({
       success: false,
-      message: 'You are not authorized to perform this operation',
+      payload: 'You are not authorized to perform this operation',
     });
-  }
+  const deletedDept = await DepartmentModel.deleteOne({
+    _id: req.params.deptId,
+  });
+  if (deletedDept.acknowledged)
+    return res.status(200).json({ success: true, payload: deletedDept });
+  // checks if the query returns true
+  if (!deletedDept.acknowledged)
+    return res.status(400).json({ success: false, payload: deletedDept });
+
   // res.status(200).json("delete department route");
 });
 
@@ -214,4 +214,11 @@ module.exports = {
   updateDepartment,
   viewDepartment,
   removeAgentFromDepartment,
+};
+
+const verifyUser = (req, res) => {
+  if (!req.user)
+    return res
+      .status(401)
+      .json({ success: false, payload: 'You are not authenticated' });
 };
