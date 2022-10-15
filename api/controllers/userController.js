@@ -112,7 +112,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     // sends response to the frontend
     res.status(200).json({
       success: true,
-      result: savedUser,
+      payload: savedUser,
     });
   }
 
