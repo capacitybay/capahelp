@@ -31,11 +31,18 @@ const loginController = controllerWrapper(async (req, res) => {
         req.body.password,
         user.password
       );
-      // console.log(user._id.valueOf());
 
       // checks if the unHashing was successful
-      // console.log({ user });
+
       if (decryptedPassword) {
+        /**not implemented this feature yet
+         * if(user.user_type === 3){
+         * console.log("route to admin page ")
+         * }else{
+         * console.log("route to customer page ")
+         * }
+         */
+
         // sign jwt token token
         const accessToken = generateJwtAccessToken(user);
         const refreshToken = generateJwtRefreshToken(user);
@@ -105,65 +112,61 @@ const refreshUserToken = (req, res) => {
     return res
       .status(401)
       .json({ success: false, payload: 'you are not authenticated' });
-  if (!refreshTokenStore.includes(refreshToken)) {
-    return res
-      .status(403)
-      .json({ success: false, payload: 'refresh token is not valid!' });
-  }
-  jwt.verify(
-    refreshToken,
-    process.env.JWT_REFRESH_TOKEN_SECRETE,
-    (error, user) => {
-      // console.log(` callback ${user}`);
 
-      // logs error msg to the console if error occurs
-      error && console.log(error.message);
+  RefreshTokenModel.findOne({
+    refreshToken: refreshToken,
+  })
 
-      refreshTokenStore = refreshTokenStore.filter(
-        (token) => token !== refreshToken
-      );
+    .then((result) => {
+      // console.log(result);
+      if (!result)
+        return res
+          .status(404)
+          .json({ success: false, payload: 'No token found' });
+      if (result.refreshToken !== refreshToken)
+        return res
+          .status(403)
+          .json({ success: false, payload: 'refresh token is not valid..!' });
+      // decode jwt token
+      jwt.verify(
+        refreshToken,
+        process.env.JWT_REFRESH_TOKEN_SECRETE,
+        (error, user) => {
+          // logs error msg to the console if error occurs
+          error && console.log(error.message);
 
-      // RefreshTokenModel.findOneAndUpdate(
-      //   {
-      //     user_id: user.id,
-      //   },
-      //   { refreshToken: '' }
-      //   // { new: true }
-      // )
-      //   .then((result) => {
-      //     console.log();
-      // if (result.refreshToken !== refreshToken)
-      // return res.status(400).json('token does not exist');
-      const newJwtAccessToken = generateJwtAccessToken(user);
-      const newJwtRefreshAccessToken = generateJwtRefreshToken(user);
-      // refreshTokenStore;
-      refreshTokenStore.push(newJwtRefreshAccessToken);
-      RefreshTokenModel.findOneAndUpdate(
-        {
-          user_id: user.id,
-        },
-        { refreshToken: newJwtRefreshAccessToken },
-        { new: true }
-      )
-        .then((response) => {
-          res.status(200).json({
-            success: true,
-            payload: {
-              accessToken: newJwtAccessToken,
-              refreshToken: newJwtRefreshAccessToken,
-              new: response,
+          // generate new tokens
+          const newJwtAccessToken = generateJwtAccessToken(user);
+          const newJwtRefreshAccessToken = generateJwtRefreshToken(user);
+          // refreshTokenStore;
+
+          // update token store
+          RefreshTokenModel.findOneAndUpdate(
+            {
+              user_id: user.id,
             },
-          });
-        })
-        .catch((error) => {
-          createCustomError(error.message, 500);
-        });
-      // })
-      // .catch((error) => {
-      //   createCustomError(error.message, 500);
-      // });
-    }
-  );
+            { refreshToken: newJwtRefreshAccessToken },
+            { new: true }
+          )
+            .then((response) => {
+              res.status(200).json({
+                success: true,
+                payload: {
+                  accessToken: newJwtAccessToken,
+                  refreshToken: newJwtRefreshAccessToken,
+                  dbToken: response,
+                },
+              });
+            })
+            .catch((error) => {
+              createCustomError(error.message, 500);
+            });
+        }
+      );
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 };
 
 module.exports = { loginController, refreshUserToken };
