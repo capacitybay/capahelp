@@ -16,3 +16,7 @@ router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
 module.exports = router;
+/**
+ * find if department exist if yes
+ * compare dept details
+ */

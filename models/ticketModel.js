@@ -5,6 +5,7 @@ const TicketSchema = new mongoose.Schema(
     ticket_type: {
       type: String,
       required: true,
+      // unique:true
     },
     title: {
       type: String,
