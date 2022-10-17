@@ -9,42 +9,41 @@ const createDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members } = req.body;
   // verify if user is authenticated
   verifyUser(req, res);
-  if (req.user.id && req.user.role === 3) {
-    const validateData = { dept_name, head_agent, email };
-    const { error } = await createDeptValidation(validateData);
-    // checks if error is returned from the validation
-    if (error) return res.status(400).json(error.message);
-    // executes if there was no error
-    if (!error) {
-      const getDept = await DepartmentModel.findOne({
-        dept_name: req.body.dept_name,
-      });
-      if (getDept) {
-        res.status(409).json({
-          success: false,
-          payload: 'department already created',
-        });
-      } else {
-        const newDepartment = new DepartmentModel({
-          dept_name,
-          head_agent,
-          email,
-          members,
-        });
-        const savedDept = await newDepartment.save();
-        // if (savedDept.acknowledged) {
-        res.status(201).json({
-          success: true,
-          payload: savedDept,
-        });
-        // }
-      }
-    }
-  } else {
-    res.status(401).json({
+  if (req.user.user_type !== 3)
+    return res.status(401).json({
       success: false,
       payload: 'you are not authorized to perform this operation',
     });
+  const validateData = { dept_name, head_agent, email };
+  const { error } = await createDeptValidation(validateData);
+  // checks if error is returned from the validation
+  if (error) return res.status(400).json(error.message);
+  // executes if there was no error
+  if (!error) {
+    const getDept = await DepartmentModel.findOne({
+      dept_name: req.body.dept_name,
+    });
+    if (getDept) {
+      res.status(409).json({
+        success: false,
+        payload: 'department already created',
+      });
+    } else {
+      const newDepartment = new DepartmentModel({
+        dept_name,
+        head_agent,
+        email,
+        members,
+      });
+      const savedDept = await newDepartment.save();
+
+      // if (savedDept.acknowledged) {
+      res.status(201).json({
+        success: true,
+        payload: savedDept,
+      });
+      // }
+    }
   }
 });
 
@@ -125,7 +124,8 @@ const updateDepartment = asyncWrapper(async (req, res) => {
     if (getDept)
       return res.status(409).json('user already exist in department');
     // executes if no result was returned from the first search
-    const updatedDept = await DepartmentModel.updateOne(
+
+    const updatedDept = await DepartmentModel.findOneAndUpdate(
       {
         _id: req.params.deptId,
       },
@@ -134,10 +134,15 @@ const updateDepartment = asyncWrapper(async (req, res) => {
         head_agent,
         email,
         $push: { members: members },
-      }
+      },
+      { runValidators: true, context: 'query' }
     );
-
-    res.status(201).json({
+    if (!updatedDept.modifiedCount)
+      return res.status(204).json({
+        success: false,
+        payload: 'Department not updated',
+      });
+    res.status(200).json({
       success: true,
       payload: updatedDept,
     });
@@ -168,7 +173,7 @@ const removeAgentFromDepartment = asyncWrapper(async (req, res) => {
     const getDept = await DepartmentModel.findOne({
       $and: [{ _id: req.params.deptId }, { members: userId }],
     });
-    console.log(getDept);
+
     if (getDept) {
       const deleteAgent = await DepartmentModel.updateOne(
         {
