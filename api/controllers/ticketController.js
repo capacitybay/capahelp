@@ -132,15 +132,17 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 
 const listTicket = asyncWrapper(async (req, res) => {
   const checkTickets = (tickets) => {
-    if (!tickets)
+    if (!tickets) {
       return res
         .status(404)
         .json({ success: false, payload: 'no ticket found!' });
-    res.status(200).json({
-      success: true,
-      result: tickets,
-      hits: tickets.length,
-    });
+    } else {
+      return res.status(200).json({
+        success: true,
+        payload: tickets,
+        hits: tickets.length,
+      });
+    }
   };
 
   // checks is user is authenticated
@@ -148,12 +150,12 @@ const listTicket = asyncWrapper(async (req, res) => {
 
   const { id, user_type } = req.user;
 
-  if (id && user_type === 3) {
+  if (user_type === 3) {
     const tickets = await TicketModel.find();
 
     checkTickets(tickets);
   }
-  if (id && user_type === 0) {
+  if (user_type === 0) {
     const tickets = await TicketModel.find({ customer_id: id });
     checkTickets(tickets);
   }
@@ -179,13 +181,14 @@ const deleteTicket = asyncWrapper(async (req, res, next) => {
   const ticketId = req.params.ticketId;
   const { id, user_type } = req.user;
   // console.log();
-  if (ticketId && user_type === 3) {
+  if (user_type === 3) {
     const deleteTicket = await TicketModel.deleteOne({
       _id: req.params.ticketId,
     });
     return deleteMessage(deleteTicket);
   }
   // req.body.customer_id is gotten from the application state
+  // ie if the user clicks a ticket the customer_id  will be retrieved from the ticket
 
   if (user_type === 0 && id === req.body.customer_id) {
     const deleteTicket = await TicketModel.deleteOne({

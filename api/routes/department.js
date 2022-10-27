@@ -11,7 +11,7 @@ const {
 
 router.get('/department/list', authenticateToken, getDepartment);
 router.post('/department/create', authenticateToken, createDepartment);
-router.put('/department/update/:deptId', authenticateToken, updateDepartment);
+router.patch('/department/update/:deptId', authenticateToken, updateDepartment);
 router.delete(
   '/department/delete/:deptId',
   authenticateToken,

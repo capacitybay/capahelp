@@ -1,10 +1,13 @@
 const { mongoose, Schema } = require('./getMongoose');
-
+const uniqueValidator = require('mongoose-unique-validator');
 const DepartmentSchema = new mongoose.Schema(
   {
     dept_name: {
       type: String,
       required: true,
+      index: true,
+      unique: true,
+      uniqueCaseInsensitive: true,
     },
     head_agent: {
       type: String,
@@ -12,6 +15,8 @@ const DepartmentSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      unique: true,
+      // message: '{VALUE} email already exists',
     },
     members: {
       type: Array,
@@ -22,4 +27,9 @@ const DepartmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Department', DepartmentSchema);
+module.exports = mongoose.model(
+  'Department',
+  DepartmentSchema.plugin(uniqueValidator, {
+    message: '{VALUE}  already exists!',
+  })
+);

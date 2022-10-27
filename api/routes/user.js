@@ -28,3 +28,6 @@ router.put('/user/deactivate/:userId', authenticateToken, deactivateUser);
 router.put('/user/reactivate/:userId', authenticateToken, reactivateUser);
 
 module.exports = router;
+/**
+ * 
+ */
