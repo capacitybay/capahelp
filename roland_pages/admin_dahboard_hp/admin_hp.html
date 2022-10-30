@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin_hp.css">
+
+    <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <!-- <script src="plotly-2.16.1.min.js"></script> -->
+</head>
+
+<body>
+    <main>
+        <div class="top_section">
+            <div class="display">
+                <h4>Active Tickets</h4>
+                <h1 style="color: #D8AA04;">5</h1>
+            </div>
+            <div class="display">
+                <h4>Resolved Tickets</h4>
+                <h1 style="color: #1CA76C;">5</h1>
+            </div>
+            <div class="display diff_display">
+                <h4>Cancelled Tickets</h4>
+                <h1 style="color: #C00000;">1</h1>
+            </div>
+        </div><br>
+
+        <div class="bottom_section">
+            <div class="btm btm1">
+                <div id="flex">
+                    
+                </div>
+                
+            </div>
+            <div class="btm btm1">
+                <div id="new2">
+                   
+                    
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        var data = [{
+    values: [50, 50],
+    labels: ['Active Tickets', 'Resolved Tickets' ],
+    domain: {column: 1},
+    name: 'Tickets',
+    hoverinfo: 'label+percent+name',
+    hole: .4,
+    type: 'pie'
+        }];
+  
+  var layout = {
+    title: 'Tickets',
+    annotations: [
+      {
+        font: {
+          size: 20
+          
+        },
+        showarrow: false,
+        text: '',
+        x: 0.17,
+        y: 0.5
+      },
+    ],
+    height: 300,
+    width: 400,
+    showlegend: false,
+    grid: {rows: 1, columns: 1}
+  };
+  
+  Plotly.newPlot('flex', data, layout);
+
+  
+  var data = [{
+    values: [50, 50],
+    labels: ['Active Tickets', 'Resolved Tickets' ],
+    domain: {column: 1},
+    name: 'Users',
+    hoverinfo: 'label+percent+name',
+    hole: .4,
+    type: 'pie'
+        }];
+  var layout = {
+    title: 'Users',
+    annotations: [
+      {
+        font: {
+          size: 20
+          
+        },
+        showarrow: false,
+        text: '',
+        x: 0.17,
+        y: 0.5
+      },
+    ],
+    height: 300,
+    width: 400,
+    showlegend: false,
+    grid: {rows: 1, columns: 1}
+  };
+  Plotly.newPlot('new2', data, layout);
+    </script>
+</body>
+
+</html>
