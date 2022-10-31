@@ -5,12 +5,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticketing System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="style.css">
-    
+    <script src="https://kit.fontawesome.com/9f1f230ebc.js" crossorigin="anonymous"></script>
+
+    <!-- <style>
+        body {
+          font-family: "Poppins", Helvetica, sans-serif;
+        }
+/*        
+        .mobile-container {
+          max-width: 480px;
+          margin: auto;
+          background-color: #555;
+          height: 500px;
+          color: white;
+          border-radius: 10px;
+        }
+        
+        .topnav {
+          overflow: hidden;
+          background-color: #D1EFCC;
+          position: relative;
+          display: none;
+        }
+        
+        .topnav #myLinks {
+          display: none;
+          background-color: #D1EFCC;
+        }
+        
+        .topnav a {
+          color: black;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 20px;
+          display: block;
+          font-weight: 500; 
+        }
+        .topnav a:hover{
+          background-color: #1CA76c;
+          color: white;
+        }
+        
+        .topnav a.icon {
+          /* background: #04AA6D; */
+          display: block;
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-size: 30px;
+          margin-top: 12px;
+          color: white;
+        }
+        
+        .topnav a:hover {
+          background-color: #1CA76c;
+          color: white;
+        }
+        
+        .active {
+          color: white;
+          
+        } */
+        </style>
+     -->
 </head>
 <body>
     <header>
+        
         <div class="row">
             <nav>
                 <div><img style="width:80px;;" src="./images/logo.png" alt="logo" class="logo"></div>
@@ -21,13 +84,22 @@
                     <li><a href="notification"><i class="fa fa-bell-o" aria-hidden="true"></i></a></li>
                     <li><a href="#" class="eo">EO</a></li> 
                 </ul>
-                <div class="hamburger">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
             </nav>
         </div>
+
+        <!-- Top Navigation Menu -->
+<div class="topnav">
+    <a href="#home" ><img style="width:60px;;" src="./images/logo.png" alt="logo" class="active"></a>
+    <div id="myLinks">
+      <a href="/home">Home</a>
+      <a href="/solutions">Solutions</a>
+      <a href="/tickets">Tickets</a>
+      <!-- <a href="/eo" class="eo1">EO</a></li> -->
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
             
         </header>
  
@@ -46,6 +118,6 @@
             </aside>
         </main>
     </div>
-    <script src="home.js"></script>
+    <script src="script.js"></script>
 </body>
 </html> 

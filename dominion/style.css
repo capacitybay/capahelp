@@ -8,7 +8,6 @@
 header{ 
     
     background-color: #D1EFCC;
-    
     box-shadow: 5px 4px 4px rgba(0, 0, 0, 0.25);
 }
 nav{
@@ -141,22 +140,66 @@ ul li a:hover{
     transition: 0.9s;
 }
 /* hamburger */
-.hamburger{
-   cursor: pointer;
-   display: none;
-}
-.hamburger .line{
-    width: 30px;
-    height: 4px;
-    background-color: white;
-    margin: 6px ;
-}
+
+.mobile-container {
+    max-width: 480px;
+    margin: auto;
+    /* background-color: #555;   */
+    height: 500px;
+    color: white;
+    /* border-radius: 10px; */
+  }
+  
+  .topnav {
+    overflow: hidden;
+    background-color: #D1EFCC;
+    position: relative;
+    display: none;
+  }
+  
+  .topnav #myLinks {
+    display: none;
+    background-color: #D1EFCC;
+  }
+  
+  .topnav a {
+    color: black;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    font-weight: 500; 
+  }
+  .topnav a:hover{
+    background-color: #1CA76c;
+    color: white;
+  }
+  
+  .topnav a.icon {
+    /* background: #04AA6D; */
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    margin-top: 12px;
+    color: white;
+  }
+  
+  .topnav a:hover {
+    color: white;
+  }
+  
+  .active {
+    color: white;
+    
+  }
+
 
 /* edit profile css starts from here */
 
 .container{
-    width: 1000px;
-    height: 650px;
+    width: 800px;
     background-color: white;
     position: absolute;
     top: 50%;
@@ -221,16 +264,18 @@ label{
     font-weight: 500;
 }
 input{
-    width: 400px;
+    width: 300px;
     padding: 10px;
     border-radius: 10px;
     border: 2px solid rgb(33, 32, 32);
+    background-color: #EDEDED;
 }
 select{
-    width: 400px;
+    width: 300px;
     height:45px;
     border-radius: 10px;
     padding: 10px;
+    background-color: #EDEDED;
 }
 .password{
     width: 250px;
@@ -306,16 +351,16 @@ button{
         transform: translate(-50%,-50%);
         padding: 20px;
     }
-    .EO2 {
-        background-color: #D1EFCC;
-        width: 90px;
-        height: 90px;
+    .eo2 {
+        background-color: #6f8d6a;
+        width: 10px;
+        height: 10px;
         text-align: center;
-        padding: 25px;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        font-weight: 900;
-        margin-left: 30px;
+        /* padding: px; */
+        /* border-radius:  */
+        font-size: 14px;
+        font-weight: 600px;
+        /* margin-left: 30px; */
     }
     input{
         width: 300px;
@@ -325,6 +370,17 @@ button{
     }
     #country{
         width: 300px;
+    }
+    .EO2 {
+        background-color: #D1EFCC;
+        width: 130px;
+        height: 130px;
+        text-align: center;
+        padding: 35px;
+        border-radius: 50%;
+        font-size: 2rem;
+        font-weight: 900;
+        margin-left: 10px;
     }
 }
 @media screen and (max-width: 380px){
@@ -354,6 +410,13 @@ button{
     font-size: 14px;
     font-weight: 600;
     margin-left: 50px;
+}
+.user{
+    width: 400px;
+    height: 150px;
+    display: block;
+    justify-content: center;
+    align-items: center;
 }
 }
 
@@ -390,20 +453,23 @@ button{
     ul{
         display: none;
     }
-    .hamburger{
+    .logo{
+        display: none;
+    }
+    .topnav{
         display: block;
     }
 
 }
 @media screen and (max-width: 360){
     .button{
-        margin-top: 40px;
+    margin-top: 40px;
     display: block;
     width: 80%;
     height: 50px;
     font-size: 16px;
-    
-    }
+}
+
 }
     
 
