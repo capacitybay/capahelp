@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header{
+/* position: absolute; */
+width: 100%;
+height: 140px;
+background: #D1EFCC;
+box-shadow: 5px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.main-container{
+    width: 100vw;
+    height: 100vh;
+    background-color:  #F6F6F6;   
+}
+
+.body-container{
+    width: 800px;
+    height: 650px;
+    
+}
+
+.container{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100vw;
+    height: 70vh;
+    background-color:  #F6F6F6; 
+    margin-top: 150px; 
+}
+
+/* main{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100vw;
+    height: 70vh;
+    background-color:  #F6F6F6; 
+    margin-top: 150px; 
+} */
+
+.body-container h2{
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 3vw;
+font-size: 2.5vw;
+color: #000000; 
+/* margin-top: 50px; */
+margin-bottom: 10px;
+}
+
+.profile-div{
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: 700px;
+    height: 70px; 
+    background: #FFFFFF;
+    border: 1px solid #BBB9B9;
+    border-radius: 20px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+button{
+/* position: absolute; */
+width: 90px;
+height: 35px;
+background: #1CA76C;
+border-radius: 10px;
+color: #FFFFFF;
+font-family: Poppins;
+border: none;
+margin-right: 10px;
+
+}
+
+p.active{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-size: 1vw;
+    font-weight: 1.1vw;
+    color: #1CA76C;  
+    margin-left: 20px;  
+}
+
+.active-deactivated{ 
+    position: absolute; 
+    margin-left: 150px;  
+}
+
+.date-div{
+    display: flex;
+    flex-direction: column;  
+}
+
+.name{
+    font-weight: bold; 
+}
+
+@media screen and (max-width: 1024px) {
+    .body-container {
+        margin-right: 25px;
+        }
+}
+
+
+@media  screen and (max-width: 768px) {
+
+    button{
+        /* position: absolute; */
+        width: 70px;
+        height: 25px;
+        background: #1CA76C;
+        border-radius: 10px;
+        color: #FFFFFF;
+        font-family: Poppins;
+        font-size: 1vw;
+        border: none;
+        margin-right: 10px;
+        
+        }
+    .button-div{
+        margin-top: 5px;
+        }
+
+    .profile-div{
+        position: relative;
+        display: flex;
+        box-sizing: border-box;
+        width: 500px;
+        height: 55px; 
+        background: #FFFFFF;
+        border: 1px solid #BBB9B9;
+        border-radius: 20px;
+        padding: 20px;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-top: 15px;
+    }
+
+    .active-deactivated{ 
+        position: absolute; 
+        margin-left: 150px; 
+        margin-top: 5px; 
+    }
+
+    .body-container {
+        padding: 25px;
+        }
+}
+@media  screen and (max-width: 576px) {
+
+    *{
+        padding: 0;
+        margin: 0;
+        /* box-sizing: border-box; */
+    }
+
+    .main-container{
+        width: 100vw;
+        height: 100vh;
+        background-color:  #F6F6F6;   
+    }
+    
+    
+    header{
+        /* position: absolute; */
+        width: 100%;
+        height: 10%;
+        background: #D1EFCC;
+        box-shadow: 5px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .container{
+            /* display: flex;
+            justify-content: center; 
+            align-items: center;  */
+            width: 100vw;
+            height: 70vh;
+            background-color:  #F6F6F6; 
+            background-size: contain;
+            margin-top: 150px; 
+        }
+
+        .body-container{
+            width: 100vw;
+            height: 100vh;
+            
+        }
+
+        .profile-div{
+            position: relative;
+            display: flex;
+            box-sizing: border-box;
+            width: 90vw;
+            height: 55px; 
+            background: #FFFFFF;
+            border: 1px solid #BBB9B9;
+            border-radius: 20px;
+            padding: 20px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-top: 15px;
+        }
+
+        button{
+            font-size: 2.1vw;
+            border: none;
+            margin-right: 10px;
+            
+            }
+
+        .active{ 
+            font-size: 4.5vw;
+            font-weight: bold;
+            }
+}
