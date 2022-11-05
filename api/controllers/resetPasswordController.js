@@ -10,43 +10,44 @@ const resetPassword = asyncWrapper(async (req, res) => {
   if (!oldPassword || !newPassword || !confirmNewPassword)
     return res
       .status(400)
-      .json({ success: false, result: 'input fields must not be empty!' });
-
+      .json({ success: false, payload: 'input fields must not be empty!' });
+  // gets user id from application state
   const user = await UserModel.findOne({ _id: req.params.userId });
   // checks if a user is found
-  if (user) {
-    // decrypts the password and check if the given password matches the one in db
-    const decryptedPassword = await unHashPassword(oldPassword, user.password);
+  if (!user)
+    return res.status(400).json({ success: false, payload: 'user not found!' });
 
-    if (decryptedPassword) {
-      // redirect to reset password page
+  // decrypts the password and check if the given password matches the one in db
+  const decryptedPassword = await unHashPassword(oldPassword, user.password);
 
-      // validate newPassword
+  if (decryptedPassword) {
+    // redirect to reset password page
 
-      const { error } = await validatePassword({
-        password: newPassword,
-      });
+    // validate newPassword
 
-      if (error)
-        return res.status(400).json({ success: false, result: error.message });
+    const { error } = await validatePassword({
+      password: newPassword,
+    });
 
-      if (newPassword !== confirmNewPassword)
-        return res
-          .status(400)
-          .json({ success: false, result: 'password not the same' });
+    if (error)
+      return res.status(400).json({ success: false, payload: error.message });
 
-      const hashPassword = await hashedPassword(newPassword); //not handled
+    if (newPassword !== confirmNewPassword)
+      return res
+        .status(400)
+        .json({ success: false, result: 'password not the same' });
+    result;
+    const hashPassword = await hashedPassword(newPassword); //not handled
 
-      const updatePassword = await UserModel.updateOne(
-        { _id: req.params.userId }, //work on this
-        { password: hashPassword }
-      );
-      if (updatePassword.acknowledged)
-        return res.status(200).json({ success: true, result: updatePassword });
-    } else {
-      res.status(400).json({ success: false, result: 'not a valid password' });
-    }
-  } //no else
+    const updatePassword = await UserModel.updateOne(
+      { _id: req.params.userId }, //work on this
+      { password: hashPassword }
+    );
+    if (updatePassword.modifiedCount)
+      return res.status(200).json({ success: true, payload: updatePassword });
+  } else {
+    res.status(400).json({ success: false, result: 'not a valid password' });
+  }
 });
 
 module.exports = resetPassword;

@@ -5,6 +5,7 @@ const RefreshTokenModel = require('../../models/refreshTokenModel');
 require('../../utils/envSetup');
 const { jwt } = require('../../utils/packages');
 const controllerWrapper = require('../../middleware/controllerWrapper');
+
 const {
   CustomError,
   createCustomError,
@@ -17,7 +18,7 @@ const loginController = controllerWrapper(async (req, res) => {
   const { error } = loginValidation(req.body);
   // checks if error occurred during the validation process
   if (error) {
-    res.status(400).json(error.message);
+    res.status(400).render('login.ejs', { message: error.message });
   } else {
     // queries the database with the provided email
 
@@ -71,6 +72,7 @@ const loginController = controllerWrapper(async (req, res) => {
         res.status(401).json('invalid email or password');
       }
     } else {
+      res.render('login.ejs', { message: ' Invalid login credentials!' });
       // sends error message if email match returns false
     }
   }

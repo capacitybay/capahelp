@@ -1,6 +1,7 @@
 const joi = require('joi');
 
 function registerValidation(data) {
+  console.log(data);
   const schema = joi.object({
     // first name validation
     first_name: joi.string().min(2).required(),
@@ -29,7 +30,7 @@ function registerValidation(data) {
         'string.empty': ` password field cannot be empty `,
         'object.regex': 'Must have at least 8 characters',
         'string.pattern.base':
-          'Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character,',
+          'Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character',
       }),
     phone: joi.string().alphanum().min(10).max(13).required(),
   });

@@ -1,5 +1,4 @@
 const { router } = require('../../utils/packages');
-
 const {
   createUser,
   getUser,
@@ -11,6 +10,17 @@ const {
   adminCreateUser,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
+
+router.get('/user/register', (req, res) => {
+  // const resData = await axios.get('https://restcountries.com/v2/all');
+  // // resData..forEach((element) => {
+  // // });
+  // console.log(res);
+  res.render('register.ejs', {
+    message: null,
+  });
+  // return
+});
 router.post('/user/register', createUser);
 router.post('/user/create', authenticateToken, adminCreateUser);
 
@@ -29,5 +39,5 @@ router.put('/user/reactivate/:userId', authenticateToken, reactivateUser);
 
 module.exports = router;
 /**
- * 
+ *
  */
