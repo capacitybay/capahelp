@@ -23,18 +23,32 @@ const createUser = asyncWrapper(async (req, res) => {
     location,
   } = req.body;
   // checks if payload was sent or checks if th user is logged in
-
-  const validateData = { first_name, last_name, email, phone, password };
+  // let convertPhone = phone.toString();
+  // console.log(location);
+  const validateData = {
+    first_name,
+    last_name,
+    email,
+    phone,
+    password: password,
+  };
+  // if (!first_name || !last_name || !email || !password)
+  //   return res.redirect('register.ejs');
   const { error } = registerValidation(validateData);
   // checks if the validation return error
-  if (error) return res.status(400).json(error.message);
+  if (error)
+    return res.status(400).render('register.ejs', {
+      message: error.message,
+    });
+  // status(400).json(error.message);
   if (password != confirmPassword)
     return res
       .status(400)
-      .json({ success: false, payload: 'password does not match' });
+      .render('register.ejs', { message: 'password does not match' });
   if (!error) {
     const getUser = await UserModel.findOne({ email: email });
-    if (getUser) return res.status(409).json('user already exists');
+    if (getUser)
+      return res.status(409).render('register.ejs', 'user already exists');
 
     // hashes user password before storing it
 
@@ -58,10 +72,11 @@ const createUser = asyncWrapper(async (req, res) => {
       user_id: savedUser._id,
     });
     const createTokenStore = await newTokenStore.save();
-    res.status(200).json({
-      success: true,
-      payload: { savedUser, createTokenStore },
-    });
+    // res.status(201).json({
+    //   success: true,
+    //   payload: { savedUser, createTokenStore },
+    // });
+    res.redirect('/api/v1/user/login');
   }
 
   // console.log(CustomerModel);

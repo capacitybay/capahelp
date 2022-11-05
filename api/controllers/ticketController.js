@@ -34,7 +34,7 @@ const createTicket = asyncWrapper(async (req, res) => {
   const newTicket = new TicketModel(req.body);
   const savedTicket = await newTicket.save();
 
-  res.status(200).json({ success: true, payload: savedTicket });
+  res.status(201).json({ success: true, payload: savedTicket });
 });
 
 // gets a single ticket
@@ -46,7 +46,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
       .json({ success: false, payload: 'You are not authenticated' });
 
   //
-  if (req.user.id && req.user.user_type === 3) {
+  if (req.user.user_type === 3) {
     const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
     // console.log(req.params);
     if (!ticket) return next(createCustomError('no ticket found!', 404));
@@ -121,7 +121,6 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
       success: true,
       payload: userUpdatedTicket,
     });
-    res.status(200).json(userUpdatedTicket);
   } else {
     res.status(400).json({
       success: false,

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/public/styles/register.css" type="text/css">
+</head>
+
+<body>
+    <!-- Registration Form -->
+
+
+
+    <div class="container">
+        <div class="title">Registration</div>
+        <div class="error-plane">
+            <% if(message){ %>
+
+                <%- include("partials/validationError.ejs",message) %>
+                    <% } %>
+
+        </div>
+        <form action="/api/v1/user/register" method="POST">
+            <div class="user__details">
+                <div class="input__box">
+                    <span class="details">First Name</span>
+                    <input type="text" placeholder="E.g: John " id="first_name" name="first_name" required>
+                </div>
+                <div class="input__box">
+                    <span class="details">Last Name</span>
+                    <input type="text" placeholder="Baba" id="last_name" name="last_name" required>
+                </div>
+                <div class="input__box">
+                    <span class="details">Email</span>
+                    <input type="email" placeholder="john@hotmail.com" id="email" name="email" required>
+                </div>
+                <div class="input__box">
+                    <span class="details">Phone Number</span>
+                    <input type="tel" id="phone" , name="phone" placeholder="012-345-6789" required>
+                </div>
+                <div class="input__box">
+                    <span class="details">Password</span>
+                    <input type="password" placeholder="********" required id="password" name="password">
+                </div>
+                <div class="input__box">
+                    <span class="details">Confirm Password</span>
+                    <input type="password" placeholder="********" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="input__box">
+                    <span class="details " for="countries">Country</span>
+                    <select class="select" id="location" name="location" required>
+                        <!-- included countries from partials folder -->
+                        <%- include("partials/countries.ejs"); %>
+                    </select>
+                    <!-- <input type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
+                </div>
+                <!-- 
+
+                 -->
+                <div class="input__box">
+                    <span class="details " for="gender">Gender</span>
+                    <select class="select" name="gender" id="gender" name="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Prefer not to say</option>
+
+                    </select>
+                    <!-- <input type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
+                </div>
+            </div>
+
+            <div class="button">
+                <input type="submit" value="Register">
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

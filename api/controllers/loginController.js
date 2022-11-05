@@ -5,6 +5,7 @@ const RefreshTokenModel = require('../../models/refreshTokenModel');
 require('../../utils/envSetup');
 const { jwt } = require('../../utils/packages');
 const controllerWrapper = require('../../middleware/controllerWrapper');
+
 const {
   CustomError,
   createCustomError,

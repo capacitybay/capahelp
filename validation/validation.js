@@ -1,6 +1,7 @@
 const joi = require('joi');
 
 function registerValidation(data) {
+  console.log(data);
   const schema = joi.object({
     // first name validation
     first_name: joi.string().min(2).required(),

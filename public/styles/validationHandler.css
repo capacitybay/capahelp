@@ -1,0 +1,19 @@
+.error-container {
+  width: auto;
+  max-width: 92%;
+  background-color: rgba(217, 76, 76, 0.5);
+  border-radius: 4px;
+  height: 2.5rem;
+  color: #fff;
+  position: absolute;
+  padding: 0 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  font-size: 0.8rem;
+  font-weight: 300;
+  text-align: center;
+}

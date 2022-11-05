@@ -31,10 +31,10 @@ const UserSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      min: [10, 'phone must be at least 10'],
-      max: [15, 'phone must be at most 15'],
-      required: [true, 'User phone number required'],
-      match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
+      // min: [10, 'phone must be at least 10'],
+      // max: [15, 'phone must be at most 15'],
+      // required: [true, 'User phone number required'],
+      // match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
     },
     location: {
       type: String,
