@@ -13,22 +13,22 @@
 <body>
     <div class="center">
         <h1>Login</h1>
-        <form action="#" method="post">
+        <form action="/api/v1/login" method="POST">
             <div class="txt_field">
-                <input type="text" required />
+                <input type="email" required />
                 <span></span>
-                <label>Username</label>
+                <label>Email</label>
             </div>
             <div class="txt_field">
-                <input type="text" required />
+                <input type="password" required />
                 <span></span>
-                <label>Phone</label>
+                <label>Password</label>
             </div>
             <div class="pass">Forgot Password?</div>
 
             <input type="submit" value="Login" />
             <div class="signup_link">
-                Not a member? <a href="">Signup</a>
+                Not a registered yet? <a href="">Signup</a>
             </div>
         </form>
     </div>

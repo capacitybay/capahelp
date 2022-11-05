@@ -18,7 +18,7 @@ const loginController = controllerWrapper(async (req, res) => {
   const { error } = loginValidation(req.body);
   // checks if error occurred during the validation process
   if (error) {
-    res.status(400).json(error.message);
+    res.status(400).render('login.ejs', { message: error.message });
   } else {
     // queries the database with the provided email
 
@@ -72,6 +72,7 @@ const loginController = controllerWrapper(async (req, res) => {
         res.status(401).json('invalid email or password');
       }
     } else {
+      res.render('login.ejs');
       // sends error message if email match returns false
     }
   }
