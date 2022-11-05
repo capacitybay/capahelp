@@ -72,7 +72,7 @@ const loginController = controllerWrapper(async (req, res) => {
         res.status(401).json('invalid email or password');
       }
     } else {
-      res.render('login.ejs');
+      res.render('login.ejs', { message: ' Invalid login credentials!' });
       // sends error message if email match returns false
     }
   }

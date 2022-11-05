@@ -110,3 +110,13 @@ input[type='submit']:hover {
 .signup_link a:hover {
   text-decoration: underline;
 }
+
+.error-plane {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.1rem;
+  /* border: 1px solid blue; */
+  margin-top: 0.5rem;
+}
