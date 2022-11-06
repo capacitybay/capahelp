@@ -39,12 +39,14 @@ const createUser = asyncWrapper(async (req, res) => {
   if (error)
     return res.status(400).render('register.ejs', {
       message: error.message,
+      email: email,
     });
   // status(400).json(error.message);
   if (password != confirmPassword)
-    return res
-      .status(400)
-      .render('register.ejs', { message: 'password does not match' });
+    return res.status(400).render('register.ejs', {
+      message: 'password does not match',
+      email: email,
+    });
   if (!error) {
     const getUser = await UserModel.findOne({ email: email });
     if (getUser)
@@ -76,7 +78,7 @@ const createUser = asyncWrapper(async (req, res) => {
     //   success: true,
     //   payload: { savedUser, createTokenStore },
     // });
-    res.redirect('/api/v1/user/login');
+    res.redirect('/api/v1/login');
   }
 
   // console.log(CustomerModel);
@@ -97,11 +99,11 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
   const validateData = { first_name, last_name, email, phone, password };
   const { error } = registerValidation(validateData);
   // checks if the validation return error
-  if (error) return res.status(400).json(error.message);
-  if (password != confirmPassword)
-    return res
-      .status(400)
-      .json({ success: false, payload: 'password does not match' });
+  if (error)
+    if (password != confirmPassword)
+      return res
+        .status(400)
+        .json({ success: false, payload: 'password does not match' });
   if (!error) {
     const getUser = await UserModel.findOne({ email: email });
     if (getUser) return res.status(409).json('user already exists');
