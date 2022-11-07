@@ -12,11 +12,11 @@ const {
 } = require('../../middleware/customError');
 const initializePassport = require('../../middleware/passportConfig');
 
-// initializePassport(
-//   passport,
-//   (email) => UserModel.findOne({ email: email }),
-//   (id) => UserModel.find({ _id: id })
-// );
+initializePassport(
+  passport,
+  (email) => UserModel.findOne({ email: email }),
+  (id) => UserModel.find({ _id: id })
+);
 
 let refreshTokenStore = [];
 
@@ -27,11 +27,11 @@ const loginController = controllerWrapper(async (req, res, next) => {
   // checks if error occurred during the validation process
   // if (error)
   //   return res.status(400).render('login.ejs', { message: error.message });
-  passport.authenticate('local', {
-    successRedirect: '/api/v1/',
-    failureRedirect: '/api/v1/login',
-    failureFlash: true,
-  });
+  // passport.authenticate('local', {
+  //   successRedirect: '/api/v1/',
+  //   failureRedirect: '/api/v1/login',
+  //   failureFlash: true,
+  // });
   // res.render('login.ejs', { message: ' Invalid login credentials!' });
 });
 

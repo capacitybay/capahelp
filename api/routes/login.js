@@ -12,7 +12,7 @@ initializePassport(
   (id) => UserModel.find({ _id: id })
 );
 router.get('/login', forwardAuthenticated, (req, res) => {
-  res.render('login.ejs', { message: null });
+  res.render('login.ejs');
 });
 router.post(
   '/login',

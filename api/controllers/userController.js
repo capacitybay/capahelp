@@ -32,15 +32,15 @@ const createUser = asyncWrapper(async (req, res) => {
     phone,
     password: password,
   };
+  let errorMsgs = [];
   // if (!first_name || !last_name || !email || !password)
   //   return res.redirect('register.ejs');
   const { error } = registerValidation(validateData);
   // checks if the validation return error
-  if (error)
-    return res.status(400).render('register.ejs', {
-      message: error.message,
-      email: email,
-    });
+  if (error) {
+    // req.flash('error_msg', error.message);
+    return res.status(400).render('register.ejs', { message: error.message });
+  }
   // status(400).json(error.message);
   if (password != confirmPassword)
     return res.status(400).render('register.ejs', {

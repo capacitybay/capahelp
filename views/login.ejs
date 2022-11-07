@@ -6,17 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/public/styles/login.css" type="text/css">
 
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/styles/login.css" type="text/css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
 </head>
 
 <body>
     <div class="center">
         <div class="error-plane">
-            <% if(message){ %>
+            <%- include( "partials/messages" ) %>
 
-                <%- include("partials/validationError.ejs", message) %>
-                    <% } %>
         </div>
         <h1>Login</h1>
         <form action="/api/v1/login" method="POST">
@@ -34,10 +36,20 @@
 
             <input type="submit" value="Login" />
             <div class="signup_link">
-                Not a registered yet? <a href="">Signup</a>
+                Not a registered yet? <a href="./user/register">Signup</a>
             </div>
         </form>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 
 </body>
 

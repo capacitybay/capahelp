@@ -182,7 +182,7 @@ form .button input:hover {
   border-top-right-radius: 6px;
   height: 3rem;
 }
-
+/* not certain on this */
 .error-plane {
   width: 100%;
   display: flex;
@@ -191,4 +191,18 @@ form .button input:hover {
   height: 2.1rem;
   /* border: 1px solid blue; */
   margin-top: 0.5rem;
+}
+
+.signup_link {
+  margin: 5px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666666;
+}
+.signup_link a {
+  color: #2691d9;
+  text-decoration: none;
+}
+.signup_link a:hover {
+  text-decoration: underline;
 }
