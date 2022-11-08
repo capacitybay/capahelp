@@ -15,40 +15,87 @@ body{
 header{
     width: 100%;
     padding: 5px 5px;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.4);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    border-bottom: 2px solid #cacaca;
     background-color: #D1EFCC;
+    height: fit-content;
 }
-
+.rowt {
+    max-width: 1500px;
+    width: 95%;
+    margin: 5px auto;
+  }
 .header_img{
     width: 6%;
 }
 
 nav{
     /* background-color: blue; */
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     /* gap: 20px; */
 }
 
 .nav-items{
-    width: 40%;
+    width: 50%;
     /* background-color: red; */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    padding: 20px;
 
 }
 .nav-cont{
-    width: 30%;
+    width: 25%;
     /* background-color: red; */
     display: flex;
     justify-content: space-around;
     align-items: center;
 
+}
+.con{
+    width: 60%;
+    display: flex;
+    justify-content:right;
+}
+.con ul li{
+    list-style-type: none;
+}
+.con .nav-items li{
+    /* width: 0%; */
+
+    position: relative;
+}
+.con .nav-items li::after{
+    content: '';
+    position: absolute;
+    width: 15%;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffc907;
+    transition: all .3s ease-in-out;
+}
+.con .nav-items li:hover::after{
+    width: 100%;
+}
+.con .nav-cont .be{
+    position: relative;
+    cursor: pointer;
+}
+.con .nav-cont .be .num{
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: -10%;
+    top: -10%;
+    color: #fff;
+    font-size: 0.8rem;
 }
 
 .nav-cont img{
@@ -73,34 +120,33 @@ a{
 #mySidebar, #main{
     display: none;
 }
-
+.fa{
+    font-size: 30px;
+}
 
 @media screen and (max-width:1025px) {
-    .nav-items{
+    /* .nav-items{
         width: 50%;
-    }
+    } */
 }
 @media screen and (max-width:901px) {
-    nav{
-        width: 60%;
-    }
     .nav-items{
-        width: 55%;
+        width: 80%;
+    }
+    .con{
+       width: 80%;
     }
     .nav-cont img{
-        width: 20%;
+        /* width: 20%; */
     }
     .box_h1{
         padding: 0.2em 0.3em;
     }
 }
 
-@media screen and (max-width:426px) {
+@media screen and (max-width:447px) {
     header{
         justify-content: space-between;
-    }
-    .header_img{
-        width: 20%;
     }
     i{
         background-color: #1CA76C;
@@ -109,6 +155,9 @@ a{
         border-radius: 10px;
     }
     nav{
+        justify-content: space-between;
+    }
+    .con{
         display: none;
     }
     #mySidebar, #main{

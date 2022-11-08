@@ -7,25 +7,32 @@
     font-family: 'Poppins', sans-serif;
 }
 body{
-    background-color: #F6F6F6;
+    background-color: #eee;
 }
 
+.row {
+    max-width: 1500px;
+    width: 95%;
+    margin: 30px auto;
+  }
 main{
-    width: 80%;
-    /* background-color: red; */
-    margin: 100px auto;
+    padding: 10px;
 }
-
 .top_section{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
 }
 
 .display{
-    width: 30%;
-    border: 2px solid #C2C2C2;
+    /* width: 30%; */
+    border: 1px solid #eee;
     border-radius: 10px;
     padding: 1em;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .diff_display{
@@ -33,22 +40,26 @@ main{
 }
 
 .bottom_section{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
 }
 
 .btm{
-    width: 45%;
-    border: 2px solid #C2C2C2;
+    border: 1px solid #eee;
     border-radius: 10px;
     padding: 1em; 
+    background-color: #fff;
 }
 
 .btm h5{
     text-align: center;
 }
 
-
+/* #myChart{
+    
+} */
 
 .new1{
    display: flex;
@@ -65,14 +76,13 @@ main{
     position: relative;
     width: 50%;
     height: 40vh;
-    border: 2px solid black;
+    border: 2px solid black;    
     
 }
 
 @media screen and (max-width: 900px) {
     .top_section{
         width: 100%;
-        flex-direction: column;
         gap: 20px;
         /* background-color: red; */
     }
@@ -80,19 +90,31 @@ main{
         width: 100%;
     }
     .btm{
-        border: none;
         overflow: auto;
     }
+    .btm h1{
+        font-size: 1.1rem;
+    }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 612px) {
+    .top_section{
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 5px;
+    }
+    .top_section .display{
+        font-size: 0.8rem;
+    }
    
+}
+@media screen and (max-width: 470px) {
+    .top_section{
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5px;
+    }
     .bottom_section{
-        flex-direction: column;
-    }
-    .btm1, .btm2{
         width: 100%;
-        overflow: auto; 
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
     }
-    
    
 }
