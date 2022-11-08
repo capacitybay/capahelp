@@ -1,0 +1,52 @@
+<% if(locals.errors){ %>
+    <% errors.forEach(function(error) { %>
+        <div class="alert alert-warning alert-dismissible fade show " role="alert"
+            style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+            <p style="font-size:0.7rem;" class="align-middle">
+
+                <%= error.msg %>
+            </p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% }); %>
+            <% } %>
+                <% if(success_msg !='' ){ %>
+                    <div class="alert alert-success alert-dismissible fade show " role="alert"
+                        style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                        <p style="font-size:0.7rem;" class="align-middle">
+
+                            <%= success_msg %>
+                        </p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <% } %>
+                        <% if(error_msg !='' ){ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                                style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                                <p style="font-size:0.7rem;" class="align-middle">
+
+                                    <%= error_msg %>
+                                </p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                    style="width:1rem">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <% } %>
+                                <% if(error !='' ){ %>
+                                    <div class="alert alert-danger alert-dismissible fade show text-justify align-middle"
+                                        role="alert" style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                                        <p style="font-size:0.85rem;">
+
+                                            <%= error %>
+                                        </p>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                            style="width:1rem">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <% } %>

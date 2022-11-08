@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/public/styles/adminviewticket.css">
+  <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
+
+</head>
+<body>
+
+<!-- Navbar set up  -->
+<%- include( "partials/adminnav" ) %>
+
+  <!-- Main container starts  -->
+
+  <div class="row">
+    <section>
+
+      <div class="tick">
+        <p><a href="#">Tickets</a> > #CAPA-3 </p>
+        <div class="re-btn">Resolve</div>
+      </div>
+
+      <!-- Heading Section -->
+      <div class="title">
+        <h1>Emmanuel Onyenegbutu</h1>
+        <h3>Subject: I need help</h3>
+      </div>
+      <div class="status">
+        <p class="stat"><strong>Status:</strong> pending</p>
+        <p class="date">Created on Wednesday, 28 Sep 2022 9:05PM</p>
+      </div>
+        <hr>
+
+        <!-- Messages section Agent -->
+        <div class="messages right">
+          <div class="user_icon">
+            <div class="icon">EO</div>
+          </div>
+          <div class="body-part">
+            <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2> 
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+            <!-- Attachment Section -->
+            <p class="atta">1 Attachment (Scanned for Virus)</p>
+            <div class="di">
+              <div class="filename">Mai Tea.Docx</div>
+              <div class="filesize">368.67KB</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Messages section User -->
+        <div class="messages left" >
+          
+          <div class="body-part right">
+            <h2><span>Posted 1 day ago</span> Emmanuel Onyenegbutu </h2> 
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+            <!-- Attachment Section -->
+            <p class="atta">1 Attachment (Scanned for Virus)</p>
+            <div class="diwrapper">
+              <div class="di">
+                <div class="filename">Mai Tea.Docx</div>
+                <div class="filesize">368.67KB</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="user_icon">
+            <div class="icon">EO</div>
+          </div>
+        </div>
+
+        <div class="messages right">
+          <div class="user_icon">
+            <div class="icon">EO</div>
+          </div>
+          <div class="body-part">
+            <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2> 
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+            <!-- Attachment Section -->
+            <p class="atta">1 Attachment (Scanned for Virus)</p>
+            <div class="di">
+              <div class="filename">Mai Tea.Docx</div>
+              <div class="filesize">368.67KB</div>
+            </div>
+
+          </div>
+        </div>
+        <!-- Reply Section -->
+        <div class="reply">
+          
+            <div class="user_icon">
+              <div class="icon">EO</div>
+            </div>
+            <div class="body-part">
+              <h3>Reply</h3>
+
+              <form action="#" id="sd">
+                <textarea class="text-area" name="editor" id="editor" rows="20" placeholder="Please Input a Description"></textarea>
+
+
+                <div class="file-upload">
+                  <label for="myfile"><b style="color: green;">Attach a files:</b>&nbsp;&nbsp; &nbsp;<small style="color:black;">(File size < 35MB)</small></label>
+                  <input type="file" id="myfile" name="myfile" multiple><br><br>
+                </div>
+
+
+                <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
+
+              </form>
+  
+            </div>
+          </div>
+
+      
+    </section>
+  </div>
+
+<!-- <img src="gif.svg" alt=""> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+  <script >
+    CKEDITOR.replace("editor");
+
+   
+</script>
+</body>
+</html>

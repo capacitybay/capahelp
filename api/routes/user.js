@@ -10,14 +10,11 @@ const {
   adminCreateUser,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
-
+const { forwardAuthenticated } = require('../../middleware/auth');
 router.get('/user/register', (req, res) => {
-  // const resData = await axios.get('https://restcountries.com/v2/all');
-  // // resData..forEach((element) => {
-  // // });
-  // console.log(res);
-  res.render('register.ejs', {
+  return res.render('register', {
     message: null,
+    email: null,
   });
   // return
 });

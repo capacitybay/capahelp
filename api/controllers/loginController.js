@@ -5,77 +5,34 @@ const RefreshTokenModel = require('../../models/refreshTokenModel');
 require('../../utils/envSetup');
 const { jwt } = require('../../utils/packages');
 const controllerWrapper = require('../../middleware/controllerWrapper');
-
+const passport = require('passport');
 const {
   CustomError,
   createCustomError,
 } = require('../../middleware/customError');
+const initializePassport = require('../../middleware/passportConfig');
+
+initializePassport(
+  passport,
+  (email) => UserModel.findOne({ email: email }),
+  (id) => UserModel.find({ _id: id })
+);
 
 let refreshTokenStore = [];
 
-const loginController = controllerWrapper(async (req, res) => {
+const loginController = controllerWrapper(async (req, res, next) => {
+  // console.log(req.body);
   // send request data to the validation function
-  const { error } = loginValidation(req.body);
+  // const { error } = loginValidation(req.body);
   // checks if error occurred during the validation process
-  if (error) {
-    res.status(400).render('login.ejs', { message: error.message });
-  } else {
-    // queries the database with the provided email
-
-    const user = await UserModel.findOne({ email: req.body.email });
-    // console.log(user);
-
-    // checks if the query returned true
-    if (user) {
-      // unHashes the password from the database
-      const decryptedPassword = await unHashPassword(
-        req.body.password,
-        user.password
-      );
-
-      // checks if the unHashing was successful
-
-      if (decryptedPassword) {
-        /**not implemented this feature yet
-         * if(user.user_type === 3){
-         * console.log("route to admin page ")
-         * }else{
-         * console.log("route to customer page ")
-         * }
-         */
-
-        // sign jwt token token
-        const accessToken = generateJwtAccessToken(user);
-        const refreshToken = generateJwtRefreshToken(user);
-        // const savedToken = new RefreshTokenModel.
-        refreshTokenStore.push(refreshToken);
-        const dbTokenStore = await RefreshTokenModel.findOneAndUpdate(
-          {
-            user_id: user._id,
-          },
-          { refreshToken: refreshToken },
-          { new: true }
-        );
-        res.status(200).json({
-          success: true,
-          payload: { user, accessToken, refreshToken, dbTokenStore },
-        });
-
-        // sends cookie to the frontend
-        // res.cookie("Token", token, {
-        //   httpOnly: true,
-        //   // cookie will expire in 5 mins
-        //   maxAge: 5 * 60000,
-        // });
-        // console.log(res);
-      } else {
-        res.status(401).json('invalid email or password');
-      }
-    } else {
-      res.render('login.ejs', { message: ' Invalid login credentials!' });
-      // sends error message if email match returns false
-    }
-  }
+  // if (error)
+  //   return res.status(400).render('login.ejs', { message: error.message });
+  // passport.authenticate('local', {
+  //   successRedirect: '/api/v1/',
+  //   failureRedirect: '/api/v1/login',
+  //   failureFlash: true,
+  // });
+  // res.render('login.ejs', { message: ' Invalid login credentials!' });
 });
 
 const generateJwtAccessToken = (user) => {
