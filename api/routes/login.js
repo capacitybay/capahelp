@@ -1,11 +1,27 @@
 const { router } = require('../../utils/packages');
-
+const UserModel = require('../../models/userModel');
 const { loginController } = require('../controllers');
-// console.log(loginController);
+const { forwardAuthenticated } = require('../../middleware/auth');
+const passport = require('passport');
+const initializePassport = require('../../middleware/passportConfig');
 
-router.post('/login', loginController);
-router.get('/login', (req, res) => {
-  res.render('login', { message: null });
+// console.log(loginController);
+initializePassport(
+  passport,
+  (email) => UserModel.findOne({ email: email }),
+  (id) => UserModel.find({ _id: id })
+);
+router.get('/login', forwardAuthenticated, (req, res) => {
+  res.render('login.ejs');
 });
+router.post(
+  '/login',
+  forwardAuthenticated,
+  passport.authenticate('local', {
+    successRedirect: '/api/v1/',
+    failureRedirect: '/api/v1/login',
+    failureFlash: true,
+  })
+);
 
 module.exports = router;
