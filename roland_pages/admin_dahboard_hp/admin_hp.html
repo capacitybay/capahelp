@@ -8,7 +8,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="admin_hp.css">
 
-    <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <!-- <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <!-- <script src="plotly-2.16.1.min.js"></script> -->
 </head>
 
@@ -34,13 +35,16 @@
                 <div id="flex">
                     
                 </div>
+
+                <canvas id="myChart" width="400" height="400"></canvas>
                 
-            </div>
-            <div class="btm btm1">
+              </div>
+              <div class="btm btm1">
                 <div id="new2">
-                   
-                    
+                  
+                  
                 </div>
+                <canvas id="myChart2" width="400" height="400"></canvas>
                 
             </div>
         </div>
@@ -48,68 +52,52 @@
 
 
     <script>
-        var data = [{
-    values: [50, 50],
-    labels: ['Active Tickets', 'Resolved Tickets' ],
-    domain: {column: 1},
-    name: 'Tickets',
-    hoverinfo: 'label+percent+name',
-    hole: .4,
-    type: 'pie'
-        }];
-  
-  var layout = {
-    title: 'Tickets',
-    annotations: [
-      {
-        font: {
-          size: 20
-          
-        },
-        showarrow: false,
-        text: '',
-        x: 0.17,
-        y: 0.5
-      },
-    ],
-    height: 300,
-    width: 400,
-    showlegend: false,
-    grid: {rows: 1, columns: 1}
-  };
-  
-  Plotly.newPlot('flex', data, layout);
 
-  
-  var data = [{
-    values: [50, 50],
-    labels: ['Active Tickets', 'Resolved Tickets' ],
-    domain: {column: 1},
-    name: 'Users',
-    hoverinfo: 'label+percent+name',
-    hole: .4,
-    type: 'pie'
-        }];
-  var layout = {
-    title: 'Users',
-    annotations: [
-      {
-        font: {
-          size: 20
-          
-        },
-        showarrow: false,
-        text: '',
-        x: 0.17,
-        y: 0.5
-      },
-    ],
-    height: 300,
-    width: 400,
-    showlegend: false,
-    grid: {rows: 1, columns: 1}
-  };
-  Plotly.newPlot('new2', data, layout);
+
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Canceled Tickets', 'Resolved Tickets', 'Active Tickets' ],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3],
+            backgroundColor: [
+                'red',
+                '#1CA76C',
+                'yellow'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        
+    }
+});
+
+const cty = document.getElementById('myChart2').getContext('2d');
+ 
+const myChart2 = new Chart(cty, {
+    type: 'pie',
+    data: {
+      labels: ['Canceled Tickets', 'Resolved Tickets', 'Active Tickets' ],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3],
+            backgroundColor: [
+                'red',
+                '#1CA76C',
+                'yellow'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        
+    }
+});
+
+       
     </script>
 </body>
 
