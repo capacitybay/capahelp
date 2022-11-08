@@ -9,8 +9,9 @@ const initializePassport = require('../../middleware/passportConfig');
 initializePassport(
   passport,
   (email) => UserModel.findOne({ email: email }),
-  (id) => UserModel.find({ _id: id })
+  (id) => UserModel.findOne({ _id: id })
 );
+
 router.get('/login', forwardAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
@@ -18,7 +19,7 @@ router.post(
   '/login',
   forwardAuthenticated,
   passport.authenticate('local', {
-    successRedirect: '/api/v1/',
+    successRedirect: '/api/v1/user/dashboard',
     failureRedirect: '/api/v1/login',
     failureFlash: true,
   })

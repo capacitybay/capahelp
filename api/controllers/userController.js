@@ -32,53 +32,76 @@ const createUser = asyncWrapper(async (req, res) => {
     phone,
     password: password,
   };
-  let errorMsgs = [];
+  let errors = [];
   // if (!first_name || !last_name || !email || !password)
   //   return res.redirect('register.ejs');
   const { error } = registerValidation(validateData);
   // checks if the validation return error
   if (error) {
     // req.flash('error_msg', error.message);
-    return res.status(400).render('register.ejs', { message: error.message });
+    // res.flash('error_msg', error.message);
+    // return res.redirect('/api/v1/user/register');
+    errors.push({ msg: error.message });
   }
   // status(400).json(error.message);
-  if (password != confirmPassword)
-    return res.status(400).render('register.ejs', {
-      message: 'password does not match',
-      email: email,
-    });
-  if (!error) {
-    const getUser = await UserModel.findOne({ email: email });
-    if (getUser)
-      return res.status(409).render('register.ejs', 'user already exists');
-
-    // hashes user password before storing it
-
-    const encryptedPassword = await hashedPassword(password);
-    // create new document
-
-    const newUser = new UserModel({
+  if (password != confirmPassword) {
+    // return res.status(400).render('register.ejs', {
+    //   message: 'password does not match',
+    //   email: email,
+    // });
+    errors.push({ msg: 'password does not match' });
+  }
+  if (errors.length > 0) {
+    res.render('register', {
+      errors,
       first_name,
       last_name,
       email,
-      password: encryptedPassword,
       phone,
+      password,
+      confirmPassword,
       location,
     });
+  } else {
+    const getUser = await UserModel.findOne({ email: email });
+    if (getUser) {
+      errors.push({ msg: 'user already exists' });
+      res.render('register.ejs', {
+        errors,
+        first_name,
+        last_name,
+        email,
+        phone,
+        password,
+        confirmPassword,
+        location,
+      });
+    } else {
+      // hashes user password before storing it
 
-    // save user to database
+      const encryptedPassword = await hashedPassword(password);
+      // create new document
 
-    const savedUser = await newUser.save();
-    // sends response to the frontend
-    const newTokenStore = new RefreshTokenModel({
-      user_id: savedUser._id,
-    });
-    const createTokenStore = await newTokenStore.save();
-    // res.status(201).json({
-    //   success: true,
-    //   payload: { savedUser, createTokenStore },
-    // });
-    res.redirect('/api/v1/login');
+      const newUser = new UserModel({
+        first_name,
+        last_name,
+        email,
+        password: encryptedPassword,
+        phone,
+        location,
+      });
+
+      // save user to database
+
+      const savedUser = await newUser.save();
+      // sends response to the frontend
+      const newTokenStore = new RefreshTokenModel({
+        user_id: savedUser._id,
+      });
+      const createTokenStore = await newTokenStore.save();
+      req.flash('success_msg', 'Registration Successful, you can now login');
+      res.redirect('/api/v1/login');
+    }
   }
 
   // console.log(CustomerModel);

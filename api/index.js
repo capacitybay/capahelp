@@ -7,6 +7,7 @@ const resetPassword = require('./routes/resetPassword');
 const manageAgentDept = require('./routes/manageAgentDepartment');
 const refresh = require('./routes/refresh');
 const home = require('./routes/home');
+const errors = require('./routes/errors');
 router.use(ticket);
 router.use(login);
 router.use(user);
@@ -16,5 +17,6 @@ router.use(resetPassword);
 router.use(manageAgentDept);
 router.use(refresh);
 router.use(home);
+router.use(errors);
 
 module.exports = router;
