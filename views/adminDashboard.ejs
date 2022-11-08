@@ -14,57 +14,58 @@
 </head>
 
 <div class="row">
-    <main>
-        <div class="top_section">
-            <div class="display">
-                <h4>Active Tickets</h4>
-                <h1 style="color: #93f9b9;">3</h1>
-            </div>
-            <div class="display">
-                <h4>Resolved Tickets</h4>
-                <h1 style="color: #1CA76C;">19</h1>
-            </div>
-            <div class="display diff_display">
-                <h4>Cancelled Tickets</h4>
-                <h1 style="color: #C00000;">12</h1>
-            </div>
-            <div class="display ">
-                <h4>Pending Tickets</h4>
-                <h1 style="color: #D8AA04;">10</h1>
-            </div>
-            <div class="display ">
-                <h4>Tickets in Progress</h4>
-                <h1 style="color: Coral;">8</h1>
-            </div>
-            <div class="display">
-                <h4>Active Customers</h4>
-                <h1 style="color: #1CA76C;;">12</h1>
-            </div>
-            <div class="display diff_display">
-                <h4>Deactivated Customers</h4>
-                <h1 style="color: #C00000;">3</h1>
-            </div>
-            <div class="display">
-                <h4>Total No. Customers</h4>
-                <h1 style="color: Coral;">15</h1>
-            </div>
-        </div><br>
+    <%- include("./partials/adminHeader.ejs") %>
+        <main>
+            <div class="top_section">
+                <div class="display">
+                    <h4>Active Tickets</h4>
+                    <h1 style="color: #93f9b9;">3</h1>
+                </div>
+                <div class="display">
+                    <h4>Resolved Tickets</h4>
+                    <h1 style="color: #1CA76C;">19</h1>
+                </div>
+                <div class="display diff_display">
+                    <h4>Cancelled Tickets</h4>
+                    <h1 style="color: #C00000;">12</h1>
+                </div>
+                <div class="display ">
+                    <h4>Pending Tickets</h4>
+                    <h1 style="color: #D8AA04;">10</h1>
+                </div>
+                <div class="display ">
+                    <h4>Tickets in Progress</h4>
+                    <h1 style="color: Coral;">8</h1>
+                </div>
+                <div class="display">
+                    <h4>Active Customers</h4>
+                    <h1 style="color: #1CA76C;;">12</h1>
+                </div>
+                <div class="display diff_display">
+                    <h4>Deactivated Customers</h4>
+                    <h1 style="color: #C00000;">3</h1>
+                </div>
+                <div class="display">
+                    <h4>Total No. Customers</h4>
+                    <h1 style="color: Coral;">15</h1>
+                </div>
+            </div><br>
 
-        <div class="bottom_section">
-            <div class="btm btm1">
+            <div class="bottom_section">
+                <div class="btm btm1">
 
-                <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChart" width="400" height="400"></canvas>
 
-                <h1>Tickets</h1>
+                    <h1>Tickets</h1>
 
+                </div>
+                <div class="btm btm1">
+
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                    <h1>Customers </h1>
+                </div>
             </div>
-            <div class="btm btm1">
-
-                <canvas id="myChart2" width="400" height="400"></canvas>
-                <h1>Customers </h1>
-            </div>
-        </div>
-    </main>
+        </main>
 </div>
 
 
