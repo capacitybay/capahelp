@@ -9,9 +9,9 @@ const {
   deleteTicket,
 } = require('../controllers');
 
-router.get('/ticket/view/:ticketId', authenticateToken, getTicket);
+router.get('/ticket/view/:ticketId', getTicket);
 router.post('/ticket/new', authenticateToken, createTicket);
-router.get('/ticket/list', authenticateToken, listTicket);
+router.get('/ticket/list', listTicket);
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
