@@ -10,7 +10,11 @@ const {
   adminCreateUser,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
-const { forwardAuthenticated } = require('../../middleware/auth');
+const {
+  forwardAuthenticated,
+  ensureAuthenticated,
+  isAdmin,
+} = require('../../middleware/auth');
 router.get('/user/register', (req, res) => {
   return res.render('register', {
     message: null,
@@ -19,7 +23,10 @@ router.get('/user/register', (req, res) => {
   // return
 });
 router.post('/user/register', createUser);
-router.post('/user/create', authenticateToken, adminCreateUser);
+router.get('/user/dashboard', isAdmin, (req, res) => {
+  res.render('adminDashboard');
+});
+router.post('/user/create', adminCreateUser);
 
 // gets all user
 router.get('/user/list', authenticateToken, getUser);

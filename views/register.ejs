@@ -6,8 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-
-    <link rel="stylesheet" href="/public/styles/register.css" type="text/css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public//styles/register.css" type="text/css">
 </head>
 
 <body>
@@ -19,32 +22,38 @@
         <div class="title">Registration</div>
 
 
-        <%- include("partials/messages.ejs") %>
+        <%- include("partials/messages"); %>
             <form action="/api/v1/user/register" method="POST">
                 <div class="user__details">
                     <div class="input__box">
                         <span class="details">First Name</span>
-                        <input type="text" placeholder="E.g: John " id="first_name" name="first_name">
+                        <input type="text" placeholder="E.g: John " id="first_name" name="first_name" <%=typeof
+                            first_name !='undefined' ? first_name : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details">Last Name</span>
-                        <input type="text" placeholder="Baba" id="last_name" name="last_name">
+                        <input type="text" placeholder="Baba" id="last_name" name="last_name" <%=typeof last_name
+                            !='undefined' ? last_name : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details">Email</span>
-                        <input type="email" placeholder="john@hotmail.com" id="email" name="email">
+                        <input type="email" placeholder="john@hotmail.com" id="email" name="email" <%=typeof email
+                            !='undefined' ? email : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details">Phone Number</span>
-                        <input type="tel" id="phone" , name="phone" placeholder="012-345-6789">
+                        <input type="tel" id="phone" , name="phone" placeholder="012-345-6789" <%=typeof phone
+                            !='undefined' ? phone : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details">Password</span>
-                        <input type="password" placeholder="********" required id="password" name="password">
+                        <input type="password" placeholder="********" required id="password" name="password" <%=typeof
+                            password !='undefined' ? password : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details">Confirm Password</span>
-                        <input type="password" placeholder="********" id="confirmPassword" name="confirmPassword">
+                        <input type="password" placeholder="********" id="confirmPassword" name="confirmPassword"
+                            <%=typeof confirmPassword !='undefined' ? confirmPassword : '' %>>
                     </div>
                     <div class="input__box">
                         <span class="details " for="countries">Country</span>

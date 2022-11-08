@@ -1,6 +1,6 @@
 const { router } = require('../../utils/packages');
 const { ensureAuthenticated } = require('../../middleware/auth');
-router.get('/', ensureAuthenticated, (req, res) => {
+router.get('/', (req, res) => {
   res.render('home.ejs');
 });
 
