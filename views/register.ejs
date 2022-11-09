@@ -23,7 +23,7 @@
 
 
         <%- include("partials/messages"); %>
-            <form action="/api/v1/user/register" method="POST">
+            <form action="/user/register" method="POST">
                 <div class="user__details">
                     <div class="input__box">
                         <span class="details">First Name</span>
@@ -327,7 +327,7 @@
                     <input type="submit" value="Register">
                 </div>
                 <div class="signup_link">
-                    Registered ? <a href="./user/register">Login</a>
+                    Registered ? <a href="/login">Login</a>
                 </div>
             </form>
     </div>

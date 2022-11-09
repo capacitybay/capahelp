@@ -24,7 +24,7 @@ router.get('/user/register', (req, res) => {
 });
 router.post('/user/register', createUser);
 router.get('/user/dashboard', isAdmin, (req, res) => {
-  res.render('adminDashboard');
+  res.render('Admin/adminDashboard.ejs');
 });
 router.post('/user/create', adminCreateUser);
 
