@@ -22,4 +22,10 @@ module.exports = {
     }
     res.status(304).redirect('/error');
   },
+  isAgent: function (req, res) {
+    if (req.isAuthenticated() && req.user[0].user_type === 1) {
+      return next();
+    }
+    res.status(304).redirect('/error');
+  },
 };
