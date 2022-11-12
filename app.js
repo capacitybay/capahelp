@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/v1', routes);
+app.use('/', routes);
 app.use(error404);
 // ejs
 app.use(expressLayouts);

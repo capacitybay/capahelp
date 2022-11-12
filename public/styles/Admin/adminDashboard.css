@@ -56,7 +56,16 @@ main {
 .btm h5 {
   text-align: center;
 }
-
+.ticket-wrapper {
+  display: flex;
+  /* border: 1px solid blue; */
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.active-ticket {
+  width: 66px;
+  height: 66px;
+}
 /* #myChart{
     
 } */

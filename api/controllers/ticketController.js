@@ -2,6 +2,7 @@ const TicketModel = require('../../models/ticketModel');
 const asyncWrapper = require('../../middleware/controllerWrapper');
 const { createCustomError } = require('../../middleware/customError');
 const { find, findOne } = require('../../models/departmentModel');
+const { resolveHostname } = require('nodemailer/lib/shared');
 // const { findOne } = require('../../models/departmentModel');
 
 const verifyUser = (req, res) => {
@@ -57,6 +58,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
       payload: 'you are not authorized to perform this operation ',
     });
   }
+  authenticateTokenauthenticateToken;
 
   // res.status(200).json('get ticket new route');
 
@@ -130,33 +132,48 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 });
 
 const listTicket = asyncWrapper(async (req, res) => {
-  const checkTickets = (tickets) => {
+  const checkTickets = (tickets, role) => {
     if (!tickets) {
       return res
         .status(404)
         .json({ success: false, payload: 'no ticket found!' });
     } else {
-      return res.status(200).json({
-        success: true,
-        payload: tickets,
-        hits: tickets.length,
-      });
+      if (role === 3) {
+        res.render('Admin/tickets', {
+          success: true,
+          payload: tickets,
+          hits: tickets.length,
+        });
+      } else if (role === 0) {
+        // this will render user ticket page (not activated yet)
+        res.render('Admin/tickets', {
+          success: true,
+          payload: tickets,
+          hits: tickets.length,
+        });
+      }
+
+      // return res.status(200).json({
+      //   success: true,
+      //   payload: tickets,
+      //   hits: tickets.length,
+      // });
     }
   };
 
   // checks is user is authenticated
   verifyUser(req, res);
 
-  const { id, user_type } = req.user;
-
+  const { id, user_type } = req.user[0];
+  console.log(req.user[0]);
   if (user_type === 3) {
     const tickets = await TicketModel.find();
 
-    checkTickets(tickets);
+    checkTickets(tickets, user_type);
   }
   if (user_type === 0) {
     const tickets = await TicketModel.find({ customer_id: id });
-    checkTickets(tickets);
+    checkTickets(tickets, user_type);
   }
 });
 

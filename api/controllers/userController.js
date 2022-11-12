@@ -100,7 +100,7 @@ const createUser = asyncWrapper(async (req, res) => {
       });
       const createTokenStore = await newTokenStore.save();
       req.flash('success_msg', 'Registration Successful, you can now login');
-      res.redirect('/api/v1/login');
+      res.redirect('/login');
     }
   }
 

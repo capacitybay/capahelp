@@ -10,7 +10,7 @@ const {
   CustomError,
   createCustomError,
 } = require('../../middleware/customError');
-const initializePassport = require('../../middleware/passportConfig');
+const initializePassport = require('../../auth/passportConfig');
 
 initializePassport(
   passport,

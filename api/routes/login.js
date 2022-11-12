@@ -3,7 +3,7 @@ const UserModel = require('../../models/userModel');
 const { loginController } = require('../controllers');
 const { forwardAuthenticated } = require('../../middleware/auth');
 const passport = require('passport');
-const initializePassport = require('../../middleware/passportConfig');
+const initializePassport = require('../../auth/passportConfig');
 
 // console.log(loginController);
 initializePassport(
@@ -19,8 +19,8 @@ router.post(
   '/login',
   forwardAuthenticated,
   passport.authenticate('local', {
-    successRedirect: '/api/v1/user/dashboard',
-    failureRedirect: '/api/v1/login',
+    successRedirect: '/user/dashboard',
+    failureRedirect: '/login',
     failureFlash: true,
   })
 );
