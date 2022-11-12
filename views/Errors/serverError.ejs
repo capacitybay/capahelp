@@ -5,13 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/styles/error/serverError.css">
     <title>Server Error</title>
 </head>
 
 <body>
-    <h1>
-        something went wrong, please check your connection and try again
-    </h1>
+    <div class="container">
+        <img src="https://i.imgur.com/qIufhof.png" />
+
+        <h1>
+            <span>500</span> <br />
+            Internal server error
+        </h1>
+        <p>We are currently trying to fix the problem.</p>
+        <div class="box_btn">
+
+            <button onclick="window.location.href='/user/'">GO TO HOMEPAGE</button>
+        </div>
+
+    </div>
 </body>
 
 </html>
