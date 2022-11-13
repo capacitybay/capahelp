@@ -40,8 +40,9 @@ app.use(function (req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', routes);
-app.use(error404);
+app.use(routes);
+
+app.get(error404);
 // ejs
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
