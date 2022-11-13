@@ -14,10 +14,10 @@ const verifyUser = (req, res) => {
 const createTicket = asyncWrapper(async (req, res) => {
   console.log(req.user);
 
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'You are not authenticated' });
+  // if (!req.user)
+  //   return res
+  //     .status(401)
+  //     .json({ success: false, payload: 'You are not authenticated' });
 
   /** still working on this
    * const findTicket = await findOne({
