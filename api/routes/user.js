@@ -8,8 +8,12 @@ const {
   deactivateUser,
   reactivateUser,
   adminCreateUser,
+  adminDashboard,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
+// const asyncWrapper = require('../../middleware/controllerWrapper');
+// const TicketModel = require('../../models/ticketModel');
+// const UserModel = require('../../models/userModel');
 const {
   forwardAuthenticated,
   ensureAuthenticated,
@@ -27,20 +31,19 @@ router.post('/user/register', createUser);
 router.get('/user/solution', (req, res) => {
   res.render('User/solutions.ejs');
 });
-router.get('/admin/dashboard', isAdmin, (req, res) => {
-  res.render('Admin/adminDashboard.ejs');
-});
+// function get
+router.get('/admin/dashboard', isAdmin, adminDashboard);
 // admin route
 router.post('/user/create', adminCreateUser);
 
 // gets all user (admin route)
-router.get('/user/list', authenticateToken, getUser);
+router.get('/user/list', getUser);
 
 // gets a user(admin route)
 router.get('/user/view/:userId', authenticateToken, viewUser);
 
 // update a user (admin route)
-router.patch('/user/update/:userId', authenticateToken, updateUser);
+router.patch('/user/update/:userId', updateUser);
 // delete a user
 router.delete('/user/delete/:userId', authenticateToken, deleteUser);
 router.put('/user/deactivate/:userId', authenticateToken, deactivateUser);

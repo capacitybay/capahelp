@@ -8,6 +8,7 @@ const {
   deactivateUser,
   reactivateUser,
   adminCreateUser,
+  adminDashboard,
 } = require('./userController');
 
 const {
@@ -58,4 +59,6 @@ module.exports = {
   addAgentToDept,
   adminCreateUser,
   refreshUserToken,
+  // admin dashboard
+  adminDashboard,
 };
