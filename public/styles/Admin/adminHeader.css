@@ -140,7 +140,7 @@ a {
   margin-top: 6rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* padding: 0 1rem; */
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   z-index: 1000;
   display: none;
   transition: 0.8s;

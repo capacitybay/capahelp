@@ -32,7 +32,12 @@
                             <span class="num">2</span> <i class="fa fa-bell-o"></i>
                         </li>
                         <li>
-                            <h1 class="box_h1 eo " id="toggleProfile">EO</h1>
+                            <h1 class="box_h1 eo " id="toggleProfile">
+                                <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                    user.last_name.charAt(0).toUpperCase():"EO" %>
+
+
+                            </h1>
                         </li>
                     </ul>
                     <div class="show-profile">
@@ -42,8 +47,9 @@
                             <div class="icon-container">
                                 <div class="icon">
                                     <h5>
+                                        <%= user? user.first_name.charAt(0).toUpperCase() + " " +
+                                            user.last_name.charAt(0).toUpperCase():"EO" %>
 
-                                        <%= user.first_name.charAt(0) + " " + user.last_name.charAt(0) %>
                                     </h5>
 
                                 </div>

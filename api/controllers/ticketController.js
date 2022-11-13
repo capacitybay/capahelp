@@ -140,6 +140,7 @@ const listTicket = asyncWrapper(async (req, res) => {
     } else {
       if (role === 3) {
         res.render('Admin/tickets', {
+          user: req.user[0],
           success: true,
           payload: tickets,
           hits: tickets.length,
