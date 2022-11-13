@@ -115,6 +115,108 @@ a {
   align-items: center;
   color: #1ca76c;
 }
+
+.eo {
+  background-color: #fafffa;
+  font-size: 20px;
+  color: #1ca76c;
+  font-weight: bold;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: center;
+  justify-content: center;
+}
+.show-profile {
+  position: absolute;
+  width: 12rem;
+  /* border: 1px solid blue; */
+  height: 8rem;
+  margin-left: calc(100% - 18rem);
+  margin-top: 6rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  /* padding: 0 1rem; */
+  padding-top: 1rem;
+  z-index: 1000;
+  display: none;
+  transition: 0.8s;
+
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+}
+.toggle-profile {
+  display: flex;
+}
+
+.top-section {
+  width: 100%;
+  /* border: 1px solid red; */
+  height: calc((8rem / 2) - 1rem);
+  display: flex;
+  padding: 0 0.7rem;
+  justify-content: space-between;
+}
+.bottom-section {
+  width: 100%;
+  /* border: 1px solid yellow; */
+  height: calc(8rem / 2);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-evenly;
+}
+.bottom-section .links {
+  /* background-color: #1ca76c; */
+  /* padding: 0 0.9rem; */
+  /* margin-top: 0.3rem; */
+  padding: 1rem 0.9rem;
+
+  cursor: pointer;
+
+  height: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  transition: 0.5s;
+}
+
+.bottom-section .links:hover {
+  background-color: #ededed;
+}
+.top-section .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* border: 1px solid blue; */
+  color: #1ca76c;
+
+  background-color: #d1efcc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-container {
+  /* border: 1px solid blue; */
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.top-section .profile-name {
+  /* border: 1px solid blue; */
+  width: calc(12rem - 5rem);
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #mySidebar,
 #main {
   display: none;
