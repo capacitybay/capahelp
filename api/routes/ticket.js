@@ -9,6 +9,11 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
+  activeTickets,
+  cancelledTickets,
+  inProgressTickets,
+  pendingTickets,
+  resolvedTickets,
 } = require('../controllers');
 
 // router.get('/ticket/view/:ticketId', getTicket);
@@ -17,11 +22,18 @@ router.get(
   isAdmin,
   asyncWrapper((req, res) => {
     const tickets = TicketModel.find();
-    console.log(tickets);
+    // console.log(tickets);
     res.render('Admin/view_ticket');
   })
 );
 router.post('/ticket/new', createTicket);
+// admin route
+router.get('/admin/ticket/list/active', isAdmin, activeTickets);
+router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
+router.get('/admin/ticket/list/inProgress', isAdmin, inProgressTickets);
+router.get('/admin/ticket/list/pending', isAdmin, pendingTickets);
+router.get('/admin/ticket/list/resolved', isAdmin, resolvedTickets);
+// router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
 router.get('/ticket/list', isAdmin, listTicket);
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
