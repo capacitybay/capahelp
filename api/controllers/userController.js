@@ -16,7 +16,7 @@ const RefreshTokenModel = require('../../models/refreshTokenModel');
 // admin display
 
 const adminDashboard = asyncWrapper(async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const activeTickets = await TicketModel.find({ ticket_status: 'active' });
   const resolvedTickets = await TicketModel.find({
     ticket_status: 'resolved',
@@ -35,7 +35,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     $and: [{ active: false }, { user_type: 0 }],
   });
   const allUsers = await UserModel.find({ user_type: 0 });
-  console.log(activeTickets.length);
+  // console.log(activeTickets.length);
   res.render('Admin/adminDashboard.ejs', {
     user: req.user[0],
     activeTickets: activeTickets.length,

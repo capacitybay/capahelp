@@ -2,7 +2,7 @@ module.exports = {
   ensureAuthenticated: function (req, res, next) {
     // console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
-      console.log(req.user[0].user_type);
+      // console.log(req.user[0].user_type);
       return next();
     }
     req.flash('error_msg', 'Please log in ');

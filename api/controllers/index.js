@@ -17,6 +17,11 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
+  activeTickets,
+  cancelledTickets,
+  inProgressTickets,
+  pendingTickets,
+  resolvedTickets,
 } = require('./ticketController');
 
 const {
@@ -61,4 +66,9 @@ module.exports = {
   refreshUserToken,
   // admin dashboard
   adminDashboard,
+  activeTickets,
+  cancelledTickets,
+  inProgressTickets,
+  pendingTickets,
+  resolvedTickets,
 };
