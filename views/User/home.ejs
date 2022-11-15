@@ -20,11 +20,15 @@
             <nav>
                 <div><img style="width:80px;;" src="/public/img/logo.png" alt="logo" class="logo"></div>
                 <ul>
-                    <li><a href="/user/Home">Home</a></li>
-                    <li><a href="/user/solution">Solutions</a></li>
-                    <li><a href="/user/tickets">Tickets</a></li>
-                    <li><a href="user/notification"><i class="fa fa-bell-o" aria-hidden="true"></i></a></li>
-                    <li><a href="#" class="eo" id="toggleProfile">EO</a></li>
+                    <li><a href="/user/Home" class="a">Home</a></li>
+                    <li><a href="/user/solution" class="a">Solutions</a></li>
+                    <li><a href="/user/tickets" class="a">Tickets</a></li>
+                    <li><a href="#" class="a" id="toggleNotification"><i class="fa fa-bell-o"
+                                aria-hidden="true"></i></a></li>
+                    <div class="notification-slide" id="notification">
+                        <p>Notifications...</p>
+                    </div>
+                    <li><a href="#" class="eo " id="toggleProfile">EO</a></li>
                 </ul>
                 <div class="show-profile">
                     <!-- <div class="profile-container"> -->
@@ -42,8 +46,14 @@
                         </div>
                     </div>
                     <div class="bottom-section">
-                        <p>Edit profile</p>
-                        <p>Logout</p>
+                        <div class="links">
+                            <p>Edit profile</p>
+
+                        </div>
+                        <div class="links">
+
+                            <p>Logout</p>
+                        </div>
                     </div>
                     <!-- </div> -->
                 </div>
@@ -76,7 +86,7 @@
                     create a <br> Ticket and Track Our Progress. </p>
                 <div class="button">
                     <a href="/ticket" class="but1"> Create a Ticket</a>
-                    <a href="/solution" class="but2">View a Solution</a>
+                    <a href="/user/solution" class="but2">View a Solution</a>
                 </div>
             </article>
             <aside class="img-side">

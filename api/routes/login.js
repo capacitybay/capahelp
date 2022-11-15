@@ -19,7 +19,7 @@ router.post(
   '/login',
   forwardAuthenticated,
   passport.authenticate('local', {
-    successRedirect: '/user/dashboard',
+    successRedirect: '/admin/dashboard',
     failureRedirect: '/login',
     failureFlash: true,
   })

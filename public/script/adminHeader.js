@@ -9,3 +9,11 @@ function closeNav() {
   document.getElementById('mySidebar').style.width = '0';
   document.getElementById('main').style.marginLeft = '0';
 }
+
+const toggleProfile = document.getElementById('toggleProfile');
+const getProfile = document.querySelector('.show-profile');
+
+toggleProfile.addEventListener('click', (e) => {
+  getProfile.classList.toggle('toggle-profile');
+  toggleProfile.classList.toggle('a');
+});

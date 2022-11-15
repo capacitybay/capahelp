@@ -32,9 +32,49 @@
                             <span class="num">2</span> <i class="fa fa-bell-o"></i>
                         </li>
                         <li>
-                            <h1 class="box_h1">EO</h1>
+                            <h1 class="box_h1 eo " id="toggleProfile">
+                                <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                    user.last_name.charAt(0).toUpperCase():"EO" %>
+
+
+                            </h1>
                         </li>
                     </ul>
+                    <div class="show-profile">
+                        <!-- <div class="profile-container"> -->
+
+                        <div class="top-section">
+                            <div class="icon-container">
+                                <div class="icon">
+                                    <h5>
+                                        <%= user? user.first_name.charAt(0).toUpperCase() + " " +
+                                            user.last_name.charAt(0).toUpperCase():"EO" %>
+
+                                    </h5>
+
+                                </div>
+
+                            </div>
+                            <div class="profile-name">
+
+                                <p>
+                                    <%= user.first_name %>
+                                        <%= user.last_name %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bottom-section">
+                            <div class="links">
+                                <p>Edit profile</p>
+
+                            </div>
+                            <div class="links">
+
+                                <p>Logout</p>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
                 </div>
 
                 <div id="mySidebar" class="sidebar">

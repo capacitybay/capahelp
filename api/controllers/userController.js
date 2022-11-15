@@ -1,4 +1,5 @@
 const UserModel = require('../../models/userModel');
+const TicketModel = require('../../models/ticketModel');
 const { hashedPassword } = require('../../auth/password');
 const {
   registerValidation,
@@ -11,6 +12,42 @@ const {
   CustomError,
 } = require('../../middleware/customError');
 const RefreshTokenModel = require('../../models/refreshTokenModel');
+
+// admin display
+
+const adminDashboard = asyncWrapper(async (req, res) => {
+  // console.log(req.user);
+  const activeTickets = await TicketModel.find({ ticket_status: 'active' });
+  const resolvedTickets = await TicketModel.find({
+    ticket_status: 'resolved',
+  });
+  const cancelledTickets = await TicketModel.find({
+    ticket_status: 'cancelled',
+  });
+  const pendingTickets = await TicketModel.find({ ticket_status: 'pending' });
+  const ticketsInProgress = await TicketModel.find({
+    ticket_status: 'in progress',
+  });
+  const activeUsers = await UserModel.find({
+    $and: [{ active: true }, { user_type: 0 }],
+  });
+  const deactivatedUsers = await UserModel.find({
+    $and: [{ active: false }, { user_type: 0 }],
+  });
+  const allUsers = await UserModel.find({ user_type: 0 });
+  // console.log(activeTickets.length);
+  res.render('Admin/adminDashboard.ejs', {
+    user: req.user[0],
+    activeTickets: activeTickets.length,
+    resolvedTickets: resolvedTickets.length,
+    cancelledTickets: cancelledTickets.length,
+    pendingTickets: pendingTickets.length,
+    ticketsInProgress: ticketsInProgress.length,
+    activeUsers: activeUsers.length,
+    deactivatedUsers: deactivatedUsers.length,
+    allUsers: allUsers.length,
+  });
+});
 
 const createUser = asyncWrapper(async (req, res) => {
   const {
@@ -359,4 +396,5 @@ module.exports = {
   deactivateUser,
   reactivateUser,
   adminCreateUser,
+  adminDashboard,
 };

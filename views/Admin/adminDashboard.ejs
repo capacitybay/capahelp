@@ -13,20 +13,24 @@
     <!-- <script src="plotly-2.16.1.min.js"></script> -->
 </head>
 
-<%- include("../partials/adminHeader.ejs") %>
+<%- include("../partials/adminHeader.ejs", {user:user}) %>
     <div class="row">
         <main>
             <div class="top_section">
                 <div class="display">
                     <h4>Active Tickets</h4>
-                    <h1 style="color: #93f9b9;">3</h1>
+                    <h1 style="color: #93f9b9;">
+                        <%= activeTickets %>
+                    </h1>
 
 
                 </div>
                 <div class="display">
                     <h4>Resolved Tickets</h4>
                     <div class="ticket-wrapper">
-                        <h1 style="color: #1CA76C;">19</h1>
+                        <h1 style="color: #1CA76C;">
+                            <%= resolvedTickets %>
+                        </h1>
                         <div class="active-ticket">
 
                             <img src="/public/img/ticket.png" alt="" width="66px" height="66px">
@@ -37,7 +41,9 @@
                 <div class="display diff_display">
                     <h4>Cancelled Tickets</h4>
                     <div class="ticket-wrapper">
-                        <h1 style="color: #C00000;">12</h1>
+                        <h1 style="color: #C00000;">
+                            <%= cancelledTickets %>
+                        </h1>
                         <div class="active-ticket">
 
                             <img src="/public/img/resolvedTicket.png" alt="" width="66px" height="66px">
@@ -47,23 +53,33 @@
                 </div>
                 <div class="display ">
                     <h4>Pending Tickets</h4>
-                    <h1 style="color: #D8AA04;">10</h1>
+                    <h1 style="color: #D8AA04;">
+                        <%= pendingTickets %>
+                    </h1>
                 </div>
                 <div class="display ">
                     <h4>Tickets in Progress</h4>
-                    <h1 style="color: Coral;">8</h1>
+                    <h1 style="color: Coral;">
+                        <%= ticketsInProgress %>
+                    </h1>
                 </div>
                 <div class="display">
                     <h4>Active Customers</h4>
-                    <h1 style="color: #1CA76C;;">12</h1>
+                    <h1 style="color: #1CA76C;;">
+                        <%= activeUsers %>
+                    </h1>
                 </div>
                 <div class="display diff_display">
                     <h4>Deactivated Customers</h4>
-                    <h1 style="color: #C00000;">3</h1>
+                    <h1 style="color: #C00000;">
+                        <%= deactivatedUsers %>
+                    </h1>
                 </div>
                 <div class="display">
                     <h4>Total No. Customers</h4>
-                    <h1 style="color: Coral;">15</h1>
+                    <h1 style="color: Coral;">
+                        <%= allUsers %>
+                    </h1>
                 </div>
             </div><br>
 
