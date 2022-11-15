@@ -16,16 +16,12 @@ const {
   resolvedTickets,
 } = require('../controllers');
 
-// router.get('/ticket/view/:ticketId', getTicket);
-router.get(
-  '/admin/view/ticket',
-  isAdmin,
-  asyncWrapper((req, res) => {
-    const tickets = TicketModel.find();
-    // console.log(tickets);
-    res.render('Admin/view_ticket');
-  })
-);
+router.get('/admin/view/ticket/:ticketId', isAdmin, getTicket);
+// router.get(
+//   '/admin/view/ticket',
+//   isAdmin,
+
+// );
 router.post('/ticket/new', createTicket);
 // admin route
 router.get('/admin/ticket/list/active', isAdmin, activeTickets);
