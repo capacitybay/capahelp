@@ -1,7 +1,7 @@
 const { router } = require('../../utils/packages');
 const { ensureAuthenticated } = require('../../middleware/auth');
-router.get('/', ensureAuthenticated, (req, res) => {
-  res.render('home.ejs');
+router.get('/user', (req, res) => {
+  res.render('User/home.ejs');
 });
 
 module.exports = router;

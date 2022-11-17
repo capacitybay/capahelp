@@ -16,6 +16,7 @@ const port = process.env.PORT || 4000;
 // require('./middleware/passportConfig')(passport);
 // use middleWares
 app.use('/public', express.static('public'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Express session
@@ -39,11 +40,12 @@ app.use(function (req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/v1', routes);
+app.use(routes);
+
+app.get(error404);
 // ejs
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-app.use(error404);
 app.use(errorHandler);
 
 const startApp = async () => {

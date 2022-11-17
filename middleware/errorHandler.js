@@ -5,6 +5,7 @@ const errorHandler = (error, req, res, next) => {
       .status(error.statusCode)
       .json({ success: false, payload: error.message });
   }
+  // return res.status(500).render('Errors/serverError');
   return res.status(500).json({ payload: error.message });
 };
 

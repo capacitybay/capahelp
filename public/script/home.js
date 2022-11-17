@@ -6,3 +6,16 @@ function myFunction() {
     x.style.display = 'block';
   }
 }
+const toggleProfile = document.getElementById('toggleProfile');
+const getProfile = document.querySelector('.show-profile');
+const toggleNotification = document.getElementById('toggleNotification');
+const notification = document.querySelector('#notification');
+
+toggleProfile.addEventListener('click', (e) => {
+  getProfile.classList.toggle('toggle-profile');
+  toggleProfile.classList.toggle('a');
+});
+
+toggleNotification.addEventListener('click', (e) => {
+  notification.classList.toggle('toggle-notification');
+});

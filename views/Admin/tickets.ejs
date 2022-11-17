@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
+</head>
+
+<body>
+    <%- include("../partials/adminHeader.ejs") %>
+        <main>
+            <h1 class="h1_tickets">Tickets</h1><br>
+
+            <div class="info">
+                <div class="all h3" id="ticketsLink" data-url='/ticket/list'>
+                    <h3>All</h3>
+                </div>
+                <div class="all" id="activeTicketLink" data-url='/admin/ticket/list/active'>
+
+                    <h3>Active</h3>
+                </div>
+                <div class="all" id="cancelledTicketsLink" data-url='/admin/ticket/list/cancelled'>
+                    <h3>Cancelled</h3>
+                </div>
+                <div class="all" id="resolvedTicketsLink" data-url='/admin/ticket/list/resolved'>
+                    <h3>Resolved</h3>
+                </div>
+                <div class="all" id="inProgressTicketLink" data-url='/admin/ticket/list/inProgress'>
+                    <h3>In Progress</h3>
+                </div>
+                <div class="all" id="pendingTicketsLink" data-url='/admin/ticket/list/pending'>
+                    <h3>Pending</h3>
+                </div>
+            </div><br>
+            <% if(receivedTickets) {%>
+                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July" , "August"
+                    , "September" , "October" , "November" , "December" ]; %>
+                    <% receivedTickets.forEach((item,index)=>{ %>
+                        <% var d=item.createdAt.getDate(); var m=monthNames[item.createdAt.getMonth()]; var
+                            y=item.createdAt.getFullYear(); %>
+                            <div class="box">
+                                <div class="aside">
+                                    <div>
+                                        <h3 class="box_h1">EO</h3>
+                                    </div>
+
+                                    <div class="box_text">
+                                        <h3>
+                                            <%= item.title %>
+                                        </h3>
+                                        <h4>
+                                            <%= ticketOwners[index].first_name+" "+ticketOwners[index].last_name%>
+                                        </h4>
+                                        <h6>Created on <%= d+ " " +m+ " " +y %>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div class=" response">
+                                                <div class="box_status">
+                                                    <label for="">Status</label><br>
+                                                    <select name="" id="">
+                                                        <option value="">Active</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="box_prior">
+                                                    <label for="">Priority</label><br>
+                                                    <select name="" id="">
+                                                        <option value="">Low</option>
+                                                    </select>
+                                                </div>
+                                    </div>
+                                    <div class="box_btn">
+                                        <button id="button" data-ticket="<%= item._id %>">View
+                                            Ticket</button>
+                                    </div>
+
+                                </div> <br>
+
+                                <% }) %>
+                                    <% }else{ %>
+                                        <h1>qwerty</h1>
+                                        <% } %>
+
+
+        </main>
+        <script src="/public/script/ticket.js"></script>
+</body>
+
+</html>

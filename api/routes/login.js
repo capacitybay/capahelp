@@ -3,14 +3,15 @@ const UserModel = require('../../models/userModel');
 const { loginController } = require('../controllers');
 const { forwardAuthenticated } = require('../../middleware/auth');
 const passport = require('passport');
-const initializePassport = require('../../middleware/passportConfig');
+const initializePassport = require('../../auth/passportConfig');
 
 // console.log(loginController);
 initializePassport(
   passport,
   (email) => UserModel.findOne({ email: email }),
-  (id) => UserModel.find({ _id: id })
+  (id) => UserModel.findOne({ _id: id })
 );
+
 router.get('/login', forwardAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
@@ -18,8 +19,8 @@ router.post(
   '/login',
   forwardAuthenticated,
   passport.authenticate('local', {
-    successRedirect: '/api/v1/',
-    failureRedirect: '/api/v1/login',
+    successRedirect: '/admin/dashboard',
+    failureRedirect: '/login',
     failureFlash: true,
   })
 );

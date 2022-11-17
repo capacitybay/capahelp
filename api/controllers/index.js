@@ -8,6 +8,7 @@ const {
   deactivateUser,
   reactivateUser,
   adminCreateUser,
+  adminDashboard,
 } = require('./userController');
 
 const {
@@ -16,6 +17,11 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
+  activeTickets,
+  cancelledTickets,
+  inProgressTickets,
+  pendingTickets,
+  resolvedTickets,
 } = require('./ticketController');
 
 const {
@@ -58,4 +64,11 @@ module.exports = {
   addAgentToDept,
   adminCreateUser,
   refreshUserToken,
+  // admin dashboard
+  adminDashboard,
+  activeTickets,
+  cancelledTickets,
+  inProgressTickets,
+  pendingTickets,
+  resolvedTickets,
 };

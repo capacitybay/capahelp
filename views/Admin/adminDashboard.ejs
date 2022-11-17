@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/styles/Admin/adminDashboard.css">
+
+    <!-- <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- <script src="plotly-2.16.1.min.js"></script> -->
+</head>
+
+<%- include("../partials/adminHeader.ejs", {user:user}) %>
+    <div class="row">
+        <main>
+            <div class="top_section">
+                <div class="display">
+                    <h4>Active Tickets</h4>
+                    <h1 style="color: #93f9b9;" id="activeTickets">
+                        <%= activeTickets %>
+                    </h1>
+
+
+                </div>
+                <div class="display">
+                    <h4>Resolved Tickets</h4>
+                    <div class="ticket-wrapper">
+                        <h1 style="color: #1CA76C;" id="resolvedTickets">
+                            <%= resolvedTickets %>
+                        </h1>
+                        <div class="active-ticket">
+
+                            <img src="/public/img/ticket.png" alt="" width="66px" height="66px">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="display diff_display">
+                    <h4>Cancelled Tickets</h4>
+                    <div class="ticket-wrapper">
+                        <h1 style="color: #C00000;" id="cancelledTickets">
+                            <%= cancelledTickets %>
+                        </h1>
+                        <div class="active-ticket">
+
+                            <img src="/public/img/resolvedTicket.png" alt="" width="66px" height="66px">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="display ">
+                    <h4>Pending Tickets</h4>
+                    <h1 style="color: #D8AA04;" id="pendingTickets">
+                        <%= pendingTickets %>
+                    </h1>
+                </div>
+                <div class="display ">
+                    <h4>Tickets in Progress</h4>
+                    <h1 style="color: Coral;" id="ticketsInProgress">
+                        <%= ticketsInProgress %>
+                    </h1>
+                </div>
+                <div class="display">
+                    <h4>Active Customers</h4>
+                    <h1 style="color: #1CA76C;;" id="activeUsers">
+                        <%= activeUsers %>
+                    </h1>
+                </div>
+                <div class="display diff_display">
+                    <h4>Deactivated Customers</h4>
+                    <h1 style="color: #C00000;" id="deactivatedUsers">
+                        <%= deactivatedUsers %>
+                    </h1>
+                </div>
+                <div class="display">
+                    <h4>Total No. Customers</h4>
+                    <h1 style="color: Coral;" id="allUsers">
+                        <%= allUsers %>
+                    </h1>
+                </div>
+            </div><br>
+
+            <div class="bottom_section">
+                <div class="btm btm1">
+
+                    <canvas id="myChart" width="400" height="400"></canvas>
+
+                    <h1>Tickets</h1>
+
+                </div>
+                <div class="btm btm1">
+
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                    <h1>Customers </h1>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        const allUsers = parseInt(document.getElementById("allUsers").textContent);
+        const activeUsers = parseInt(document.getElementById("activeUsers").textContent);
+        const deactivatedUsers = parseInt(document.getElementById("deactivatedUsers").textContent);
+        const activeTickets = parseInt(document.getElementById("activeTickets").textContent);
+        const resolvedTickets = parseInt(document.getElementById("resolvedTickets").textContent);
+        const ticketsInProgress = parseInt(document.getElementById("ticketsInProgress").textContent);
+        const cancelledTickets = parseInt(document.getElementById("cancelledTickets").textContent);
+        const pendingTickets = parseInt(document.getElementById("pendingTickets").textContent);
+        console.log(allUsers)
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Canceled Tickets', 'Resolved Tickets', 'Active Tickets', 'Pending Tickets', 'Tickets in Progress'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [cancelledTickets, pendingTickets, resolvedTickets, ticketsInProgress, activeTickets],
+                    backgroundColor: [
+                        '#C00000',
+                        '#1CA76C',
+                        '#93f9b9',
+                        '#D8AA04',
+                        'Coral',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+
+            }
+        });
+
+        const cty = document.getElementById('myChart2').getContext('2d');
+
+        const myChart2 = new Chart(cty, {
+            type: 'pie',
+            data: {
+                labels: ['Active Customers', 'Deactivated Customers', 'Total No. Customers'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [activeUsers, deactivatedUsers, allUsers],
+                    backgroundColor: [
+                        '#1CA76C',
+                        '#C00000',
+                        'Coral'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+
+            }
+        });
+
+
+    </script>
+    </body>
+
+</html>
