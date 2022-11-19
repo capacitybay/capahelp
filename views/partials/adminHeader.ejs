@@ -18,13 +18,16 @@
     <header>
         <div class="row">
             <nav>
-                <img src="/public/img/logo.png" alt="capacitybay logo" width="80px" />
+                <a href='/'>
+
+                    <img src="/public/img/logo.png" alt="capacitybay logo" width="80px" />
+                </a>
 
                 <div class="con">
                     <ul class="nav-items">
-                        <li><a href="">Home</a></li>
+                        <li><a href="/admin/dashboard">Home</a></li>
                         <li><a href="">Customers</a></li>
-                        <li><a href="../ticket/list">Tickets</a></li>
+                        <li><a href="/admin/ticket/list">Tickets</a></li>
                     </ul>
 
                     <ul class="nav-cont">
@@ -65,30 +68,38 @@
                         </div>
                         <div class="bottom-section">
                             <div class="links">
-                                <p>Edit profile</p>
+                                <form action="#">
+                                    <button type="submit" class="custom-btn links">Edit profile</button>
+                                </form>
+                                <!-- <p></p> -->
 
                             </div>
                             <div class="links">
+                                <form action="/logout?_method=DELETE" method="POST">
+                                    <button type="submit" class="custom-btn links">Log Out</button>
+                                </form>
+                                <!-- <a href="/logout">
 
-                                <p>Logout</p>
+                                    <p>Logout</p>
+                                </a> -->
                             </div>
+                            </di v>
+                            <!-- </div> -->
                         </div>
-                        <!-- </div> -->
                     </div>
-                </div>
 
-                <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a class="box_font" href="#"><i class="fa-solid fa-user"><span>&nbsp; Emmanuel
-                                Onyenegbutu</span></i></a>
-                    <a href="#"><img src="../../roland_images/bell.png" alt=""></a><br>
-                    <a href="#">Home</a><br>
-                    <a href="#">Customer</a><br>
-                    <a href="#">Tickets</a><br>
-                </div>
-                <div id="main">
-                    <button class="openbtn" onclick="openNav()"><i class="fa-solid fa-bars"></i></button>
-                </div>
+                    <div id="mySidebar" class="sidebar">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <a class="box_font" href="#"><i class="fa-solid fa-user"><span>&nbsp; Emmanuel
+                                    Onyenegbutu</span></i></a>
+                        <a href="#"><img src="../../roland_images/bell.png" alt=""></a><br>
+                        <a href="#">Home</a><br>
+                        <a href="#">Customer</a><br>
+                        <a href="#">Tickets</a><br>
+                    </div>
+                    <div id="main">
+                        <button class="openbtn" onclick="openNav()"><i class="fa-solid fa-bars"></i></button>
+                    </div>
             </nav>
 
         </div>
