@@ -19,7 +19,7 @@
             <div class="top_section">
                 <div class="display">
                     <h4>Active Tickets</h4>
-                    <h1 style="color: #93f9b9;">
+                    <h1 style="color: #93f9b9;" id="activeTickets">
                         <%= activeTickets %>
                     </h1>
 
@@ -28,7 +28,7 @@
                 <div class="display">
                     <h4>Resolved Tickets</h4>
                     <div class="ticket-wrapper">
-                        <h1 style="color: #1CA76C;">
+                        <h1 style="color: #1CA76C;" id="resolvedTickets">
                             <%= resolvedTickets %>
                         </h1>
                         <div class="active-ticket">
@@ -41,43 +41,43 @@
                 <div class="display diff_display">
                     <h4>Cancelled Tickets</h4>
                     <div class="ticket-wrapper">
-                        <h1 style="color: #C00000;">
+                        <h1 style="color: #C00000;" id="cancelledTickets">
                             <%= cancelledTickets %>
                         </h1>
                         <div class="active-ticket">
 
-                            <img src="/public/img/resolvedTicket.png" alt="" width="66px" height="66px">
+                            <img src="/public/img/cancelTicket.png" alt="" width="66px" height="66px">
                         </div>
 
                     </div>
                 </div>
                 <div class="display ">
                     <h4>Pending Tickets</h4>
-                    <h1 style="color: #D8AA04;">
+                    <h1 style="color: #D8AA04;" id="pendingTickets">
                         <%= pendingTickets %>
                     </h1>
                 </div>
                 <div class="display ">
                     <h4>Tickets in Progress</h4>
-                    <h1 style="color: Coral;">
+                    <h1 style="color: Coral;" id="ticketsInProgress">
                         <%= ticketsInProgress %>
                     </h1>
                 </div>
                 <div class="display">
                     <h4>Active Customers</h4>
-                    <h1 style="color: #1CA76C;;">
+                    <h1 style="color: #1CA76C;;" id="activeUsers">
                         <%= activeUsers %>
                     </h1>
                 </div>
                 <div class="display diff_display">
                     <h4>Deactivated Customers</h4>
-                    <h1 style="color: #C00000;">
+                    <h1 style="color: #C00000;" id="deactivatedUsers">
                         <%= deactivatedUsers %>
                     </h1>
                 </div>
                 <div class="display">
                     <h4>Total No. Customers</h4>
-                    <h1 style="color: Coral;">
+                    <h1 style="color: Coral;" id="allUsers">
                         <%= allUsers %>
                     </h1>
                 </div>
@@ -102,8 +102,15 @@
 
 
     <script>
-
-
+        const allUsers = parseInt(document.getElementById("allUsers").textContent);
+        const activeUsers = parseInt(document.getElementById("activeUsers").textContent);
+        const deactivatedUsers = parseInt(document.getElementById("deactivatedUsers").textContent);
+        const activeTickets = parseInt(document.getElementById("activeTickets").textContent);
+        const resolvedTickets = parseInt(document.getElementById("resolvedTickets").textContent);
+        const ticketsInProgress = parseInt(document.getElementById("ticketsInProgress").textContent);
+        const cancelledTickets = parseInt(document.getElementById("cancelledTickets").textContent);
+        const pendingTickets = parseInt(document.getElementById("pendingTickets").textContent);
+        console.log(allUsers)
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -111,7 +118,7 @@
                 labels: ['Canceled Tickets', 'Resolved Tickets', 'Active Tickets', 'Pending Tickets', 'Tickets in Progress'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 10, 8],
+                    data: [cancelledTickets, pendingTickets, resolvedTickets, ticketsInProgress, activeTickets],
                     backgroundColor: [
                         '#C00000',
                         '#1CA76C',
@@ -135,7 +142,7 @@
                 labels: ['Active Customers', 'Deactivated Customers', 'Total No. Customers'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 3, 15],
+                    data: [activeUsers, deactivatedUsers, allUsers],
                     backgroundColor: [
                         '#1CA76C',
                         '#C00000',

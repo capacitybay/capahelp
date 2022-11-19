@@ -35,7 +35,11 @@ nav {
   justify-content: space-around;
   /* gap: 20px; */
 }
-
+.custom-btn {
+  border: none;
+  width: 100%;
+  background-color: #fff;
+}
 .nav-items {
   width: 50%;
   /* background-color: red; */

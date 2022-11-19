@@ -1,14 +1,15 @@
-/* body {
-  background-image: url('https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+body {
+  /* background-image: url('https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg'); */
+
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
   overflow: hidden;
-} */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .center {
   position: absolute;
   top: 50%;
@@ -17,6 +18,7 @@
   background: #fff;
   border-radius: 15px;
   width: 400px;
+  min-width: 380px;
   opacity: 0.9;
 }
 .center h1 {

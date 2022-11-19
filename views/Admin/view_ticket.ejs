@@ -5,76 +5,147 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="/public/styles/Admin/view_ticket.css">
-    <!-- <script src="../../ckeditor/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
+
 </head>
 
 <body>
-    <%- include("../partials/adminHeader.ejs") %>
-        <main>
-            <div class="job">
-                <section class="section1">
-                    <div>
-                        <h3><span style="color: #37A45C;">Tickets</span> > #CAPA-3</h3>
-                    </div>
-                    <div class="top">
-                        <h1>I want to create a Website</h1>
-                        <p>Created on Wednesday, 28 Sep 2022 9:05 PM</p>
-                        <span style="background-color: #FBE5AB; font-size: 12px;" class="span">Being Processed Since 1
-                            day ago</span>
-                    </div>
-                </section><br>
 
-                <section class="section2">
-                    <div class="part2 eo">
-                        <h1>EO</h1>
-                    </div>
-                    <div class="part2 section2_text">
-                        <div class="posted">
-                            <h1>Emmanuel Onyeagbutu</h1>
-                            <p>Posted 1 day ago</p>
+    <!-- Navbar set up  -->
+    <%- include( "../partials/adminHeader.ejs" ) %>
+
+        <!-- Main container starts  -->
+
+        <div class="row">
+            <section>
+
+                <div class="tick">
+                    <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
+                    </p>
+                    <div class="re-btn">Resolve</div>
+                </div>
+
+                <!-- Heading Section -->
+                <div class="title">
+                    <h1>
+                        <%= ticketOwner[0].first_name+ " " +ticketOwner[0].last_name%>
+                    </h1>
+                    <h3>Subject: <%= ticket.title %>
+                    </h3>
+                </div>
+                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July" , "August"
+                    , "September" , "October" , "November" , "December" ]; %>
+
+                    <% var d=ticket.createdAt.getDate(); var m=monthNames[ticket.createdAt.getMonth()]; var
+                        y=ticket.createdAt.getFullYear(); %>
+                        <div class="status">
+                            <p class="stat"><strong>Status:</strong>
+                                <%= ticket.ticket_status %>
+                            </p>
+                            <p class="date">Created on <%= d+ " " +m+ " " +y %>
+                            </p>
                         </div>
-                        <p>Hello CapacityBay Team</p><br>
-                        <p>I want to create a website for my Tea business known as "Mai Tea Herbals"</p>
-                        <p>1 attachment (Scanned for viruses)</p>
-                        <div class="mai-tea">
-                            <h1>Mai Tea Herbals Document.docx</h1>
-                            <p>(368.67KB)</p>
+                        <hr>
+
+                        <!-- Messages section Agent -->
+                        <div class="messages right">
+                            <div class="user_icon">
+                                <div class="icon">EO</div>
+                            </div>
+                            <div class="body-part">
+                                <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2>
+                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+                                <!-- Attachment Section -->
+                                <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                <div class="di">
+                                    <div class="filename">Mai Tea.Docx</div>
+                                    <div class="filesize">368.67KB</div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
-                </section><br>
 
-                <section class="section3">
-                    <div class="part2 eo">
-                        <h1>EO</h1>
-                    </div>
-                    <div class=" section2_text">
-                        <form>
-                            <label for="editor" style="font-weight: bold;">Reply</label><br>
-                            <textarea name="editor" id="editor" cols="60" rows="20">Text</textarea>
-                            <label style="font-size:15px;"><span style="color: #37A45C; font-weight: bold;">Attach a
-                                    File</span> <span>(File < 35mb)</span></label>
-                            <div class="submit-btn"><a href="">Submit</a></div>
+                        <!-- Messages section User -->
+                        <div class="messages left">
+
+                            <div class="body-part right">
+                                <h2><span>Posted 1 day ago</span> Emmanuel Onyenegbutu </h2>
+                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+                                <!-- Attachment Section -->
+                                <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                <div class="diwrapper">
+                                    <div class="di">
+                                        <div class="filename">Mai Tea.Docx</div>
+                                        <div class="filesize">368.67KB</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="user_icon">
+                                <div class="icon">EO</div>
+                            </div>
+                        </div>
+
+                        <div class="messages right">
+                            <div class="user_icon">
+                                <div class="icon">EO</div>
+                            </div>
+                            <div class="body-part">
+                                <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2>
+                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
+                                <!-- Attachment Section -->
+                                <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                <div class="di">
+                                    <div class="filename">Mai Tea.Docx</div>
+                                    <div class="filesize">368.67KB</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Reply Section -->
+                        <div class="reply">
+
+                            <div class="user_icon">
+                                <div class="icon">EO</div>
+                            </div>
+                            <div class="body-part">
+                                <h3>Reply</h3>
+
+                                <form action="#" id="sd">
+                                    <textarea class="text-area" name="editor" id="editor" rows="20"
+                                        placeholder="Please Input a Description"></textarea>
 
 
-                        </form>
+                                    <div class="file-upload">
+                                        <label for="myfile"><b style="color: green;">Attach a files:</b>&nbsp;&nbsp;
+                                            &nbsp;<small style="color:black;">(File size < 35MB)</small></label>
+                                        <input type="file" id="myfile" name="myfile" multiple><br><br>
+                                    </div>
 
-                    </div>
-                </section>
-            </div>
-        </main>
-        <script src="../../ckeditor/ckeditor.js"></script>
+
+                                    <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
+
+                                </form>
+
+                            </div>
+                        </div>
+
+
+            </section>
+        </div>
+
+        <!-- <img src="gif.svg" alt=""> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
         <script>
             CKEDITOR.replace("editor");
-        </script>
-</body>
 
-</html>
-<script src="../../ckeditor/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace("editor");
-</script>
+        </script>
 </body>
 
 </html>

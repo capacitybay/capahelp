@@ -1,19 +1,26 @@
 module.exports = {
   ensureAuthenticated: function (req, res, next) {
-    // console.log(req.isAuthenticated());
+    console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
       // console.log(req.user[0].user_type);
       return next();
     }
     req.flash('error_msg', 'Please log in ');
-    res.redirect('/login');
+    return res.redirect('/login');
   },
   forwardAuthenticated: function (req, res, next) {
-    if (!req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
       //   console.log(!req.isAuthenticated());
-      return next();
+      if (req.user[0].user_type === 3) {
+        return res.redirect('/admin/dashboard');
+      } else if (req.user[0].user_type === 1) {
+        // dev still in progress
+        return res.redirect('/');
+      } else {
+        return res.redirect('/user');
+      }
     }
-    res.redirect('/');
+    next();
   },
   // checks if user is admin
   isAdmin: function (req, res, next) {

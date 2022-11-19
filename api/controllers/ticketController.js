@@ -42,24 +42,34 @@ const createTicket = asyncWrapper(async (req, res) => {
 // gets a single ticket
 
 const getTicket = asyncWrapper(async (req, res, next) => {
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'You are not authenticated' });
+  // if (!req.user)
+  //   return res
+  //     .status(401)
+  //     .json({ success: false, payload: 'You are not authenticated' });
 
   //
-  if (req.user.user_type === 3) {
+  if (req.user[0].user_type === 3) {
     const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
-    // console.log(req.params);
     if (!ticket) return next(createCustomError('no ticket found!', 404));
-    res.status(200).json({ success: true, payload: ticket });
+
+    // let ticketOwners = [];
+
+    let ticketUser = await UserModel.find({
+      _id: ticket.customer_id,
+    });
+    console.log(ticketUser);
+
+    res.status(200).render('Admin/view_ticket', {
+      user: req.user[0],
+      ticket: ticket,
+      ticketOwner: ticketUser,
+    });
   } else {
     res.status(401).json({
       success: false,
       payload: 'you are not authorized to perform this operation ',
     });
   }
-  authenticateTokenauthenticateToken;
 
   // res.status(200).json('get ticket new route');
 
