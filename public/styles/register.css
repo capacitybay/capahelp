@@ -16,7 +16,7 @@
 
 body {
   display: flex;
-  height: 100vh;
+
   justify-content: center; /*center vertically */
   align-items: center; /* center horizontally */
   /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
