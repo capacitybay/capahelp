@@ -8,12 +8,16 @@
 
 header {
   background-color: #d1efcc;
+  /* background-color: red; */
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 }
 nav {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  /* background-color: blue; */
+  padding: 10px 0px;
+  position: relative;
 }
 .row {
   max-width: 1040px;
@@ -34,16 +38,16 @@ ul li {
   list-style: none;
 }
 ul li a {
-  font-size: 20px;
+  font-size: 1rem;
   color: black;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 550;
   padding: 15px;
   border-radius: 10px;
 }
 
 .bell {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .notification-slide {
   height: 20rem;
@@ -77,21 +81,32 @@ ul li a {
 }
 .show-profile {
   position: absolute;
-  width: 12rem;
+  width: 13.2rem;
   /* border: 1px solid blue; */
-  height: 8rem;
-  margin-left: calc(100% - 18rem);
-  margin-top: 14rem;
+  /* height: 8rem; */
+  right: 0;
+  bottom: -150%;
+  padding: 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* padding: 0 1rem; */
   padding-top: 1rem;
   z-index: 1000;
   display: none;
   transition: 0.8s;
-
   flex-direction: column;
   justify-content: space-between;
   background-color: #fff;
+  border-radius: 10px;
+}
+.show-profile::before{
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  top: -7px;
+  right: 20px;
+  transform: rotate(45deg);
 }
 .toggle-profile {
   display: flex;
@@ -102,8 +117,9 @@ ul li a {
   /* border: 1px solid red; */
   height: calc((8rem / 2) - 1rem);
   display: flex;
-  padding: 0 0.7rem;
+  /* padding: 0 0.7rem; */
   justify-content: space-between;
+  margin-bottom: 10px
 }
 .bottom-section {
   width: 100%;
