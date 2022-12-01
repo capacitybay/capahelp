@@ -46,6 +46,9 @@ main {
   grid-gap: 10px;
 }
 
+.chart-width {
+  width: 100%;
+}
 .btm {
   border: 1px solid #eee;
   border-radius: 10px;
@@ -54,7 +57,7 @@ main {
 }
 
 .btm h5 {
-  text-align: center;
+  /* text-align: center; */
 }
 .ticket-wrapper {
   display: flex;
@@ -62,7 +65,7 @@ main {
   align-items: flex-end;
   justify-content: space-between;
 }
-.active-ticket {
+.ticket-image {
   width: 66px;
   height: 66px;
 }
