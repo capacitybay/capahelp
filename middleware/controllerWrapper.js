@@ -1,3 +1,4 @@
+// this wraps all controller function (error handler)
 const controllerWrapper = (callback) => {
   return async (req, res, next) => {
     try {
