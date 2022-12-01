@@ -16,7 +16,7 @@
 
 body {
   display: flex;
-
+  /* height: 100vh; */
   justify-content: center; /*center vertically */
   align-items: center; /* center horizontally */
   /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
@@ -27,10 +27,11 @@ body {
   max-width: 700px;
   width: 100%;
   background: #fff;
-  padding: 12px 30px;
+  padding: 0 30px;
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* height: 100%; */
+  /* margin-top: 10rem; */
   position: relative;
 }
 .container .title {
@@ -38,6 +39,7 @@ body {
   font-weight: 500;
   position: relative;
   color: #199561;
+  margin-top: 1rem;
 }
 
 .container .title::before {

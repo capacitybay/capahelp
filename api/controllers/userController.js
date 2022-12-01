@@ -17,17 +17,68 @@ const RefreshTokenModel = require('../../models/refreshTokenModel');
 
 const adminDashboard = asyncWrapper(async (req, res) => {
   // console.log(req.user);
-  const activeTickets = await TicketModel.find({ ticket_status: 'active' });
-  const resolvedTickets = await TicketModel.find({
-    ticket_status: 'resolved',
+  const allTickets = await TicketModel.find();
+  let active = [],
+    pending = [],
+    resolved = [],
+    inProgress = [],
+    cancelled = [];
+
+  let urgent = [],
+    low = [],
+    high = [],
+    medium = [],
+    open = [];
+  // assigned and unassigned tickets
+  let assignedTickets = [],
+    unassignedTickets = [];
+
+  allTickets.forEach((element) => {
+    if (element.assignee_id) {
+      assignedTickets.push(element);
+    } else {
+      unassignedTickets.push(element);
+    }
   });
-  const cancelledTickets = await TicketModel.find({
-    ticket_status: 'cancelled',
+
+  const addElements = (array, element) => {
+    array.push(element);
+  };
+  allTickets.forEach((element, idx) => {
+    if (element.ticket_status === 'active') {
+      // console.log(element);
+      addElements(active, element);
+    } else if (element.ticket_status === 'pending') {
+      addElements(pending, element);
+    } else if (element.ticket_status === 'resolved') {
+      addElements(resolved, element);
+    } else if (element.ticket_status === 'in progress') {
+      addElements(inProgress, element);
+    } else if (element.ticket_status === 'cancelled') {
+      addElements(cancelled, element);
+    } else {
+      console.log(element);
+    }
   });
-  const pendingTickets = await TicketModel.find({ ticket_status: 'pending' });
-  const ticketsInProgress = await TicketModel.find({
-    ticket_status: 'in progress',
+
+  allTickets.forEach((element, idx) => {
+    if (element.priority === 'urgent') {
+      addElements(urgent, element);
+    } else if (element.priority === 'high') {
+      addElements(low, element);
+    } else if (element.priority === 'low') {
+      addElements(high, element);
+    } else if (element.priority === 'medium') {
+      addElements(medium, element);
+    } else if (element.priority === 'open') {
+      addElements(open, element);
+    } else {
+      console.log(element);
+    }
   });
+
+  console.log(allTickets);
+
   const activeUsers = await UserModel.find({
     $and: [{ active: true }, { user_type: 0 }],
   });
@@ -38,14 +89,25 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   // console.log(activeTickets.length);
   res.render('Admin/adminDashboard.ejs', {
     user: req.user[0],
-    activeTickets: activeTickets.length,
-    resolvedTickets: resolvedTickets.length,
-    cancelledTickets: cancelledTickets.length,
-    pendingTickets: pendingTickets.length,
-    ticketsInProgress: ticketsInProgress.length,
-    activeUsers: activeUsers.length,
-    deactivatedUsers: deactivatedUsers.length,
+    allTickets: allTickets,
+    activeTickets: active ? active.length : 0,
+    resolvedTickets: resolved ? resolved.length : 0,
+    cancelledTickets: cancelled ? cancelled.length : 0,
+    pendingTickets: pending ? pending.length : 0,
+    ticketsInProgress: inProgress ? inProgress.length : 0,
+    activeUsers: activeUsers ? activeUsers.length : 0,
+    deactivatedUsers: deactivatedUsers ? deactivatedUsers.length : 0,
     allUsers: allUsers.length,
+    allUsersData: allUsers ? allUsers : 0,
+
+    // ticket priority
+    urgentTicket: urgent ? urgent.length : 0,
+    highPriorityTicket: high ? high.length : 0,
+    mediumPriorityTicket: medium ? medium.length : 0,
+    openTickets: open ? open.length : 0,
+    // assigned and unassigned tickets
+    unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
+    assignedTickets: assignedTickets ? assignedTickets.length : 0,
   });
 });
 
@@ -89,7 +151,7 @@ const createUser = asyncWrapper(async (req, res) => {
     errors.push({ msg: 'password does not match' });
   }
   if (errors.length > 0) {
-    res.render('register', {
+    res.render('register.ejs', {
       errors,
       first_name,
       last_name,
@@ -135,7 +197,7 @@ const createUser = asyncWrapper(async (req, res) => {
       const newTokenStore = new RefreshTokenModel({
         user_id: savedUser._id,
       });
-      const createTokenStore = await newTokenStore.save();
+      // sets message to connect flash
       req.flash('success_msg', 'Registration Successful, you can now login');
       res.redirect('/login');
     }
@@ -157,42 +219,74 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
   // checks if payload was sent or checks if th user is logged in
 
   const validateData = { first_name, last_name, email, phone, password };
+  let errors = [];
   const { error } = registerValidation(validateData);
   // checks if the validation return error
-  if (error)
-    if (password != confirmPassword)
-      return res
-        .status(400)
-        .json({ success: false, payload: 'password does not match' });
-  if (!error) {
-    const getUser = await UserModel.findOne({ email: email });
-    if (getUser) return res.status(409).json('user already exists');
-
-    // hashes user password before storing it
-
-    const encryptedPassword = await hashedPassword(password);
-    // create new document
-    const userRole = user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
-    console.log(userRole);
-    const newUser = new UserModel({
+  if (error) {
+    errors.push({ msg: error.message });
+  }
+  if (password != confirmPassword) {
+    errors.push({ msg: 'password does not match' });
+  }
+  if (errors.length > 0) {
+    res.render('Admin/register.ejs', {
+      errors,
       first_name,
       last_name,
       email,
-      password: encryptedPassword,
       phone,
+      password,
+      confirmPassword,
       location,
-      user_type: userRole,
     });
+  } else {
+    // if (!error) {
+    const getUser = await UserModel.findOne({ email: email });
+    if (getUser) {
+      errors.push({ msg: 'user already exists' });
+      res.render('register.ejs', {
+        errors,
+        first_name,
+        last_name,
+        email,
+        phone,
+        password,
+        confirmPassword,
+        location,
+      });
+    } else {
+      // hashes user password before storing it
 
-    // save user to database
-    const savedUser = await newUser.save();
-    // sends response to the frontend
-    res.status(200).json({
-      success: true,
-      payload: savedUser,
-    });
+      const encryptedPassword = await hashedPassword(password);
+      // create new document
+      const userRole =
+        user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
+      console.log(userRole);
+      const newUser = new UserModel({
+        first_name,
+        last_name,
+        email,
+        password: encryptedPassword,
+        phone,
+        location,
+        user_type: userRole,
+      });
+
+      // save user to database
+      const savedUser = await newUser.save();
+      // sends response to the frontend
+
+      req.flash('success_msg', 'Registration Successful, user can now login');
+      res.redirect('/admin/dashboard');
+
+      res.status(200).json({
+        success: true,
+        payload: savedUser,
+      });
+    }
+
+    // }
   }
-
   // console.log(CustomerModel);
 });
 
