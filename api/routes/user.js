@@ -17,6 +17,7 @@ const {
   ensureAuthenticated,
   isAdmin,
 } = require('../../middleware/auth');
+const { render } = require('ejs');
 router.get('/user/register', (req, res) => {
   return res.render('register', {
     message: null,
@@ -48,7 +49,10 @@ router.get('/admin/dashboard', isAdmin, adminDashboard);
 // router.post('/user/create', adminCreateUser);
 
 // gets all user (admin route)
-router.get('/user/list', getUser);
+router.get('/admin/manage/users', isAdmin, getUser);
+// router.get('/admin/manage/user', (req, res) => {
+//   res.render('Admin/users');
+// });
 
 // gets a user(admin route)
 router.get('/user/view/:userId', authenticateToken, viewUser);

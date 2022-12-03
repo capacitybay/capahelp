@@ -28,6 +28,8 @@
                         <li><a href="/admin/dashboard">Home</a></li>
                         <li><a href="">Customers</a></li>
                         <li><a href="/admin/ticket/list">Tickets</a></li>
+                        <li><a href="/admin/manage/users">Users</a></li>
+                        <li><a href="/admin/ticket/list">Departments</a></li>
                     </ul>
 
                     <ul class="nav-cont">
@@ -59,10 +61,10 @@
 
                             </div>
                             <div class="profile-name">
-
+                                <!-- remove this in production -->
                                 <p>
-                                    <%= user.first_name %>
-                                        <%= user.last_name %>
+                                    <%= user ? user.first_name: "System" %>
+                                        <%= user ? user.last_name : "User" %>
                                 </p>
                             </div>
                         </div>

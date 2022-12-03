@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/styles/Admin/users.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+
+
+</head>
+
+<body>
+    <div>
+        <%- include("../partials/adminHeader.ejs",{user:undefined}) %>
+    </div>
+    <main>
+        <div class="d-flex justify-content-center">
+
+            <div class="table-desc">
+
+                <h1 class="text-center">User Management</h1>
+            </div>
+        </div>
+
+        <div class="filter-users">
+            <form action="/filter/users" class="filter-form">
+                <div>
+                    <label for="email">By Email</label>
+                    <input type="email" id="email" name="email" class="txt_field">
+                </div>
+
+                <div>
+                    <label for="role">By Role</label>
+                    <select name="user-type" class="select_field" id="role">
+                        <div class="options">
+
+                            <option value="admin">Admin</option>
+                            <option value="agent">Agent</option>
+                            <option value="agent">User</option>
+                        </div>
+                    </select>
+                </div>
+                <div>
+                    <label for="date">By Date</label>
+                    <input type="date" id="date" name="date" class="date_field">
+                </div>
+
+                <button class="search_button"><i class="fa-brands fa-searchengin"></i> <span>Filter</span></button>
+            </form>
+        </div>
+        <div class="add-user">
+            <h4>All System Users</h4>
+
+            <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
+        </div>
+        <%- include("../partials/usersTable.ejs") %>
+
+
+
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+    <!-- table -->
+
+
+</body>
+
+</html>
