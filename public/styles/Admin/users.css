@@ -8,9 +8,6 @@
   box-sizing: border-box;
 }
 
-body {
-  font-size: 10px;
-}
 .edit {
   color: #25be64;
 }
@@ -25,12 +22,11 @@ body {
   position: sticky;
   top: 0;
 }
-.action-icons {
+.action-icons .dt-cont {
   display: flex;
-  justify-content: space-between;
-  border: none;
+  justify-content: space-around;
 }
-.action-icons > i {
+.action-icons .dt-cont > i {
   cursor: pointer;
 }
 .d-flex {
@@ -48,13 +44,15 @@ body {
 }
 
 /* Page Wrapper/Container Style */
-.container {
+.table-container {
   width: 100%;
   /* max-width: 1140px;
   margin: 0 auto;
   padding: 0 15px; */
   margin-top: 20px;
-  width: 600px;
+  /* width: 600px; */
+  padding: 0 15px;
+  border-left: 1px solid #dadde4;
   height: 500px;
   overflow: auto;
   top: 0;
@@ -187,8 +185,8 @@ body {
 /* Status Indicator Style */
 .status-indicator {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: #222222;
   margin-right: 0.5rem;
@@ -230,12 +228,14 @@ table {
 .table td {
   font-weight: normal;
   font-size: 12px;
-  padding: 8px 15px;
-  line-height: 20px;
+  /* min-width: 100px; */
+  padding: 8px 10px;
+  /* line-height: 20px; */
   text-align: left;
   vertical-align: middle;
   border-top: 1px solid #dddddd;
 }
+
 .table thead th {
   background: #eeeeee;
   vertical-align: bottom;

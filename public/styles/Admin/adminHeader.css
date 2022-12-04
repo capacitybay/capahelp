@@ -41,7 +41,7 @@ nav {
   background-color: #fff;
 }
 .nav-items {
-  width: 50%;
+  width: 80%;
   /* background-color: red; */
   display: flex;
   justify-content: space-around;
@@ -239,7 +239,7 @@ a {
     width: 80%;
   }
   .con {
-    width: 80%;
+    width: 100%;
   }
   .nav-cont img {
     /* width: 20%; */
