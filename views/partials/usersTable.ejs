@@ -1,8 +1,8 @@
-<section id="bootstrap-overrides">
+<section>
 
 
 
-    <div class="container table-responsive">
+    <div class="table-container table-responsive">
 
         <table class="table table-borderless table-hover">
             <thead class="th-cont " style="position: sticky;top: 0;">
@@ -54,8 +54,12 @@
                             <td>
                                 <%= element.createdAt ? element.createdAt :"Sun Nov 13 2022 21:57:27 GMT+0100" %>
                             </td>
-                            <td class="action-icons"><i class="fa-solid fa-pen-to-square edit "></i> <i
-                                    class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
+                            <td class="action-icons">
+                                <div class="td-cont">
+
+                                    <i class="fa-solid fa-pen-to-square edit "></i> <i
+                                        class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
+                                </div>
                             </td>
                         </tr>
 
