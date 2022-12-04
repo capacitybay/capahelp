@@ -1,0 +1,59 @@
+<section>
+
+    <div class="table-container table-responsive py-5">
+        <table class="table table-bordered table-hover">
+            <thead class="">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Head Agent</th>
+                    <th scope="col">Dept Email</th>
+                    <th scope="col">No. of Members</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% if(departments){ %>
+
+                    <% departments.forEach((element,idx)=>{ %>
+                        <tr>
+                            <th scope="row">
+                                <%= ++idx %>
+                            </th>
+                            <td>
+                                <%= element.dept_name %>
+                            </td>
+                            <td>
+                                <%= element.head_agent %>
+                            </td>
+                            <td>
+                                <%= element.email %>
+                            </td>
+                            <td>
+                                <%= element.members.length %>
+                            </td>
+                            <td>
+                                <%= element.createdAt %>
+                            </td>
+                            <td class="action-icons">
+                                <div class="dt-cont">
+
+                                    <i class="fa-solid fa-pen-to-square edit "></i> <i
+                                        class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
+                                    <p></p>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } %>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    </main>
+</section>
