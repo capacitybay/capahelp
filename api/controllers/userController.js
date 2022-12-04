@@ -295,16 +295,18 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
 const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
   console.log(loggedUser);
-  if (!loggedUser)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'you are not authenticated!' });
-  if (loggedUser.user_type === 3) {
+  // if (!loggedUser)
+  //   return res
+  //     .status(401)
+  //     .json({ success: false, payload: 'you are not authenticated!' });
+  if (loggedUser[0].user_type === 3) {
     const getUsers = await UserModel.find({}, { password: 0 });
     if (!getUsers) return next(createCustomError('no user found', 404));
-    res
-      .status(200)
-      .json({ success: true, payload: getUsers, hits: getUsers.length });
+    res.render('Admin/users', {
+      users: getUsers,
+    });
+    // .status(200)
+    // .json({ success: true, payload: getUsers, hits: getUsers.length });
   } else {
     next(
       createCustomError(
