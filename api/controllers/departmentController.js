@@ -51,20 +51,20 @@ const createDepartment = asyncWrapper(async (req, res) => {
 const getDepartment = asyncWrapper(async (req, res) => {
   // verifies if the user is authenticated
   verifyUser(req, res);
-  if (req.user.user_type !== 3)
-    return res.status(403).json({
-      success: false,
-      payload: 'you are not authorized to access this resource',
-    });
+  // if (req.user[0].user_type !== 3)
+  //   return res.status(403).json({
+  //     success: false,
+  //     payload: 'you are not authorized to access this resource',
+  //   });
   const getAllDept = await DepartmentModel.find();
   if (!getAllDept)
     return res
       .status(404)
       .json({ success: false, payload: 'No department found' });
   // sends response to frontend
-  res
-    .status(200)
-    .json({ success: true, payload: getAllDept, hits: getAllDept.length });
+  console.log(getAllDept);
+  res.render('Admin/departments', { departments: getAllDept });
+  // .json({ success: true, payload: getAllDept, hits: getAllDept.length });
 });
 
 // get a  department with its id
