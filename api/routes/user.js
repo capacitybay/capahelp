@@ -36,6 +36,9 @@ router.get('/admin/register', (req, res) => {
 router.post('/user/register', createUser);
 // admin route
 router.post('/admin/register', adminCreateUser);
+router.get('/admin/register', (req, res) => {
+  res.render('Admin/adminCreateUser');
+});
 router.get('/user/profile/edit', (req, res) => {
   res.render('User/editProfile');
 });
