@@ -31,6 +31,50 @@
                 <h1 class="text-center">User Management</h1>
             </div>
         </div>
+        <section class="card-section">
+            <div id="root">
+                <div class="container pt-5">
+                    <div class="row align-items-stretch">
+                        <div class="c-dashboardInfo col-lg-3 col-md-6">
+                            <div class="wrap">
+                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                    Total Users<i class="fa-solid fa-users margin-icon"></i></h4><span
+                                    class="hind-font caption-12 c-dashboardInfo__count">10,500</span>
+                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+
+                            </div>
+                        </div>
+                        <div class="c-dashboardInfo col-lg-3 col-md-6">
+                            <div class="wrap">
+                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">No.
+                                    Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
+                                    class="hind-font caption-12 c-dashboardInfo__count">500</span><span
+                                    class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: -30</span>
+                            </div>
+                        </div>
+                        <div class="c-dashboardInfo col-lg-3 col-md-6">
+                            <div class="wrap">
+                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                    No. Of Clients<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
+                                    class="hind-font caption-12 c-dashboardInfo__count">5000</span>
+                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+
+                            </div>
+                        </div>
+                        <div class="c-dashboardInfo col-lg-3 col-md-6">
+                            <div class="wrap">
+                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">No
+                                    Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
+                                    class="hind-font caption-12 c-dashboardInfo__count">6,40%</span>
+                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <div class="filter-users">
             <form action="/filter/users" class="filter-form">
@@ -60,8 +104,11 @@
         </div>
         <div class="add-user">
             <h4>All System Users</h4>
+            <form action="/admin/register" method="get">
 
-            <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
+
+                <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
+            </form>
         </div>
         <%- include("../partials/usersTable.ejs") %>
 
