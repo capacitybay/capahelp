@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Create Ticket</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/hamburger.js"></script>
+</head>
+
+<body>
+    <main class="ticket-main create-main">
+        <%- include("../partials/User/userHeader.ejs")%>
+            <div class="hero solution-hero ticket-hero">
+                <p class="solutions-top ticket-top">
+                    <span><a href="./index.html">Home</a></span> > <a href="./create.html">Create a Ticket</a>
+                </p>
+                <h1 class="hero-title create-title">Create a Ticket</h1>
+                <form>
+                    <div class="form-box">
+                        <label for="email">Customer email <span>*</span></label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-box">
+                        <label for="title">Title <span>*</span></label>
+                        <input type="text" id="title">
+                    </div>
+                    <div class="form-box">
+                        <label for="priority">Priority</label>
+                        <select name="priority" id="priority">
+                            <option value="normal">Normal</option>
+                            <option value="low">Low</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-box">
+                        <label for="description">Description <span>*</span></label>
+                        <textarea id="description" rows="5"></textarea>
+                    </div>
+                    <div class="form-box file-box">
+                        <label class="file-label" for="file">Attach a file</label>
+                        <p>(File size < 35mb)</p>
+                                <input type="file" id="file" class="file">
+                    </div>
+                    <div class="hero-toggles create-toggles">
+                        <div class="view">
+                            Cancel
+                        </div>
+                        <div class="create">
+                            <a>Submit</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </main>
+</body>
+
+</html>

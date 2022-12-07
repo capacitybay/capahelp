@@ -9,6 +9,7 @@ const {
   reactivateUser,
   adminCreateUser,
   adminDashboard,
+  filterUsers,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
 
@@ -18,6 +19,7 @@ const {
   isAdmin,
 } = require('../../middleware/auth');
 const { render } = require('ejs');
+const userModel = require('../../models/userModel');
 router.get('/user/register', (req, res) => {
   return res.render('register', {
     message: null,
@@ -34,6 +36,7 @@ router.get('/admin/register', (req, res) => {
   // return
 });
 router.post('/user/register', createUser);
+router.post('/filter/users', filterUsers);
 // admin route
 router.post('/admin/register', adminCreateUser);
 router.get('/admin/register', (req, res) => {
@@ -43,7 +46,7 @@ router.get('/user/profile/edit', (req, res) => {
   res.render('User/editProfile');
 });
 // solutions
-router.get('/user/solution', (req, res) => {
+router.get('/user/solutions', (req, res) => {
   res.render('User/solutions.ejs');
 });
 // function get
@@ -61,7 +64,16 @@ router.get('/admin/manage/users', isAdmin, getUser);
 router.get('/user/view/:userId', authenticateToken, viewUser);
 
 // update a user (admin route)
-router.patch('/user/update/:userId', updateUser);
+router.get('/admin/update/user', async (req, res) => {
+  const user = await userModel.find({ first_name: 'Mikel' });
+  console.log(user);
+  res.render('Admin/editUser', { user: user[0] });
+});
+// router.patch('/user/update/:userId', updateUser);
+
+router.get('/user/update/profile', (req, res) => {
+  res.render('User/editProfile');
+});
 // delete a user
 router.delete('/user/delete/:userId', authenticateToken, deleteUser);
 router.put('/user/deactivate/:userId', authenticateToken, deactivateUser);

@@ -58,7 +58,8 @@
                             <td class="action-icons">
                                 <div class="td-cont">
 
-                                    <i class="fa-solid fa-pen-to-square edit "></i> <i
+                                    <i onclick="window.location.href='/admin/update/user'"
+                                        class="fa-solid fa-pen-to-square edit " id="editProfile"></i> <i
                                         class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
                                 </div>
                             </td>
@@ -73,4 +74,12 @@
     </div>
 
     </main>
+    <script>
+        document.getElementById("editProfile").addEventListener("click", function (event) {
+            let value = event.target
+            console.log(value)
+        })
+
+
+    </script>
 </section>
