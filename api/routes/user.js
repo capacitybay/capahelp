@@ -11,14 +11,13 @@ const {
   adminDashboard,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
-// const asyncWrapper = require('../../middleware/controllerWrapper');
-// const TicketModel = require('../../models/ticketModel');
-// const UserModel = require('../../models/userModel');
+
 const {
   forwardAuthenticated,
   ensureAuthenticated,
   isAdmin,
 } = require('../../middleware/auth');
+const { render } = require('ejs');
 router.get('/user/register', (req, res) => {
   return res.render('register', {
     message: null,
@@ -35,8 +34,11 @@ router.get('/admin/register', (req, res) => {
   // return
 });
 router.post('/user/register', createUser);
-
+// admin route
 router.post('/admin/register', adminCreateUser);
+router.get('/admin/register', (req, res) => {
+  res.render('Admin/adminCreateUser');
+});
 router.get('/user/profile/edit', (req, res) => {
   res.render('User/editProfile');
 });
@@ -50,7 +52,10 @@ router.get('/admin/dashboard', isAdmin, adminDashboard);
 // router.post('/user/create', adminCreateUser);
 
 // gets all user (admin route)
-router.get('/user/list', getUser);
+router.get('/admin/manage/users', isAdmin, getUser);
+// router.get('/admin/manage/user', (req, res) => {
+//   res.render('Admin/users');
+// });
 
 // gets a user(admin route)
 router.get('/user/view/:userId', authenticateToken, viewUser);

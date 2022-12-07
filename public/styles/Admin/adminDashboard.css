@@ -14,6 +14,23 @@ body {
   max-width: 1500px;
   width: 95%;
   margin: 30px auto;
+  /* margin-top: 20rem; */
+}
+.divider {
+}
+.d-flex {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #585c64;
+}
+.table-desc {
+  margin-top: 2rem;
+  /* padding: 1rem 4rem; */
+  border-radius: 1rem;
+  /* font-size: 1rem; */
+  /* border: 1px solid blue; */
+
+  /* box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px; */
 }
 main {
   padding: 10px;
@@ -46,6 +63,9 @@ main {
   grid-gap: 10px;
 }
 
+.chart-width {
+  width: 100%;
+}
 .btm {
   border: 1px solid #eee;
   border-radius: 10px;
@@ -54,7 +74,7 @@ main {
 }
 
 .btm h5 {
-  text-align: center;
+  /* text-align: center; */
 }
 .ticket-wrapper {
   display: flex;
@@ -62,7 +82,7 @@ main {
   align-items: flex-end;
   justify-content: space-between;
 }
-.active-ticket {
+.ticket-image {
   width: 66px;
   height: 66px;
 }

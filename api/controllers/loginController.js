@@ -18,21 +18,10 @@ initializePassport(
   (id) => UserModel.find({ _id: id })
 );
 
-let refreshTokenStore = [];
+
 
 const loginController = controllerWrapper(async (req, res, next) => {
-  // console.log(req.body);
-  // send request data to the validation function
-  // const { error } = loginValidation(req.body);
-  // checks if error occurred during the validation process
-  // if (error)
-  //   return res.status(400).render('login.ejs', { message: error.message });
-  // passport.authenticate('local', {
-  //   successRedirect: '/api/v1/',
-  //   failureRedirect: '/api/v1/login',
-  //   failureFlash: true,
-  // });
-  // res.render('login.ejs', { message: ' Invalid login credentials!' });
+  // not working for now
 });
 
 const generateJwtAccessToken = (user) => {
@@ -60,6 +49,7 @@ const generateJwtRefreshToken = (user) => {
   );
 };
 
+// not working
 const refreshUserToken = (req, res) => {
   // console.log('.........');
 

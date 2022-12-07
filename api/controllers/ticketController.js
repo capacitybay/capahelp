@@ -142,6 +142,7 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
   }
 });
 
+// admin controllers
 const listTicket = asyncWrapper(async (req, res) => {
   const checkTickets = (tickets, ticketOwners, role) => {
     if (!tickets) {
@@ -179,10 +180,10 @@ const listTicket = asyncWrapper(async (req, res) => {
   };
 
   // checks is user is authenticated
-  verifyUser(req, res);
+  // verifyUser(req, res);
 
   const { id, user_type } = req.user[0];
-  // console.log(req.user[0]);
+  
   if (user_type === 3) {
     let ticketOwners = [];
     const tickets = await TicketModel.find();

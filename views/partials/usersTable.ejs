@@ -1,0 +1,76 @@
+<section>
+
+
+
+    <div class="table-container table-responsive scrollbar-custom " id="style-2">
+
+        <table class="table table-border table-hover">
+            <thead class="th-cont  " style="position: sticky;top: 0;">
+
+                <tr>
+                    <th class="table-header" scope="col">#</th>
+                    <th class="table-header" scope="col">Name</th>
+                    <th class="table-header" scope="col">Role</th>
+                    <th class="table-header" scope="col">Status</th>
+                    <th class="table-header" scope="col">Email</th>
+                    <th class="table-header" scope="col">Phone</th>
+                    <th class="table-header" scope="col">Country</th>
+                    <th class="table-header" scope="col">Registered</th>
+                    <th class="table-header" scope="col">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% if(users) {%>
+                    <% users.forEach((element,idx)=>{ %>
+
+                        <tr>
+                            <th scope="row">
+                                <%= idx %>
+                            </th>
+                            <td class="no-wrap">
+                                <!-- <%- include("../partials/avatar.ejs") %> -->
+                                <%= element.first_name+" "+element.last_name  %>
+
+                            </td>
+                            <!-- <td>
+                                <%=  %>
+                            </td> -->
+                            <td>
+                                <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
+                            </td>
+                            <td class="status no-wrap"><span
+                                    class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
+                                <%= element.active ?"Active": "inactive" %>
+                            </td>
+                            <td>
+                                <%= element.email %>
+                            </td>
+                            <td class="no-wrap">
+                                <%= element.phone ? element.phone: "+133 934465654" %>
+                            </td>
+                            <td>
+                                <%= element.location %>
+                            </td>
+                            <td>
+                                <%= element.createdAt ? element.createdAt :"Sun Nov 13 2022 21:57:27 GMT+0100" %>
+                            </td>
+                            <td class="action-icons">
+                                <div class="td-cont">
+
+                                    <i class="fa-solid fa-pen-to-square edit "></i> <i
+                                        class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <% }) %>
+                            <% } %>
+
+
+            </tbody>
+        </table>
+    </div>
+
+    </main>
+</section>

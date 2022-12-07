@@ -17,3 +17,19 @@ toggleProfile.addEventListener('click', (e) => {
   getProfile.classList.toggle('toggle-profile');
   toggleProfile.classList.toggle('a');
 });
+
+// sticky header
+window.onscroll = function () {
+  myFunction();
+};
+
+var navbar = document.getElementById('navbar');
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add('sticky');
+  } else {
+    navbar.classList.remove('sticky');
+  }
+}

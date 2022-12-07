@@ -14,8 +14,17 @@
 </head>
 
 <%- include("../partials/adminHeader.ejs", {user:user}) %>
-    <div class="row">
-        <main>
+    <main>
+        <div class="row">
+
+            <div class="d-flex justify-content-center">
+
+                <div class="table-desc">
+
+                    <h1 class="text-center">Dashboard</h1>
+                </div>
+            </div>
+
             <div class="top_section">
                 <div class="display">
                     <h4>Active Tickets</h4>
@@ -31,7 +40,7 @@
                         <h1 style="color: #1CA76C;" id="resolvedTickets">
                             <%= resolvedTickets %>
                         </h1>
-                        <div class="active-ticket">
+                        <div class="ticket-image">
 
                             <img src="/public/img/ticket.png" alt="" width="66px" height="66px">
                         </div>
@@ -44,7 +53,7 @@
                         <h1 style="color: #C00000;" id="cancelledTickets">
                             <%= cancelledTickets %>
                         </h1>
-                        <div class="active-ticket">
+                        <div class="ticket-imaget">
 
                             <img src="/public/img/cancelTicket.png" alt="" width="66px" height="66px">
                         </div>
@@ -65,21 +74,43 @@
                 </div>
                 <div class="display">
                     <h4>Active Customers</h4>
-                    <h1 style="color: #1CA76C;;" id="activeUsers">
-                        <%= activeUsers %>
-                    </h1>
+                    <div class="ticket-wrapper">
+
+                        <h1 style="color: #1CA76C;;" id="activeUsers">
+                            <%= activeUsers %>
+                        </h1>
+                        <div class="ticket-image">
+
+                            <img src="/public/img/group-active.png" alt="" width="66px" height="66px">
+                        </div>
+                    </div>
                 </div>
                 <div class="display diff_display">
                     <h4>Deactivated Customers</h4>
-                    <h1 style="color: #C00000;" id="deactivatedUsers">
-                        <%= deactivatedUsers %>
-                    </h1>
+                    <div class="ticket-wrapper">
+
+                        <h1 style="color: #C00000;" id="deactivatedUsers">
+                            <%= deactivatedUsers %>
+                        </h1>
+                        <div class="ticket-image">
+
+                            <img src="/public/img/user-groups-deleted.png" alt="" width="66px" height="66px">
+                        </div>
+                    </div>
                 </div>
                 <div class="display">
                     <h4>Total No. Customers</h4>
-                    <h1 style="color: Coral;" id="allUsers">
-                        <%= allUsers %>
-                    </h1>
+                    <div class="ticket-wrapper">
+
+                        <h1 style="color: Coral;" id="allUsers">
+                            <%= allUsers %>
+                        </h1>
+                        <div class="ticket-image">
+
+                            <img src="/public/img/group.png" alt="" width="66px" height="66px">
+                        </div>
+                    </div>
+
                 </div>
             </div><br>
 
@@ -88,16 +119,41 @@
 
                     <canvas id="myChart" width="400" height="400"></canvas>
 
-                    <h1>Tickets</h1>
+                    <h5>Tickets</h5>
+
+                </div>
+                <!-- ticket priority -->
+                <div class="btm btm1">
+
+                    <canvas id="myChart1" width="400" height="400"></canvas>
+                    <h5>Ticket Priority</h5>
+
+
+                </div>
+
+                <div class="btm btm1">
+
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                    <h5>Customers </h5>
+                </div>
+
+                <!-- ticket priority -->
+                <div class="btm chart-width">
+
+                    <canvas id="myChart3" width="400" height="400"></canvas>
+                    <h5>Ticket State</h5>
+
 
                 </div>
                 <div class="btm btm1">
 
-                    <canvas id="myChart2" width="400" height="400"></canvas>
-                    <h1>Customers </h1>
+                    <canvas id="myChart4" width="100%" height="400"></canvas>
+                    <h5>Users Statistics</h5>
+
+
                 </div>
             </div>
-        </main>
+    </main>
     </div>
 
 
@@ -111,6 +167,7 @@
         const cancelledTickets = parseInt(document.getElementById("cancelledTickets").textContent);
         const pendingTickets = parseInt(document.getElementById("pendingTickets").textContent);
         console.log(allUsers)
+
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -126,11 +183,38 @@
                         '#D8AA04',
                         'Coral',
                     ],
-                    borderWidth: 1
+                    borderWidth: 2,
+                    hoverOffset: 4,
+
                 }]
             },
             options: {
+                aspectRatio: 2,
+            }
+        });
 
+        const ctx1 = document.getElementById('myChart1').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Urgent Tickets', 'High Priority Tickets', 'Medium Priority Tickets', 'Open Tickets',],
+                datasets: [{
+                    label: '# of Votes',
+                    data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(highPriorityTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>'],
+                    backgroundColor: [
+                        '#C00000',
+                        '#1CA76C',
+                        '#93f9b9',
+                        '#D8AA04',
+                        'Coral',
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 4,
+
+                }]
+            },
+            options: {
+                aspectRatio: 2,
             }
         });
 
@@ -148,15 +232,168 @@
                         '#C00000',
                         'Coral'
                     ],
+                    borderWidth: 2,
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                aspectRatio: 2
+            },
+
+        });
+
+        const ctx3 = document.getElementById('myChart3').getContext('2d');
+        const myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Assigned Tickets', 'Unassigned Tickets'],
+                datasets: [{
+                    label: 'Ticket State',
+
+                    data: ['<%- JSON.stringify(unassignedTickets) %>', '<%- JSON.stringify(assignedTickets) %>'],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
                     borderWidth: 1
                 }]
             },
             options: {
-
+                aspectRatio: 2,
             }
         });
+        const ctx4 = document.getElementById('myChart4').getContext('2d');
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+        const userData = '<%- JSON.stringify( allUsersData) %> '
+        const parsedData = JSON.parse(userData)
+        let createdAt = []
+        let January = 0, February = 0, March = 0, April = 0, May = 0, June = 0, July = 0, August = 0, September = 0, October = 0, November = 0, December = 0
+        parsedData.forEach((element) => {
+            if (element.createdAt) {
+                let month = labels[new Date(element.createdAt).getMonth()]
+                if (month === labels[0]) {
+                    January++;
+                }
+                else if (month === labels[1]) {
+                    February++
+                }
+                else if (month === labels[2]) {
+                    March++
+                }
+                else if (month === labels[3]) {
+                    April++
+                }
+                else if (month === labels[4]) {
+                    May++
+                }
+                else if (month === labels[5]) {
+                    June++
+                }
+                else if (month === labels[6]) {
+                    July++
+                }
+                else if (month === labels[7]) {
+                    August++
+                }
+                else if (month === labels[8]) {
+                    September++
+                }
+                else if (month === labels[9]) {
+                    October++
+                }
+                else if (month === labels[10]) {
+                    November++
+                }
+                else if (month === labels[11]) {
+                    December++
+                }
+            }
+        })
 
-
+        const myChart4 = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Users Dataset',
+                    data: [January,
+                        February,
+                        March,
+                        April,
+                        May,
+                        June,
+                        July,
+                        August,
+                        September,
+                        October,
+                        November,
+                        December],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                aspectRatio: 2,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'No. of Users'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month Registered'
+                        }
+                    }
+                }
+            }
+        });
     </script>
     </body>
 

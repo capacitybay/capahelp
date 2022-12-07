@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script src="https://kit.fontawesome.com/9f1f230ebc.js" crossorigin="anonymous"></script>
 </head>
 
@@ -17,17 +18,19 @@
 
     <header>
         <div class="row">
-            <nav>
+            <nav id="navbar">
                 <a href='/'>
 
-                    <img src="/public/img/logo.png" alt="capacitybay logo" width="80px" />
+                    <img src="/public/img/logo.png" alt="capacitybay logo" width="70px" height="70px" />
                 </a>
 
                 <div class="con">
                     <ul class="nav-items">
-                        <li><a href="/admin/dashboard">Home</a></li>
-                        <li><a href="">Customers</a></li>
+                        <li><a href="/admin/dashboard">Dashboard</a></li>
+
                         <li><a href="/admin/ticket/list">Tickets</a></li>
+                        <li><a href="/admin/manage/users">Users</a></li>
+                        <li><a href="/admin/manage/department">Departments</a></li>
                     </ul>
 
                     <ul class="nav-cont">
@@ -59,10 +62,10 @@
 
                             </div>
                             <div class="profile-name">
-
+                                <!-- remove this in production -->
                                 <p>
-                                    <%= user.first_name %>
-                                        <%= user.last_name %>
+                                    <%= user ? user.first_name: "System" %>
+                                        <%= user ? user.last_name : "User" %>
                                 </p>
                             </div>
                         </div>
@@ -105,7 +108,7 @@
         </div>
     </header>
 
-    <script src="/public/script/adminHeader.js"></script>
+    <script src="/public/script/adminHeader.js">   </script>
 </body>
 
 </html>

@@ -9,7 +9,11 @@ const {
   removeAgentFromDepartment,
 } = require('../controllers');
 
-router.get('/department/list', authenticateToken, getDepartment);
+const { isAdmin } = require('../../middleware/auth');
+router.get('/admin/manage/department', isAdmin, getDepartment);
+// router.get('/admin/department/list', (req, res) => {
+//   res.render('Admin/departments');
+// });
 router.post('/department/create', authenticateToken, createDepartment);
 router.patch('/department/update/:deptId', authenticateToken, updateDepartment);
 router.delete(
@@ -17,6 +21,9 @@ router.delete(
   authenticateToken,
   deleteDepartment
 );
+router.get('/footer', (req, res) => {
+  res.render('partials/footer');
+});
 router.get('/department/view/:deptId', authenticateToken, viewDepartment);
 router.put(
   '/department/remove_agent/:deptId',
