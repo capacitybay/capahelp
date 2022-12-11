@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Tickets</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="./images/CapacityBay-Logo1.png">
+    <!-- separate css files -->
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <!-- tickets css -->
+    <link rel="stylesheet" href="/public/styles/User/tickets.css">
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/tickets.js"></script>
+    <script defer src="/public/script/User/hamburger.js"></script>
+</head>
+
+<body>
+    <main class="ticket-main">
+        <%- include("../partials/User/userHeader.ejs") %>
+
+            <div class="hero solution-hero ticket-hero">
+                <p class="solutions-top ticket-top">
+                    <span><a href="/user">Home</a></span> > <a href="/user/tickets">Tickets</a>
+                </p>
+                <div class="ticket-toggles">
+                    <div class="all active-ticket">all</div>
+                    <div class="active">active</div>
+                    <div class="canceled">canceled</div>
+                    <div class="resolved">resolved</div>
+                    <div class="progress">In Progress</div>
+                    <div class="pending">Pending</div>
+                </div>
+                <div class="ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="dashboard">
+                    <div class="track">
+                        <div class="ids">
+                            <div class="ids-top">
+                                <h1>I want to Create a Website-</h1>
+                                <p>TickedId: 2</p>
+                            </div>
+                            <div class="ids-bottom">
+                                Created on Thu, 22 Sep 2022 9:05PM
+                            </div>
+                        </div>
+                        <div class="track-info yellow">In Progress</div>
+                    </div>
+                    <div class="track">
+                        <div class="ids">
+                            <div class="ids-top">
+                                <h1>I need Help with Install... - </h1>
+                                <p>TicketId: 4</p>
+                            </div>
+                            <div class="ids-bottom">
+                                Created on Web, 28 Sep 2022 2:30PM
+                            </div>
+                        </div>
+                        <div class="track-info green">Resolved</div>
+                    </div>
+                    <div class="track">
+                        <div class="ids">
+                            <div class="ids-top">
+                                <h1>I need Help with configure... </h1>
+                                <p>TicketId: 8</p>
+                            </div>
+                            <div class="ids-bottom">
+                                Created on Tue, 27 Sep 2022 5:30PM
+                            </div>
+                        </div>
+                        <div class="track-info yellow">Planning</div>
+                    </div>
+                    <div class="track">
+                        <div class="ids">
+                            <div class="ids-top">
+                                <h1>I want to Create a Website-</h1>
+                                <p>TicketId: 12</p>
+                            </div>
+                            <div class="ids-bottom">
+                                Created on Mon, 26 Sep 2022 8:10PM
+                            </div>
+                        </div>
+                        <div class="track-info pink">Canceled</div>
+                    </div>
+                </div>
+            </div>
+    </main>
+</body>
+
+</html>
