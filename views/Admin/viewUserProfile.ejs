@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Profile</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/Admin/viewUserProfile.css">
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+
+    <script defer src="/public/script/Admin/hanburger.js"></script>
+
+
+</head>
+
+<body>
+    <main class="ticket-main create-main login-main">
+        <header class="solution-header">
+            <div class="logo">
+                <a href="/admin/dashboard">
+                    <img src="/public/img/logo.png" alt="CapacityBay-Logo1">
+                </a>
+            </div>
+            <nav>
+                <div class="main-navigation">
+                    <ul>
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./solutions.html">Solutions</a></li>
+                        <li><a href="./tickets.html">Tickets</a></li>
+                    </ul>
+                </div>
+                <div class="details">
+                    <i class="fa-regular fa-bell"></i>
+                    <div class="user">
+                        <p class="clickable-user">EO</p>
+                        <div class="user-details">
+                            <div class="username">
+                                <p class="clickable-user clickable2">EO</p>
+                                <div class="username-info">Emmanuel Onyenegbutu</div>
+                            </div>
+                            <div class="username-info info1">
+                                <a href="./profile.html">Edit Profile</a>
+                            </div>
+                            <div class="username-info info2"><a href="./index.html">Logout</a></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="hamburger">
+                <div class="ham"></div>
+                <div class="ham"></div>
+                <div class="ham"></div>
+            </div>
+        </header>
+        <div class="hero solution-hero ticket-hero customer-hero2">
+            <div class="title-container">
+                <h2 class="customer-title customer-title2">Customer's Profile</h2>
+            </div>
+            <div class="error-plane">
+
+                <%- include("../partials/messages.ejs",{user:userData});%>
+            </div>
+            <input type="hidden" id="userId" name="userId" value="<%= userData._id%> ">
+            <div class="edit-div">
+                <div>
+                    <h1 class="hero-title profile-title profile-title2">
+                        <%= userData.first_name %> <br>
+                            <%= userData.last_name %>
+                    </h1>
+                </div>
+                <div>
+                    <p class="clickable-user clickable2 profile-clickable">
+                        <%= userData? userData.first_name.charAt(0).toUpperCase() + "" +
+                            userData.last_name.charAt(0).toUpperCase():"EO" %>
+                    </p>
+                </div>
+            </div>
+            <form class="profile-form">
+                <div class="form-box profile-form-box">
+                    <div class="form-div user-form-div">
+                        <label for="firstname">First Name</label>
+                        <input type="text" id="firstname" value="<%= userData.first_name %>" readonly>
+                    </div>
+                    <div class="form-div user-form-div">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" id="lastname" value="<%= userData.last_name %>" readonly>
+                    </div>
+                </div>
+                <div class="form-box profile-form-box">
+                    <div class="form-div user-form-div">
+                        <label for="profile-email">Email</label>
+                        <input type="email" id="profile-email" value="<%= userData.email %>" readonly>
+                    </div>
+                    <div class="form-div user-form-div">
+                        <label for="phone">Phone Number</label>
+                        <input type="number" id="phone" value="<%= userData.phone %> " readonly>
+                    </div>
+                </div>
+                <div class="form-box profile-form-box profile-form-box2">
+                    <div class="form-div user-form-div">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" value="<%= userData.location %> " readonly>
+                    </div>
+                </div>
+                <div class="hero-toggles create-toggles profile-password deactivate-toggle-container">
+                    <div class="view password-view deactivate-toggle" id="actionButton">
+                        <%= userData.active ? "Deactivate User" :"Activate User" %>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+
+    <script>
+        async function request(action) {
+            const data = await fetch(`/user/${action}/${userId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+            })
+            document.location.reload()
+
+
+        }
+        var actionButton = document.getElementById("actionButton");
+        var userId = document.getElementById("userId").value.trim();
+        //console.log(actionButton.textContent.trim().toLocaleLowerCase());
+        //console.log(userId.value.trim())
+        actionButton.addEventListener("click", (event) => {
+
+            if (actionButton.textContent.trim().toLocaleLowerCase() === "deactivate user") {
+                request("deactivate")
+                //   window.location.href = `/user/deactivate/${userId}`;
+
+            } else {
+                request("reactivate")
+
+                //window.location.href = `/user/reactivate/${userId}`;
+
+            }
+        })
+    </script>
+</body>
+
+</html>
