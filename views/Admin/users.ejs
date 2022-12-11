@@ -13,10 +13,16 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
     <!-- footer styles and icons -->
     <link rel="stylesheet" href="/public/styles/footer.css">
+    <link rel="stylesheet" href="/public/styles/Admin/userTable.css">
+    <!-- user table javascript file -->
+    <script defer src="/public/script/Admin/userTable.js"></script>
 
+    <!-- fontawesome cdn link -->
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
-
-
+    <!-- jquery cdn  link -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <!-- styling for userTable partial -->
 </head>
 
 <body>
@@ -77,7 +83,7 @@
 
 
         <div class="filter-users">
-            <form action="/filter/users" class="filter-form">
+            <form action="/filter/users/" class="filter-form" method="post">
                 <div>
                     <label for="email">By Email</label>
                     <input type="email" id="email" name="email" class="txt_field">
@@ -90,16 +96,18 @@
 
                             <option value="admin">Admin</option>
                             <option value="agent">Agent</option>
-                            <option value="agent">User</option>
+                            <option value="user">User</option>
                         </div>
                     </select>
                 </div>
                 <div>
-                    <label for="date">By Date</label>
-                    <input type="date" id="date" name="date" class="date_field">
+                    <label for="country">By Date</label>
+                    <input type="text" id="country" name="country" class="txt_field">
                 </div>
+                <div>
 
-                <button class="search_button"><i class="fa-brands fa-searchengin"></i> <span>Filter</span></button>
+                    <button class="search_button"><i class="fa-brands fa-searchengin"></i> <span>Filter</span></button>
+                </div>
             </form>
         </div>
         <div class="add-user">
@@ -110,7 +118,9 @@
                 <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
             </form>
         </div>
+
         <%- include("../partials/usersTable.ejs") %>
+
 
 
 

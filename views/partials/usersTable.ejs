@@ -29,13 +29,11 @@
                                 <%= idx %>
                             </th>
                             <td class="no-wrap">
-                                <!-- <%- include("../partials/avatar.ejs") %> -->
+
                                 <%= element.first_name+" "+element.last_name  %>
 
                             </td>
-                            <!-- <td>
-                                <%=  %>
-                            </td> -->
+                        
                             <td>
                                 <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
                             </td>
