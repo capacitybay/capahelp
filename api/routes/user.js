@@ -39,6 +39,7 @@ router.post('/user/register', createUser);
 router.post('/filter/users', filterUsers);
 // admin route
 router.post('/admin/register', adminCreateUser);
+
 router.get('/admin/register', (req, res) => {
   res.render('Admin/adminCreateUser');
 });
@@ -77,11 +78,11 @@ router.get('/admin/update/user/:userId', async (req, res) => {
   console.log('user-------------------');
   res.render('Admin/editUser', { user: user[0] });
 });
-// router.patch('/user/update/:userId', updateUser);
+router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
 // strictly for none admins
-router.get('/user/update/profile', (req, res) => {
-  res.render('User/editProfile');
-});
+// router.get('/user/update/profile', (req, res) => {
+//   res.render('User/editProfile');
+// });
 // delete a user
 router.delete('/user/delete/:userId', authenticateToken, deleteUser);
 router.patch('/user/deactivate/:userId', isAdmin, deactivateUser);
@@ -91,3 +92,21 @@ module.exports = router;
 /**
  *
  */
+
+//  document.getElementById("button").addEventListener("click", function (event) {
+//   const urlString = location.href;
+//   //event.preventDefault()
+//   const userId = urlString.split("/").slice(-1).toString()
+//   const requestData = {
+//       first_name,
+//       last_name,
+//       email,
+//       phone: phone.value,
+//       gender: gender.value,
+//       role: role.value,
+//       state: state.value,
+//       location: country.value
+//   }
+//   request("update", userId, requestData)
+
+// })

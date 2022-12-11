@@ -378,57 +378,151 @@ res.send()
 
 const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
-  const { first_name, last_name, email, phone, location, gender } = req.body;
-  console.log('req.user');
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'you are not authenticated' });
-  const { id, user_type } = req.user;
-  const userId = req.params.userId;
-  if (userId === id || user_type === 3) {
+  const { first_name, last_name, email, phone, location, gender, state, role } =
+    req.body;
+  console.log('qwertyuiop');
+  console.log(
+    first_name,
+    last_name,
+    email,
+    phone,
+    location,
+    gender,
+    state,
+    role,
+    req.params.userId
+  );
+  const { id, user_type } = req.user[0];
+  // const userId = req.params.userId;
+  if (user_type === 3) {
     const validateData = {
       first_name,
       last_name,
       email,
       phone,
-      location,
-      gender,
     };
-    console.log('validateData');
+
+    let errors = [];
+
     const { error } = updateUserValidation(validateData);
-    console.log('error');
-    if (error)
-      return res.status(400).json({ success: false, payload: error.message });
 
-    const findUser = await UserModel.findOne({ email: email });
+    if (error) {
+      errors.push({ msg: error.message });
+    }
+    console.log('ooooooooooooooooooooo0');
 
-    if (findUser)
-      return res
-        .status(400)
-        .json(`you can't use this email  ${email}, please try another email `);
-    // updates the user
-    const updatedUser = await UserModel.updateOne(
-      { _id: req.params.userId },
-      {
+    if (errors.length > 0) {
+      console.log(
+        errors,
         first_name,
         last_name,
         email,
         phone,
         location,
         gender,
-      }
-    );
-    if (updatedUser.acknowledged) {
-      res.status(200).json({
-        success: true,
-        payload: updatedUser,
+        state,
+        req.params
+      );
+      console.log('ooooooooooooooooooooo1');
+
+      res.render('Admin/editUser.ejs', {
+        errors,
+        first_name,
+        last_name,
+        email,
+        phone,
+        location,
+        gender,
+        state,
+        user: undefined,
+        id: req.params.userId,
       });
+    } else {
+      // Password123*
+
+      const findUser = await UserModel.findOne({ email: email });
+
+      if (findUser) {
+        console.log('ooooooooooooooooooooo3');
+
+        console.log('...........qwerty.........');
+        errors.push({
+          msg: `you can't use this email  ${email}, please try another email`,
+        });
+        res.render('Admin/editUser.ejs', {
+          errors,
+          first_name,
+          last_name,
+          email,
+          phone,
+          location,
+          gender,
+          state,
+          user: undefined,
+          id: req.params.userId,
+        });
+
+        // return res.status(400).json(` `);
+      } else {
+        // updates the user
+        const convertStateToBool = state === 'activate' ? true : false;
+        const convertRole = role === 'admin' ? 3 : role === 'agent' ? 2 : 0;
+        const updatedUser = await UserModel.findOneAndUpdate(
+          { _id: req.params.userId },
+          {
+            first_name,
+            last_name,
+            email,
+            phone,
+            location,
+            gender,
+            active: convertStateToBool,
+            user_type: convertRole,
+          },
+          { new: true }
+        );
+        console.log(updatedUser);
+        if (updatedUser) {
+          req.flash('error_msg', 'Account Has been updated!');
+
+          res.status(200).render('Admin/editUser', {
+            user: undefined,
+            first_name: updatedUser.first_name,
+            last_name: updatedUser.last_name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            location: updatedUser.location,
+            gender: updatedUser ? updatedUser.gender : '',
+            id: updatedUser._id,
+          });
+        } else {
+          req.flash('error_msg', ` OOps!, something went wrong`);
+          res.render('Admin/editUser', {
+            user: undefined,
+            first_name: updatedUser.first_name,
+            last_name: updatedUser.last_name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            location: updatedUser.location,
+            gender: updatedUser ? updatedUser.gender : '',
+            id: updatedUser._id,
+          });
+        }
+      }
     }
   } else {
-    res.status(400).json({
-      success: false,
-      payload: 'you are not authorized to update this customer ',
+    // TODO work on this
+
+    req.flash('error_msg', ` you are not authorized to update this customer `);
+    res.render('Admin/editUser', {
+      user: undefined,
+      first_name: updatedUser.first_name,
+      last_name: updatedUser.last_name,
+      email: updatedUser.email,
+      phone: updatedUser.phone,
+      location: updatedUser.location,
+      gender: updatedUser ? updatedUser.gender : '',
+      id: updatedUser._id,
     });
   }
 });
