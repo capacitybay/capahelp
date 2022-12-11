@@ -9,6 +9,7 @@ const {
   reactivateUser,
   adminCreateUser,
   adminDashboard,
+  filterUsers,
 } = require('./userController');
 
 const {
@@ -33,7 +34,7 @@ const {
   removeAgentFromDepartment,
 } = require('./departmentController');
 const resetPassword = require('./resetPasswordController');
-// console.log(resetPassword);
+
 const addAgentToDept = require('./manageAgentDept');
 module.exports = {
   loginController,
@@ -46,6 +47,7 @@ module.exports = {
   // customer
   createUser,
   getUser,
+  filterUsers,
   updateUser,
   viewUser,
   deleteUser,

@@ -10,15 +10,13 @@ body {
   background-color: #f6f6f6;
 }
 
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
-}
-.sticky + .content {
-  padding-top: 60px;
-}
+} */
+
 /* Header Styling */
 header {
   width: 100%;
@@ -31,7 +29,7 @@ header {
   width: 100%;
   margin: 0 auto;
   position: relative;
-  margin-bottom: 8rem;
+  /* margin-bottom: 8rem; */
 }
 .header_img {
   width: 6%;
@@ -175,7 +173,7 @@ nav {
   /* border: 1px solid blue; */
   height: 8rem;
   margin-left: calc(100% - 18rem);
-  margin-top: 6rem;
+  margin-top: 5rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* padding: 0 1rem; */
   padding-top: 0.5rem;

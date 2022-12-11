@@ -14,7 +14,6 @@ const notification = document.querySelector('#notification');
 toggleProfile.addEventListener('click', (e) => {
   getProfile.classList.toggle('toggle-profile');
   toggleProfile.classList.toggle('a');
-  console.log(e.target)
 });
 
 toggleNotification.addEventListener('click', (e) => {
