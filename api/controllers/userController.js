@@ -290,11 +290,28 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
   // console.log(CustomerModel);
 });
 
+const filterUsersTable = async (arg1, arg2, arg3) => {
+  // default single
+  const filteredTwo = [];
+  const filteredByAnArg = [];
+  if (arg1 || arg2 || arg3) {
+    filteredTwo = await UserModel.find({
+      $and: [{ arg1: arg1 }, { arg2: arg2 }, { arg3: arg3 }],
+    });
+  } else if (arg1 & (arg3 === undefined) & (arg2 === undefined)) {
+    filteredByAnArg = await UserModel.find({ arg1: arg1 });
+  }
+};
+
+const filterUsers = asyncWrapper(async (req, res) => {
+  console.log(req.body);
+});
 // get all user  : this  can only be done by the admin
 
 const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
-  console.log(loggedUser);
+  // filterUsersTable();
+  // console.log(loggedUser);
   // if (!loggedUser)
   //   return res
   //     .status(401)
@@ -316,6 +333,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
     );
   }
 });
+
 // get a user controller
 
 const viewUser = asyncWrapper(async (req, res, next) => {
@@ -360,7 +378,7 @@ res.send()
 
 const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
-  const { first_name, last_name, email, phone, location } = req.body;
+  const { first_name, last_name, email, phone, location, gender } = req.body;
   console.log('req.user');
   if (!req.user)
     return res
@@ -369,7 +387,14 @@ const updateUser = asyncWrapper(async (req, res, next) => {
   const { id, user_type } = req.user;
   const userId = req.params.userId;
   if (userId === id || user_type === 3) {
-    const validateData = { first_name, last_name, email, phone };
+    const validateData = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      location,
+      gender,
+    };
     console.log('validateData');
     const { error } = updateUserValidation(validateData);
     console.log('error');
@@ -377,7 +402,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
       return res.status(400).json({ success: false, payload: error.message });
 
     const findUser = await UserModel.findOne({ email: email });
-    console.log('findUser');
+
     if (findUser)
       return res
         .status(400)
@@ -391,6 +416,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
         email,
         phone,
         location,
+        gender,
       }
     );
     if (updatedUser.acknowledged) {
@@ -409,23 +435,33 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 // deactivate user
 
 const deactivateUser = asyncWrapper(async (req, res) => {
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id && req.user.user_type === 3) {
-    const blockUser = await UserModel.updateOne(
+  // if (!req.user)
+  //   return res
+  //     .status(401)
+  //     .json({ success: false, payload: 'you are not authenticated' });
+
+  if (req.user[0].user_type === 3) {
+    const blockUser = await UserModel.findOneAndUpdate(
       { _id: req.params.userId },
       {
         active: false,
-      }
+      },
+      { new: true }
     );
+    // Password123*
+    // console.log(blockUser);
+    if (blockUser) {
+      // console.log('yeeeee');
+      req.flash(
+        'success_msg',
+        ` ${blockUser.first_name.toUpperCase()} ${blockUser.last_name.toUpperCase()}'s Account  Deactivated!`
+      );
 
-    if (blockUser.acknowledged) {
-      res.status(200).json({
-        success: true,
-        payload: blockUser,
-      });
+      // res.redirect(`view/user/profile/${blockUser.email}`);
+
+      res.status(200).render(`Admin/viewUserProfile`, { userData: blockUser });
+    } else {
+      // this will return an error dialog
     }
   } else {
     res.status(401).json({
@@ -437,23 +473,29 @@ const deactivateUser = asyncWrapper(async (req, res) => {
 // delete user
 
 const reactivateUser = asyncWrapper(async (req, res) => {
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id && req.user.user_type === 3) {
-    const activateUser = await UserModel.updateOne(
+  console.log(req.params.userId);
+  if (req.user[0].user_type === 3) {
+    const activateUser = await UserModel.findOneAndUpdate(
       { _id: req.params.userId },
       {
         active: true,
-      }
+      },
+      { new: true }
     );
 
-    if (activateUser.acknowledged) {
-      res.status(200).json({
-        success: true,
-        payload: activateUser,
-      });
+    if (activateUser) {
+      console.log('yeeeee');
+
+      req.flash(
+        'success_msg',
+        ` ${activateUser.first_name.toUpperCase()} ${activateUser.last_name.toUpperCase()}'s Account  Activated!`
+      );
+
+      res
+        .status(200)
+        .render(`Admin/viewUserProfile`, { userData: activateUser });
+    } else {
+      // this will return an error dialog if error occurred
     }
   } else {
     res.status(401).json({
@@ -493,4 +535,5 @@ module.exports = {
   reactivateUser,
   adminCreateUser,
   adminDashboard,
+  filterUsers,
 };
