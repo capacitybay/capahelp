@@ -76,7 +76,7 @@ router.get('/view/user/profile/:email', async (req, res) => {
 router.get('/admin/update/user/:userId', async (req, res) => {
   const user = await userModel.find({ _id: req.params.userId });
   console.log('user-------------------');
-  res.render('Admin/editUser', { user: user[0] });
+  res.render('Admin/editUser', { user: user[0], feedback: false });
 });
 router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
 // strictly for none admins

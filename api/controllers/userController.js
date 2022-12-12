@@ -57,7 +57,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     } else if (element.ticket_status === 'cancelled') {
       addElements(cancelled, element);
     } else {
-      console.log(element);
+      // console.log(element);
     }
   });
 
@@ -73,11 +73,11 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     } else if (element.priority === 'open') {
       addElements(open, element);
     } else {
-      console.log(element);
+      // console.log(element);
     }
   });
 
-  console.log(allTickets);
+  // console.log(allTickets);
 
   const activeUsers = await UserModel.find({
     $and: [{ active: true }, { user_type: 0 }],
@@ -261,7 +261,6 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
       // create new document
       const userRole =
         user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
-      console.log(userRole);
       const newUser = new UserModel({
         first_name,
         last_name,
@@ -303,9 +302,7 @@ const filterUsersTable = async (arg1, arg2, arg3) => {
   }
 };
 
-const filterUsers = asyncWrapper(async (req, res) => {
-  console.log(req.body);
-});
+const filterUsers = asyncWrapper(async (req, res) => {});
 // get all user  : this  can only be done by the admin
 
 const getUser = asyncWrapper(async (req, res, next) => {
@@ -380,18 +377,8 @@ const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
   const { first_name, last_name, email, phone, location, gender, state, role } =
     req.body;
-  console.log('qwertyuiop');
-  console.log(
-    first_name,
-    last_name,
-    email,
-    phone,
-    location,
-    gender,
-    state,
-    role,
-    req.params.userId
-  );
+  // console.log('qwertyuiop');
+
   const { id, user_type } = req.user[0];
   // const userId = req.params.userId;
   if (user_type === 3) {
@@ -436,6 +423,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
         state,
         user: undefined,
         id: req.params.userId,
+        feedback: false,
       });
     } else {
       // Password123*
@@ -460,13 +448,14 @@ const updateUser = asyncWrapper(async (req, res, next) => {
           state,
           user: undefined,
           id: req.params.userId,
+          feedback: false,
         });
 
         // return res.status(400).json(` `);
       } else {
         // updates the user
         const convertStateToBool = state === 'activate' ? true : false;
-        const convertRole = role === 'admin' ? 3 : role === 'agent' ? 2 : 0;
+        const convertRole = role === 'admin' ? 3 : role === 'agent' ? 1 : 0;
         const updatedUser = await UserModel.findOneAndUpdate(
           { _id: req.params.userId },
           {
@@ -483,10 +472,10 @@ const updateUser = asyncWrapper(async (req, res, next) => {
         );
         console.log(updatedUser);
         if (updatedUser) {
-          req.flash('error_msg', 'Account Has been updated!');
+          // req.flash('success_msg', 'Account Has been updated!');
 
           res.status(200).render('Admin/editUser', {
-            user: undefined,
+            user: updatedUser,
             first_name: updatedUser.first_name,
             last_name: updatedUser.last_name,
             email: updatedUser.email,
@@ -494,6 +483,10 @@ const updateUser = asyncWrapper(async (req, res, next) => {
             location: updatedUser.location,
             gender: updatedUser ? updatedUser.gender : '',
             id: updatedUser._id,
+            feedback: {
+              updated: true,
+              msg: 'Account Has been updated!',
+            },
           });
         } else {
           req.flash('error_msg', ` OOps!, something went wrong`);
@@ -506,12 +499,13 @@ const updateUser = asyncWrapper(async (req, res, next) => {
             location: updatedUser.location,
             gender: updatedUser ? updatedUser.gender : '',
             id: updatedUser._id,
+            feedback: false,
           });
         }
       }
     }
   } else {
-    // TODO work on this
+    // TODO: work on this
 
     req.flash('error_msg', ` you are not authorized to update this customer `);
     res.render('Admin/editUser', {
@@ -523,6 +517,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
       location: updatedUser.location,
       gender: updatedUser ? updatedUser.gender : '',
       id: updatedUser._id,
+      feedback: false,
     });
   }
 });
