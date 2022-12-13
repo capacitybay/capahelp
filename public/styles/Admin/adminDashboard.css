@@ -5,15 +5,19 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  /* outline: #383e38 solid 2px; */
 }
 body {
   background-color: #eee;
 }
 
+/* .content {
+  padding-top: 60px;
+} */
 .row {
   max-width: 1500px;
   width: 95%;
-  margin: 30px auto;
+  margin: 0 auto;
   /* margin-top: 20rem; */
 }
 .divider {

@@ -8,7 +8,8 @@
             <thead class="th-cont  " style="position: sticky;top: 0;">
 
                 <tr>
-                    <th class="table-header" scope="col">#</th>
+                    <th class="t
+                    able-header" scope="col">#</th>
                     <th class="table-header" scope="col">Name</th>
                     <th class="table-header" scope="col">Role</th>
                     <th class="table-header" scope="col">Status</th>
@@ -20,57 +21,193 @@
 
                 </tr>
             </thead>
-            <tbody>
-                <% if(users) {%>
-                    <% users.forEach((element,idx)=>{ %>
 
-                        <tr>
-                            <th scope="row">
-                                <%= idx %>
-                            </th>
-                            <td class="no-wrap">
-                                <!-- <%- include("../partials/avatar.ejs") %> -->
-                                <%= element.first_name+" "+element.last_name  %>
+
+    </div>
+    </div>
+    <tbody id="getTableData">
+
+        <% if(users) {%>
+            <% users.forEach((element,idx)=>{ %>
+
+                <tr id="getE">
+                    <th scope="row">
+                        <%= idx %>
+                    </th>
+                    <input type="hidden" name="userId" id="userId" value="<%= element._id %> ">
+                    <td class="no-wrap">
+                        <!-- <%- include("../partials/avatar.ejs") %> -->
+                        <%= element.first_name+" "+element.last_name  %>
 
                             </td>
                             <!-- <td>
-                                <%=  %>
+                                
                             </td> -->
                             <td>
                                 <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
-                            </td>
-                            <td class="status no-wrap"><span
-                                    class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
-                                <%= element.active ?"Active": "inactive" %>
-                            </td>
-                            <td>
-                                <%= element.email %>
-                            </td>
-                            <td class="no-wrap">
-                                <%= element.phone ? element.phone: "+133 934465654" %>
-                            </td>
-                            <td>
-                                <%= element.location %>
-                            </td>
-                            <td>
-                                <%= element.createdAt ? element.createdAt :"Sun Nov 13 2022 21:57:27 GMT+0100" %>
-                            </td>
-                            <td class="action-icons">
-                                <div class="td-cont">
+                    </td>
+                    <td class="status no-wrap"><span
+                            class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
+                        <%= element.active ?"Active": "inactive" %>
+                    </td>
+                    <td id="email-data">
+                        <%= element.email %>
+                    </td>
+                    <td class="no-wrap">
+                        <%= element.phone ? element.phone: "+133 934465654" %>
+                    </td>
+                    <td>
+                        <%= element.location %>
+                    </td>
+                    <td>
+                        <%= element.createdAt ? element.createdAt :"Sun Nov 13 2022 21:57:27 GMT+0100" %>
+                    </td>
+                    <td class="action-icons">
+                        <div class="td-cont">
 
-                                    <i class="fa-solid fa-pen-to-square edit "></i> <i
-                                        class="fa-regular fa-eye view"></i> <i class="fa-solid fa-trash trash"></i>
+                            <i class="fa-solid fa-pen-to-square edit call-to-action"></i>
+
+                            <i class="fa-regular fa-eye view call-to-action"></i>
+
+                            <a href="#" data-toggle="modal" data-target="#basicModal"><i
+                                    class="fa-solid fa-trash trash call-to-action">
+
+                                </i>
+                            </a>
+
+                        </div>
+
+                    </td>
+                    <!-- basic modal -->
+                    <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
+                        aria-labelledby="basicModal" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Confirmation Message</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </td>
-                        </tr>
+                                <div class="modal-body">
 
-                        <% }) %>
-                            <% } %>
+                                    <p>Are you sure, you want to delete this user?</p>
+                                    <div class="dialog_content">
+                                        <h4>Name:</h4>
+                                        <h4 class="h4">
+                                            <%= element.first_name+" "+ element.last_name%> 
+
+                                    </h4>
+                                </div>
+                                <div class=" dialog_content">
+                                                <h4>Email:</h4>
+                                                <h4 class="h4">
+                                                    <%= element.email%>
+
+                                                </h4>
+                                    </div>
+                                    <div class="dialog_content">
+                                        <h4>Role:</h4>
+                                        <h4 class="h4">
+                                            <%= element.user_type===0 ? "Customer" : element.user_type===3
+                                                ?"Admin": "Agent" %>
+
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class=" modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
 
 
-            </tbody>
-        </table>
+                <% }) %>
+                    <% } %>
+
+
+    </tbody>
+    </table>
+
     </div>
 
     </main>
+    <script>
+
+        const fetchRequest = async () => {
+            const location = window.location.hostname;
+            const settings = {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+
+
+            };
+
+            try {
+                const response = await fetch(`${location}:3400/admin/update/user/${userId}`, settings);
+                const data = await response.json();
+                return console.log(data);
+            } catch (e) {
+                return e;
+            }
+        }
+        let userId = document.getElementById("userId").value
+        let nodeList = document.querySelectorAll(".call-to-action")
+        nodeList.forEach((element, idx) => {
+            element.addEventListener("click", function (event) {
+                //change the identifiers to id(to be unique in the app)
+                console.log(element.classList[2])
+                if (element.classList[2] === "view") {
+                    let value = element.parentElement.parentElement.parentElement;
+                    let emailText = value.children[5] ? value.children[5].innerHTML.trim() : value
+
+                    const validateEmail = (email) => {
+                        return String(email)
+                            .toLowerCase()
+                            .match(
+                                /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+                            );
+                    };
+                    console.log(validateEmail(emailText))
+                    if (validateEmail(emailText)) {
+                        window.location.href = `/view/user/profile/${emailText}`;
+                    }
+
+
+
+
+                } else if (element.classList[2] === "edit") {
+                    //fetchRequest()
+
+                    window.location.href = `/admin/update/user/${userId}`
+                } else if (element.classList[2] === "trash") {
+                    //element.parentElement.setAttribute("id", "confirm")
+                    console.log(element.parentElement)
+                }
+            })
+        })
+
+           // document.querySelectorAll(".call-to-action").addEventListener("click", function (event) {
+             //   let value = event.target.parentElement.parentElement.parentElement;
+               // console.log(value.children[9].childNodes[1].childNodes[3].classList[1])
+            //})
+            // if (value.children[9].childNodes[1].childNodes[3].classList === "fa-eye" && validateEmail(text)) {
+            //window.location.href = `/view/user/profile/${text}`;
+            //}
+
+
+
+
+        //})
+
+
+    </script>
+
+
 </section>

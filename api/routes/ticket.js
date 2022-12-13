@@ -28,8 +28,14 @@ router.get('/admin/ticket/list', isAdmin, listTicket);
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
+router.get('/user/tickets', (req, res) => {
+  res.render('User/tickets');
+});
+router.get('/user/create/ticket', (req, res) => {
+  res.render('User/createTicket');
+});
 module.exports = router;
 /**
- * find if department exist if yes
+ * Tfind if department exist if yes
  * compare dept details
  */

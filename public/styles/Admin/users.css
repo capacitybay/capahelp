@@ -198,12 +198,14 @@
   width: 100%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
-  height: 5rem;
+  height: auto;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  padding: 1.5rem 0;
 }
+
 .filter-form {
   display: flex;
   justify-content: space-around;
@@ -217,7 +219,7 @@
   outline: none;
   padding: 0.3rem 1rem;
   border-radius: 5px;
-  max-width: 200px;
+  width: 200px;
   border: 1px solid #dadde4;
   font-size: small;
 
@@ -253,8 +255,9 @@
   /* color: #fff; */
 }
 .search_button {
-  padding-right: 2rem;
-  padding-left: 0.5rem;
+  padding: 0.3rem 2rem 0.3rem 0.5rem;
+  /* padding-right: 2rem;
+  padding-left: 0.5rem; */
   border-radius: 6px;
   border: none;
   background-color: #25be64;
@@ -306,6 +309,53 @@
 }
 
 /* dddddddddddddddd */
+
+@media only screen and (max-width: 600px) {
+  .filter-users form {
+    display: flex;
+    flex-direction: column;
+  }
+  .filter-form div {
+    width: 100%;
+    /* border: 1px solid blue; */
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+  .txt_field {
+    width: 75%;
+    /* margin-left: 1rem; */
+  }
+  .select_field {
+    width: 75%;
+    /* margin-left: 1rem; */
+  }
+  .search_button {
+    padding-right: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /*  */
+    font-size: 0.9rem;
+    width: 8rem;
+    font-weight: 500;
+  }
+  .search_button i {
+    background-color: #25be64;
+    font-size: 1.2rem;
+  }
+
+  .add-user button {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .add-user button i {
+    font-size: 0.9rem;
+    font-weight: 800;
+    background-color: #25be64;
+  }
+}
 
 /* Table Base */
 
