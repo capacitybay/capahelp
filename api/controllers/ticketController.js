@@ -13,7 +13,7 @@ const verifyUser = (req, res) => {
       .json({ success: false, payload: 'You are not authenticated' });
 };
 const createTicket = asyncWrapper(async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
 
   // if (!req.user)
   //   return res
@@ -42,12 +42,6 @@ const createTicket = asyncWrapper(async (req, res) => {
 // gets a single ticket
 
 const getTicket = asyncWrapper(async (req, res, next) => {
-  // if (!req.user)
-  //   return res
-  //     .status(401)
-  //     .json({ success: false, payload: 'You are not authenticated' });
-
-  //
   if (req.user[0].user_type === 3) {
     const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
     if (!ticket) return next(createCustomError('no ticket found!', 404));
@@ -57,7 +51,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
     let ticketUser = await UserModel.find({
       _id: ticket.customer_id,
     });
-    console.log(ticketUser);
+    // console.log(ticketUser);
 
     res.status(200).render('Admin/view_ticket', {
       user: req.user[0],
@@ -99,7 +93,7 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 
   let query = { _id: ticketId };
   const findTicket = await TicketModel.findOne({ _id: ticketId });
-  console.log(findTicket.customer_id);
+  // console.log(findTicket.customer_id);
 
   if (!findTicket)
     return res
@@ -146,6 +140,7 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 const listTicket = asyncWrapper(async (req, res) => {
   const checkTickets = (tickets, ticketOwners, role) => {
     if (!tickets) {
+      // TODO: create a fallback UI
       return res
         .status(404)
         .json({ success: false, payload: 'No ticket found!' });
@@ -183,7 +178,7 @@ const listTicket = asyncWrapper(async (req, res) => {
   // verifyUser(req, res);
 
   const { id, user_type } = req.user[0];
-  
+
   if (user_type === 3) {
     let ticketOwners = [];
     const tickets = await TicketModel.find();
@@ -221,20 +216,23 @@ const listTicket = asyncWrapper(async (req, res) => {
 const activeTickets = asyncWrapper(async (req, res, next) => {
   let ticketOwners = [];
   const getActiveTickets = await TicketModel.find({ ticket_status: 'active' });
+  console.log('...........qwerty..................1');
 
   for (let index = 0; index < getActiveTickets.length; index++) {
     let ticketUser = await UserModel.find({
       _id: getActiveTickets[index].customer_id,
     });
-
     ticketOwners.push({
       first_name: ticketUser[0].first_name,
       last_name: ticketUser[0].last_name,
     });
   }
+  console.log('...........qwerty..................2');
+
+  // console.log(getActiveTickets);
 
   // if (ticketOwners.length > 0) {
-  console.log(ticketOwners);
+  // console.log(ticketOwners);
   // }
   res.render('Admin/tickets', {
     user: req.user[0],
