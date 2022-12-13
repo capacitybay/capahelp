@@ -21,11 +21,12 @@
             </div>
             <i class="fa-regular fa-bell"></i>
             <div class="user">
-                <p class="clickable-user">EO</p>
+                <%const name = ((userFN.slice(0,1)) + (userLN.slice(0,1))).toUpperCase(); %>
+                <p class="clickable-user"><%= name %></p>
                 <div class="user-details">
                     <div class="username">
                         <p class="clickable-user clickable2">EO</p>
-                        <div class="username-info">Emmanuel Onyenegbutu</div>
+                        <div class="username-info"><%= userFN%> <%= userLN%></div>
                     </div>
                     <div class="username-info info1">
                         <a href="/user/update/profile">Edit Profile</a>
