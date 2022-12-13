@@ -1,7 +1,6 @@
 <section>
 
 
-
     <div class="table-container table-responsive scrollbar-custom " id="style-2">
 
         <table class="table table-border table-hover">
@@ -34,15 +33,13 @@
                     <th scope="row">
                         <%= idx %>
                     </th>
-                    <input type="hidden" name="userId" id="userId" value="<%= element._id %> ">
+                    <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
                     <td class="no-wrap">
                         <!-- <%- include("../partials/avatar.ejs") %> -->
                         <%= element.first_name+" "+element.last_name  %>
 
                             </td>
-                            <!-- <td>
-                                
-                            </td> -->
+                    
                             <td>
                                 <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
                     </td>
@@ -124,11 +121,8 @@
                     </div>
                 </tr>
 
-
                 <% }) %>
                     <% } %>
-
-
     </tbody>
     </table>
 
@@ -136,7 +130,7 @@
 
     </main>
     <script>
-
+        //makes a get fetch request to update user route
         const fetchRequest = async () => {
             const location = window.location.hostname;
             const settings = {
@@ -157,16 +151,19 @@
                 return e;
             }
         }
-        let userId = document.getElementById("userId").value
+        let userId = document.querySelectorAll(".userId")
+        //selects of nodes with the class name call-to-action
         let nodeList = document.querySelectorAll(".call-to-action")
         nodeList.forEach((element, idx) => {
             element.addEventListener("click", function (event) {
                 //change the identifiers to id(to be unique in the app)
                 console.log(element.classList[2])
                 if (element.classList[2] === "view") {
+                    //goes three levels up to get table row
                     let value = element.parentElement.parentElement.parentElement;
+                    //gets and trim email element to eliminate white spaces 
                     let emailText = value.children[5] ? value.children[5].innerHTML.trim() : value
-
+                    //validates email
                     const validateEmail = (email) => {
                         return String(email)
                             .toLowerCase()
@@ -174,18 +171,31 @@
                                 /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
                             );
                     };
-                    console.log(validateEmail(emailText))
+                    //console.log(validateEmail(emailText))
+                    /**
+                    *
+                    * @param receives email regex validation function 
+                    * redirects admin to user profile container with email as param
+                    * *? should email or userId be used as param?
+                    */
                     if (validateEmail(emailText)) {
                         window.location.href = `/view/user/profile/${emailText}`;
                     }
 
 
-
+                    //condition checks if the clicked icon contains the text "edit"
 
                 } else if (element.classList[2] === "edit") {
                     //fetchRequest()
+                    let getElement = element.parentElement.parentElement.parentElement;
+                    //TODO: work on this 
+                    //this gets individual user id from a hidden input
+                    let getUserId = getElement.children[1].value
 
-                    window.location.href = `/admin/update/user/${userId}`
+
+
+                    //redirects user to update user component with userId
+                    window.location.href = `/admin/update/user/${getUserId}`
                 } else if (element.classList[2] === "trash") {
                     //element.parentElement.setAttribute("id", "confirm")
                     console.log(element.parentElement)
