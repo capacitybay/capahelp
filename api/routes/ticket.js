@@ -14,6 +14,10 @@ const {
   resolvedTickets,
 } = require('../controllers');
 
+const {
+  forwardAuthenticated,
+  ensureAuthenticated,
+} = require('../../middleware/auth');
 router.post('/ticket/new', createTicket);
 
 // admin routes
@@ -28,11 +32,23 @@ router.get('/admin/ticket/list', isAdmin, listTicket);
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
-router.get('/user/tickets', (req, res) => {
-  res.render('User/tickets');
+router.get('/user/tickets', ensureAuthenticated, (req, res) => {
+  res.render('User/tickets', 
+  {
+    userFN: req.user[0].first_name, 
+    userLN: req.user[0].last_name, 
+    userEmail: req.user[0].email
+  });
 });
-router.get('/user/create/ticket', (req, res) => {
-  res.render('User/createTicket');
+router.get('/user/create/ticket', ensureAuthenticated, (req, res) => {
+
+    res.render('User/createTicket', 
+    {
+      userFN: req.user[0].first_name, 
+      userLN: req.user[0].last_name, 
+      userEmail: req.user[0].email
+    });
+  
 });
 module.exports = router;
 /**

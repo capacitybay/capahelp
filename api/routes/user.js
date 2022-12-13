@@ -43,12 +43,22 @@ router.post('/admin/register', adminCreateUser);
 router.get('/admin/register', (req, res) => {
   res.render('Admin/adminCreateUser');
 });
-router.get('/user/profile/edit', (req, res) => {
-  res.render('User/editProfile');
+router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
+  res.render('User/editProfile',
+  {
+    userFN: req.user[0].first_name, 
+    userLN: req.user[0].last_name, 
+    userEmail: req.user[0].email
+  });
 });
 // solutions
-router.get('/user/solutions', (req, res) => {
-  res.render('User/solutions.ejs');
+router.get('/user/solutions', ensureAuthenticated, (req, res) => {
+  res.render('User/solutions.ejs',
+  {
+    userFN: req.user[0].first_name, 
+    userLN: req.user[0].last_name, 
+    userEmail: req.user[0].email
+  });
 });
 // function get
 router.get('/admin/dashboard', isAdmin, adminDashboard);
