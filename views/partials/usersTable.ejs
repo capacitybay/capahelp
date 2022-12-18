@@ -36,12 +36,18 @@
                     <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
                     <td class="no-wrap">
                         <!-- <%- include("../partials/avatar.ejs") %> -->
-                        <%= element.first_name+" "+element.last_name  %>
+                        <span id="user_name">
+
+                            <%= element.first_name+" "+element.last_name  %>
+                       </span>
 
                             </td>
                     
                             <td>
+                                <span id=" role">
+
                                 <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
+                        </span>
                     </td>
                     <td class="status no-wrap"><span
                             class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
@@ -66,7 +72,7 @@
 
                             <i class="fa-regular fa-eye view call-to-action"></i>
 
-                            <a href="#" data-toggle="modal" data-target="#basicModal"><i
+                            <a href="#" data-toggle="modal" data-target="#basicModal"><i id="deleteUser"
                                     class="fa-solid fa-trash trash call-to-action">
 
                                 </i>
@@ -76,49 +82,10 @@
 
                     </td>
                     <!-- basic modal -->
-                    <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
-                        aria-labelledby="basicModal" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">Confirmation Message</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+                    <div id="modal-container">
 
-                                    <p>Are you sure, you want to delete this user?</p>
-                                    <div class="dialog_content">
-                                        <h4>Name:</h4>
-                                        <h4 class="h4">
-                                            <%= element.first_name+" "+ element.last_name%> 
-
-                                    </h4>
-                                </div>
-                                <div class=" dialog_content">
-                                                <h4>Email:</h4>
-                                                <h4 class="h4">
-                                                    <%= element.email%>
-
-                                                </h4>
-                                    </div>
-                                    <div class="dialog_content">
-                                        <h4>Role:</h4>
-                                        <h4 class="h4">
-                                            <%= element.user_type===0 ? "Customer" : element.user_type===3
-                                                ?"Admin": "Agent" %>
-
-                                        </h4>
-                                    </div>
-                                </div>
-                                <div class=" modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                 </tr>
 
                 <% }) %>
@@ -130,6 +97,84 @@
 
     </main>
     <script>
+        const modalContainer = document.getElementById("modal-container");
+
+        function renderData(name, email, userRole, id) {
+
+            console.log(name, email, userRole)
+            const modal = `
+
+            <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="basicModal" aria-hidden="true">
+        
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Confirmation Message</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure, you want to delete this user?</p>
+                        <div class="dialog_content">
+                            <h4>Name:</h4>
+                            <h4 class="h4">
+                                ${name}
+                        </h4>
+                    </div>
+                    <div class=" dialog_content">
+                                    <h4>Email:</h4>
+                                    <h4 class="h4">
+                                        ${email}
+                                    </h4>
+                        </div>
+                        <div class="dialog_content">
+                            <h4>Role:</h4>
+                            <h4 class="h4">
+                                ${userRole}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class=" modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" id="deleteSelectedUser">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            `
+            return modal
+        }
+
+
+
+        function messageDialog(msg) {
+            return (
+                `
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title" id="myModalLabel">Confirmation Message</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>User has been deleted!, please refresh the page to reflect changes.</p>
+                </div>
+                <div class="modal-footer">
+                  
+                  <button type="button" class="btn btn-success" id="refreshPage">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+            )
+        }
+
         //makes a get fetch request to update user route
         const fetchRequest = async () => {
             const location = window.location.hostname;
@@ -197,8 +242,53 @@
                     //redirects user to update user component with userId
                     window.location.href = `/admin/update/user/${getUserId}`
                 } else if (element.classList[2] === "trash") {
+                    let value = element.parentElement.parentElement.parentElement.parentElement
+                    let elementChildren = value.children
+
                     //element.parentElement.setAttribute("id", "confirm")
-                    console.log(element.parentElement)
+                    console.log(elementChildren[5].textContent.trim())
+                    console.log(elementChildren[2].textContent.trim())
+                    console.log(elementChildren[3].textContent.trim())
+                    console.log(elementChildren[1].value)
+                    modalContainer.innerHTML = renderData(
+                        elementChildren[2].textContent.trim(),
+                        elementChildren[5].textContent.trim(),
+                        elementChildren[3].textContent.trim(),
+                        elementChildren[1].value
+                    )
+
+                    console.log()
+
+                    document.getElementById("deleteSelectedUser")
+                        .addEventListener("click", function (event) {
+                            const id = elementChildren[1].value
+                            // event.preventDefault();
+                            fetch(`/user/delete/${id}`, {
+                                method: "DELETE"
+
+                            }).then(response => {
+
+                                if (response.statusText === "OK") {
+                                    document.getElementById("show-message").innerHTML = messageDialog();
+
+                                    $('#basicModal').modal('hide')
+
+                                    $('#confirmationModal').modal('show');
+                                    console.log($('#confirmationModal').modal('show'))
+
+                                    document.getElementById("refreshPage").addEventListener("click", function (event) {
+                                        location.reload()
+
+                                    })
+                                }
+
+                            }).catch(error => {
+                                console.log(error);
+                            })
+                        })
+
+
+                    //console.log(renderData(userName, emailData, role))
                 }
             })
         })
