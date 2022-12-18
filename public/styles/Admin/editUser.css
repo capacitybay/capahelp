@@ -72,6 +72,7 @@ body {
   margin-bottom: 5px;
   display: block;
 }
+
 .user__details .input__box input {
   height: 45px;
   width: 100%;
@@ -195,10 +196,26 @@ body {
   justify-content: center;
   align-items: center;
   height: 2.1rem;
-  /* border: 1px solid blue; */
   margin-top: 0.5rem;
 }
 
+/* email check box */
+.check-email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid blue;
+}
+.check-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+}
+.check-email .email-checkbox {
+  display: flex;
+  border: 1px solid rgb(23, 23, 37);
+}
 .signup_link {
   margin: 5px 0;
   text-align: center;

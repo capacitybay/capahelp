@@ -12,12 +12,16 @@ const {
   CustomError,
 } = require('../../middleware/customError');
 const RefreshTokenModel = require('../../models/refreshTokenModel');
+const userModel = require('../../models/userModel');
 
 // admin display
-
+/**
+ * *This function populates the cards in admin dashboard
+ */
 const adminDashboard = asyncWrapper(async (req, res) => {
   // console.log(req.user);
   const allTickets = await TicketModel.find();
+
   let active = [],
     pending = [],
     resolved = [],
@@ -32,7 +36,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   // assigned and unassigned tickets
   let assignedTickets = [],
     unassignedTickets = [];
-
+  // filters fetched tickets by checking if the ticket is assigned or not
   allTickets.forEach((element) => {
     if (element.assignee_id) {
       assignedTickets.push(element);
@@ -40,7 +44,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
       unassignedTickets.push(element);
     }
   });
-
+  // custom function that pushes element to different arrays(based on the arguements recieved)
   const addElements = (array, element) => {
     array.push(element);
   };
@@ -60,7 +64,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
       // console.log(element);
     }
   });
-
+  // filters ticket state
   allTickets.forEach((element, idx) => {
     if (element.priority === 'urgent') {
       addElements(urgent, element);
@@ -78,15 +82,19 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   });
 
   // console.log(allTickets);
-
+  /**
+   * TODO: work on this (activatedUsers and deactivatedUsers), should  be fetch once and filter
+   */
+  // filters activeUsers
   const activeUsers = await UserModel.find({
     $and: [{ active: true }, { user_type: 0 }],
   });
+
   const deactivatedUsers = await UserModel.find({
     $and: [{ active: false }, { user_type: 0 }],
   });
   const allUsers = await UserModel.find({ user_type: 0 });
-  // console.log(activeTickets.length);
+  //  renders data to the dashboard
   res.render('Admin/adminDashboard.ejs', {
     user: req.user[0],
     allTickets: allTickets,
@@ -112,6 +120,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
 });
 
 const createUser = asyncWrapper(async (req, res) => {
+  // gets information from request body
   const {
     first_name,
     last_name,
@@ -121,9 +130,7 @@ const createUser = asyncWrapper(async (req, res) => {
     confirmPassword,
     location,
   } = req.body;
-  // checks if payload was sent or checks if th user is logged in
-  // let convertPhone = phone.toString();
-  // console.log(location);
+  // selects important information
   const validateData = {
     first_name,
     last_name,
@@ -131,26 +138,21 @@ const createUser = asyncWrapper(async (req, res) => {
     phone,
     password: password,
   };
+  // error temporary storage
   let errors = [];
-  // if (!first_name || !last_name || !email || !password)
-  //   return res.redirect('register.ejs');
+  // sends some important information to joi validator FACADE
+
   const { error } = registerValidation(validateData);
   // checks if the validation return error
   if (error) {
-    // req.flash('error_msg', error.message);
-    // res.flash('error_msg', error.message);
-    // return res.redirect('/api/v1/user/register');
     errors.push({ msg: error.message });
   }
-  // status(400).json(error.message);
+  // checks if validated password == confirm password
   if (password != confirmPassword) {
-    // return res.status(400).render('register.ejs', {
-    //   message: 'password does not match',
-    //   email: email,
-    // });
     errors.push({ msg: 'password does not match' });
   }
   if (errors.length > 0) {
+    // sends error and data if errors id not null
     res.render('register.ejs', {
       errors,
       first_name,
@@ -176,11 +178,9 @@ const createUser = asyncWrapper(async (req, res) => {
         location,
       });
     } else {
-      // hashes user password before storing it
-
+      // hashes user password before storing in DB
       const encryptedPassword = await hashedPassword(password);
-      // create new document
-
+      // creates new document
       const newUser = new UserModel({
         first_name,
         last_name,
@@ -189,16 +189,14 @@ const createUser = asyncWrapper(async (req, res) => {
         phone,
         location,
       });
-
       // save user to database
-
       const savedUser = await newUser.save();
-      // sends response to the frontend
-      const newTokenStore = new RefreshTokenModel({
-        user_id: savedUser._id,
-      });
+      /**
+       * TODO: savedUser not doing anything
+       */
       // sets message to connect flash
       req.flash('success_msg', 'Registration Successful, you can now login');
+      // redirects user to login page
       res.redirect('/login');
     }
   }
@@ -216,8 +214,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     confirmPassword,
     location,
   } = req.body;
-  // checks if payload was sent or checks if th user is logged in
-
+  // validates important information
   const validateData = { first_name, last_name, email, phone, password };
   let errors = [];
   const { error } = registerValidation(validateData);
@@ -225,6 +222,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
   if (error) {
     errors.push({ msg: error.message });
   }
+  // verifies password equality
   if (password != confirmPassword) {
     errors.push({ msg: 'password does not match' });
   }
@@ -240,7 +238,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
       location,
     });
   } else {
-    // if (!error) {
+    //  checks if email is already available in the system
     const getUser = await UserModel.findOne({ email: email });
     if (getUser) {
       errors.push({ msg: 'user already exists' });
@@ -258,9 +256,10 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
       // hashes user password before storing it
 
       const encryptedPassword = await hashedPassword(password);
-      // create new document
+      // converts user_type from strings to system numbers
       const userRole =
         user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
+      // create new document
       const newUser = new UserModel({
         first_name,
         last_name,
@@ -273,54 +272,102 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
 
       // save user to database
       const savedUser = await newUser.save();
-      // sends response to the frontend
+      // sets message to connect flash
 
       req.flash('success_msg', 'Registration Successful, user can now login');
-      res.redirect('/admin/dashboard');
+      // redirects admin to dashboard
 
-      res.status(200).json({
-        success: true,
-        payload: savedUser,
-      });
+      res.status(200).redirect('/admin/dashboard');
     }
 
     // }
   }
   // console.log(CustomerModel);
 });
-
-const filterUsersTable = async (arg1, arg2, arg3) => {
+/**
+ * * i'm still working on this
+ */
+const filterUsersTable = async (arg1, arg2, arg3, ...arg4) => {
   // default single
-  const filteredTwo = [];
-  const filteredByAnArg = [];
-  if (arg1 || arg2 || arg3) {
-    filteredTwo = await UserModel.find({
-      $and: [{ arg1: arg1 }, { arg2: arg2 }, { arg3: arg3 }],
+  // console.log(arg1, arg2, arg3, arg4[0], arg4[1], arg4[2]);
+  let searchResult;
+  arg2 =
+    arg2 === 'admin' ? 3 : arg2 === 'agent' ? 1 : arg2 === 'user' ? 0 : 'all';
+  console.log(arg2);
+  if ((arg1 || arg2 || arg3) && !arg4[0] && !arg4[1] && !arg4[2]) {
+    const tfArg1 = arg1 ? arg1 : undefined;
+    const tfArg2 = arg2 === 'all' ? undefined : arg2;
+    const tfArg3 = arg3 ? arg3 : undefined;
+
+    const filteredUsers = await UserModel.find({
+      $or: [{ email: tfArg1 }, { user_type: tfArg2 }, { location: tfArg3 }],
     });
-  } else if (arg1 & (arg3 === undefined) & (arg2 === undefined)) {
-    filteredByAnArg = await UserModel.find({ arg1: arg1 });
+    searchResult = filteredUsers;
+  } else if (!arg4[0] || !arg4[1] || !arg4[2]) {
+    const verifyInput = arg4[0]
+      ? 'email'
+      : arg4[1]
+      ? 'user_type'
+      : arg4[2]
+      ? 'location'
+      : undefined;
+    console.log('.........................');
+    console.log(arg4);
+    console.log(verifyInput);
+    if (verifyInput === 'email') {
+      const singleFiltered = await userModel.find({ email: arg1 });
+      searchResult = singleFiltered;
+    } else if (verifyInput === 'user_type') {
+      let newArg2 = arg2 === 'all' ? undefined : arg2;
+      const singleFiltered = await userModel.find({ user_type: newArg2 });
+      searchResult = singleFiltered;
+    } else if (verifyInput === 'location') {
+      const singleFiltered = await userModel.find({ location: arg3 });
+      searchResult = singleFiltered;
+    } else {
+      console.log('no result to display for the search');
+    }
   }
+
+  return searchResult;
 };
+/**
+ * TODO: development still inprogress
+ */
+const filterUsers = asyncWrapper((req, res) => {
+  console.log(req.body);
+  // filterUsersTable(req.body.email, req.body.user_type, req.body.location);
+  const data = req.body;
+  console.log({ ...req.body });
+  filterUsersTable(
+    data.email,
+    data.user_type,
+    data.location,
+    data.emailRadio,
+    data.userTypeRadio,
+    data.forLocationRadio
+  ).then((data) => {
+    console.log(data);
+    console.log(data.length);
+    res.render('Admin/users', {
+      users: data,
+      hits: data.length,
+    });
+  });
+  // Password123*
+});
 
-const filterUsers = asyncWrapper(async (req, res) => {});
 // get all user  : this  can only be done by the admin
-
 const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
-  // filterUsersTable();
-  // console.log(loggedUser);
-  // if (!loggedUser)
-  //   return res
-  //     .status(401)
-  //     .json({ success: false, payload: 'you are not authenticated!' });
+
   if (loggedUser[0].user_type === 3) {
     const getUsers = await UserModel.find({}, { password: 0 });
     if (!getUsers) return next(createCustomError('no user found', 404));
     res.render('Admin/users', {
       users: getUsers,
+      hits: getUsers.length,
     });
-    // .status(200)
-    // .json({ success: true, payload: getUsers, hits: getUsers.length });
   } else {
     next(
       createCustomError(
@@ -524,11 +571,6 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 // deactivate user
 
 const deactivateUser = asyncWrapper(async (req, res) => {
-  // if (!req.user)
-  //   return res
-  //     .status(401)
-  //     .json({ success: false, payload: 'you are not authenticated' });
-
   if (req.user[0].user_type === 3) {
     const blockUser = await UserModel.findOneAndUpdate(
       { _id: req.params.userId },
@@ -537,8 +579,6 @@ const deactivateUser = asyncWrapper(async (req, res) => {
       },
       { new: true }
     );
-    // Password123*
-    // console.log(blockUser);
     if (blockUser) {
       // console.log('yeeeee');
       req.flash(
@@ -597,16 +637,30 @@ const reactivateUser = asyncWrapper(async (req, res) => {
 // delete user
 
 const deleteUser = asyncWrapper(async (req, res) => {
-  if (!req.user)
-    return res
-      .status(401)
-      .json({ success: false, payload: 'you are not authenticated' });
-  if (req.user.id === req.params.userId || req.user.user_type === 3) {
-    const deletedUser = await UserModel.deleteOne({ _id: req.params.userId });
-    if (deletedUser.acknowledged) {
-      res.status(200).json({ success: true, payload: deletedUser });
+  if (req.user[0].id === req.params.userId || req.user[0].user_type === 3) {
+    const deletedUser = await UserModel.findOneAndDelete(
+      { _id: req.params.userId },
+      { new: true }
+    );
+    if (deletedUser) {
+      req.flash(
+        'success_msg',
+        `${deletedUser.first_name} ${deletedUser.first_name}  deleted successfully`
+      );
+
+      res.redirect(303, req.get('referer'));
+      // console.log(req.get('referer'));
+      // console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
+      // res.status(200).render('Admin/users', {
+      //   users: undefined,
+      //   hits: undefined,
+      // });
+      // res.status(200).json({ success: true, payload: deletedUser });
     }
   } else {
+    /**
+     * TODO: fix this with a pop up modal
+     */
     res.status(401).json({
       success: false,
       payload: 'you are not authorized to delete a customer',

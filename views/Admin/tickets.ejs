@@ -16,11 +16,10 @@
             <h1 class="h1_tickets">Tickets</h1><br>
 
             <div class="info">
-                <div class="all h3" id="ticketsLink" data-url='/ticket/list'>
+                <div class="all h3" id="ticketsLink" data-url='/admin/ticket/list'>
                     <h3>All</h3>
                 </div>
                 <div class="all" id="activeTicketLink" data-url='/admin/ticket/list/active'>
-
                     <h3>Active</h3>
                 </div>
                 <div class="all" id="cancelledTicketsLink" data-url='/admin/ticket/list/cancelled'>
@@ -62,8 +61,9 @@
                                         </h6>
                                     </div>
                                 </div>
-
                                 <div class=" response">
+                                                <input type="hidden" id="hidden" class="ticket-id"
+                                                    value="<%= item._id %>">
                                                 <div class="box_status">
                                                     <label for="">Status</label><br>
                                                     <select name="" id="">
@@ -79,7 +79,7 @@
                                                 </div>
                                     </div>
                                     <div class="box_btn">
-                                        <button id="button" data-ticket="<%= item._id %>">View
+                                        <button id="button" class="view-ticket" data-ticket="<%= item._id %>">View
                                             Ticket</button>
                                     </div>
 
@@ -92,7 +92,10 @@
 
 
         </main>
-        <script src="/public/script/ticket.js"></script>
+        <script src="/public/script/Admin/ticket.js">
+
+
+        </script>
 </body>
 
 </html>

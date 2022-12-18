@@ -79,12 +79,19 @@
 .popup .close:hover {
   color: #06d85f;
 }
+.modal button {
+  cursor: pointer;
+}
 
 .popup .content {
   max-height: 30%;
   overflow: auto;
 }
 
+/* bootstrap modal  modification */
+.modal-header {
+  margin-bottom: 0 !important;
+}
 @media screen and (max-width: 700px) {
   .box {
     width: 70%;

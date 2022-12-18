@@ -1,144 +1,221 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/head.ejs",{title:"User"}) %>
+    <%- include("../partials/adminHeaderLinks.ejs") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/public/styles/Admin/users.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
-        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
-    <!-- footer styles and icons -->
-    <link rel="stylesheet" href="/public/styles/footer.css">
-    <link rel="stylesheet" href="/public/styles/Admin/userTable.css">
-    <!-- user table javascript file -->
-    <script defer src="/public/script/Admin/userTable.js"></script>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+            integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" /> -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css"
+            rel="stylesheet" crossorigin="anonymous">
+        <!-- footer styles and icons -->
+        <link rel="stylesheet" href="/public/styles/footer.css">
+        <link rel="stylesheet" href="/public/styles/Admin/userTable.css">
+        <!-- user table javascript file -->
+        <script defer src="/public/script/Admin/userTable.js"></script>
+        <link rel="stylesheet" href="/public/styles/Admin/users.css">
 
-    <!-- fontawesome cdn link -->
-    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
-    <!-- jquery cdn  link -->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <!-- styling for userTable partial -->
-</head>
+        <!-- fontawesome cdn link -->
+        <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
+        <!-- jquery cdn  link -->
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <!-- styling for userTable partial -->
+        </head>
 
-<body>
-    <div>
-        <%- include("../partials/adminHeader.ejs",{user:undefined}) %>
-    </div>
-    <main>
-        <div class="d-flex justify-content-center">
-
-            <div class="table-desc">
-
-                <h1 class="text-center">User Management</h1>
+        <body>
+            <div>
+                <%- include("../partials/Admin/adminHeader.ejs",{user:undefined}) %>
             </div>
-        </div>
-        <section class="card-section">
-            <div id="root">
-                <div class="container pt-5">
-                    <div class="row align-items-stretch">
-                        <div class="c-dashboardInfo col-lg-3 col-md-6">
-                            <div class="wrap">
-                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                    Total Users<i class="fa-solid fa-users margin-icon"></i></h4><span
-                                    class="hind-font caption-12 c-dashboardInfo__count">10,500</span>
-                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+            <main id="show-message">
+                <div class="d-flex justify-content-center flex-column">
 
-                            </div>
-                        </div>
-                        <div class="c-dashboardInfo col-lg-3 col-md-6">
-                            <div class="wrap">
-                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">No.
-                                    Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
-                                    class="hind-font caption-12 c-dashboardInfo__count">500</span><span
-                                    class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: -30</span>
-                            </div>
-                        </div>
-                        <div class="c-dashboardInfo col-lg-3 col-md-6">
-                            <div class="wrap">
-                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                    No. Of Clients<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
-                                    class="hind-font caption-12 c-dashboardInfo__count">5000</span>
-                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+                    <div id="display-success-msg" class="w-80">
 
-                            </div>
-                        </div>
-                        <div class="c-dashboardInfo col-lg-3 col-md-6">
-                            <div class="wrap">
-                                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">No
-                                    Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
-                                    class="hind-font caption-12 c-dashboardInfo__count">6,40%</span>
-                                <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: +30</span>
+                    </div>
+                    <div class="table-desc">
 
+                        <h1 class="text-center">User Management</h1>
+                    </div>
+                </div>
+                <section class="card-section">
+                    <div id="root">
+                        <div class="container pt-5">
+                            <div class="row align-items-stretch">
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Total Users<i class="fa-solid fa-users margin-icon"></i></h4><span
+                                            class="hind-font caption-12 c-dashboardInfo__count">10,500</span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            No.
+                                            Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
+                                            class="hind-font caption-12 c-dashboardInfo__count">500</span><span
+                                            class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: -30</span>
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            No. Of Clients<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
+                                            class="hind-font caption-12 c-dashboardInfo__count">5000</span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            No
+                                            Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
+                                            class="hind-font caption-12 c-dashboardInfo__count">6,40%</span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </section>
+                <div class="filter-users-cont">
+
+
+                    <h4>select the individual input, if you want to be more specific <%= hits?hits:"none" %>
+                    </h4>
+                    <div class="filter-users">
+                        <form class="filter-form" id="filterForm">
+                            <div>
+                                <label for="email">By Email</label>
+                                <input type="email" id="email" name="email" class="txt_field">
+                                <input type="radio" name="filter" id="forEmail">
+                            </div>
+
+                            <div>
+                                <label for="role">By Role</label>
+                                <select name="user_type" class="select_field" id="role">
+                                    <div class="options">
+
+                                        <option value="all">All Users</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="agent">Agent</option>
+                                        <option value="user">User</option>
+                                    </div>
+                                </select>
+                                <input type="radio" name="filter" id="forUserType">
+                            </div>
+                            <div>
+                                <label for="country">By Country</label>
+                                <input type="text" id="location" name="location" class="txt_field">
+                                <input type="radio" name="filter" id="forLocation">
+                            </div>
+                            <div class="filter-btn">
+                                <!-- <div> -->
+
+                                <button class="search_button"><i class="fa-brands fa-searchengin"></i>
+                                    <span>Filter</span></button>
+                                <!-- </div> -->
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
 
+                <div class="add-user">
 
-        <div class="filter-users">
-            <form action="/filter/users/" class="filter-form" method="post">
-                <div>
-                    <label for="email">By Email</label>
-                    <input type="email" id="email" name="email" class="txt_field">
-                </div>
+                    <h4>All System Users</h4>
+                    <form action="/admin/register" method="get" class="add-user-form">
 
-                <div>
-                    <label for="role">By Role</label>
-                    <select name="user-type" class="select_field" id="role">
-                        <div class="options">
+                        <div>
 
-                            <option value="admin">Admin</option>
-                            <option value="agent">Agent</option>
-                            <option value="user">User</option>
+                            <button class="button"><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
                         </div>
-                    </select>
+                    </form>
                 </div>
-                <div>
-                    <label for="country">By Date</label>
-                    <input type="text" id="country" name="country" class="txt_field">
-                </div>
-                <div>
 
-                    <button class="search_button"><i class="fa-brands fa-searchengin"></i> <span>Filter</span></button>
-                </div>
-            </form>
-        </div>
-        <div class="add-user">
-            <h4>All System Users</h4>
-            <form action="/admin/register" method="get">
-
-
-                <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
-            </form>
-        </div>
-
-        <%- include("../partials/usersTable.ejs") %>
+                <%- include("../partials/usersTable.ejs") %>
 
 
 
 
-    </main>
-    <section>
-        <%- include("../partials/footer.ejs")%>
-    </section>
+            </main>
+            <section>
+                <%- include("../partials/footer.ejs")%>
+            </section>
+            <script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+                const filterForm = document.getElementById("filterForm")
+                //const email = document.getElementById("email")
+                const emailRadio = document.getElementById("forEmail")
+                //const user_type = document.getElementById("role")
+                const userTypeRadio = document.getElementById("forUserType")
+                //const country = document.getElementById("location")
+                const forLocationRadio = document.getElementById("forLocation")
+                async function filterRequest() {
 
-    <!-- table -->
+                    const location = window.location.hostname;
+                    const formData = new FormData(filterForm)
+                    const queryStrings = new URLSearchParams(filterForm)
 
 
-</body>
 
-</html>
+                    const response = await fetch(`/filter/users`, {
+                        method: 'POST',
+
+                        body: JSON.stringify({
+                            email: filterForm.email.value,
+                            user_type: filterForm.role.value,
+                            location: filterForm.location.value,
+                            emailRadio: emailRadio.checked,
+                            userTypeRadio: userTypeRadio.checked,
+                            forLocationRadio: forLocationRadio.checked
+
+                        })
+
+
+                    });
+                    //const data = await response.json();
+                    // document.location.reload()
+
+
+                }
+                filterForm.addEventListener("submit", function (event) {
+                    //event.preventDefault()
+
+                    console.log(new FormData(filterForm))
+                    console.log({
+                        email: filterForm.email.value,
+                        user_type: filterForm.role.value,
+                        location: filterForm.location.value,
+                        emailRadio: emailRadio.checked,
+                        userTypeRadio: userTypeRadio.checked,
+                        forLocationRadio: forLocationRadio.checked
+                    })
+
+                    filterRequest()
+                })
+
+            </script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
+
+            <!-- table -->
+
+
+        </body>
+
+        </html>

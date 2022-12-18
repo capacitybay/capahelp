@@ -8,7 +8,7 @@ module.exports = {
     }
     // redirects user to login page if not authenticated
     req.flash('error_msg', 'Please log in ');
-    return res.redirect('/login');
+    return res.redirect(304, '/login');
   },
   // checks if user is logged in
   forwardAuthenticated: function (req, res, next) {

@@ -1,0 +1,53 @@
+<header class="solution-header">
+    <div class="logo">
+        <a href="/user">
+            <img src="/public/img/logo.png" alt="CapacityBay-Logo1">
+        </a>
+    </div>
+    <nav class="solution-nav">
+
+        <div class="main-navigation">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+
+                <li><a href="/admin/ticket/list">Tickets</a></li>
+                <li><a href="/admin/manage/users">Users</a></li>
+
+            </ul>
+        </div>
+        <div class="details solution-deets">
+            <ul>
+
+                <li><a href="/admin/manage/department">Departments</a></li>
+            </ul>
+            <i class="fa-regular fa-bell"></i>
+            <div class="user">
+                <p class="clickable-user">
+                    <%= user? user.first_name.charAt(0).toUpperCase() + " " +
+                        user.last_name.charAt(0).toUpperCase():"EO" %>
+                </p>
+                <div class="user-details">
+                    <div class="username">
+                        <p class="clickable-user clickable2">
+                            <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                user.last_name.charAt(0).toUpperCase():"EO" %>
+                        </p>
+                        <div class="username-info">
+                            <%= user ? user.first_name: "System" %>
+                                <%= user ? user.last_name : "User" %>
+                        </div>
+                    </div>
+                    <div class="username-info info1">
+                        <a href="/user/update/profile">Edit Profile</a>
+                    </div>
+                    <div class="username-info info2"><a href="/user">Logout</a></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="hamburger solution-ham">
+        <div class="ham"></div>
+        <div class="ham"></div>
+        <div class="ham"></div>
+    </div>
+</header>
