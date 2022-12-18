@@ -44,20 +44,18 @@ router.get('/admin/register', (req, res) => {
   res.render('Admin/adminCreateUser');
 });
 router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
-  res.render('User/editProfile',
-  {
-    userFN: req.user[0].first_name, 
-    userLN: req.user[0].last_name, 
-    userEmail: req.user[0].email
+  res.render('User/editProfile', {
+    userFN: req.user[0].first_name,
+    userLN: req.user[0].last_name,
+    userEmail: req.user[0].email,
   });
 });
 // solutions
 router.get('/user/solutions', ensureAuthenticated, (req, res) => {
-  res.render('User/solutions.ejs',
-  {
-    userFN: req.user[0].first_name, 
-    userLN: req.user[0].last_name, 
-    userEmail: req.user[0].email
+  res.render('User/solutions.ejs', {
+    userFN: req.user[0].first_name,
+    userLN: req.user[0].last_name,
+    userEmail: req.user[0].email,
   });
 });
 // function get
@@ -94,7 +92,7 @@ router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
 //   res.render('User/editProfile');
 // });
 // delete a user
-router.delete('/user/delete/:userId', authenticateToken, deleteUser);
+router.delete('/user/delete/:userId', isAdmin, deleteUser);
 router.patch('/user/deactivate/:userId', isAdmin, deactivateUser);
 router.patch('/user/reactivate/:userId', isAdmin, reactivateUser);
 
