@@ -31,7 +31,7 @@
 /* ! INTRO SECTION: */
 header {
   background-color: var(--headerBackground);
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: space-between;
   padding: 10px 150px;
@@ -114,6 +114,7 @@ nav ul li a {
 }
 nav ul li a:hover {
   color: var(--linkscolor);
+  text-decoration: none !important;
 }
 
 .details {
@@ -364,6 +365,7 @@ nav ul li a:hover {
     animation: slideUp 0.5s ease forwards 0.2s;
   }
   nav {
+    /* display: flex !important; */
     align-items: center;
     flex-direction: column;
     position: fixed;
@@ -500,6 +502,7 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   gap: 40px;
+  /* border: 1px solid blue; */
 }
 .solutions-create a {
   color: var(--white);
@@ -1028,7 +1031,7 @@ form {
   cursor: pointer;
 }
 
-button {
+/* button {
   width: 100%;
   border: none;
   outline: none;
@@ -1040,12 +1043,12 @@ button {
   border-radius: 7px;
   cursor: pointer;
   border: 2px solid var(--maincolor);
-}
-button:hover {
+} */
+/* button:hover {
   color: var(--maincolor);
   background-color: var(--white);
   border: 2px solid var(--maincolor);
-}
+} */
 
 .overlay {
   opacity: 0;

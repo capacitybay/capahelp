@@ -165,18 +165,17 @@
   /* border: 1px solid blue; */
   padding-right: 1rem;
   display: flex;
-
+  justify-content: flex-end;
   align-items: center;
 }
 .th-cont {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
-.add-user form {
-  margin-left: auto;
+/* .add-user form {
   padding: 0;
-}
-.add-user form button {
+} */
+.add-user form .button {
   border: none;
   background-color: #25be64;
   padding-top: 0.5rem;
@@ -193,8 +192,15 @@
   align-self: center;
   /* margin-right: 2rem; */
 }
-
-.filter-users {
+.add-user h4 {
+  width: 100%;
+  /* border: 1px solid blue; */
+}
+.add-user-form div {
+  max-width: 7.5rem;
+  margin-left: auto;
+}
+.filter-users-cont {
   width: 100%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
@@ -202,10 +208,21 @@
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
   padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
 }
-
+.filter-users-cont h4 {
+  text-align: center;
+}
+.filter-users {
+  display: flex;
+}
+.filter-btn {
+  height: 2rem;
+}
+.filter-btn button {
+}
 .filter-form {
   display: flex;
   justify-content: space-around;
@@ -256,8 +273,8 @@
 }
 .search_button {
   padding: 0.3rem 2rem 0.3rem 0.5rem;
-  /* padding-right: 2rem;
-  padding-left: 0.5rem; */
+  /* padding-right: 30rem; */
+  /*padding-left: 0.5rem; */
   border-radius: 6px;
   border: none;
   background-color: #25be64;
@@ -268,7 +285,7 @@
 }
 .search_button i {
   font-size: 1.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 }
 .add-user button i {
   font-size: 1.5rem;
