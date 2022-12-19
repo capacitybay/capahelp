@@ -1,6 +1,4 @@
 body {
-  /* background-image: url('https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg'); */
-
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -109,6 +107,7 @@ input[type='submit']:hover {
   color: #2691d9;
   text-decoration: none;
 }
+
 .signup_link a:hover {
   text-decoration: underline;
 }
