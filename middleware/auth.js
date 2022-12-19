@@ -1,7 +1,7 @@
 module.exports = {
   // checks if user is authenticated
   ensureAuthenticated: function (req, res, next) {
-    console.log(req.isAuthenticated());
+    // console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
       // console.log(req.user[0].user_type);
       return next();
@@ -12,16 +12,17 @@ module.exports = {
   },
   // checks if user is logged in
   forwardAuthenticated: function (req, res, next) {
+    // console.log(req);
     if (req.isAuthenticated()) {
       //   console.log(!req.isAuthenticated());
-      if (req.user[0].user_type === 3 && req.user[0].active === true) {
+      if (req.user.user_type === 3 && req.user.active === true) {
         // if user is admin - user is redirected to the admin dashboard
         return res.redirect('/admin/dashboard');
-      } else if (req.user[0].user_type === 1 && req.user[0].active === true) {
+      } else if (req.user.user_type === 1 && req.user.active === true) {
         // checks if user is customer
         // dev still in progress
         return res.redirect('/');
-      } else {
+      } else if (req.user.user_type === 0 && req.user.active === true) {
         return res.redirect('/user');
       }
     }
@@ -29,7 +30,12 @@ module.exports = {
   },
   // checks if user is admin
   isAdmin: function (req, res, next) {
-    if (req.isAuthenticated() && req.user[0].user_type === 3) {
+    //console.log('is auth');
+    //console.log(req.isAuthenticated());
+    if (!req.isAuthenticated()) return res.status(304).redirect('/login');
+    if (req.user[0].user_type === 3) {
+      //res.status(304).redirect('/login');
+
       return next();
     }
     // redirects to access denied page
