@@ -18,7 +18,7 @@ const {
   ensureAuthenticated,
   isAdmin,
 } = require('../../middleware/auth');
-const { render } = require('ejs');
+
 const userModel = require('../../models/userModel');
 router.get('/user/register', (req, res) => {
   return res.render('register', {

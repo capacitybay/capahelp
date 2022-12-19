@@ -5,13 +5,16 @@ const {
 } = require('../../middleware/auth');
 const { resetPassword } = require('../controllers');
 
-router.patch('/password/reset/:userId', ensureAuthenticated, (req, res) => {
-  res.redirect('/user');
-});
-router.get('/password/reset', (req, res) => {
-  res.render('resetPassword.ejs');
+router.patch('/password/reset', ensureAuthenticated, resetPassword);
+router.get('/password/reset', ensureAuthenticated, (req, res) => {
+  res.render('resetPassword.ejs', {
+    errors: undefined,
+  });
 });
 
 module.exports = router;
 
 // render id in template used id to select the element
+/**
+ *
+ */

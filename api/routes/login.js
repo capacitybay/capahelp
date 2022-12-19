@@ -17,12 +17,12 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 });
 router.post(
   '/login',
-  forwardAuthenticated,
   passport.authenticate('local', {
-    successRedirect: '/admin/dashboard',
+    //   successRedirect: '/admin/dashboard',
     failureRedirect: '/login',
     failureFlash: true,
-  })
+  }),
+  forwardAuthenticated
 );
 
 router.post('/logout', (req, res) => {

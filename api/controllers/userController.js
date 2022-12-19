@@ -424,7 +424,6 @@ const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
   const { first_name, last_name, email, phone, location, gender, state, role } =
     req.body;
-  // console.log('qwertyuiop');
 
   const { id, user_type } = req.user[0];
   // const userId = req.params.userId;
@@ -572,6 +571,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 
 const deactivateUser = asyncWrapper(async (req, res) => {
   if (req.user[0].user_type === 3) {
+    // updates and return updated user
     const blockUser = await UserModel.findOneAndUpdate(
       { _id: req.params.userId },
       {
@@ -579,15 +579,13 @@ const deactivateUser = asyncWrapper(async (req, res) => {
       },
       { new: true }
     );
+
     if (blockUser) {
-      // console.log('yeeeee');
       req.flash(
         'success_msg',
         ` ${blockUser.first_name.toUpperCase()} ${blockUser.last_name.toUpperCase()}'s Account  Deactivated!`
       );
-
-      // res.redirect(`view/user/profile/${blockUser.email}`);
-
+      // renders message to frontend
       res.status(200).render(`Admin/viewUserProfile`, { userData: blockUser });
     } else {
       // this will return an error dialog
@@ -647,15 +645,8 @@ const deleteUser = asyncWrapper(async (req, res) => {
         'success_msg',
         `${deletedUser.first_name} ${deletedUser.first_name}  deleted successfully`
       );
-
+      // redirects user to the initial url
       res.redirect(303, req.get('referer'));
-      // console.log(req.get('referer'));
-      // console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
-      // res.status(200).render('Admin/users', {
-      //   users: undefined,
-      //   hits: undefined,
-      // });
-      // res.status(200).json({ success: true, payload: deletedUser });
     }
   } else {
     /**

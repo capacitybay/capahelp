@@ -8,6 +8,19 @@
   list-style: none;
   text-decoration: none;
   transition: 0.3s ease;
+  /* outline: 1px solid yellow; */
+}
+
+/* my  header section styles for logout*/
+.custom-btn-logout {
+  border: none;
+  width: 100%;
+  background-color: #fff;
+  /* padding: 0; */
+  font-weight: 600;
+  font-size: clamp(13px, 1vw, 25px);
+  display: flex;
+  justify-content: flex-start;
 }
 
 :root {

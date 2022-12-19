@@ -118,6 +118,8 @@ async function updateDeptValidation(data) {
   return schema.validate(data);
 }
 async function validatePassword(data) {
+  console.log('validation data');
+  console.log(data);
   const schema = joi.object({
     // password  validation
     password: joi

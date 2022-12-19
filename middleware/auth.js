@@ -1,14 +1,12 @@
 module.exports = {
   // checks if user is authenticated
   ensureAuthenticated: function (req, res, next) {
-    // console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
-      // console.log(req.user[0].user_type);
       return next();
     }
     // redirects user to login page if not authenticated
-    req.flash('error_msg', 'Please log in ');
-    return res.redirect(304, '/login');
+    req.flash('error_msg', 'Please Log In With Your Credentials');
+    return res.status(304).redirect('/login');
   },
   // checks if user is logged in
   forwardAuthenticated: function (req, res, next) {
