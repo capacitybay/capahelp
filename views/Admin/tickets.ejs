@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/footer.css">
+    <!-- fontawesome cdn link -->
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <%- include("../partials/adminHeader.ejs") %>
+    <%- include("../partials/Admin/adminHeader.ejs") %>
         <main>
 
             <h1 class="h1_tickets">Tickets</h1><br>
@@ -49,7 +53,6 @@
                                                 ticketOwners[index].last_name.charAt(0).toUpperCase():"EO" %>
                                         </h3>
                                     </div>
-
                                     <div class="box_text">
                                         <h3>
                                             <%= item.title %>
@@ -70,7 +73,6 @@
                                                         <option value="">Active</option>
                                                     </select>
                                                 </div>
-
                                                 <div class="box_prior">
                                                     <label for="">Priority</label><br>
                                                     <select name="" id="">
@@ -82,9 +84,7 @@
                                         <button id="button" class="view-ticket" data-ticket="<%= item._id %>">View
                                             Ticket</button>
                                     </div>
-
                                 </div> <br>
-
                                 <% }) %>
                                     <% }else{ %>
                                         <h1>qwerty</h1>
@@ -92,10 +92,9 @@
 
 
         </main>
-        <script src="/public/script/Admin/ticket.js">
-
-
-        </script>
+        <%- include("../partials/footer.ejs")%>
+            <script src="/public/script/Admin/ticket.js"></script>
+            <script src="/public/script/Admin/hanburger.js"></script>
 </body>
 
 </html>
