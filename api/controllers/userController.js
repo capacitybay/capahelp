@@ -405,6 +405,51 @@ const viewUser = asyncWrapper(async (req, res, next) => {
     );
   }
 });
+
+const adminUpdateProfile = asyncWrapper(async (req, res) => {
+  console.log(req.user);
+  const user = req.user[0];
+
+  res.render('Admin/editProfile', {
+    user: user,
+    // first_name: user.first_name,
+    // last_name: user.last_name,
+    // email: user.email,
+    phoneNo: +user.phone,
+  });
+});
+
+// !this controller updates (admin/agent/customer) profile
+
+const updateProfile = asyncWrapper(async (req, res) => {
+  console.log(req.body);
+  const { first_name, last_name, email, phone, location } = req.body;
+
+  const userId = req.params.userId;
+  if (!first_name || !last_name || !email || !phone || !location)
+    return res.send({
+      success: false,
+      msg: 'Input field(s) must not be empty',
+    });
+  /**
+   * TODO: write a logic to check email
+   *
+   */
+
+  const updatedUser = await userModel.findOneAndUpdate(
+    { _id: req.user[0]._id },
+    { first_name: first_name, last_name: last_name, phone: phone, location },
+    { new: true }
+  );
+
+  console.log(updatedUser);
+  // req.flash('success_msg', 'Your Profile has been updated');
+  res.send({ success: true, msg: 'Your Profile has been updated' });
+  // return res.render('Admin/editProfile', {
+  //   user: updatedUser,
+  // });
+});
+
 /**
  * change email logic
  * get email from the application state
@@ -670,4 +715,6 @@ module.exports = {
   adminCreateUser,
   adminDashboard,
   filterUsers,
+  adminUpdateProfile,
+  updateProfile,
 };

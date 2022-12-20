@@ -10,6 +10,8 @@ const {
   adminCreateUser,
   adminDashboard,
   filterUsers,
+  adminUpdateProfile,
+  updateProfile,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
 
@@ -50,12 +52,19 @@ router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
     userEmail: req.user[0].email,
   });
 });
+// admin edit profile
+router.get(
+  '/admin/profile/edit',
+  ensureAuthenticated,
+  isAdmin,
+  adminUpdateProfile
+);
 // solutions
 router.get('/user/solutions', ensureAuthenticated, (req, res) => {
   res.render('User/solutions.ejs', {
-    userFN: req.user[0].first_name,
-    userLN: req.user[0].last_name,
-    userEmail: req.user[0].email,
+    first_name: req.user[0].first_name,
+    last_name: req.user[0].last_name,
+    email: req.user[0].email,
   });
 });
 // function get
@@ -86,7 +95,13 @@ router.get('/admin/update/user/:userId', async (req, res) => {
   console.log('user-------------------');
   res.render('Admin/editUser', { user: user[0], feedback: false });
 });
+/**
+ * ! this controller is strictly for admin
+ * TODO: round up the controller section
+ * *
+ */
 router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
+router.patch('/admin/update/profile/:userId', isAdmin, updateProfile);
 // strictly for none admins
 // router.get('/user/update/profile', (req, res) => {
 //   res.render('User/editProfile');
