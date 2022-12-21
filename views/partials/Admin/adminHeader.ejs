@@ -23,8 +23,8 @@
             <i class="fa-regular fa-bell"></i>
             <div class="user">
                 <p class="clickable-user">
-                    <%= user? user.first_name.charAt(0).toUpperCase() + " " +
-                        user.last_name.charAt(0).toUpperCase():"EO" %>
+                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
+                        %>
                 </p>
                 <div class="user-details">
                     <div class="username">
@@ -38,9 +38,18 @@
                         </div>
                     </div>
                     <div class="username-info info1">
-                        <a href="/user/update/profile">Edit Profile</a>
+                        <a href="/admin/profile/edit">Edit Profile</a>
                     </div>
-                    <div class="username-info info2"><a href="/user">Logout</a></div>
+                    <div class="info2">
+                        <!-- <div> -->
+
+                        <form style="width: 100%;" action="/logout?_method=DELETE" method="POST">
+                            <button type="submit" class="custom-btn-logout">Log Out</button>
+
+                        </form>
+                        <!-- </div> -->
+                        <!-- <a href="/logout">Logout</a> -->
+                    </div>
                 </div>
             </div>
         </div>

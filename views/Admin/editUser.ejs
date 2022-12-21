@@ -54,8 +54,11 @@
                                         </div>
                                         <div class="input__box">
                                             <span class="details">Email</span>
+                                            <!-- <div class="email-input"> -->
+
                                             <input type="email" placeholder="john@hotmail.com" id="email" name="email"
                                                 value="<%= user?user.email:email %>">
+                                            <!-- </div> -->
                                         </div>
                                         <div class="input__box">
                                             <span class="details">Phone Number</span>
@@ -112,6 +115,16 @@
 
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="check-input">
+                                        <div class="check-email-info">
+                                            <p> Please select this option if you wish to update the email as well.</p>
+                                        </div>
+                                        <div class="email-checkbox">
+
+                                            <input type="checkbox" id="checkEmail" name="checkEmail">
+                                        </div>
+
                                     </div>
                                     <div class="button">
                                         <input type="submit" value="Update" id="button">

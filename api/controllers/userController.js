@@ -405,6 +405,51 @@ const viewUser = asyncWrapper(async (req, res, next) => {
     );
   }
 });
+
+const adminUpdateProfile = asyncWrapper(async (req, res) => {
+  console.log(req.user);
+  const user = req.user[0];
+
+  res.render('Admin/editProfile', {
+    user: user,
+    // first_name: user.first_name,
+    // last_name: user.last_name,
+    // email: user.email,
+    phoneNo: +user.phone,
+  });
+});
+
+// !this controller updates (admin/agent/customer) profile
+
+const updateProfile = asyncWrapper(async (req, res) => {
+  console.log(req.body);
+  const { first_name, last_name, email, phone, location } = req.body;
+
+  const userId = req.params.userId;
+  if (!first_name || !last_name || !email || !phone || !location)
+    return res.send({
+      success: false,
+      msg: 'Input field(s) must not be empty',
+    });
+  /**
+   * TODO: write a logic to check email
+   *
+   */
+
+  const updatedUser = await userModel.findOneAndUpdate(
+    { _id: req.user[0]._id },
+    { first_name: first_name, last_name: last_name, phone: phone, location },
+    { new: true }
+  );
+
+  console.log(updatedUser);
+  // req.flash('success_msg', 'Your Profile has been updated');
+  res.send({ success: true, msg: 'Your Profile has been updated' });
+  // return res.render('Admin/editProfile', {
+  //   user: updatedUser,
+  // });
+});
+
 /**
  * change email logic
  * get email from the application state
@@ -424,7 +469,6 @@ const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
   const { first_name, last_name, email, phone, location, gender, state, role } =
     req.body;
-  // console.log('qwertyuiop');
 
   const { id, user_type } = req.user[0];
   // const userId = req.params.userId;
@@ -572,6 +616,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 
 const deactivateUser = asyncWrapper(async (req, res) => {
   if (req.user[0].user_type === 3) {
+    // updates and return updated user
     const blockUser = await UserModel.findOneAndUpdate(
       { _id: req.params.userId },
       {
@@ -579,15 +624,13 @@ const deactivateUser = asyncWrapper(async (req, res) => {
       },
       { new: true }
     );
+
     if (blockUser) {
-      // console.log('yeeeee');
       req.flash(
         'success_msg',
         ` ${blockUser.first_name.toUpperCase()} ${blockUser.last_name.toUpperCase()}'s Account  Deactivated!`
       );
-
-      // res.redirect(`view/user/profile/${blockUser.email}`);
-
+      // renders message to frontend
       res.status(200).render(`Admin/viewUserProfile`, { userData: blockUser });
     } else {
       // this will return an error dialog
@@ -647,15 +690,8 @@ const deleteUser = asyncWrapper(async (req, res) => {
         'success_msg',
         `${deletedUser.first_name} ${deletedUser.first_name}  deleted successfully`
       );
-
+      // redirects user to the initial url
       res.redirect(303, req.get('referer'));
-      // console.log(req.get('referer'));
-      // console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
-      // res.status(200).render('Admin/users', {
-      //   users: undefined,
-      //   hits: undefined,
-      // });
-      // res.status(200).json({ success: true, payload: deletedUser });
     }
   } else {
     /**
@@ -679,4 +715,6 @@ module.exports = {
   adminCreateUser,
   adminDashboard,
   filterUsers,
+  adminUpdateProfile,
+  updateProfile,
 };
