@@ -86,14 +86,16 @@ const adminDashboard = asyncWrapper(async (req, res) => {
    * TODO: work on this (activatedUsers and deactivatedUsers), should  be fetch once and filter
    */
   // filters activeUsers
-  const activeUsers = await UserModel.find({
+
+  const activeCustomers = await UserModel.find({
     $and: [{ active: true }, { user_type: 0 }],
   });
 
-  const deactivatedUsers = await UserModel.find({
+  const deactivatedCustomers = await UserModel.find({
     $and: [{ active: false }, { user_type: 0 }],
   });
-  const allUsers = await UserModel.find({ user_type: 0 });
+  const totalCustomers = [...activeCustomers, ...deactivatedCustomers];
+  // const allUsers = await UserModel.find({ user_type: 0 });
   //  renders data to the dashboard
   res.render('Admin/adminDashboard.ejs', {
     user: req.user[0],
@@ -103,10 +105,12 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     cancelledTickets: cancelled ? cancelled.length : 0,
     pendingTickets: pending ? pending.length : 0,
     ticketsInProgress: inProgress ? inProgress.length : 0,
-    activeUsers: activeUsers ? activeUsers.length : 0,
-    deactivatedUsers: deactivatedUsers ? deactivatedUsers.length : 0,
-    allUsers: allUsers.length,
-    allUsersData: allUsers ? allUsers : 0,
+    activeCustomers: activeCustomers ? activeCustomers.length : 0,
+    deactivatedCustomers: deactivatedCustomers
+      ? deactivatedCustomers.length
+      : 0,
+    totalCustomers: totalCustomers.length,
+    allUsersData: totalCustomers ? totalCustomers : 0,
 
     // ticket priority
     urgentTicket: urgent ? urgent.length : 0,
@@ -362,11 +366,69 @@ const getUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
 
   if (loggedUser[0].user_type === 3) {
+    const allSystemUsers = await UserModel.find({}, { password: 0 });
+    const addElements = (array, element) => {
+      array.push(element);
+    };
+    let deactivatedAdmins = [],
+      deactivatedAgents = [],
+      deactivatedCustomers = [],
+      admins = [],
+      agents = [],
+      customers = [];
+
+    allSystemUsers.forEach((element, idx) => {
+      if (element.user_type === 3) {
+        addElements(admins, element);
+      } else if (element.user_type === 1) {
+        addElements(agents, element);
+      } else if (element.user_type === 0) {
+        addElements(customers, element);
+      }
+    });
+
+    allSystemUsers.forEach((element, idx) => {
+      if (!element.active && element.user_type === 3) {
+        addElements(deactivatedAdmins, element);
+      } else if (!element.active && element.user_type === 1) {
+        addElements(deactivatedAgents, element);
+      } else if (!element.active && element.user_type === 0) {
+        addElements(deactivatedCustomers, element);
+      }
+    });
+
     const getUsers = await UserModel.find({}, { password: 0 });
+    const totalInactiveUsers =
+      deactivatedAdmins.length +
+      deactivatedAgents.length +
+      deactivatedCustomers.length;
+    console.log('.......');
+    console.log(totalInactiveUsers);
+
     if (!getUsers) return next(createCustomError('no user found', 404));
     res.render('Admin/users', {
       users: getUsers,
       hits: getUsers.length,
+      totalSystemUsers: allSystemUsers ? allSystemUsers.length : 0,
+      totalAdmins: admins ? admins.length : 0,
+      inactiveAdmins: deactivatedAdmins ? deactivatedAdmins.length : 0,
+      activeAdmins: deactivatedAdmins
+        ? admins.length - deactivatedAdmins.length
+        : 0,
+      totalInactiveUsers: totalInactiveUsers ? totalInactiveUsers : 0,
+      activeUsers: totalInactiveUsers
+        ? allSystemUsers.length - totalInactiveUsers
+        : 0,
+      deactivatedCustomers: deactivatedCustomers
+        ? deactivatedCustomers.length
+        : 0,
+      activeCustomers: customers
+        ? customers.length - deactivatedCustomers.length
+        : 0,
+      customers: customers ? customers.length : 0,
+      agents: agents ? agents.length : 0,
+      activeAgents: agents ? agents.length - deactivatedAgents.length : 0,
+      inactiveAgents: agents ? deactivatedAgents.length : 0,
     });
   } else {
     next(
@@ -405,25 +467,41 @@ const viewUser = asyncWrapper(async (req, res, next) => {
     );
   }
 });
-
+/**
+ * * this renders admin profile (GET REQUEST)
+ */
 const adminUpdateProfile = asyncWrapper(async (req, res) => {
-  console.log(req.user);
   const user = req.user[0];
 
   res.render('Admin/editProfile', {
     user: user,
-    // first_name: user.first_name,
-    // last_name: user.last_name,
-    // email: user.email,
     phoneNo: +user.phone,
   });
 });
 
-// !this controller updates (admin/agent/customer) profile
-
+/**
+ ** UPDATE USER PROFILE CONTROLLER
+ *!: STRICTLY FOR ADMIN USER
+ *? this controller updates (admin/agent/customer) profile
+ */
 const updateProfile = asyncWrapper(async (req, res) => {
-  console.log(req.body);
-  const { first_name, last_name, email, phone, location } = req.body;
+  const { first_name, last_name, email, phone, location, checkEmail } =
+    req.body;
+
+  const updateProfile = async () => {
+    const updatedUser = await userModel.findOneAndUpdate(
+      { _id: req.user[0]._id },
+      {
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+        location,
+      },
+      { new: true }
+    );
+
+    res.send({ success: true, msg: 'Your Profile has been updated' });
+  };
 
   const userId = req.params.userId;
   if (!first_name || !last_name || !email || !phone || !location)
@@ -431,47 +509,88 @@ const updateProfile = asyncWrapper(async (req, res) => {
       success: false,
       msg: 'Input field(s) must not be empty',
     });
-  /**
-   * TODO: write a logic to check email
-   *
-   */
 
-  const updatedUser = await userModel.findOneAndUpdate(
-    { _id: req.user[0]._id },
-    { first_name: first_name, last_name: last_name, phone: phone, location },
-    { new: true }
-  );
+  if (checkEmail) {
+    const findUser = await userModel.find({ email: email }, { password: 0 });
 
-  console.log(updatedUser);
-  // req.flash('success_msg', 'Your Profile has been updated');
-  res.send({ success: true, msg: 'Your Profile has been updated' });
-  // return res.render('Admin/editProfile', {
-  //   user: updatedUser,
-  // });
+    if (email === req.user[0].email)
+      return res.send({
+        success: false,
+        msg: 'You are already using this email; if you would like to update it, please check the box.',
+      });
+
+    if (email !== req.user[0].email) {
+      // checks if passed email equals retrieved user email
+      if (email === findUser[0].email) {
+        return res.send({
+          success: false,
+          msg: 'Sorry, you cannot use this email',
+        });
+      } else {
+        updateProfile();
+      }
+    }
+  } else {
+    updateProfile();
+  }
 });
 
 /**
- * change email logic
- * get email from the application state
- * since  email is from the application state, it is considered verified
- * verify that the entered email doesn't exist in th db
- * const response = findone({email:req.newEmail})
- * if(response) return cannot use this email
- * const update = updateOne({email:req.email})
- * if (response.acknowledge){
-res.send()
- * 
- * }
+ ** update user route
+ *!: Strictly for admin
  */
-// update users
-
 const updateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
-  const { first_name, last_name, email, phone, location, gender, state, role } =
-    req.body;
+  const {
+    first_name,
+    last_name,
+    email,
+    phone,
+    location,
+    gender,
+    state,
+    role,
+    selectEmail,
+  } = req.body;
 
+  /**
+   ** updates acct if email check box returns true or false
+   * @params : checkEmail=checkbox,userState:active/inactive,userRole=admin/user/agent,userEmail=email
+   */
+  const updateUserFn = async (checkEmail, userState, userRole, userEmail) => {
+    const convertStateToBool = userState === 'activate' ? true : false;
+    const convertRole = userRole === 'admin' ? 3 : userRole === 'agent' ? 1 : 0;
+    const query = {
+      first_name,
+      last_name,
+      phone,
+      location,
+      gender,
+      active: convertStateToBool,
+      user_type: convertRole,
+    };
+    // checks id email check box is checked
+    if (userEmail) {
+      // adds email property
+      query.email = email;
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: req.params.userId },
+        query,
+        { new: true }
+      );
+      return updatedUser;
+    } else {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: req.params.userId },
+        query,
+        { new: true }
+      );
+      return updatedUser;
+    }
+  };
   const { id, user_type } = req.user[0];
-  // const userId = req.params.userId;
+
+  // validates if logged user is admin
   if (user_type === 3) {
     const validateData = {
       first_name,
@@ -487,129 +606,87 @@ const updateUser = asyncWrapper(async (req, res, next) => {
     if (error) {
       errors.push({ msg: error.message });
     }
-    console.log('ooooooooooooooooooooo0');
+    const renderInterface = async (status, userInfo) => {
+      if (!status) {
+        const getUserData = await userModel.find({ _id: req.params.userId });
 
+        return res.render('Admin/editUser.ejs', {
+          errors,
+          user: getUserData[0],
+          id: req.params.userId,
+          feedback: { success: false },
+        });
+      } else {
+        return res.status(200).render('Admin/editUser', {
+          user: userInfo,
+          first_name: userInfo.first_name,
+          last_name: userInfo.last_name,
+          email: userInfo.email,
+          phone: userInfo.phone,
+          location: userInfo.location,
+          gender: userInfo ? userInfo.gender : '',
+          id: userInfo._id,
+          feedback: {
+            updated: true,
+            msg: `${userInfo.first_name} ${userInfo.last_name}'s Account Has been updated!`,
+          },
+        });
+      }
+    };
+
+    // start
     if (errors.length > 0) {
-      console.log(
-        errors,
-        first_name,
-        last_name,
-        email,
-        phone,
-        location,
-        gender,
-        state,
-        req.params
-      );
-      console.log('ooooooooooooooooooooo1');
-
-      res.render('Admin/editUser.ejs', {
-        errors,
-        first_name,
-        last_name,
-        email,
-        phone,
-        location,
-        gender,
-        state,
-        user: undefined,
-        id: req.params.userId,
-        feedback: false,
-      });
+      renderInterface(false);
     } else {
-      // Password123*
+      console.log('------tttttttttttttt---------');
+      // finds user with the provided email
+      const findUser = await UserModel.findOne(
+        { email: email },
+        { password: 0 }
+      );
+      // check if email checkbox is selected
+      if (selectEmail) {
+        if (findUser) {
+          errors.push({
+            msg: 'You are already using this email; if you would like to update it, please check the box.',
+          });
+          // renders inerface with error array
+          renderInterface(false);
+        } else {
+          // updates the user
+          const userInfo = await updateUserFn(true, state, role, email);
 
-      const findUser = await UserModel.findOne({ email: email });
-
-      if (findUser) {
-        console.log('ooooooooooooooooooooo3');
-
-        console.log('...........qwerty.........');
+          if (userInfo) {
+            // render updated user information
+            renderInterface(true, userInfo);
+          } else {
+            // renders error if anything went wrong in the DB
+            errors.push({ msg: ` OOps!, something went wrong` });
+            renderInterface(false);
+          }
+        }
+      } else if (!selectEmail && findUser) {
+        // renders error if user enters an already registered email
         errors.push({
           msg: `you can't use this email  ${email}, please try another email`,
         });
-        res.render('Admin/editUser.ejs', {
-          errors,
-          first_name,
-          last_name,
-          email,
-          phone,
-          location,
-          gender,
-          state,
-          user: undefined,
-          id: req.params.userId,
-          feedback: false,
-        });
-
-        // return res.status(400).json(` `);
+        renderInterface(false);
+        // this will update account without updating the email
       } else {
-        // updates the user
-        const convertStateToBool = state === 'activate' ? true : false;
-        const convertRole = role === 'admin' ? 3 : role === 'agent' ? 1 : 0;
-        const updatedUser = await UserModel.findOneAndUpdate(
-          { _id: req.params.userId },
-          {
-            first_name,
-            last_name,
-            email,
-            phone,
-            location,
-            gender,
-            active: convertStateToBool,
-            user_type: convertRole,
-          },
-          { new: true }
-        );
-        console.log(updatedUser);
-        if (updatedUser) {
-          // req.flash('success_msg', 'Account Has been updated!');
+        // updates user if email check box was not checked
+        const userInfo = await updateUserFn(false, state, role, email);
 
-          res.status(200).render('Admin/editUser', {
-            user: updatedUser,
-            first_name: updatedUser.first_name,
-            last_name: updatedUser.last_name,
-            email: updatedUser.email,
-            phone: updatedUser.phone,
-            location: updatedUser.location,
-            gender: updatedUser ? updatedUser.gender : '',
-            id: updatedUser._id,
-            feedback: {
-              updated: true,
-              msg: 'Account Has been updated!',
-            },
-          });
-        } else {
-          req.flash('error_msg', ` OOps!, something went wrong`);
-          res.render('Admin/editUser', {
-            user: undefined,
-            first_name: updatedUser.first_name,
-            last_name: updatedUser.last_name,
-            email: updatedUser.email,
-            phone: updatedUser.phone,
-            location: updatedUser.location,
-            gender: updatedUser ? updatedUser.gender : '',
-            id: updatedUser._id,
-            feedback: false,
-          });
-        }
+        renderInterface(true, userInfo);
       }
     }
   } else {
     // TODO: work on this
 
     req.flash('error_msg', ` you are not authorized to update this customer `);
-    res.render('Admin/editUser', {
-      user: undefined,
-      first_name: updatedUser.first_name,
-      last_name: updatedUser.last_name,
-      email: updatedUser.email,
-      phone: updatedUser.phone,
-      location: updatedUser.location,
-      gender: updatedUser ? updatedUser.gender : '',
-      id: updatedUser._id,
-      feedback: false,
+    errors.push({
+      msg: ` you are not authorized to update this customer `,
     });
+    renderInterface(false);
   }
 });
 // deactivate user
@@ -633,7 +710,7 @@ const deactivateUser = asyncWrapper(async (req, res) => {
       // renders message to frontend
       res.status(200).render(`Admin/viewUserProfile`, { userData: blockUser });
     } else {
-      // this will return an error dialog
+      // TODO:this will return an error dialog
     }
   } else {
     res.status(401).json({
@@ -718,3 +795,6 @@ module.exports = {
   adminUpdateProfile,
   updateProfile,
 };
+/**
+ * if
+ */
