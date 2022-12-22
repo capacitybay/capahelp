@@ -71,8 +71,8 @@
                             <h4>Active Customers</h4>
                             <div class="ticket-wrapper">
 
-                                <h1 style="color: #1CA76C;;" id="activeUsers">
-                                    <%= activeUsers %>
+                                <h1 style="color: #1CA76C;;" id="activeCustomers">
+                                    <%= activeCustomers %>
                                 </h1>
                                 <div class="ticket-image">
 
@@ -84,8 +84,8 @@
                             <h4>Deactivated Customers</h4>
                             <div class="ticket-wrapper">
 
-                                <h1 style="color: #C00000;" id="deactivatedUsers">
-                                    <%= deactivatedUsers %>
+                                <h1 style="color: #C00000;" id="deactivatedCustomers">
+                                    <%= deactivatedCustomers %>
                                 </h1>
                                 <div class="ticket-image">
 
@@ -97,8 +97,8 @@
                             <h4>Total No. Customers</h4>
                             <div class="ticket-wrapper">
 
-                                <h1 style="color: Coral;" id="allUsers">
-                                    <%= allUsers %>
+                                <h1 style="color: Coral;" id="totalCustomers">
+                                    <%= totalCustomers %>
                                 </h1>
                                 <div class="ticket-image">
 
@@ -153,15 +153,15 @@
 
 
             <script>
-                const allUsers = parseInt(document.getElementById("allUsers").textContent);
-                const activeUsers = parseInt(document.getElementById("activeUsers").textContent);
-                const deactivatedUsers = parseInt(document.getElementById("deactivatedUsers").textContent);
+                const totalCustomers = parseInt(document.getElementById("totalCustomers").textContent);
+                const activeCustomers = parseInt(document.getElementById("activeCustomers").textContent);
+                const deactivatedCustomers = parseInt(document.getElementById("deactivatedCustomers").textContent);
                 const activeTickets = parseInt(document.getElementById("activeTickets").textContent);
                 const resolvedTickets = parseInt(document.getElementById("resolvedTickets").textContent);
                 const ticketsInProgress = parseInt(document.getElementById("ticketsInProgress").textContent);
                 const cancelledTickets = parseInt(document.getElementById("cancelledTickets").textContent);
                 const pendingTickets = parseInt(document.getElementById("pendingTickets").textContent);
-                console.log(allUsers)
+                console.log(totalCustomers)
 
                 const ctx = document.getElementById('myChart').getContext('2d');
                 const myChart = new Chart(ctx, {
@@ -221,7 +221,7 @@
                         labels: ['Active Customers', 'Deactivated Customers', 'Total No. Customers'],
                         datasets: [{
                             label: '# of Votes',
-                            data: [activeUsers, deactivatedUsers, allUsers],
+                            data: [activeCustomers, deactivatedCustomers, totalCustomers],
                             backgroundColor: [
                                 '#1CA76C',
                                 '#C00000',

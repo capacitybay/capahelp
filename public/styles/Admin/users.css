@@ -8,6 +8,18 @@
   box-sizing: border-box;
 }
 
+/* custom */
+.caption-12 {
+  display: flex;
+  gap: 0.5rem;
+}
+.drop:before {
+  content: 'inactive';
+}
+.add:before {
+  content: 'active';
+}
+
 .card-section {
   margin-bottom: 2rem;
 }

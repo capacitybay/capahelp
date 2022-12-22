@@ -23,6 +23,7 @@
         </head>
 
         <body>
+            <!-- ** error check handled from backend -->
             <div>
                 <%- include("../partials/Admin/adminHeader.ejs",{user:undefined}) %>
             </div>
@@ -46,9 +47,23 @@
                                         <h4
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                             Total Users<i class="fa-solid fa-users margin-icon"></i></h4><span
-                                            class="hind-font caption-12 c-dashboardInfo__count">10,500</span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
-                                            +30</span>
+                                            class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= totalSystemUsers %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Stat:
+
+                                            <span class="add text-success">
+                                                <%= activeUsers %>
+                                            </span>
+                                            <span class="drop text-danger">
+
+                                                <%= totalInactiveUsers %>
+
+                                            </span>
+
+                                        </span>
+                                        <!-- <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span> -->
 
                                     </div>
                                 </div>
@@ -58,8 +73,22 @@
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                             No.
                                             Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
-                                            class="hind-font caption-12 c-dashboardInfo__count">500</span><span
-                                            class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: -30</span>
+                                            class="hind-font caption-12 c-dashboardInfo__count ">
+                                            <%= totalAdmins %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Stat:
+
+                                            <span class="add text-success  ">
+                                                <%= activeAdmins %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= inactiveAdmins%>
+
+                                            </span>
+
+                                        </span>
+
                                     </div>
                                 </div>
                                 <div class="c-dashboardInfo col-lg-3 col-md-6">
@@ -67,9 +96,21 @@
                                         <h4
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                             No. Of Clients<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
-                                            class="hind-font caption-12 c-dashboardInfo__count">5000</span>
+                                            class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= customers %>
+                                        </span>
                                         <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
-                                            +30</span>
+
+                                            <span class="add text-success  ">
+                                                <%= activeCustomers %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= deactivatedCustomers%>
+
+                                            </span>
+
+                                        </span>
 
                                     </div>
                                 </div>
@@ -79,9 +120,20 @@
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                             No
                                             Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
-                                            class="hind-font caption-12 c-dashboardInfo__count">6,40%</span>
+                                            class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= agents %>
+                                        </span>
                                         <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
-                                            +30</span>
+
+                                            <span class="add text-success  ">
+                                                <%= activeAgents %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= inactiveAgents%>
+
+                                            </span>
+                                        </span>
 
                                     </div>
                                 </div>
@@ -92,7 +144,8 @@
                 <div class="filter-users-cont">
 
 
-                    <h4>select the individual input, if you want to be more specific <%= hits?hits:"none" %>
+                    <!-- <h4>select the individual input, if you want to be more specific <%= hits?hits:"none" %> -->
+                    <p>still working on this</p>
                     </h4>
                     <div class="filter-users">
                         <form class="filter-form" id="filterForm">
