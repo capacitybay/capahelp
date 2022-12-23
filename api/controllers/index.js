@@ -12,6 +12,10 @@ const {
   filterUsers,
   adminUpdateProfile,
   updateProfile,
+  viewUserProfile,
+  getAdminCreateUser,
+  getAdminUpdateUserProfile,
+  getRegisterComponent,
 } = require('./userController');
 
 const {
@@ -57,6 +61,10 @@ module.exports = {
   deactivateUser,
   reactivateUser,
   updateProfile,
+  viewUserProfile,
+  getAdminCreateUser,
+  getAdminUpdateUserProfile,
+  getRegisterComponent,
   // department
   createDepartment,
   getDepartment,
