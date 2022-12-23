@@ -32,7 +32,16 @@ function registerValidation(data) {
         'string.pattern.base':
           'Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character',
       }),
-    phone: joi.string().alphanum().min(10).max(13).required(),
+    phone: joi
+      .string()
+
+      .pattern(/^[0-9]+$/)
+      .messages({
+        'string.pattern.base': `Phone number must have  at least 10 digits.`,
+      })
+      .min(2)
+      .max(13)
+      .required(),
   });
   return schema.validate(data);
 }
@@ -82,7 +91,16 @@ function updateUserValidation(data) {
       })
       .required(),
 
-    phone: joi.string().alphanum().min(10).max(13).required(),
+    phone: joi
+      .string()
+
+      .pattern(/^[0-9]+$/)
+      .messages({
+        'string.pattern.base': `Phone number must have  at least 10 digits.`,
+      })
+      .min(2)
+      .max(13)
+      .required(),
   });
   return schema.validate(data);
 }
