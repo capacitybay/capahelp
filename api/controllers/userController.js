@@ -645,12 +645,14 @@ const updateUser = asyncWrapper(async (req, res, next) => {
         { password: 0 }
       );
       // check if email checkbox is selected
+      console.log('first');
+      console.log(!selectEmail);
       if (selectEmail) {
         if (findUser) {
           errors.push({
             msg: 'You are already using this email; if you would like to update it, please check the box.',
           });
-          // renders inerface with error array
+          // renders interface with error array
           renderInterface(false);
         } else {
           // updates the user
@@ -665,18 +667,23 @@ const updateUser = asyncWrapper(async (req, res, next) => {
             renderInterface(false);
           }
         }
-      } else if (!selectEmail && findUser) {
-        // renders error if user enters an already registered email
-        errors.push({
-          msg: `you can't use this email  ${email}, please try another email`,
-        });
-        renderInterface(false);
-        // this will update account without updating the email
       } else {
-        // updates user if email check box was not checked
-        const userInfo = await updateUserFn(false, state, role, email);
+        // this will update account without updating the email
+        console.log('last');
+        console.log(findUser);
+        if (findUser && findUser.email !== email) {
+          // renders error if user enters an already registered email
 
-        renderInterface(true, userInfo);
+          errors.push({
+            msg: `you can't use this email  ${email}, please try another email`,
+          });
+          renderInterface(false);
+        } else {
+          // updates user if email check box was not checked
+          const userInfo = await updateUserFn(false, state, role, email);
+
+          renderInterface(true, userInfo);
+        }
       }
     }
   } else {
@@ -733,8 +740,6 @@ const reactivateUser = asyncWrapper(async (req, res) => {
     );
 
     if (activateUser) {
-      console.log('yeeeee');
-
       req.flash(
         'success_msg',
         ` ${activateUser.first_name.toUpperCase()} ${activateUser.last_name.toUpperCase()}'s Account  Activated!`
@@ -781,6 +786,34 @@ const deleteUser = asyncWrapper(async (req, res) => {
   }
 });
 
+// !Admin routes
+
+const viewUserProfile = asyncWrapper(async (req, res) => {
+  const userData = await userModel.findOne(
+    { email: req.params.email },
+    { password: 0 }
+  );
+  console.log(userData);
+  res.render('Admin/viewUserProfile', {
+    user: req.user[0],
+    userData: userData,
+  });
+});
+
+const getAdminCreateUser = asyncWrapper((req, res) => {
+  return res.render('Admin/adminCreateUser.ejs', {
+    message: null,
+    email: null,
+  });
+  // return
+});
+const getAdminUpdateUserProfile = asyncWrapper(async (req, res) => {
+  const user = await userModel.find({ _id: req.params.userId });
+  res.render('Admin/editUser', { user: user[0], feedback: false });
+});
+const getRegisterComponent = asyncWrapper((req, res) => {
+  res.render('Admin/adminCreateUser');
+});
 module.exports = {
   createUser,
   getUser,
@@ -794,7 +827,9 @@ module.exports = {
   filterUsers,
   adminUpdateProfile,
   updateProfile,
+
+  viewUserProfile,
+  getAdminCreateUser,
+  getAdminUpdateUserProfile,
+  getRegisterComponent,
 };
-/**
- * if
- */
