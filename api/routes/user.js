@@ -12,6 +12,10 @@ const {
   filterUsers,
   adminUpdateProfile,
   updateProfile,
+  viewUserProfile,
+  getAdminCreateUser,
+  getAdminUpdateUserProfile,
+  getRegisterComponent,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
 
@@ -63,24 +67,8 @@ router.post('/user/register', createUser);
  */
 
 // ! ADMIN ROUTES
-router.get('/admin/register', (req, res) => {
-  return res.render('Admin/adminCreateUser.ejs', {
-    message: null,
-    email: null,
-  });
-  // return
-});
-router.get('/view/user/profile/:email', async (req, res) => {
-  const userData = await userModel.findOne(
-    { email: req.params.email },
-    { password: 0 }
-  );
-  console.log(userData);
-  res.render('Admin/viewUserProfile', {
-    user: req.user[0],
-    userData: userData,
-  });
-});
+router.get('/admin/register', getAdminCreateUser);
+router.get('/view/user/profile/:email', viewUserProfile);
 
 router.post('/filter/users', filterUsers);
 
@@ -97,17 +85,11 @@ router.get('/admin/dashboard', isAdmin, adminDashboard);
 // gets all user (admin route)
 router.get('/admin/manage/users', isAdmin, getUser);
 
-router.get('/admin/register', (req, res) => {
-  res.render('Admin/adminCreateUser');
-});
+router.get('/admin/register', getRegisterComponent);
 router.post('/admin/register', adminCreateUser);
 
 // update a user (admin route)
-router.get('/admin/update/user/:userId', async (req, res) => {
-  const user = await userModel.find({ _id: req.params.userId });
-  console.log('user-------------------');
-  res.render('Admin/editUser', { user: user[0], feedback: false });
-});
+router.get('/admin/update/user/:userId', getAdminUpdateUserProfile);
 router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
 
 router.patch('/admin/update/profile/:userId', isAdmin, updateProfile);
