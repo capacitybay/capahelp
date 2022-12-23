@@ -557,7 +557,15 @@ const updateUser = asyncWrapper(async (req, res, next) => {
    ** updates acct if email check box returns true or false
    * @params : checkEmail=checkbox,userState:active/inactive,userRole=admin/user/agent,userEmail=email
    */
-  const updateUserFn = async (checkEmail, userState, userRole, userEmail) => {
+  const updateUserFn = async (
+    checkEmail,
+    userState,
+    userRole,
+    userEmail,
+    phone,
+    first_name,
+    last_nam
+  ) => {
     const convertStateToBool = userState === 'activate' ? true : false;
     const convertRole = userRole === 'admin' ? 3 : userRole === 'agent' ? 1 : 0;
     const query = {
@@ -570,9 +578,9 @@ const updateUser = asyncWrapper(async (req, res, next) => {
       user_type: convertRole,
     };
     // checks id email check box is checked
-    if (userEmail) {
+    if (checkEmail) {
       // adds email property
-      query.email = email;
+      query.email = userEmail;
       const updatedUser = await UserModel.findOneAndUpdate(
         { _id: req.params.userId },
         query,
@@ -656,7 +664,15 @@ const updateUser = asyncWrapper(async (req, res, next) => {
           renderInterface(false);
         } else {
           // updates the user
-          const userInfo = await updateUserFn(true, state, role, email);
+          const userInfo = await updateUserFn(
+            true,
+            state,
+            role,
+            email,
+            phone,
+            first_name,
+            last_name
+          );
 
           if (userInfo) {
             // render updated user information
@@ -680,7 +696,15 @@ const updateUser = asyncWrapper(async (req, res, next) => {
           renderInterface(false);
         } else {
           // updates user if email check box was not checked
-          const userInfo = await updateUserFn(false, state, role, email);
+          const userInfo = await updateUserFn(
+            false,
+            state,
+            role,
+            email,
+            phone,
+            first_name,
+            last_name
+          );
 
           renderInterface(true, userInfo);
         }
@@ -808,7 +832,12 @@ const getAdminCreateUser = asyncWrapper((req, res) => {
   // return
 });
 const getAdminUpdateUserProfile = asyncWrapper(async (req, res) => {
-  const user = await userModel.find({ _id: req.params.userId });
+  const user = await userModel.find(
+    { _id: req.params.userId },
+    { password: 0 }
+  );
+  console.log('user');
+  console.log(user);
   res.render('Admin/editUser', { user: user[0], feedback: false });
 });
 const getRegisterComponent = asyncWrapper((req, res) => {
