@@ -45,6 +45,9 @@ const UserSchema = new mongoose.Schema(
       default: 0,
       required: true,
     },
+    gender: {
+      type: String,
+    },
     active: {
       type: Boolean, // will be set to true if the user account  is active
       // default: true, //working on this
