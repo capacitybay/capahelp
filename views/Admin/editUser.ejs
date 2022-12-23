@@ -94,7 +94,11 @@
                  -->
                                 <div class="input__box">
                                     <span class="details " for="gender">Gender</span>
-                                    <select class="select" name="gender" id="gender" name="gender" required>
+                                    <select class="select" name="gender" id="gender" required>
+                                        <option name="gender" value="<%= user? user.gender:'' %>" selected disabled
+                                            hidden>
+                                            <%= user? user.gender:'' %>
+                                        </option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                         <option value="Others">Prefer not to say</option>
@@ -108,11 +112,11 @@
                                 <div class="input__box">
                                     <span class="details " for="role">User Role: </span>
                                     <select class="select" name="role" id="role" name="role">
-                                        <option value="<%= !user ? user_type : user.user_type === 3 ? 'admin' :
-                                            user.user_type === 1 ? 'agent' : 'customer' %>" selected disabled hidden>
-                                            <!-- TODO: work on this condition -->
-                                            <%= !user ? user_type : user.user_type===3 ? 'admin' : user.user_type===1
-                                                ? 'agent' : 'customer' %>
+                                        <option
+                                            value="<%= user? user.user_type === 3 ? 'admin': user.user_type === 1 ? 'agent' : 'customer' :'' %>"
+                                            selected disabled hidden>
+                                            <%=user? user.user_type===3 ? 'admin' : user.user_type===1 ? 'agent'
+                                                : 'customer' :'' %>
                                         </option>
                                         <option value="admin">admin</option>
                                         <option value="agent">agent</option>
@@ -122,11 +126,18 @@
                                 </div>
                                 <div class="input__box">
                                     <span class="details " for="state">User State:<span class="user-state-hint">
-                                            <%= !user ? state : user.active ? "active" : "inactive" %>
+                                            <%= user ? user.active ? "active" : "inactive" :"" %>
                                         </span>
 
                                     </span>
                                     <select class="select" name="state" id="state" name="state">
+                                        <option value="<%= user ? user.active ? 'active' : 'inactive' :'' %>" selected
+                                            disabled hidden>
+
+
+                                            <%= user ? user.active ? 'Deactivate' : 'Activate' :'' %>
+                                        </option>
+                                        </option>
                                         <option value="activate">Activate</option>
                                         <option value="deactivate">Deactivate</option>
 
