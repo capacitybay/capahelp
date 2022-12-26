@@ -6,9 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
+    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/footer.css">
+    <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
+    <link rel="stylesheet" href="/public/styles/Admin/ticketTable.css">
+
     <!-- fontawesome cdn link -->
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
 </head>
@@ -19,7 +24,110 @@
 
             <h1 class="h1_tickets">Tickets</h1><br>
 
-            <div class="info">
+            <section class="card-section">
+                <div id="root">
+                    <div class="container pt-5">
+                        <div class="row align-items-stretch">
+                            <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                <div class="wrap">
+                                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                        Total Tickets<i class="fa-solid fa-users margin-icon"></i></h4><span
+                                        class="hind-font caption-12 c-dashboardInfo__count">
+                                        <%= 45 %>
+                                    </span>
+                                    <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
+
+                                        <span class="add text-success">
+                                            <%= 4 %>
+                                        </span>
+                                        <span class="drop text-danger">
+
+                                            <%= 3 %>
+
+                                        </span>
+
+                                    </span>
+                                    <!-- <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                        +30</span> -->
+
+                                </div>
+                            </div>
+                            <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                <div class="wrap">
+                                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                        No.
+                                        Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
+                                        class="hind-font caption-12 c-dashboardInfo__count ">
+                                        <%= 4 %>
+                                    </span>
+                                    <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
+
+                                        <span class="add text-success  ">
+                                            <%= 45 %>
+                                        </span>
+                                        <span class="drop text-danger ">
+
+                                            <%= 7%>
+
+                                        </span>
+
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                <div class="wrap">
+                                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                        No. Of Tickets<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
+                                        class="hind-font caption-12 c-dashboardInfo__count">
+                                        <%= 34 %>
+                                    </span>
+                                    <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+
+                                        <span class="add text-success  ">
+                                            <%= 4 %>
+                                        </span>
+                                        <span class="drop text-danger ">
+
+                                            <%= 7 %>
+
+                                        </span>
+
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                <div class="wrap">
+                                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                        No
+                                        Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
+                                        class="hind-font caption-12 c-dashboardInfo__count">
+                                        <%= 5 %>
+                                    </span>
+                                    <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+
+                                        <span class="add text-success  ">
+                                            <%= 5 %>
+                                        </span>
+                                        <span class="drop text-danger ">
+
+                                            <%= 4 %>
+
+                                        </span>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <%- include("../partials/Admin/ticketsTable.ejs")%>
+
+                <!-- <div class="info">
                 <div class="all h3" id="ticketsLink" data-url='/admin/ticket/list'>
                     <h3>All</h3>
                 </div>
@@ -38,57 +146,7 @@
                 <div class="all" id="pendingTicketsLink" data-url='/admin/ticket/list/pending'>
                     <h3>Pending</h3>
                 </div>
-            </div><br>
-            <% if(receivedTickets) {%>
-                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July" , "August"
-                    , "September" , "October" , "November" , "December" ]; %>
-                    <% receivedTickets.forEach((item,index)=>{ %>
-                        <% var d=item.createdAt.getDate(); var m=monthNames[item.createdAt.getMonth()]; var
-                            y=item.createdAt.getFullYear(); %>
-                            <div class="box">
-                                <div class="aside">
-                                    <div>
-                                        <h3 class="box_h1">
-                                            <%= user? ticketOwners[index].first_name.charAt(0).toUpperCase() + "" +
-                                                ticketOwners[index].last_name.charAt(0).toUpperCase():"EO" %>
-                                        </h3>
-                                    </div>
-                                    <div class="box_text">
-                                        <h3>
-                                            <%= item.title %>
-                                        </h3>
-                                        <h4>
-                                            <%= ticketOwners[index].first_name+" "+ticketOwners[index].last_name%>
-                                        </h4>
-                                        <h6>Created on <%= d+ " " +m+ " " +y %>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class=" response">
-                                                <input type="hidden" id="hidden" class="ticket-id"
-                                                    value="<%= item._id %>">
-                                                <div class="box_status">
-                                                    <label for="">Status</label><br>
-                                                    <select name="" id="">
-                                                        <option value="">Active</option>
-                                                    </select>
-                                                </div>
-                                                <div class="box_prior">
-                                                    <label for="">Priority</label><br>
-                                                    <select name="" id="">
-                                                        <option value="">Low</option>
-                                                    </select>
-                                                </div>
-                                    </div>
-                                    <div class="box_btn">
-                                        <button id="button" class="view-ticket" data-ticket="<%= item._id %>">View
-                                            Ticket</button>
-                                    </div>
-                                </div> <br>
-                                <% }) %>
-                                    <% }else{ %>
-                                        <h1>qwerty</h1>
-                                        <% } %>
+            </div><br> -->
 
 
         </main>
