@@ -4,6 +4,8 @@ const { createCustomError } = require('../../middleware/customError');
 const { find, findOne } = require('../../models/departmentModel');
 const { resolveHostname } = require('nodemailer/lib/shared');
 const UserModel = require('../../models/userModel');
+const userModel = require('../../models/userModel');
+const { validateEmail } = require('../../validation/validation');
 // const { findOne } = require('../../models/departmentModel');
 
 const verifyUser = (req, res) => {
@@ -100,6 +102,7 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
       .status(404)
       .json({ success: false, payload: `invalid ticket is ${ticketId}` });
   // checks if user is an admin
+
   if (ticketId && req.user.user_type === 3) {
     const adminUpdatedTicket = await TicketModel.updateOne(query, {
       ticket_type,
@@ -384,6 +387,175 @@ const deleteTicket = asyncWrapper(async (req, res, next) => {
   );
 });
 
+const adminCreateTicket = asyncWrapper(async (req, res) => {
+  const {
+    ticket_type,
+    title,
+    customer_id,
+    assignee_id,
+    dept_id,
+    urgency,
+    priority,
+    ticket_status,
+    description,
+  } = req.body;
+
+  if (
+    !ticket_type ||
+    !title ||
+    !customer_id ||
+    !urgency ||
+    !priority ||
+    !ticket_status ||
+    !description
+  )
+    return res.send({
+      success: false,
+      msg: 'Inputs fields marked with *, cannot be empty!',
+    });
+
+  if (!assignee_id && dept_id === 'none')
+    return res.send({
+      success: false,
+      msg: 'You Must Choose Assignee Or Department Field',
+      payload: {
+        ticket_type,
+        title,
+        customer_id,
+        assignee_id,
+        dept_id,
+        urgency,
+        priority,
+        ticket_status,
+        description,
+      },
+    });
+
+  /**
+   * @param all parameter are of type String and are validated before passed as arg
+   * * This function is responsible for creating ticket with respect to provided args
+   */
+  const createTicketFn = async (
+    addDept,
+    _ticket_type,
+    _title,
+    _customer_id,
+    _assignee_id,
+    _dept_id,
+    _urgency,
+    _priority,
+    _ticket_status,
+    _description
+  ) => {
+    const createTicketInfo = {
+      ticket_type: _ticket_type,
+      title: _title,
+      customer_id: _customer_id.email,
+
+      urgency: _urgency,
+      priority: _priority,
+      ticket_status: _ticket_status,
+      description: _description,
+    };
+    // *checks if user entered both assignee and department
+    if (_dept_id !== 'none' && _assignee_id)
+      return res.send({
+        success: false,
+        msg: 'Please Select Either An Assignee Or Department',
+      });
+    // this changes the values of dept_id and assignee_id based on the conditions below
+    createTicketInfo.dept_id = _dept_id === 'none' ? null : _dept_id;
+    createTicketInfo.assignee_id = !_assignee_id ? null : _assignee_id;
+    //*creates a new instance of the ticket model
+    const newTicket = new TicketModel(createTicketInfo);
+    const storedTicket = await newTicket.save();
+    // sends created ticket and a success msg
+    return res.send({
+      success: true,
+      msg: 'Ticket Has Been Created !',
+      payload: storedTicket,
+    });
+  };
+  //* email validation start
+  const { error: customerValError } = await validateEmail({
+    email: customer_id,
+  });
+  const { error: agentValError } = await validateEmail({ email: assignee_id });
+  // console.log(customerValError, agentValError);
+
+  // * Email validation end
+
+  // *Checks if error was returned from the validation
+  if (customerValError)
+    return res.send({ success: false, msg: customerValError.message });
+  // if(assignee_id)
+  if (assignee_id && agentValError)
+    return res.send({ success: false, msg: agentValError.message });
+
+  // *fetch customer  with the provided email
+  const getUserInfo = await userModel.findOne(
+    { email: customer_id },
+    { password: 0 }
+  );
+
+  // *fetch Agent  with the provided email ie if email is provided
+  const getAssigneeInfo = await userModel.findOne(
+    { email: assignee_id },
+    { password: 0 }
+  );
+
+  // *check if customer and agent exist in th DB
+  if (!getUserInfo)
+    return res.send({
+      success: false,
+      msg: `This customer ${customer_id} does not exist,Please create account for this customer`,
+    });
+  if (assignee_id && !getAssigneeInfo)
+    return res.send({
+      success: false,
+      msg: `Agent ${assignee_id} does not exist!`,
+    });
+
+  // *Checks if assignee is a customer
+  if (getAssigneeInfo && getAssigneeInfo.user_type === 0)
+    return res.send({
+      success: false,
+      msg: "You Can't Assign Ticket To A Customer ",
+    });
+  if (dept_id) {
+    createTicketFn(
+      true,
+      ticket_type,
+      title,
+      customer_id,
+      assignee_id, //remove
+      dept_id,
+      urgency,
+      priority,
+      ticket_status,
+      description
+    );
+  } else {
+    createTicketFn(
+      false,
+      ticket_type,
+      title,
+      customer_id,
+      assignee_id,
+      dept_id,
+      urgency,
+      priority,
+      ticket_status,
+      description
+    );
+  }
+
+  // createTicketFn()
+
+  // console.log(getUserInfo);
+  // console.log(getUserInfo);
+});
+
 module.exports = {
   getTicket,
   createTicket,
@@ -395,4 +567,7 @@ module.exports = {
   inProgressTickets,
   pendingTickets,
   resolvedTickets,
+  adminCreateTicket,
 };
+
+// assigning ticket to agent or dept should be optional

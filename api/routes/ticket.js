@@ -12,6 +12,7 @@ const {
   inProgressTickets,
   pendingTickets,
   resolvedTickets,
+  adminCreateTicket,
 } = require('../controllers');
 
 const {
@@ -33,23 +34,23 @@ router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
 
 router.get('/user/tickets', ensureAuthenticated, (req, res) => {
-  res.render('User/tickets', 
-  {
-    userFN: req.user[0].first_name, 
-    userLN: req.user[0].last_name, 
-    userEmail: req.user[0].email
+  res.render('User/tickets', {
+    userFN: req.user[0].first_name,
+    userLN: req.user[0].last_name,
+    userEmail: req.user[0].email,
   });
 });
 router.get('/user/create/ticket', ensureAuthenticated, (req, res) => {
-
-    res.render('User/createTicket', 
-    {
-      userFN: req.user[0].first_name, 
-      userLN: req.user[0].last_name, 
-      userEmail: req.user[0].email
-    });
-  
+  res.render('User/createTicket', {
+    userFN: req.user[0].first_name,
+    userLN: req.user[0].last_name,
+    userEmail: req.user[0].email,
+  });
 });
+router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
+  res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
+});
+router.post('/admin/create/ticket', adminCreateTicket);
 module.exports = router;
 /**
  * Tfind if department exist if yes
