@@ -11,6 +11,10 @@ body {
   background-color: #eee;
 }
 
+h4,
+.h4 {
+  font-size: 1rem !important;
+}
 /* .content {
   padding-top: 60px;
 } */
@@ -19,6 +23,8 @@ body {
   width: 95%;
   margin: 0 auto;
   /* margin-top: 20rem; */
+  display: flex;
+  flex-direction: column !important;
 }
 .divider {
 }

@@ -7,8 +7,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+h4 .h4 {
+  font-size: 1rem !important;
+}
 
 /* custom */
+.edit {
+  cursor: pointer;
+}
+.view {
+  cursor: pointer;
+}
 .caption-12 {
   display: flex;
   gap: 0.5rem;
