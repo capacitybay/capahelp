@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100,200,300,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100,200,300,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
 * {
   margin: 0;
@@ -20,8 +20,14 @@
   font-weight: 600;
   font-size: clamp(13px, 1vw, 25px);
   display: flex;
+  cursor: pointer;
   justify-content: flex-start;
 }
+.custom-btn-logout:hover {
+  color: blue;
+}
+
+/* end of logout */
 
 :root {
   /* *Primary */
@@ -515,7 +521,7 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   gap: 40px;
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 }
 .solutions-create a {
   color: var(--white);
@@ -545,7 +551,7 @@ nav ul li a:hover {
 .solutions-head {
   text-align: center;
   margin-bottom: clamp(30px, 2vw, 60px);
-  opacity: 0;
+  /* opacity: 0; */
   animation: slideUp 0.5s ease forwards 1s;
 }
 .solutions-head h1 {
@@ -649,6 +655,11 @@ nav ul li a:hover {
     color: var(--maincolor);
   }
 }
+
+/* .dept {
+  background-color: red;
+  z-index: 100;
+} */
 
 /* CREATE A TICKET: */
 form {

@@ -15,10 +15,12 @@ const TicketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    //TODO: should be changed to email
     customer_id: {
       type: String,
-      required: true,
+      // required: true,
     },
+    //TODO: should be changed to email
     assignee_id: {
       type: String,
     },
