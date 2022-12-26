@@ -13,6 +13,7 @@ const {
   pendingTickets,
   resolvedTickets,
   adminCreateTicket,
+  adminEditTicket,
 } = require('../controllers');
 
 const {
@@ -22,6 +23,7 @@ const {
 router.post('/ticket/new', createTicket);
 
 // admin routes
+router.get('/admin/update/ticket/:ticketId', isAdmin, adminEditTicket);
 router.get('/admin/view/ticket/:ticketId', isAdmin, getTicket);
 router.get('/admin/ticket/list/active', isAdmin, activeTickets);
 router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);

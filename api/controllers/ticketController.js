@@ -41,6 +41,30 @@ const createTicket = asyncWrapper(async (req, res) => {
   res.status(201).json({ success: true, payload: savedTicket });
 });
 
+const adminEditTicket = asyncWrapper(async (req, res) => {
+  const fetchedTicket = await TicketModel.findOne({ _id: req.params.ticketId });
+  console.log('-------------------------');
+  console.log(fetchedTicket);
+  if (fetchedTicket) {
+    return res.render('Admin/adminEditTicket', {
+      title: fetchedTicket.title,
+      ticket_type: fetchedTicket.ticket_type,
+      customer_email: fetchedTicket.customer_id
+        ? fetchedTicket.customer_id
+        : '',
+      assignee_email: fetchedTicket.assignee_id
+        ? fetchedTicket.assignee_id
+        : '',
+      dept_id: fetchedTicket.dept_id,
+      priority: fetchedTicket.priority,
+      urgency: fetchedTicket.urgency,
+      ticket_status: fetchedTicket.ticket_status,
+
+      user: req.user[0],
+    });
+  }
+});
+
 // gets a single ticket
 
 const getTicket = asyncWrapper(async (req, res, next) => {
@@ -51,7 +75,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
     // let ticketOwners = [];
 
     let ticketUser = await UserModel.find({
-      _id: ticket.customer_id,
+      email: ticket.customer_id,
     });
     // console.log(ticketUser);
 
@@ -141,79 +165,16 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 
 // admin controllers
 const listTicket = asyncWrapper(async (req, res) => {
-  const checkTickets = (tickets, ticketOwners, role) => {
-    if (!tickets) {
-      // TODO: create a fallback UI
-      return res
-        .status(404)
-        .json({ success: false, payload: 'No ticket found!' });
-    } else {
-      if (role === 3) {
-        res.render('Admin/tickets', {
-          user: req.user[0],
-          success: true,
-          payload: tickets,
-          hits: tickets.length,
-          receivedTickets: tickets,
-          ticketOwners: ticketOwners,
-        });
-      } else if (role === 0) {
-        // this will render user ticket page (not activated yet)
-        res.render('Admin/tickets', {
-          user: req.user[0],
-          success: true,
-          payload: tickets,
-          hits: tickets.length,
-          receivedTickets: tickets,
-          ticketOwners: ticketOwners,
-        });
-      }
-
-      // return res.status(200).json({
-      //   success: true,
-      //   payload: tickets,
-      //   hits: tickets.length,
-      // });
-    }
-  };
-
-  // checks is user is authenticated
-  // verifyUser(req, res);
-
-  const { id, user_type } = req.user[0];
-
-  if (user_type === 3) {
-    let ticketOwners = [];
-    const tickets = await TicketModel.find();
-    for (let index = 0; index < tickets.length; index++) {
-      let ticketUser = await UserModel.find({
-        _id: tickets[index].customer_id,
-      });
-      // console.log(ticketUser);
-
-      ticketOwners.push({
-        first_name: ticketUser[0] ? ticketUser[0].first_name : 'No user ',
-        last_name: ticketUser[0] ? ticketUser[0].last_name : ' found',
-      });
-    }
-    checkTickets(tickets, ticketOwners, user_type);
-  }
-  if (user_type === 0) {
-    // not tested
-    let ticketOwners = [];
-    const tickets = await TicketModel.find({ customer_id: id });
-    for (let index = 0; index < tickets.length; index++) {
-      let ticketUser = await UserModel.find({
-        _id: tickets[index].customer_id,
-      });
-
-      ticketOwners.push({
-        first_name: ticketUser[0] ? ticketUser[0].first_name : 'No user ',
-        last_name: ticketUser[0] ? ticketUser[0].last_name : 'found',
-      });
-    }
-    checkTickets(tickets, ticketOwners, user_type);
-  }
+  const getAllTickets = await TicketModel.find();
+  // console.log(getAllTickets);
+  res.render('Admin/tickets', {
+    user: req.user[0],
+    success: true,
+    // payload: tickets,
+    // hits: tickets.length,
+    receivedTickets: getAllTickets,
+    // ticketOwners: ticketOwners,
+  });
 });
 
 const activeTickets = asyncWrapper(async (req, res, next) => {
@@ -450,7 +411,7 @@ const adminCreateTicket = asyncWrapper(async (req, res) => {
     const createTicketInfo = {
       ticket_type: _ticket_type,
       title: _title,
-      customer_id: _customer_id.email,
+      customer_id: _customer_id,
 
       urgency: _urgency,
       priority: _priority,
@@ -466,10 +427,13 @@ const adminCreateTicket = asyncWrapper(async (req, res) => {
     // this changes the values of dept_id and assignee_id based on the conditions below
     createTicketInfo.dept_id = _dept_id === 'none' ? null : _dept_id;
     createTicketInfo.assignee_id = !_assignee_id ? null : _assignee_id;
+    console.log('ooooooo');
+    console.log(createTicketInfo);
     //*creates a new instance of the ticket model
     const newTicket = new TicketModel(createTicketInfo);
     const storedTicket = await newTicket.save();
     // sends created ticket and a success msg
+    console.log(storedTicket);
     return res.send({
       success: true,
       msg: 'Ticket Has Been Created !',
@@ -568,6 +532,7 @@ module.exports = {
   pendingTickets,
   resolvedTickets,
   adminCreateTicket,
+  adminEditTicket,
 };
 
 // assigning ticket to agent or dept should be optional
