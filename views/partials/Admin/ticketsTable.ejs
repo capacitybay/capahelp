@@ -1,7 +1,7 @@
 <section>
 
 
-    <div class="table-container table-responsive scrollbar-custom " id="style-2" style="font-size: 0.7rem;">
+    <div class="table-container table-responsive scrollbar-custom " id="style-2" style="font-size: 0.8rem;">
 
         <table class="table table-border table-hover">
             <thead class="th-cont" style="position: sticky;top: 0;">
@@ -54,10 +54,10 @@
                         <%= element.customer_id%>
                     </td>
                     <td id="email-data">
-                        <%= element.assignee_id %>
+                        <%= element.assignee_id ?element.assignee_id:"None" %>
                     </td>
                     <td class=" no-wrap">
-                        <%= element.dept_id%>
+                        <%= element.dept_id ?element.dept_id :"None" %>
                     </td>
                     <td>
                         <%= element.urgency %>
@@ -102,12 +102,17 @@
     </div>
 
     </main>
+    <script src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+
     <script>
         const modalContainer = document.getElementById("modal-container");
+        const deleteBtnElem = document.getElementById("deleteSelectedUser")
 
-        function renderData(name, email, userRole, id) {
 
-            console.log(name, email, userRole)
+
+        function renderData(_ticketId, _ticketTitle, _ticket_type) {
+
+            console.log(_ticketId, _ticketTitle, _ticket_type)
             const modal = `
 
             <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
@@ -122,29 +127,29 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure, you want to delete this user?</p>
+                        <p>Are you sure, you want to delete this Ticket?</p>
                         <div class="dialog_content">
-                            <h4>Name:</h4>
-                            <h4 class="h4">
-                                ${name}
+                            <h4>TicketId:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_ticketId}
                         </h4>
                     </div>
                     <div class=" dialog_content">
-                                    <h4>Email:</h4>
-                                    <h4 class="h4">
-                                        ${email}
+                                    <h4>Type:</h4>
+                                    <h4 class="h4" style="color: #4a4747;">
+                                        ${_ticket_type}
                                     </h4>
                         </div>
                         <div class="dialog_content">
-                            <h4>Role:</h4>
-                            <h4 class="h4">
-                                ${userRole}
+                            <h4 >Title:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_ticketTitle}
                             </h4>
                         </div>
                     </div>
                     <div class=" modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" id="deleteSelectedUser">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close</button>
+                        <button type="button" class="btn btn-danger" id="deleteSelectedUser"><span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> Delete</button>
                     </div>
                 </div>
             </div>
@@ -168,7 +173,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p>User has been deleted!, please refresh the page to reflect changes.</p>
+                  <p>${msg}.</p>
                 </div>
                 <div class="modal-footer">
                   
@@ -228,7 +233,6 @@
                     //this gets individual user id from a hidden input
                     let getUserId = getElement.children[1].value
 
-                    console.log(getElement.children[1].value);
 
 
                     //redirects user to update user component with userId
@@ -237,45 +241,53 @@
                     let value = element.parentElement.parentElement.parentElement.parentElement
                     let elementChildren = value.children
 
-                    //element.parentElement.setAttribute("id", "confirm")
-                    console.log(elementChildren[5].textContent.trim())
-                    console.log(elementChildren[2].textContent.trim())
-                    console.log(elementChildren[3].textContent.trim())
-                    console.log(elementChildren[1].value)
+
                     modalContainer.innerHTML = renderData(
-                        elementChildren[2].textContent.trim(),
-                        elementChildren[5].textContent.trim(),
+                        elementChildren[1].value,
                         elementChildren[3].textContent.trim(),
+                        elementChildren[2].textContent.trim(),
                         elementChildren[1].value
                     )
-
-                    console.log()
+                    //spinner element
+                    const spinnerElem = document.querySelector(".spinner")
+                    spinnerElem.style.display = "none";
 
                     document.getElementById("deleteSelectedUser")
                         .addEventListener("click", function (event) {
+                            document.getElementById("deleteSelectedUser").style.disabled = true
+                            spinnerElem.style.display = "block";
                             const id = elementChildren[1].value
                             // event.preventDefault();
-                            fetch(`/user/delete/${id}`, {
+                            fetch(`/admin/delete/ticket/${id}`, {
                                 method: "DELETE"
 
                             }).then(response => {
 
                                 if (response.statusText === "OK") {
-                                    document.getElementById("show-message").innerHTML = messageDialog();
+                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    spinnerElem.style.display = "none";
+                                    document.getElementById("show-message").innerHTML = messageDialog("Ticket Has Been Deleted!");
 
                                     $('#basicModal').modal('hide')
 
                                     $('#confirmationModal').modal('show');
-                                    console.log($('#confirmationModal').modal('show'))
-
                                     document.getElementById("refreshPage").addEventListener("click", function (event) {
                                         location.reload()
 
                                     })
+                                } else {
+                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    spinnerElem.style.display = "none";
+
+                                    document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
+
                                 }
 
                             }).catch(error => {
-                                console.log(error);
+                                document.getElementById("deleteSelectedUser").style.disabled = false
+                                spinnerElem.style.display = "none";
+
+                                document.getElementById("show-message").innerHTML = messageDialog(error.message);
                             })
                         })
 
