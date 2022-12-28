@@ -13,17 +13,27 @@
     <link rel="stylesheet" href="/public/styles/footer.css">
     <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
     <link rel="stylesheet" href="/public/styles/Admin/ticketTable.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <!-- fontawesome cdn link -->
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <%- include("../partials/Admin/adminHeader.ejs") %>
-        <main>
+        <main id="show-message">
 
-            <h1 class="h1_tickets">Tickets</h1><br>
+            <h1 class="h1_tickets">Ticket</h1><br>
+            <div class="d-flex justify-content-center flex-column">
 
+                <div id="display-success-msg" class="w-80">
+
+                </div>
+                <div class="table-desc">
+
+                    <h1 class="text-center">Ticket Management</h1>
+                </div>
+            </div>
             <section class="card-section">
                 <div id="root">
                     <div class="container pt-5">
@@ -153,6 +163,12 @@
         <%- include("../partials/footer.ejs")%>
             <script src="/public/script/Admin/ticket.js"></script>
             <script src="/public/script/Admin/hanburger.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
 </body>
 
 </html>

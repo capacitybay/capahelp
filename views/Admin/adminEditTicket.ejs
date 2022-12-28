@@ -27,7 +27,7 @@
                 <div class="error-plane">
 
                 </div>
-                <form id="createTicketForm">
+                <form id="updateTicketForm">
                     <div class="form-box">
                         <label for="type">Type <span>*</span></label>
 
@@ -48,8 +48,8 @@
                     <div class="form-box">
                         <label for="email">Customer email <span>*</span></label>
 
-                        <input type="email" id="email" name="email" value="<%= customer_email %>"
-                            style=" background:#eee;" readonly>
+                        <input title="This field is readonly" type="email" id="email" name="email"
+                            value="<%= customer_email %>" style=" background:rgb(189, 188, 188);" readonly>
                     </div>
                     <div class="form-box">
                         <label for="agentId">Assignee </label>
@@ -60,8 +60,8 @@
                     <div class="form-box">
                         <label for="department">Department </label>
                         <select name="department" id="department">
-                            <option value="<%= dept_id %>" selected disabled hidden>
-                                <%= dept_id %>
+                            <option value="<%= dept_id?dept_id:'None' %>" selected disabled hidden>
+                                <%= dept_id?dept_id:'Select' %>
                             </option>
                             <option value="none">None</option>
                             <option value="security">Security</option>
@@ -108,12 +108,14 @@
                             <option value="resolved">Resolved</option>
                             <option value="canceled">Canceled</option>
                             <option value="active">Active</option>
-                            <option value="inProgress">In progress</option>
+                            <option value="in progress">In progress</option>
                         </select>
                     </div>
                     <div class="form-box">
                         <label for="description">Description <span>*</span></label>
-                        <textarea id="description" name="description" rows="5" required></textarea>
+                        <textarea id="description" name="description" rows="5" required>
+                            <%= description %>
+                        </textarea>
                     </div>
                     <div class="form-box file-box">
                         <label class="file-label" for="file">Attach a file</label>
@@ -129,7 +131,7 @@
 
                         <!-- <input type="submit" value="ca" id="submitBtn" /> -->
                         <button type="submit" id="submitBtn" class="has-spinner">
-                            <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>Create</button>
+                            <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>Update</button>
 
                         <!-- <div class="create" id="">
                             <a>Submit</a>
@@ -151,6 +153,7 @@
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script>
+
 
 
 
@@ -189,7 +192,7 @@
         }
 
 
-        const createTicketFormElem = document.getElementById("createTicketForm");
+        const updateTicketFormElem = document.getElementById("updateTicketForm");
         const ticketTypeElem = document.getElementById("ticketType");
         const ticketTitleElem = document.getElementById("ticketTitle");
         const emailElem = document.getElementById("email");
@@ -209,16 +212,16 @@
             submitBtnElem.disabled = true
             spinnerElem.style.display = "block";
 
-            event.preventDefault()
-            console.log(submitBtnElem.getAttributeNames())
+            event.preventDefault();
+            let getUrl = window.location.href.split("/");
+            let ticketId = getUrl[getUrl.length - 1].trim();
 
-            //set loader
-            fetch("/admin/create/ticket", {
+            fetch(`/admin/update/ticket/${ticketId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                method: "POST",
+                method: "PATCH",
                 body: JSON.stringify({
                     ticket_type: ticketTypeElem.value,
                     title: ticketTitleElem.value,
@@ -228,7 +231,7 @@
                     urgency: urgencyElem.value,
                     priority: priorityElem.value,
                     ticket_status: statusElem.value,
-                    description: descriptionElem.value
+                    description: descriptionElem.value.trim()
                 })
             })
                 .then(response => {
@@ -254,6 +257,10 @@
 
                     }
                 })
+
+
+
+            //set loader
 
         })
 
