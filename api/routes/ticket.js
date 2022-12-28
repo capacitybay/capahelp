@@ -13,7 +13,9 @@ const {
   pendingTickets,
   resolvedTickets,
   adminCreateTicket,
-  adminEditTicket,
+  getAdminEditTicket,
+  patchAdminEditTicket,
+  adminDeleteTicket,
 } = require('../controllers');
 
 const {
@@ -23,7 +25,9 @@ const {
 router.post('/ticket/new', createTicket);
 
 // admin routes
-router.get('/admin/update/ticket/:ticketId', isAdmin, adminEditTicket);
+router.get('/admin/update/ticket/:ticketId', isAdmin, getAdminEditTicket);
+router.patch('/admin/update/ticket/:ticketId', isAdmin, patchAdminEditTicket);
+router.delete('/admin/delete/ticket/:ticketId', isAdmin, adminDeleteTicket);
 router.get('/admin/view/ticket/:ticketId', isAdmin, getTicket);
 router.get('/admin/ticket/list/active', isAdmin, activeTickets);
 router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
