@@ -89,7 +89,7 @@
                             <option value="resolved">Resolved</option>
                             <option value="canceled">Canceled</option>
                             <option value="active">Active</option>
-                            <option value="inProgress">In progress</option>
+                            <option value="in progress">In progress</option>
                         </select>
                     </div>
                     <div class="form-box">
@@ -191,7 +191,7 @@
             spinnerElem.style.display = "block";
 
             event.preventDefault()
-            console.log(submitBtnElem.getAttributeNames())
+            //console.log(submitBtnElem.getAttributeNames())
 
             //set loader
             fetch("/admin/create/ticket", {
