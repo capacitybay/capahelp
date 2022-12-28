@@ -41,10 +41,9 @@ const createTicket = asyncWrapper(async (req, res) => {
   res.status(201).json({ success: true, payload: savedTicket });
 });
 
-const adminEditTicket = asyncWrapper(async (req, res) => {
+const getAdminEditTicket = asyncWrapper(async (req, res) => {
   const fetchedTicket = await TicketModel.findOne({ _id: req.params.ticketId });
-  console.log('-------------------------');
-  console.log(fetchedTicket);
+
   if (fetchedTicket) {
     return res.render('Admin/adminEditTicket', {
       title: fetchedTicket.title,
@@ -59,10 +58,202 @@ const adminEditTicket = asyncWrapper(async (req, res) => {
       priority: fetchedTicket.priority,
       urgency: fetchedTicket.urgency,
       ticket_status: fetchedTicket.ticket_status,
-
       user: req.user[0],
+      description: fetchedTicket.description ? fetchedTicket.description : '',
     });
   }
+});
+const patchAdminEditTicket = asyncWrapper(async (req, res) => {
+  const ticketId = req.params.ticketId;
+  if (!ticketId)
+    return res.send({
+      success: false,
+      msg: 'No Ticket Found With The selected Id!',
+    });
+  const {
+    ticket_type,
+    title,
+    customer_id,
+    assignee_id,
+    dept_id,
+    urgency,
+    priority,
+    ticket_status,
+    description,
+  } = req.body;
+
+  if (
+    !ticket_type ||
+    !title ||
+    !customer_id ||
+    !urgency ||
+    !priority ||
+    !ticket_status ||
+    !description
+  )
+    return res.send({
+      success: false,
+      msg: 'Inputs fields marked with *, cannot be empty!',
+    });
+  //
+  if (!assignee_id && dept_id === 'none')
+    return res.send({
+      success: false,
+      msg: 'You Must Choose Assignee Or Department Field',
+      payload: {
+        ticket_type,
+        title,
+        customer_id,
+        assignee_id,
+        dept_id,
+        urgency,
+        priority,
+        ticket_status,
+        description,
+      },
+    });
+  /**
+   * @param all parameter are of type String and are validated before passed as arg
+   * * This function is responsible for updating ticket with respect to provided args
+   */
+  const updateTicketFn = async (
+    addDept,
+    _ticket_type,
+    _title,
+    _customer_id,
+    _assignee_id,
+    _dept_id,
+    _urgency,
+    _priority,
+    _ticket_status,
+    _description
+  ) => {
+    const updateTicketInfo = {
+      ticket_type: _ticket_type,
+      title: _title,
+      customer_id: _customer_id,
+      urgency: _urgency,
+      priority: _priority,
+      ticket_status: _ticket_status,
+      description: _description,
+    };
+    // *checks if user entered both assignee and department
+    if (_dept_id !== 'none' && _assignee_id)
+      return res.send({
+        success: false,
+        msg: 'Please Select Either An Assignee Or Department',
+      });
+    // this changes the values of dept_id and assignee_id based on the conditions below
+    updateTicketInfo.dept_id = _dept_id === 'none' ? null : _dept_id;
+    updateTicketInfo.assignee_id = !_assignee_id ? null : _assignee_id;
+    console.log('ooooooo');
+    console.log(updateTicketInfo);
+    //*creates a new instance of the ticket model
+    // const newTicket = new TicketModel(updateTicketInfo);
+    const updatedTicket = await TicketModel.findOneAndUpdate(
+      { _id: ticketId },
+      updateTicketInfo,
+      { new: true }
+    );
+    // sends created ticket and a success msg
+    console.log(updatedTicket);
+    return res.send({
+      success: true,
+      msg: `Ticket ${ticketId} Has Been Updated !`,
+      payload: updatedTicket,
+    });
+  };
+  //* email validation start
+  const { error: customerValError } = await validateEmail({
+    email: customer_id,
+  });
+  const { error: agentValError } = await validateEmail({ email: assignee_id });
+  // console.log(customerValError, agentValError);
+
+  // * Email validation end
+
+  // *Checks if error was returned from the validation
+  if (customerValError)
+    return res.send({ success: false, msg: customerValError.message });
+  // if(assignee_id)
+  if (assignee_id && agentValError)
+    return res.send({ success: false, msg: agentValError.message });
+
+  // *fetch customer  with the provided email
+  const getUserInfo = await userModel.findOne(
+    { email: customer_id },
+    { password: 0 }
+  );
+
+  // *fetch Agent  with the provided email ie if email is provided
+  const getAssigneeInfo = await userModel.findOne(
+    { email: assignee_id },
+    { password: 0 }
+  );
+
+  // *check if customer and agent exist in th DB
+  if (!getUserInfo)
+    return res.send({
+      success: false,
+      msg: `This customer ${customer_id} does not exist,Please create account for this customer`,
+    });
+  if (assignee_id && !getAssigneeInfo)
+    return res.send({
+      success: false,
+      msg: `Agent ${assignee_id} does not exist!`,
+    });
+
+  // *Checks if assignee is a customer
+  if (getAssigneeInfo && getAssigneeInfo.user_type === 0)
+    return res.send({
+      success: false,
+      msg: "You Can't Assign Ticket To A Customer ",
+    });
+  if (dept_id) {
+    updateTicketFn(
+      true,
+      ticket_type,
+      title,
+      customer_id,
+      assignee_id, //remove
+      dept_id,
+      urgency,
+      priority,
+      ticket_status,
+      description
+    );
+  } else {
+    updateTicketFn(
+      false,
+      ticket_type,
+      title,
+      customer_id,
+      assignee_id,
+      dept_id,
+      urgency,
+      priority,
+      ticket_status,
+      description
+    );
+  }
+});
+
+/**
+ * *DELETE TICKET
+ */
+const adminDeleteTicket = asyncWrapper(async (req, res) => {
+  const ticketId = req.params.ticketId;
+  console.log('888888888888888888888888');
+  console.log(ticketId);
+  const deletedTicket = await TicketModel.findOneAndDelete(
+    { _id: ticketId },
+    { new: true }
+  );
+  console.log(deletedTicket);
+  return res.send({
+    success: true,
+    msg: `You have successfully deleted ${deletedTicket._id}`,
+  });
 });
 
 // gets a single ticket
@@ -532,7 +723,9 @@ module.exports = {
   pendingTickets,
   resolvedTickets,
   adminCreateTicket,
-  adminEditTicket,
+  getAdminEditTicket,
+  patchAdminEditTicket,
+  adminDeleteTicket,
 };
 
 // assigning ticket to agent or dept should be optional
