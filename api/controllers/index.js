@@ -30,7 +30,9 @@ const {
   pendingTickets,
   resolvedTickets,
   adminCreateTicket,
-  adminEditTicket,
+  getAdminEditTicket,
+  patchAdminEditTicket,
+  adminDeleteTicket,
 } = require('./ticketController');
 
 const {
@@ -88,5 +90,7 @@ module.exports = {
   inProgressTickets,
   pendingTickets,
   resolvedTickets,
-  adminEditTicket,
+  getAdminEditTicket,
+  patchAdminEditTicket,
+  adminDeleteTicket,
 };
