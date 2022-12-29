@@ -87,13 +87,21 @@ const adminDashboard = asyncWrapper(async (req, res) => {
    */
   // filters activeUsers
 
-  const activeCustomers = await UserModel.find({
-    $and: [{ active: true }, { user_type: 0 }],
+  const activeCustomers = [],
+    deactivatedCustomers = [];
+  const allSystemUsers = await UserModel.find({}, { password: 0 });
+
+  allSystemUsers.forEach((element, idx) => {
+    if (element.active && element.user_type === 0) {
+      activeCustomers.push(element);
+    } else if (!element.active && element.user_type === 0) {
+      deactivatedCustomers.push(element);
+    }
   });
 
-  const deactivatedCustomers = await UserModel.find({
-    $and: [{ active: false }, { user_type: 0 }],
-  });
+  // const deactivatedCustomers = await UserModel.find({
+  //   $and: [{ active: false }, { user_type: 0 }],
+  // });
   const totalCustomers = [...activeCustomers, ...deactivatedCustomers];
   // const allUsers = await UserModel.find({ user_type: 0 });
   //  renders data to the dashboard
@@ -110,7 +118,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
       ? deactivatedCustomers.length
       : 0,
     totalCustomers: totalCustomers.length,
-    allUsersData: totalCustomers ? totalCustomers : 0,
+    allUsersData: allSystemUsers ? allSystemUsers : 0,
 
     // ticket priority
     urgentTicket: urgent ? urgent.length : 0,
@@ -130,6 +138,7 @@ const createUser = asyncWrapper(async (req, res) => {
     last_name,
     email,
     phone,
+    gender,
     password,
     confirmPassword,
     location,
@@ -163,20 +172,22 @@ const createUser = asyncWrapper(async (req, res) => {
       last_name,
       email,
       phone,
+      gender,
       password,
       confirmPassword,
       location,
     });
   } else {
-    const getUser = await UserModel.findOne({ email: email });
-    if (getUser) {
-      errors.push({ msg: 'user already exists' });
+    const getUserDetails = await UserModel.findOne({ email: email });
+    if (getUserDetails) {
+      errors.push({ msg: "You can't use this email please, try another one " });
       res.render('register.ejs', {
         errors,
         first_name,
         last_name,
         email,
         phone,
+        gender,
         password,
         confirmPassword,
         location,
@@ -189,6 +200,7 @@ const createUser = asyncWrapper(async (req, res) => {
         first_name,
         last_name,
         email,
+        gender,
         password: encryptedPassword,
         phone,
         location,
@@ -243,8 +255,8 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     });
   } else {
     //  checks if email is already available in the system
-    const getUser = await UserModel.findOne({ email: email });
-    if (getUser) {
+    const getUserDetails = await UserModel.findOne({ email: email });
+    if (getUserDetails) {
       errors.push({ msg: 'user already exists' });
       res.render('register.ejs', {
         errors,
@@ -403,10 +415,11 @@ const getUser = asyncWrapper(async (req, res, next) => {
       deactivatedAgents.length +
       deactivatedCustomers.length;
     console.log('.......');
-    console.log(totalInactiveUsers);
+    console.log(req.user[0]);
 
     if (!getUsers) return next(createCustomError('no user found', 404));
     res.render('Admin/users', {
+      user: req.user[0],
       users: getUsers,
       hits: getUsers.length,
       totalSystemUsers: allSystemUsers ? allSystemUsers.length : 0,
@@ -715,7 +728,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 
     req.flash('error_msg', ` you are not authorized to update this customer `);
     errors.push({
-      msg: ` you are not authorized to update this customer `,
+      msg: ` you are notP authorized to update this customer `,
     });
     renderInterface(false);
   }

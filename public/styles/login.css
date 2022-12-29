@@ -80,7 +80,7 @@ form .txt_field {
 .pass:hover {
   text-decoration: underline;
 }
-input[type='submit'] {
+#loginSubmit {
   width: 100%;
   height: 50px;
   border-radius: 8px;
@@ -92,7 +92,7 @@ input[type='submit'] {
   cursor: pointer;
   outline: none;
 }
-input[type='submit']:hover {
+#loginSubmit:hover {
   border-color: #25aa72;
   background-color: #3ab984;
   transition: 0.5s;

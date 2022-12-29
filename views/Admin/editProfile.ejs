@@ -184,6 +184,8 @@
                 console.log(data)
 
             }).catch(error => {
+                errorPlaneElem.innerHTML = showMessage(error.msg, false)
+
                 console.log(error);
             })
         }

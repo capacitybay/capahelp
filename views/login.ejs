@@ -23,7 +23,7 @@
 
         </div>
         <h1>Login</h1>
-        <form action="/login" method="POST">
+        <form id="loginForm" action="/login" method="POST">
             <div class="txt_field">
                 <input type="email" id="email" name="email" value="admin@gmail.net" required />
                 <span></span>
@@ -36,13 +36,29 @@
             </div>
             <div class="pass">Forgot Password?</div>
 
-            <input type="submit" value="Login" />
+            <button type="submit" id="loginSubmit">
+                <!-- <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div> -->
+                Login
+            </button>
             <div class="signup_link">
                 Not a registered yet? <a href="./user/register">Signup</a>
             </div>
         </form>
     </div>
-    <!-- </div> -->
+    <script>
+
+        const loginFormElem = document.getElementById("loginForm");
+        const emailElem = document.getElementById("email")
+        const passwordElem = document.getElementById("password")
+        const loginSubmitElem = document.getElementById("loginSubmit")
+
+        loginSubmitElem.addEventListener("submit", (event) => {
+            console.log("click");
+
+        })
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

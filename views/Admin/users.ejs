@@ -1,5 +1,6 @@
 <%- include("../partials/head.ejs",{title:"User"}) %>
     <%- include("../partials/adminHeaderLinks.ejs") %>
+        <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
 
         <link rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
@@ -25,7 +26,7 @@
         <body>
             <!-- ** error check handled from backend -->
             <div>
-                <%- include("../partials/Admin/adminHeader.ejs",{user:undefined}) %>
+                <%- include("../partials/Admin/adminHeader.ejs" )%>
             </div>
             <main id="show-message">
                 <div class="d-flex justify-content-center flex-column">
@@ -50,7 +51,7 @@
                                             class="hind-font caption-12 c-dashboardInfo__count">
                                             <%= totalSystemUsers %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Stat:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
 
                                             <span class="add text-success">
                                                 <%= activeUsers %>
@@ -76,7 +77,7 @@
                                             class="hind-font caption-12 c-dashboardInfo__count ">
                                             <%= totalAdmins %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Stat:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
 
                                             <span class="add text-success  ">
                                                 <%= activeAdmins %>
@@ -99,7 +100,7 @@
                                             class="hind-font caption-12 c-dashboardInfo__count">
                                             <%= customers %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
 
                                             <span class="add text-success  ">
                                                 <%= activeCustomers %>
@@ -123,7 +124,7 @@
                                             class="hind-font caption-12 c-dashboardInfo__count">
                                             <%= agents %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
 
                                             <span class="add text-success  ">
                                                 <%= activeAgents %>

@@ -161,6 +161,22 @@ async function validatePassword(data) {
   return schema.validate(data);
 }
 
+async function validateEmail(data) {
+  // console.log(data);
+
+  const schema = joi.object({
+    email: joi
+      .string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] },
+      })
+      .required(),
+  });
+
+  return schema.validate(data);
+}
+
 module.exports = {
   registerValidation,
   loginValidation,
@@ -168,4 +184,5 @@ module.exports = {
   createDeptValidation,
   updateDeptValidation,
   validatePassword,
+  validateEmail,
 };
