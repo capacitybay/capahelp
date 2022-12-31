@@ -96,22 +96,22 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
       msg: 'Inputs fields marked with *, cannot be empty!',
     });
   //
-  if (!assignee_id && dept_id === 'none')
-    return res.send({
-      success: false,
-      msg: 'You Must Choose Assignee Or Department Field',
-      payload: {
-        ticket_type,
-        title,
-        customer_id,
-        assignee_id,
-        dept_id,
-        urgency,
-        priority,
-        ticket_status,
-        description,
-      },
-    });
+  // if (!assignee_id && dept_id === 'none')
+  //   return res.send({
+  //     success: false,
+  //     msg: 'You Must Choose Assignee Or Department Field',
+  //     payload: {
+  //       ticket_type,
+  //       title,
+  //       customer_id,
+  //       assignee_id,
+  //       dept_id,
+  //       urgency,
+  //       priority,
+  //       ticket_status,
+  //       description,
+  //     },
+  //   });
   /**
    * @param all parameter are of type String and are validated before passed as arg
    * * This function is responsible for updating ticket with respect to provided args
@@ -144,9 +144,9 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
         msg: 'Please Select Either An Assignee Or Department',
       });
     // this changes the values of dept_id and assignee_id based on the conditions below
-    updateTicketInfo.dept_id = _dept_id === 'none' ? null : _dept_id;
+    updateTicketInfo.dept_id =
+      _dept_id.toLowerCase() === 'none' ? null : _dept_id;
     updateTicketInfo.assignee_id = !_assignee_id ? null : _assignee_id;
-    console.log('ooooooo');
     console.log(updateTicketInfo);
     //*creates a new instance of the ticket model
     // const newTicket = new TicketModel(updateTicketInfo);
@@ -239,7 +239,7 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
 });
 
 /**
- * *DELETE TICKET
+ ** DELETE TICKET
  */
 const adminDeleteTicket = asyncWrapper(async (req, res) => {
   const ticketId = req.params.ticketId;
@@ -265,10 +265,13 @@ const getTicket = asyncWrapper(async (req, res, next) => {
 
     // let ticketOwners = [];
 
-    let ticketUser = await UserModel.find({
-      email: ticket.customer_id,
-    });
-    // console.log(ticketUser);
+    let ticketUser = await UserModel.find(
+      {
+        email: ticket.customer_id,
+      },
+      { password: 0 }
+    );
+    console.log(ticketUser);
 
     res.status(200).render('Admin/view_ticket', {
       user: req.user[0],
@@ -287,6 +290,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
   // resetPassword;
 });
 
+// TODO: check this
 const updateTicket = asyncWrapper(async (req, res, next) => {
   // this controller updates the ticket base on the user type
   if (!req.user)
@@ -357,17 +361,88 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 // admin controllers
 const listTicket = asyncWrapper(async (req, res) => {
   const getAllTickets = await TicketModel.find();
-  // console.log(getAllTickets);
+  let agentTickets = [];
+  let activeAgentTickets = [];
+  let inactiveAgentTickets = [];
+  let deptTickets = [];
+  let activeTickets = [];
+  let inActiveTickets = [];
+  let deptActiveTickets = [];
+  let deptInactiveTickets = [];
+  let urgentTickets = [];
+  let activeUnassignedTickets = [];
+  let inactiveUnassignedTickets = [];
+  let unassignedTickets = [];
+  getAllTickets.forEach((element, idx) => {
+    if (element.assignee_id !== null) {
+      agentTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeAgentTickets.push(element);
+      } else {
+        inactiveAgentTickets.push(element);
+      }
+    } else if (element.dept_id !== null) {
+      deptTickets.push(element);
+      if (element.ticket_status === 'active') {
+        deptActiveTickets.push(element);
+      } else {
+        deptInactiveTickets.push(element);
+      }
+    } else {
+      unassignedTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeUnassignedTickets.push(element);
+      } else {
+        inactiveUnassignedTickets.push(element);
+      }
+    }
+  });
+
+  getAllTickets.forEach((element, idx) => {
+    if (element.ticket_status === 'active') {
+      activeTickets.push(element);
+    } else {
+      inActiveTickets.push(element);
+    }
+  });
+  // getAllTickets.forEach((element, idx) => {
+  //   if (element.urgency === 'urgent') {
+  //     urgentTickets.push(element);
+  //     if (element.ticket_status === 'active') {
+  //       activeUrgentTickets.push(element);
+  //     } else {
+  //       inactiveUrgentTickets.push(element);
+  //     }
+  //   }
+  // });
+
   res.render('Admin/tickets', {
     user: req.user[0],
     success: true,
-    // payload: tickets,
-    // hits: tickets.length,
     receivedTickets: getAllTickets,
-    // ticketOwners: ticketOwners,
+    agentTicketCount: agentTickets ? agentTickets.length : 0,
+    activeAgentTicketsCount: activeAgentTickets ? activeAgentTickets.length : 0,
+    inactiveAgentTicketsCount: inactiveAgentTickets
+      ? inactiveAgentTickets.length
+      : 0,
+    deptTicketCount: deptTickets ? deptTickets.length : 0,
+    totalTickets: getAllTickets ? getAllTickets.length : 0,
+    activeTickets: activeTickets ? activeTickets.length : 0,
+    inactiveTickets: inActiveTickets ? inActiveTickets.length : 0,
+    deptActiveTicketCount: deptActiveTickets ? deptActiveTickets.length : 0,
+    deptInactiveTicketCount: deptInactiveTickets
+      ? deptInactiveTickets.length
+      : 0,
+    unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
+    activeUnassignedTickets: activeUnassignedTickets
+      ? activeUnassignedTickets.length
+      : 0,
+    inactiveUnassignedTickets: inactiveUnassignedTickets
+      ? inactiveUnassignedTickets.length
+      : 0,
   });
 });
-
+// *GETS ALL TICKETS
 const activeTickets = asyncWrapper(async (req, res, next) => {
   let ticketOwners = [];
   const getActiveTickets = await TicketModel.find({ ticket_status: 'active' });

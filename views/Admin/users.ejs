@@ -15,7 +15,7 @@
         <script defer src="/public/script/Admin/userTable.js"></script>
         <link rel="stylesheet" href="/public/styles/Admin/users.css">
 
-        <!-- fontawesome cdn link -->
+        <!-- font awesome cdn link -->
         <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
         <!-- jquery cdn  link -->
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -143,36 +143,39 @@
                     </div>
                 </section>
                 <div class="filter-users-cont">
+                    <div class="filterHeader">
 
+                        <h5>Filter Users</h5>
+                    </div>
 
                     <!-- <h4>select the individual input, if you want to be more specific <%= hits?hits:"none" %> -->
-                    <p>still working on this</p>
                     </h4>
                     <div class="filter-users">
                         <form class="filter-form" id="filterForm">
-                            <div>
+                            <!-- <div>
                                 <label for="email">By Email</label>
                                 <input type="email" id="email" name="email" class="txt_field">
                                 <input type="radio" name="filter" id="forEmail">
-                            </div>
+                            </div> -->
 
                             <div>
-                                <label for="role">By Role</label>
-                                <select name="user_type" class="select_field" id="role">
+                                <label for="role">Filter By: </label>
+                                <select name="selectedOption" class="select_field" id="role">
                                     <div class="options">
 
-                                        <option value="all">All Users</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="agent">Agent</option>
-                                        <option value="user">User</option>
+                                        <option value="all">All</option>
+                                        <option value="email">Email</option>
+                                        <option value="role">Role</option>
+                                        <option value="location">Country</option>
+                                        <option value="status">status</option>
                                     </div>
                                 </select>
-                                <input type="radio" name="filter" id="forUserType">
+                                <!-- <input type="radio" name="filter" id="forUserType"> -->
                             </div>
                             <div>
-                                <label for="country">By Country</label>
-                                <input type="text" id="location" name="location" class="txt_field">
-                                <input type="radio" name="filter" id="forLocation">
+                                <label for="country">Enter Input:</label>
+                                <input type="text" id="input" name="inputValue" class="txt_field">
+                                <!-- <input type="radio" name="filter" id="forLocation"> -->
                             </div>
                             <div class="filter-btn">
                                 <!-- <div> -->

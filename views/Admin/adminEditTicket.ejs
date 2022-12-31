@@ -33,7 +33,7 @@
 
                         <select name="ticket-type" id="ticketType">
 
-                            <option value="<%= ticket_type %>" selected disabled hidden>
+                            <option id="ticketTypeOption" value="<%= ticket_type %>" selected disabled hidden>
                                 <%= ticket_type %>
                             </option>
                             <option value="incident">Incident</option>
@@ -91,7 +91,7 @@
                                 <option value="<%= urgency %>" selected disabled hidden>
                                     <%= urgency %>
                                 </option>
-                                <option value="normal">Urgent</option>
+                                <option value="urgent">Urgent</option>
                                 <option value="medium">Medium</option>
                                 <option value="low">Low</option>
                                 <option value="Open">Open</option>
@@ -106,7 +106,7 @@
                             </option>
                             <option value="pending">Pending</option>
                             <option value="resolved">Resolved</option>
-                            <option value="canceled">Canceled</option>
+                            <option value="cancelled">Cancelled</option>
                             <option value="active">Active</option>
                             <option value="in progress">In progress</option>
                         </select>
@@ -191,6 +191,7 @@
             }
         }
 
+        const ticketTypeOptionElem = document.getElementById("ticketTypeOption");
 
         const updateTicketFormElem = document.getElementById("updateTicketForm");
         const ticketTypeElem = document.getElementById("ticketType");
@@ -241,7 +242,11 @@
                 }).then(data => {
                     if (data) {
                         errorPlaneElem.innerHTML = showMessage(data.msg, data.success);
-
+                        let str = "security"
+                        //TODO: work on this
+                        // ticketTitleElem.value = data.payload?.title
+                        //ticketTypeOptionElem.value = data.payload?.ticket_type
+                        //ticketTypeOptionElem.textContent = "data.payload?.ticket_type"
                         submitBtnElem.disabled = false
                         spinnerElem.style.display = "none";
                         errorPlaneElem.scrollIntoView({ behavior: "smooth" });

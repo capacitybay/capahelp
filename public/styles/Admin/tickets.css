@@ -24,6 +24,10 @@ main {
   margin: 0 auto;
 }
 
+.table-desc h1 {
+  font-size: 2.5rem !important;
+  color: #585c64;
+}
 .h1_tickets {
   width: 5%;
   border-bottom: 10px solid #1ca76c;
@@ -70,6 +74,7 @@ main {
 }
 
 .box_h1 {
+  /* color: #4a4747; */
   background-color: #d1efcc;
   padding: 0.6em;
   border-radius: 50%;

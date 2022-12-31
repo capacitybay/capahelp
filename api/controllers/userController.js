@@ -27,6 +27,10 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     resolved = [],
     inProgress = [],
     cancelled = [];
+  // ticket priority
+  let normalPriority = [],
+    highPriority = [],
+    lowPriority = [];
 
   let urgent = [],
     low = [],
@@ -38,7 +42,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     unassignedTickets = [];
   // filters fetched tickets by checking if the ticket is assigned or not
   allTickets.forEach((element) => {
-    if (element.assignee_id) {
+    if (element.assignee_id || element.dept_id) {
       assignedTickets.push(element);
     } else {
       unassignedTickets.push(element);
@@ -64,20 +68,30 @@ const adminDashboard = asyncWrapper(async (req, res) => {
       // console.log(element);
     }
   });
-  // filters ticket state
+  // filters ticket priority
   allTickets.forEach((element, idx) => {
-    if (element.priority === 'urgent') {
-      addElements(urgent, element);
+    if (element.priority === 'normal') {
+      addElements(normalPriority, element);
     } else if (element.priority === 'high') {
-      addElements(low, element);
+      addElements(highPriority, element);
     } else if (element.priority === 'low') {
-      addElements(high, element);
-    } else if (element.priority === 'medium') {
-      addElements(medium, element);
-    } else if (element.priority === 'open') {
-      addElements(open, element);
+      addElements(lowPriority, element);
     } else {
       // console.log(element);
+    }
+  });
+  // filter ticket Urgency
+  allTickets.forEach((element, idx) => {
+    if (element.urgency === 'urgent') {
+      addElements(urgent, element);
+    } else if (element.urgency === 'high') {
+      addElements(high, element);
+    } else if (element.urgency === 'medium') {
+      addElements(medium, element);
+    } else if (element.urgency === 'open') {
+      addElements(open, element);
+    } else if (element.urgency === 'low') {
+      addElements(low, element);
     }
   });
 
@@ -121,7 +135,13 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     allUsersData: allSystemUsers ? allSystemUsers : 0,
 
     // ticket priority
+    normalPriority: normalPriority ? normalPriority.length : 0,
+    highPriority: highPriority ? highPriority.length : 0,
+    lowPriority: lowPriority ? lowPriority.length : 0,
+    //ticket state
+
     urgentTicket: urgent ? urgent.length : 0,
+    lowTicketState: low ? low.length : 0,
     highPriorityTicket: high ? high.length : 0,
     mediumPriorityTicket: medium ? medium.length : 0,
     openTickets: open ? open.length : 0,
@@ -304,72 +324,70 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
  * * i'm still working on this
  */
 const filterUsersTable = async (arg1, arg2, arg3, ...arg4) => {
-  // default single
-  // console.log(arg1, arg2, arg3, arg4[0], arg4[1], arg4[2]);
-  let searchResult;
-  arg2 =
-    arg2 === 'admin' ? 3 : arg2 === 'agent' ? 1 : arg2 === 'user' ? 0 : 'all';
-  console.log(arg2);
-  if ((arg1 || arg2 || arg3) && !arg4[0] && !arg4[1] && !arg4[2]) {
-    const tfArg1 = arg1 ? arg1 : undefined;
-    const tfArg2 = arg2 === 'all' ? undefined : arg2;
-    const tfArg3 = arg3 ? arg3 : undefined;
-
-    const filteredUsers = await UserModel.find({
-      $or: [{ email: tfArg1 }, { user_type: tfArg2 }, { location: tfArg3 }],
-    });
-    searchResult = filteredUsers;
-  } else if (!arg4[0] || !arg4[1] || !arg4[2]) {
-    const verifyInput = arg4[0]
-      ? 'email'
-      : arg4[1]
-      ? 'user_type'
-      : arg4[2]
-      ? 'location'
-      : undefined;
-    console.log('.........................');
-    console.log(arg4);
-    console.log(verifyInput);
-    if (verifyInput === 'email') {
-      const singleFiltered = await userModel.find({ email: arg1 });
-      searchResult = singleFiltered;
-    } else if (verifyInput === 'user_type') {
-      let newArg2 = arg2 === 'all' ? undefined : arg2;
-      const singleFiltered = await userModel.find({ user_type: newArg2 });
-      searchResult = singleFiltered;
-    } else if (verifyInput === 'location') {
-      const singleFiltered = await userModel.find({ location: arg3 });
-      searchResult = singleFiltered;
-    } else {
-      console.log('no result to display for the search');
-    }
-  }
-
-  return searchResult;
+  /**
+   * get search criteria fom  body
+   * check if the option is all
+   * check if input is undefined
+   * validate if input is email
+   *
+   */
 };
 /**
  * TODO: development still inprogress
  */
-const filterUsers = asyncWrapper((req, res) => {
-  console.log(req.body);
-  // filterUsersTable(req.body.email, req.body.user_type, req.body.location);
-  const data = req.body;
-  console.log({ ...req.body });
-  filterUsersTable(
-    data.email,
-    data.user_type,
-    data.location,
-    data.emailRadio,
-    data.userTypeRadio,
-    data.forLocationRadio
-  ).then((data) => {
-    console.log(data);
-    console.log(data.length);
-    res.render('Admin/users', {
-      users: data,
-      hits: data.length,
+const filterUsers = asyncWrapper(async (req, res) => {
+  const { selectedOption, inputValue } = req.body;
+  console.log('filter');
+  console.log(selectedOption, inputValue);
+  const renderFn = (_user, _users) => {
+    return res.render('Admin/users', {
+      user: _user,
+      users: _user,
     });
-  });
+  };
+
+  if (selectedOption.toLowerCase() === 'all' && !inputValue) {
+    const getAllUsers = await userModel({}, { password: 0 });
+    renderFn(req.user[0], getAllUsers);
+  } else if (selectedOption.toLowerCase() === 'email') {
+    const { error } = await validateEmail({ email: inputValue });
+    if (error) return res.send({ success: false, msg: error.message });
+    // check if user is registered
+    const getAllUsers = await userModel({ email: inputValue }, { password: 0 });
+    if (!getAllUsers) return; //no user found
+    renderFn(req.user[0], getAllUsers);
+  } else if (selectedOption.toLowerCase() === 'role') {
+    const convertedRole =
+      inputValue.toLowerCase() === 'admin'
+        ? 3
+        : inputValue.toLowerCase() === 'customer'
+        ? 0
+        : inputValue.toLowerCase() === 'agent'
+        ? 1
+        : undefined;
+    const getAllUsers = await userModel(
+      { user_type: convertedRole },
+      { password: 0 }
+    );
+    renderFn(req.user[0], getAllUsers);
+  } else if (selectedOption.toLowerCase() === 'location') {
+    // capitalize the first letter
+    const getAllUsers = await userModel(
+      { location: inputValue },
+      { password: 0 }
+    );
+    renderFn(req.user[0], getAllUsers);
+  } else if (selectedOption.toLowerCase() === 'status') {
+    // check if input is active or inactive (else show error message please choose either of the two)
+    const getAllUsers = await userModel(
+      { active: inputValue },
+      { password: 0 }
+    );
+    renderFn(req.user[0], getAllUsers);
+  } else {
+    const getAllUsers = await userModel({}, { password: 0 });
+    renderFn(req.user[0], getAllUsers);
+  }
   // Password123*
 });
 
@@ -404,7 +422,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
         addElements(deactivatedAdmins, element);
       } else if (!element.active && element.user_type === 1) {
         addElements(deactivatedAgents, element);
-      } else if (!element.active && element.user_type === 0) {
+      } else if (element.active === false && element.user_type === 0) {
         addElements(deactivatedCustomers, element);
       }
     });
