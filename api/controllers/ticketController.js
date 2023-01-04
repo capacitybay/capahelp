@@ -141,7 +141,7 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
     if (_dept_id !== 'none' && _assignee_id)
       return res.send({
         success: false,
-        msg: 'Please Select Either An Assignee Or Department',
+        msg: 'Please Select Either An Assignee Or Department Or leave Both Empty',
       });
     // this changes the values of dept_id and assignee_id based on the conditions below
     updateTicketInfo.dept_id =

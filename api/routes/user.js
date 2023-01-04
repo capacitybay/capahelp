@@ -70,7 +70,7 @@ router.post('/user/register', createUser);
 router.get('/admin/register', getAdminCreateUser);
 router.get('/view/user/profile/:email', viewUserProfile);
 
-router.post('/filter/users', filterUsers);
+router.post('/filter/users', isAdmin, filterUsers);
 
 // admin edit profile
 router.get(
@@ -85,8 +85,8 @@ router.get('/admin/dashboard', isAdmin, adminDashboard);
 // gets all user (admin route)
 router.get('/admin/manage/users', isAdmin, getUser);
 
-router.get('/admin/register', getRegisterComponent);
-router.post('/admin/register', adminCreateUser);
+router.get('/admin/register', isAdmin, getRegisterComponent);
+router.post('/admin/register', isAdmin, adminCreateUser);
 
 // update a user (admin route)
 router.get('/admin/update/user/:userId', getAdminUpdateUserProfile);
