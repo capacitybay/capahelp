@@ -271,7 +271,9 @@ h4 .h4 {
 .filterHeader {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 }
 .select_field {
   outline: none;
@@ -385,7 +387,7 @@ h4 .h4 {
   }
   .search_button {
     padding-right: 0;
-    padding: 0;
+    /* padding: 0; */
     display: flex;
     justify-content: flex-start;
     align-items: center;

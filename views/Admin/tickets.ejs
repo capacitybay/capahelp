@@ -132,7 +132,55 @@
                     </div>
                 </div>
             </section>
+            <div class="filter-users-cont">
+                <div class="filterHeader">
 
+                    <%- include("../partials/messages.ejs") %>
+
+                        <h5>Filter TIckets</h5>
+                </div>
+
+                <!-- <h4>select the individual input, if you want to be more specific  -->
+                </h4>
+                <div class="filter-users">
+                    <form class="filter-form" id="filterForm" action="/filter/tickets" method="post">
+                        <!-- <div>
+                            <label for="email">By Email</label>
+                            <input type="email" id="email" name="email" class="txt_field">
+                            <input type="radio" name="filter" id="forEmail">
+                        </div> -->
+
+                        <div>
+                            <label for="role">Filter By: dev in progress</label>
+                            <select name="selectedOption" class="select_field" id="selectedOption">
+                                <div class="options">
+
+                                    <option value="all">All</option>
+                                    <option value="urgency">Urgency</option>
+                                    <option value="priority">Priority</option>
+                                    <option value="status">Status</option>
+                                    <option value="dept">Dept Email</option>
+                                    <option value="email">Customer Email</option>
+                                    <option value="assignee ">Assignee Email</option>
+                                </div>
+                            </select>
+                            <!-- <input type="radio" name="filter" id="forUserType"> -->
+                        </div>
+                        <div>
+                            <label for="input">Enter Input:</label>
+                            <input type="text" id="input" name="inputValue" class="txt_field">
+                            <!-- <input type="radio" name="filter" id="forLocation"> -->
+                        </div>
+                        <div class="filter-btn">
+                            <!-- <div> -->
+
+                            <button class="search_button" id="filterBtn"><i class="fa-brands fa-searchengin"></i>
+                                <span>Filter</span></button>
+                            <!-- </div> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
             <h1 class="h1_tickets">Tickets</h1><br>
             <%- include("../partials/Admin/ticketsTable.ejs")%>
 
