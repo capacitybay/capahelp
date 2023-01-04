@@ -4,6 +4,7 @@ const { hashedPassword } = require('../../auth/password');
 const {
   registerValidation,
   updateUserValidation,
+  validateEmail,
 } = require('../../validation/validation');
 //
 const asyncWrapper = require('../../middleware/controllerWrapper');
@@ -263,7 +264,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     errors.push({ msg: 'password does not match' });
   }
   if (errors.length > 0) {
-    res.render('Admin/register.ejs', {
+    res.render('Admin/adminCreateUser.ejs', {
       errors,
       first_name,
       last_name,
@@ -278,7 +279,7 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     const getUserDetails = await UserModel.findOne({ email: email });
     if (getUserDetails) {
       errors.push({ msg: 'user already exists' });
-      res.render('register.ejs', {
+      res.render('Admin/adminCreateUser.ejs', {
         errors,
         first_name,
         last_name,
@@ -338,55 +339,164 @@ const filterUsersTable = async (arg1, arg2, arg3, ...arg4) => {
 const filterUsers = asyncWrapper(async (req, res) => {
   const { selectedOption, inputValue } = req.body;
   console.log('filter');
-  console.log(selectedOption, inputValue);
-  const renderFn = (_user, _users) => {
-    return res.render('Admin/users', {
-      user: _user,
-      users: _user,
+  console.log(req.body);
+  const renderFn = async (_users, _error) => {
+    const allSystemUsers = await UserModel.find({}, { password: 0 });
+    const addElements = (array, element) => {
+      array.push(element);
+    };
+    let deactivatedAdmins = [],
+      deactivatedAgents = [],
+      deactivatedCustomers = [],
+      admins = [],
+      agents = [],
+      customers = [];
+
+    allSystemUsers.forEach((element, idx) => {
+      if (element.user_type === 3) {
+        addElements(admins, element);
+      } else if (element.user_type === 1) {
+        addElements(agents, element);
+      } else if (element.user_type === 0) {
+        addElements(customers, element);
+      }
+    });
+
+    allSystemUsers.forEach((element, idx) => {
+      if (!element.active && element.user_type === 3) {
+        addElements(deactivatedAdmins, element);
+      } else if (!element.active && element.user_type === 1) {
+        addElements(deactivatedAgents, element);
+      } else if (element.active === false && element.user_type === 0) {
+        addElements(deactivatedCustomers, element);
+      }
+    });
+
+    const totalInactiveUsers =
+      deactivatedAdmins.length +
+      deactivatedAgents.length +
+      deactivatedCustomers.length;
+    console.log('.......');
+    // console.log(req.user[0]);
+
+    res.render('Admin/users', {
+      errors: _error ? _error : null,
+      user: req.user[0],
+      users: _users ? _users : allSystemUsers,
+      hits: allSystemUsers.length,
+      totalSystemUsers: allSystemUsers ? allSystemUsers.length : 0,
+      totalAdmins: admins ? admins.length : 0,
+      inactiveAdmins: deactivatedAdmins ? deactivatedAdmins.length : 0,
+      activeAdmins: deactivatedAdmins
+        ? admins.length - deactivatedAdmins.length
+        : 0,
+      totalInactiveUsers: totalInactiveUsers ? totalInactiveUsers : 0,
+      activeUsers: totalInactiveUsers
+        ? allSystemUsers.length - totalInactiveUsers
+        : 0,
+      deactivatedCustomers: deactivatedCustomers
+        ? deactivatedCustomers.length
+        : 0,
+      activeCustomers: customers
+        ? customers.length - deactivatedCustomers.length
+        : 0,
+      customers: customers ? customers.length : 0,
+      agents: agents ? agents.length : 0,
+      activeAgents: agents ? agents.length - deactivatedAgents.length : 0,
+      inactiveAgents: agents ? deactivatedAgents.length : 0,
     });
   };
-
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  let errors = [];
   if (selectedOption.toLowerCase() === 'all' && !inputValue) {
-    const getAllUsers = await userModel({}, { password: 0 });
-    renderFn(req.user[0], getAllUsers);
+    //
+    const getAllUsers = await userModel.find({}, { password: 0 });
+    return renderFn(getAllUsers, null);
   } else if (selectedOption.toLowerCase() === 'email') {
-    const { error } = await validateEmail({ email: inputValue });
-    if (error) return res.send({ success: false, msg: error.message });
+    const { error } = await validateEmail({ email: inputValue.trim() });
+    console.log(error);
+    if (error) {
+      errors.push({ msg: error.message });
+      return renderFn(null, errors);
+    }
+
     // check if user is registered
-    const getAllUsers = await userModel({ email: inputValue }, { password: 0 });
-    if (!getAllUsers) return; //no user found
-    renderFn(req.user[0], getAllUsers);
+
+    const getAllUsers = await userModel.find(
+      { email: inputValue.trim() },
+      { password: 0 }
+    );
+
+    console.log(getAllUsers);
+    if (getAllUsers.length < 1) {
+      errors.push({ msg: 'Email Is Not Registered!' });
+      return renderFn(null, errors);
+    }
+    //no user found
+    return renderFn(getAllUsers, null);
   } else if (selectedOption.toLowerCase() === 'role') {
     const convertedRole =
-      inputValue.toLowerCase() === 'admin'
+      inputValue.trim().toLowerCase() === 'admin'
         ? 3
-        : inputValue.toLowerCase() === 'customer'
+        : inputValue.trim().toLowerCase() === 'customer'
         ? 0
-        : inputValue.toLowerCase() === 'agent'
+        : inputValue.trim().toLowerCase() === 'agent'
         ? 1
         : undefined;
-    const getAllUsers = await userModel(
+    const getAllUsers = await userModel.find(
       { user_type: convertedRole },
       { password: 0 }
     );
-    renderFn(req.user[0], getAllUsers);
+    console.log('check');
+    console.log(convertedRole);
+    if (convertedRole === undefined) {
+      errors.push({
+        msg: 'Invalid Role, Please Choose Either Admin,Agent Or Customer',
+      });
+      return renderFn(null, errors);
+    }
+    return renderFn(getAllUsers, null);
   } else if (selectedOption.toLowerCase() === 'location') {
     // capitalize the first letter
-    const getAllUsers = await userModel(
-      { location: inputValue },
+    const location = capitalizeFirstLetter(inputValue.trim());
+    const getAllUsers = await userModel.find(
+      { location: location },
       { password: 0 }
     );
-    renderFn(req.user[0], getAllUsers);
+    if (getAllUsers === undefined || getAllUsers.length == 0) {
+      errors.push({ msg: 'Country Not Found, Please Try Another Name. ' });
+
+      return renderFn(null, errors);
+    }
+    return renderFn(getAllUsers, null);
   } else if (selectedOption.toLowerCase() === 'status') {
     // check if input is active or inactive (else show error message please choose either of the two)
-    const getAllUsers = await userModel(
-      { active: inputValue },
+    const convertStatus =
+      inputValue.trim().toLowerCase() === 'active'
+        ? true
+        : inputValue.trim().toLowerCase() === 'inactive'
+        ? false
+        : undefined;
+    if (convertStatus === undefined) {
+      errors.push({
+        msg: 'Invalid String. Please Choose Either Active Or Inactive',
+      });
+      return renderFn(null, errors);
+    }
+
+    const getAllUsers = await userModel.find(
+      { active: convertStatus },
       { password: 0 }
     );
-    renderFn(req.user[0], getAllUsers);
+
+    return renderFn(getAllUsers, null);
   } else {
-    const getAllUsers = await userModel({}, { password: 0 });
-    renderFn(req.user[0], getAllUsers);
+    // TODO:add another if to check inappropriate combination
+    const getAllUsers = await userModel.find({}, { password: 0 });
+    errors.push({ msg: 'Invalid Combination!' });
+    renderFn(getAllUsers, errors);
   }
   // Password123*
 });
@@ -437,6 +547,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
 
     if (!getUsers) return next(createCustomError('no user found', 404));
     res.render('Admin/users', {
+      errors: undefined,
       user: req.user[0],
       users: getUsers,
       hits: getUsers.length,
