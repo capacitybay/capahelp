@@ -33,6 +33,7 @@ const {
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  filterTickets,
 } = require('./ticketController');
 
 const {
@@ -55,6 +56,7 @@ module.exports = {
   updateTicket,
   deleteTicket,
   adminCreateTicket,
+  filterTickets,
   // customer
   createUser,
   getUser,

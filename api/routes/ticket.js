@@ -16,6 +16,7 @@ const {
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  filterTickets,
 } = require('../controllers');
 
 const {
@@ -35,6 +36,7 @@ router.get('/admin/ticket/list/inProgress', isAdmin, inProgressTickets);
 router.get('/admin/ticket/list/pending', isAdmin, pendingTickets);
 router.get('/admin/ticket/list/resolved', isAdmin, resolvedTickets);
 router.get('/admin/ticket/list', isAdmin, listTicket);
+router.post('/admin/filter/tickets', isAdmin, filterTickets);
 // Todo: still under review
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);

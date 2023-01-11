@@ -835,6 +835,7 @@ const filterTickets = asyncWrapper(async (req, res) => {
     }
   });
   const renderFn = (_tickets, _errors) => {
+    console.log('error', _errors);
     res.render('Admin/tickets', {
       errors: _errors ? _errors : null,
       user: req.user[0],
@@ -866,50 +867,89 @@ const filterTickets = asyncWrapper(async (req, res) => {
   const getFilteredTicket = (_selectedValue, _value, _errors) => {
     let result = [];
     let error = [];
-
+    error.push(_errors);
+    if (_selectedValue !== 'All' && !_value) return renderFn(null, error);
+    if (_selectedValue === 'All' && _value) return renderFn(null, error);
+    if (_selectedValue === 'All' && !_value) return renderFn(null, error);
     getAllTickets.forEach((element) => {
-      if (element._selectedValue === _value) {
+      if (element[_selectedValue] === _value) {
         result.push(element);
       }
     });
     console.log(result, _value, _selectedValue);
-    if (!result) {
-      error.push({ msg: _errors });
-      renderFn(null, error);
+    if (_errors) return renderFn(result, error);
+
+    if (result <= 0) {
+      return renderFn(result, [
+        { msg: 'Resource cannot be found!, Please try another search term.' },
+      ]);
+    } else {
+      console.log(result);
+      return renderFn(result, null);
     }
-    renderFn(result, null);
   };
+
+  if (selectedOption.toLowerCase() !== 'all' && !inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Please Select And Enter Your Search Term!',
+    });
+  if (selectedOption.toLowerCase() === 'all' && inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+  if (selectedOption.toLowerCase() === 'all' && !inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
 
   if (
     selectedOption.toLowerCase() === 'status' &&
     inputValue.toLowerCase().trim() === 'pending'
   )
-    return getFilteredTicket('ticket_status', 'pending', null);
+    return getFilteredTicket('ticket_status', 'pending', {
+      msg: "Could't Find Ticket With Status 'pending', Please Try Other Options",
+    });
 
   // .........................................
   if (
     selectedOption.toLowerCase() === 'status' &&
     inputValue.toLowerCase().trim() === 'resolved'
   )
-    return getFilteredTicket('ticket_status', 'resolved', null);
+    return getFilteredTicket(
+      'ticket_status',
+      'resolved',
+      "Could't Find Ticket With Status 'resolved', Please Try Other Options"
+    );
   // .........................................
   if (
     selectedOption.toLowerCase() === 'status' &&
     inputValue.toLowerCase().trim() === 'cancelled'
   )
-    return getFilteredTicket('ticket_status', 'cancelled', null);
+    return getFilteredTicket(
+      'ticket_status',
+      'cancelled',
+      "Could't Find Ticket With Status 'cancelled', Please Try Other Options"
+    );
   // .........................................
   if (
     selectedOption.toLowerCase() === 'status' &&
     inputValue.toLowerCase().trim() === 'active'
   )
-    return getFilteredTicket('ticket_status', 'active', null);
+    return getFilteredTicket(
+      'ticket_status',
+      'active',
+      "Could't Find Ticket With Status 'active', Please Try Other Options"
+    );
   // .........................................
   if (
     selectedOption.toLowerCase() === 'status' &&
     inputValue.toLowerCase().trim() === 'in progress'
   )
-    return getFilteredTicket('ticket_status', 'in progress', null);
+    return getFilteredTicket(
+      'ticket_status',
+      'in progress',
+      "Could't Find Ticket With Status 'in progress', Please Try Other Options"
+    );
   // .........................................
   // **Urgency Section
   if (
@@ -958,27 +998,27 @@ const filterTickets = asyncWrapper(async (req, res) => {
     inputValue.toLowerCase().trim() === 'normal'
   )
     return getFilteredTicket(
-      null,
-      'normal ',
+      'priority',
+      'normal',
       "Could't Find Ticket With Priority 'Normal', Please Try Other Options"
     );
   // .........................................
   if (
     selectedOption.toLowerCase() === 'priority' &&
-    inputValue.toLowerCase().trim() === 'medium'
+    inputValue.toLowerCase().trim() === 'low'
   )
     return getFilteredTicket(
-      null,
+      'priority',
       'low',
       "Could't Find Ticket With Priority 'Medium', Please Try Other Options"
     );
   // .........................................
   if (
     selectedOption.toLowerCase() === 'priority' &&
-    inputValue.toLowerCase().trim() === 'open'
+    inputValue.toLowerCase().trim() === 'high'
   )
     return getFilteredTicket(
-      null,
+      'priority',
       'high',
       "Could't Find Ticket With Priority 'Open', Please Try Other Options"
     );
@@ -986,7 +1026,7 @@ const filterTickets = asyncWrapper(async (req, res) => {
   // **Filter by Dept
   if (selectedOption.toLowerCase() === 'dept')
     return getFilteredTicket(
-      null,
+      'dept_id',
       inputValue.toLowerCase().trim(),
       `could't find department the provided name: ${inputValue
         .toLowerCase()
@@ -995,31 +1035,19 @@ const filterTickets = asyncWrapper(async (req, res) => {
 
   // **Filter by Assignee Email
 
-  if (selectedOption.toLowerCase() === 'assignee' && inputValue) {
-    let errors = [];
-    const { error } = validateEmail({ email: inputValue.tolowerCase().trim() });
-    if (error) return errors.push({ msg: error.message });
-    return getFilteredTicket(
-      null,
-      inputValue.toLowerCase().trim(),
-      `could't find Agent the provided name: ${inputValue
-        .toLowerCase()
-        .trim()} `
-    );
+  if (selectedOption.toLowerCase() === 'assignee') {
+    console.log('checkin....');
+    // console.log();
+    const { error } = await validateEmail({ email: inputValue.trim() });
+    let errorArg = error ? { msg: error.message } : false;
+    return getFilteredTicket('assignee_id', inputValue.trim(), errorArg);
   }
   // **Filter by Customer Email
 
-  if (selectedOption.toLowerCase() === 'assignee' && inputValue) {
-    let errors = [];
-    const { error } = validateEmail({ email: inputValue.tolowerCase().trim() });
-    if (error) return errors.push({ msg: error.message });
-    let errorArg =
-      errors.length > 0
-        ? errors[0]
-        : `could't find Agent the provided name: ${inputValue
-            .toLowerCase()
-            .trim()} `;
-    return getFilteredTicket(null, inputValue.toLowerCase().trim(), errorArg);
+  if (selectedOption.toLowerCase() === 'customer' && inputValue.trim()) {
+    const { error } = await validateEmail({ email: inputValue.trim() });
+    let errorArg = error ? { msg: error.message } : false;
+    return getFilteredTicket('customer_id', inputValue, errorArg);
   }
 });
 
