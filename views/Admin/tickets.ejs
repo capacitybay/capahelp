@@ -143,7 +143,7 @@
                 <!-- <h4>select the individual input, if you want to be more specific  -->
                 </h4>
                 <div class="filter-users">
-                    <form class="filter-form" id="filterForm" action="/filter/tickets" method="post">
+                    <form class="filter-form" id="filterForm" action="/admin/filter/tickets" method="post">
                         <!-- <div>
                             <label for="email">By Email</label>
                             <input type="email" id="email" name="email" class="txt_field">
@@ -159,9 +159,9 @@
                                     <option value="urgency">Urgency</option>
                                     <option value="priority">Priority</option>
                                     <option value="status">Status</option>
-                                    <option value="dept">Dept Email</option>
-                                    <option value="email">Customer Email</option>
-                                    <option value="assignee ">Assignee Email</option>
+                                    <option value="dept">Department</option>
+                                    <option value="customer">Customer Email</option>
+                                    <option value="assignee">Assignee Email</option>
                                 </div>
                             </select>
                             <!-- <input type="radio" name="filter" id="forUserType"> -->
@@ -182,6 +182,7 @@
                 </div>
             </div>
             <h1 class="h1_tickets">Tickets</h1><br>
+            <!-- TODO: add a scroll base to table display -->
             <%- include("../partials/Admin/ticketsTable.ejs")%>
 
 
