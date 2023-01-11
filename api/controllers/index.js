@@ -24,11 +24,7 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
+
   adminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
@@ -87,11 +83,7 @@ module.exports = {
   refreshUserToken,
   // admin dashboard
   adminDashboard,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
+
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,

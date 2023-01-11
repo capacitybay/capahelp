@@ -442,134 +442,6 @@ const listTicket = asyncWrapper(async (req, res) => {
       : 0,
   });
 });
-// *GETS ALL TICKETS
-const activeTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getActiveTickets = await TicketModel.find({ ticket_status: 'active' });
-  console.log('...........qwerty..................1');
-
-  for (let index = 0; index < getActiveTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getActiveTickets[index].customer_id,
-    });
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  console.log('...........qwerty..................2');
-
-  // console.log(getActiveTickets);
-
-  // if (ticketOwners.length > 0) {
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getActiveTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-
-const cancelledTickets = asyncWrapper(async (req, res, next) => {
-  let cancelledOwners = [];
-  const getCancelledTickets = await TicketModel.find({
-    ticket_status: 'cancelled',
-  });
-
-  for (let index = 0; index < getCancelledTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getCancelledTickets[index].customer_id,
-    });
-
-    cancelledOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getCancelledTickets,
-    ticketOwners: cancelledOwners,
-  });
-});
-// in progress tickets
-const inProgressTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const inProgressTickets = await TicketModel.find({
-    ticket_status: 'in progress',
-  });
-
-  for (let index = 0; index < inProgressTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: inProgressTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: inProgressTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-// pending tickets
-const pendingTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getPendingTickets = await TicketModel.find({
-    ticket_status: 'pending',
-  });
-
-  for (let index = 0; index < getPendingTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getPendingTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getPendingTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-// resolved tickets
-const resolvedTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getResolvedTickets = await TicketModel.find({
-    ticket_status: 'resolved',
-  });
-
-  for (let index = 0; index < getResolvedTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getResolvedTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getResolvedTickets,
-    ticketOwners: ticketOwners,
-  });
-});
 
 // deletes ticket
 const deleteTicket = asyncWrapper(async (req, res, next) => {
@@ -867,10 +739,13 @@ const filterTickets = asyncWrapper(async (req, res) => {
   const getFilteredTicket = (_selectedValue, _value, _errors) => {
     let result = [];
     let error = [];
-    error.push(_errors);
+    if (_errors) {
+      error.push(_errors);
+    }
     if (_selectedValue !== 'All' && !_value) return renderFn(null, error);
     if (_selectedValue === 'All' && _value) return renderFn(null, error);
     if (_selectedValue === 'All' && !_value) return renderFn(null, error);
+    if (_selectedValue && !_value) return renderFn(null, error);
     getAllTickets.forEach((element) => {
       if (element[_selectedValue] === _value) {
         result.push(element);
@@ -889,6 +764,12 @@ const filterTickets = asyncWrapper(async (req, res) => {
     }
   };
 
+  const searchCombinationError = () => {
+    getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+  };
+
   if (selectedOption.toLowerCase() !== 'all' && !inputValue)
     return getFilteredTicket(undefined, undefined, {
       msg: 'Please Select And Enter Your Search Term!',
@@ -901,143 +782,109 @@ const filterTickets = asyncWrapper(async (req, res) => {
     return getFilteredTicket(undefined, undefined, {
       msg: 'Invalid Search Combination!',
     });
-
-  if (
-    selectedOption.toLowerCase() === 'status' &&
-    inputValue.toLowerCase().trim() === 'pending'
-  )
-    return getFilteredTicket('ticket_status', 'pending', {
-      msg: "Could't Find Ticket With Status 'pending', Please Try Other Options",
+  if (selectedOption && !inputValue)
+    return getFilteredTicket(selectedOption, undefined, {
+      msg: 'Invalid Search Combination!',
     });
 
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'status' &&
-    inputValue.toLowerCase().trim() === 'resolved'
-  )
-    return getFilteredTicket(
-      'ticket_status',
-      'resolved',
-      "Could't Find Ticket With Status 'resolved', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'status' &&
-    inputValue.toLowerCase().trim() === 'cancelled'
-  )
-    return getFilteredTicket(
-      'ticket_status',
-      'cancelled',
-      "Could't Find Ticket With Status 'cancelled', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'status' &&
-    inputValue.toLowerCase().trim() === 'active'
-  )
-    return getFilteredTicket(
-      'ticket_status',
-      'active',
-      "Could't Find Ticket With Status 'active', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'status' &&
-    inputValue.toLowerCase().trim() === 'in progress'
-  )
-    return getFilteredTicket(
-      'ticket_status',
-      'in progress',
-      "Could't Find Ticket With Status 'in progress', Please Try Other Options"
-    );
-  // .........................................
-  // **Urgency Section
-  if (
-    selectedOption.toLowerCase() === 'urgency' &&
-    inputValue.toLowerCase().trim() === 'urgent'
-  )
-    return getFilteredTicket(
-      'urgency',
-      'urgent',
-      "Could't Find Ticket With Urgency 'Urgent', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'urgency' &&
-    inputValue.toLowerCase().trim() === 'medium'
-  )
-    return getFilteredTicket(
-      'urgency',
-      'medium',
-      "Could't Find Ticket With Urgency 'Medium', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'urgency' &&
-    inputValue.toLowerCase().trim() === 'open'
-  )
-    return getFilteredTicket(
-      'urgency',
-      'open',
-      "Could't Find Ticket With Urgency 'Open', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'urgency' &&
-    inputValue.toLowerCase().trim() === 'low'
-  )
-    return getFilteredTicket(
-      'urgency',
-      'low',
-      "Could't Find Ticket With Urgency 'Low', Please Try Other Options"
-    );
-  // .........................................
-  // **Priority Section
-  if (
-    selectedOption.toLowerCase() === 'priority' &&
-    inputValue.toLowerCase().trim() === 'normal'
-  )
-    return getFilteredTicket(
-      'priority',
-      'normal',
-      "Could't Find Ticket With Priority 'Normal', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'priority' &&
-    inputValue.toLowerCase().trim() === 'low'
-  )
-    return getFilteredTicket(
-      'priority',
-      'low',
-      "Could't Find Ticket With Priority 'Medium', Please Try Other Options"
-    );
-  // .........................................
-  if (
-    selectedOption.toLowerCase() === 'priority' &&
-    inputValue.toLowerCase().trim() === 'high'
-  )
-    return getFilteredTicket(
-      'priority',
-      'high',
-      "Could't Find Ticket With Priority 'Open', Please Try Other Options"
-    );
+  if (selectedOption.toLowerCase() === 'status') {
+    if (inputValue.toLowerCase().trim() === 'pending') {
+      return getFilteredTicket('ticket_status', 'pending', {
+        msg: "Could't Find Ticket With Status 'pending', Please Try Other Options",
+      });
+    } else if (inputValue.toLowerCase().trim() === 'resolved') {
+      return getFilteredTicket(
+        'ticket_status',
+        'resolved',
+        "Could't Find Ticket With Status 'resolved', Please Try Other Options"
+      );
+      // .........................................
+    } else if (inputValue.toLowerCase().trim() === 'cancelled') {
+      return getFilteredTicket(
+        'ticket_status',
+        'cancelled',
+        "Could't Find Ticket With Status 'cancelled', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'active') {
+      return getFilteredTicket(
+        'ticket_status',
+        'active',
+        "Could't Find Ticket With Status 'active', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'in progress') {
+      return getFilteredTicket(
+        'ticket_status',
+        'in progress',
+        "Could't Find Ticket With Status 'in progress', Please Try Other Options"
+      );
+    } else {
+      return getFilteredTicket(undefined, undefined, {
+        msg: 'Invalid Search Combination!',
+      });
+    }
+  } else if (selectedOption.toLowerCase() === 'urgency') {
+    // **Urgency Section
 
-  // **Filter by Dept
-  if (selectedOption.toLowerCase() === 'dept')
-    return getFilteredTicket(
-      'dept_id',
-      inputValue.toLowerCase().trim(),
-      `could't find department the provided name: ${inputValue
-        .toLowerCase()
-        .trim()} `
-    );
+    if (inputValue.toLowerCase().trim() === 'urgent') {
+      return getFilteredTicket(
+        'urgency',
+        'urgent',
+        "Could't Find Ticket With Urgency 'Urgent', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'medium') {
+      return getFilteredTicket(
+        'urgency',
+        'medium',
+        "Could't Find Ticket With Urgency 'Medium', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'open') {
+      return getFilteredTicket(
+        'urgency',
+        'open',
+        "Could't Find Ticket With Urgency 'Open', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'low') {
+      return getFilteredTicket(
+        'urgency',
+        'low',
+        "Could't Find Ticket With Urgency 'Low', Please Try Other Options"
+      );
+    } else {
+      return searchCombinationError();
+    }
+  } else if (selectedOption.toLowerCase() === 'priority') {
+    // **Priority Section
+
+    if (inputValue.toLowerCase().trim() === 'normal') {
+      return getFilteredTicket(
+        'priority',
+        'normal',
+        "Could't Find Ticket With Priority 'Normal', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'low') {
+      return getFilteredTicket(
+        'priority',
+        'low',
+        "Could't Find Ticket With Priority 'Medium', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'high') {
+      return getFilteredTicket(
+        'priority',
+        'high',
+        "Could't Find Ticket With Priority 'Open', Please Try Other Options"
+      );
+    } else {
+      return searchCombinationError();
+    }
+  } else if (selectedOption.toLowerCase() === 'dept') {
+    // **Filter by Dept
+
+    return getFilteredTicket('dept_id', inputValue.toLowerCase().trim(), null);
+  }
 
   // **Filter by Assignee Email
 
   if (selectedOption.toLowerCase() === 'assignee') {
-    console.log('checkin....');
-    // console.log();
     const { error } = await validateEmail({ email: inputValue.trim() });
     let errorArg = error ? { msg: error.message } : false;
     return getFilteredTicket('assignee_id', inputValue.trim(), errorArg);
@@ -1057,11 +904,6 @@ module.exports = {
   listTicket,
   updateTicket,
   deleteTicket,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
   adminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
