@@ -122,22 +122,29 @@
                         <div class="btm btm1">
 
                             <canvas id="myChart1" width="400" height="400"></canvas>
-                            <h5>Ticket Priority</h5>
+                            <h5>Ticket Urgency</h5>
 
 
                         </div>
 
                         <div class="btm btm1">
 
+                            <canvas id="myChart5" width="400" height="400"></canvas>
+                            <h5>Ticket Priority </h5>
+                        </div>
+                        <div class="btm btm1">
+
                             <canvas id="myChart2" width="400" height="400"></canvas>
-                            <h5>Customers </h5>
+                            <h5>Customers</h5>
+
+
                         </div>
 
                         <!-- ticket priority -->
                         <div class="btm chart-width">
 
                             <canvas id="myChart3" width="400" height="400"></canvas>
-                            <h5>Ticket State</h5>
+                            <h5>Assigned And Unassigned Tickets</h5>
 
 
                         </div>
@@ -171,13 +178,13 @@
                         labels: ['Canceled Tickets', 'Resolved Tickets', 'Active Tickets', 'Pending Tickets', 'Tickets in Progress'],
                         datasets: [{
                             label: '# of Votes',
-                            data: [cancelledTickets, pendingTickets, resolvedTickets, ticketsInProgress, activeTickets],
+                            data: [cancelledTickets, resolvedTickets, activeTickets, pendingTickets, ticketsInProgress,],
                             backgroundColor: [
                                 '#C00000',
                                 '#1CA76C',
                                 '#93f9b9',
                                 '#D8AA04',
-                                'Coral',
+                                'yellow',
                             ],
                             borderWidth: 2,
                             hoverOffset: 4,
@@ -193,16 +200,43 @@
                 const myChart1 = new Chart(ctx1, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Urgent Tickets', 'High Priority Tickets', 'Medium Priority Tickets', 'Open Tickets',],
+                        labels: ['Urgent Tickets', 'High Priority Tickets', 'Medium Priority Tickets', 'Open Tickets', 'low state'],
                         datasets: [{
                             label: '# of Votes',
-                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(highPriorityTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>'],
+                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(highPriorityTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>', '<%- JSON.stringify(lowTicketState) %>', '<%- JSON.stringify(lowTicketState) %>'],
                             backgroundColor: [
                                 '#C00000',
                                 '#1CA76C',
                                 '#93f9b9',
                                 '#D8AA04',
                                 'Coral',
+                                '#D8AA15',
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 4,
+
+                        }]
+                    },
+                    options: {
+                        aspectRatio: 2,
+                    }
+                });
+                //urgency
+                const ctx5 = document.getElementById('myChart5').getContext('2d');
+                const myChart5 = new Chart(ctx5, {
+                    type: 'pie',
+                    data: {
+                        labels: ['High Priority Tickets', 'Medium Priority Tickets', "low Priority Tickets "],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: ['<%- JSON.stringify(highPriority) %>', '<%- JSON.stringify(normalPriority) %>', '<%- JSON.stringify(lowPriority) %>'],
+                            backgroundColor: [
+                                '#C00000',
+                                '#1CA76C',
+                                '#93f9b9',
+                                '#D8AA04',
+                                'Coral',
+                                '#D8AA15',
                             ],
                             borderWidth: 2,
                             hoverOffset: 4,
@@ -246,7 +280,7 @@
                         datasets: [{
                             label: 'Ticket State',
 
-                            data: ['<%- JSON.stringify(unassignedTickets) %>', '<%- JSON.stringify(assignedTickets) %>'],
+                            data: ['<%- JSON.stringify(assignedTickets) %>', '<%- JSON.stringify( unassignedTickets) %>'],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(255, 159, 64, 0.2)',

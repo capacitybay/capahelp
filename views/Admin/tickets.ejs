@@ -23,7 +23,7 @@
     <%- include("../partials/Admin/adminHeader.ejs") %>
         <main id="show-message">
 
-            <h1 class="h1_tickets">Ticket</h1><br>
+
             <div class="d-flex justify-content-center flex-column">
 
                 <div id="display-success-msg" class="w-80">
@@ -43,16 +43,16 @@
                                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                         Total Tickets<i class="fa-solid fa-users margin-icon"></i></h4><span
                                         class="hind-font caption-12 c-dashboardInfo__count">
-                                        <%= 45 %>
+                                        <%= totalTickets %>
                                     </span>
                                     <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
 
                                         <span class="add text-success">
-                                            <%= 4 %>
+                                            <%= activeTickets %>
                                         </span>
                                         <span class="drop text-danger">
 
-                                            <%= 3 %>
+                                            <%= inactiveTickets %>
 
                                         </span>
 
@@ -65,19 +65,19 @@
                             <div class="c-dashboardInfo col-lg-3 col-md-6">
                                 <div class="wrap">
                                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                        No.
-                                        Of Admin<i class="fa-solid fa-user-shield margin-icon"></i></h4><span
-                                        class="hind-font caption-12 c-dashboardInfo__count ">
-                                        <%= 4 %>
+                                        Tickets Assigned To Depts.
+                                        <i class="fa-solid fa-user-shield margin-icon"></i>
+                                    </h4><span class="hind-font caption-12 c-dashboardInfo__count ">
+                                        <%= deptTicketCount %>
                                     </span>
                                     <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
 
                                         <span class="add text-success  ">
-                                            <%= 45 %>
+                                            <%= deptActiveTicketCount %>
                                         </span>
                                         <span class="drop text-danger ">
 
-                                            <%= 7%>
+                                            <%= deptInactiveTicketCount%>
 
                                         </span>
 
@@ -88,18 +88,18 @@
                             <div class="c-dashboardInfo col-lg-3 col-md-6">
                                 <div class="wrap">
                                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                        No. Of Tickets<i class="fa-solid fa-users-rays margin-icon"></i></h4><span
-                                        class="hind-font caption-12 c-dashboardInfo__count">
-                                        <%= 34 %>
+                                        Tickets Assigned To Agents<i class="fa-solid fa-users-rays margin-icon"></i>
+                                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">
+                                        <%= agentTicketCount %>
                                     </span>
                                     <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
 
                                         <span class="add text-success  ">
-                                            <%= 4 %>
+                                            <%= activeAgentTicketsCount %>
                                         </span>
                                         <span class="drop text-danger ">
 
-                                            <%= 7 %>
+                                            <%= inactiveAgentTicketsCount %>
 
                                         </span>
 
@@ -110,19 +110,18 @@
                             <div class="c-dashboardInfo col-lg-3 col-md-6">
                                 <div class="wrap">
                                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                        No
-                                        Of Agents<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
+                                        Unassigned Tickets<i class="fa-solid fa-user-tie margin-icon "></i></h4><span
                                         class="hind-font caption-12 c-dashboardInfo__count">
-                                        <%= 5 %>
+                                        <%= unassignedTickets %>
                                     </span>
                                     <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
 
                                         <span class="add text-success  ">
-                                            <%= 5 %>
+                                            <%= activeUnassignedTickets %>
                                         </span>
                                         <span class="drop text-danger ">
 
-                                            <%= 4 %>
+                                            <%= inactiveUnassignedTickets %>
 
                                         </span>
                                     </span>
@@ -133,30 +132,60 @@
                     </div>
                 </div>
             </section>
+            <div class="filter-users-cont">
+                <div class="filterHeader">
 
+                    <%- include("../partials/messages.ejs") %>
 
+                        <h5>Filter TIckets</h5>
+                </div>
+
+                <!-- <h4>select the individual input, if you want to be more specific  -->
+                </h4>
+                <div class="filter-users">
+                    <form class="filter-form" id="filterForm" action="/admin/filter/tickets" method="post">
+                        <!-- <div>
+                            <label for="email">By Email</label>
+                            <input type="email" id="email" name="email" class="txt_field">
+                            <input type="radio" name="filter" id="forEmail">
+                        </div> -->
+
+                        <div>
+                            <label for="role">Filter By: dev in progress</label>
+                            <select name="selectedOption" class="select_field" id="selectedOption">
+                                <div class="options">
+
+                                    <option value="all">All</option>
+                                    <option value="urgency">Urgency</option>
+                                    <option value="priority">Priority</option>
+                                    <option value="status">Status</option>
+                                    <option value="dept">Department</option>
+                                    <option value="customer">Customer Email</option>
+                                    <option value="assignee">Assignee Email</option>
+                                </div>
+                            </select>
+                            <!-- <input type="radio" name="filter" id="forUserType"> -->
+                        </div>
+                        <div>
+                            <label for="input">Enter Input:</label>
+                            <input type="text" id="input" name="inputValue" class="txt_field">
+                            <!-- <input type="radio" name="filter" id="forLocation"> -->
+                        </div>
+                        <div class="filter-btn">
+                            <!-- <div> -->
+
+                            <button class="search_button" id="filterBtn"><i class="fa-brands fa-searchengin"></i>
+                                <span>Filter</span></button>
+                            <!-- </div> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h1 class="h1_tickets">Tickets</h1><br>
+            <!-- TODO: add a scroll base to table display -->
             <%- include("../partials/Admin/ticketsTable.ejs")%>
 
-                <!-- <div class="info">
-                <div class="all h3" id="ticketsLink" data-url='/admin/ticket/list'>
-                    <h3>All</h3>
-                </div>
-                <div class="all" id="activeTicketLink" data-url='/admin/ticket/list/active'>
-                    <h3>Active</h3>
-                </div>
-                <div class="all" id="cancelledTicketsLink" data-url='/admin/ticket/list/cancelled'>
-                    <h3>Cancelled</h3>
-                </div>
-                <div class="all" id="resolvedTicketsLink" data-url='/admin/ticket/list/resolved'>
-                    <h3>Resolved</h3>
-                </div>
-                <div class="all" id="inProgressTicketLink" data-url='/admin/ticket/list/inProgress'>
-                    <h3>In Progress</h3>
-                </div>
-                <div class="all" id="pendingTicketsLink" data-url='/admin/ticket/list/pending'>
-                    <h3>Pending</h3>
-                </div>
-            </div><br> -->
+
 
 
         </main>

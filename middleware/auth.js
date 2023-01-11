@@ -30,7 +30,7 @@ module.exports = {
   isAdmin: function (req, res, next) {
     //console.log('is auth');
     //console.log(req.isAuthenticated());
-    if (!req.isAuthenticated()) return res.status(304).redirect('/login');
+    if (!req.isAuthenticated()) return res.redirect('/login');
     if (req.user[0].user_type === 3) {
       //res.status(304).redirect('/login');
 
