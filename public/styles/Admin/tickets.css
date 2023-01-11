@@ -24,6 +24,10 @@ main {
   margin: 0 auto;
 }
 
+.table-desc h1 {
+  font-size: 2.5rem !important;
+  color: #585c64;
+}
 .h1_tickets {
   width: 5%;
   border-bottom: 10px solid #1ca76c;
@@ -70,6 +74,7 @@ main {
 }
 
 .box_h1 {
+  /* color: #4a4747; */
   background-color: #d1efcc;
   padding: 0.6em;
   border-radius: 50%;
@@ -90,7 +95,7 @@ main {
 select,
 label {
   font-size: 12px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .hw {
@@ -100,51 +105,107 @@ label {
   background-color: green;
 }
 
-/* MEDIA QUERIES */
+.filter-users-cont {
+  /* border: 1px solid blue; */
 
-@media screen and (max-width: 901px) {
-  .h1_tickets {
-    font-size: large;
-    border-bottom: 7px solid #1ca76c;
-  }
+  width: 70%;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+    rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+  height: auto;
 
-  .all {
-    padding: 0.4em;
-  }
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.filter-users-cont h4 {
+  text-align: center;
+}
+.filter-users {
+  display: flex;
+}
+.filter-btn {
+  height: 2rem;
+}
+.filter-btn button {
+}
+.filter-form {
+  display: flex;
+  justify-content: space-around;
+  align-self: center;
+  /* height: 5rem; */
+  /* border: 1px solid blue; */
+  width: 100%;
+}
+
+.search_button {
+  padding: 0.3rem 2rem 0.3rem 0.5rem;
+  /* padding-right: 30rem; */
+  /*padding-left: 0.5rem; */
+  border-radius: 6px;
+  border: none;
+  background-color: #25be64;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search_button i {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.txt_field {
+  outline: none;
+  padding: 0.3rem 1rem;
+  border-radius: 5px;
+  width: 200px;
+  border: 1px solid #dadde4;
+  font-size: small;
+
+  /* color: #fff; */
+}
+.filter-form div label {
+  font-size: small;
+}
+
+.filterHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+.select_field {
+  outline: none;
+  padding: 0.3rem 1rem;
+  border: 1px solid #dadde4;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 220px;
+  font-size: small;
+
+  /* color: #fff; */
+}
+/* @media screen and (max-width: 376px) {
+    .info{
+        width: 100%;
+    }
+} */
+
+@media screen and (max-width: 321px) {
   .all h3 {
-    font-size: 0.8rem;
-  }
-  .box {
-    padding: 1em;
-  }
-  .box_text {
-    font-size: 0.85rem;
-  }
-
-  .box_h1 {
-    padding: 0.2em;
-  }
-  .aside {
-    width: 50%;
-    gap: 20px;
-    /* background-color: red; */
-  }
-  .box_h1 {
-    padding: 0.5em;
-    font-size: 1rem;
-  }
-
-  .box_btn button {
-    padding: 0.45em;
-    border: 2px solid white;
-  }
-  select,
-  label {
     font-size: 11px;
   }
-
-  .hw {
-    padding: 0.4em 0.3em;
+  .box_text h3 {
+    font-size: 13px;
+  }
+  .box_text h4 {
+    font-size: 12px;
+  }
+  .box_text h4 {
+    font-size: 10px;
   }
 }
 
@@ -199,27 +260,111 @@ label {
   }
 }
 
-/* @media screen and (max-width: 376px) {
-    .info{
-        width: 100%;
-    }
-} */
+/** Responsiveness for filter and add user section  */
 
-@media screen and (max-width: 321px) {
-  .all h3 {
-    font-size: 11px;
+@media only screen and (max-width: 600px) {
+  .filter-users-cont {
+    width: 90%;
   }
-  .box_text h3 {
-    font-size: 13px;
+  .filter-users form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .box_text h4 {
-    font-size: 12px;
+  .filter-form div {
+    width: 100%;
+
+    margin-bottom: 1rem;
   }
-  .box_text h4 {
-    font-size: 10px;
+  .filter-btn {
+    display: flex;
+    justify-content: center;
+  }
+
+  .txt_field {
+    width: 75%;
+    /* margin-left: 1rem; */
+  }
+  .select_field {
+    width: 75%;
+    /* margin-left: 1rem; */
+  }
+
+  .search_button {
+    padding-right: 0;
+    /* padding: 0; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /*  */
+    font-size: 0.9rem;
+    width: 8rem;
+    font-weight: 500;
+  }
+  .search_button i {
+    background-color: #25be64;
+    font-size: 1.2rem;
+  }
+
+  .add-user button {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .add-user button i {
+    font-size: 0.9rem;
+    font-weight: 800;
+    background-color: #25be64;
   }
 }
 
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 901px) {
+  .h1_tickets {
+    font-size: large;
+    border-bottom: 7px solid #1ca76c;
+  }
+
+  .all {
+    padding: 0.4em;
+  }
+  .all h3 {
+    font-size: 0.8rem;
+  }
+  .box {
+    padding: 1em;
+  }
+  .box_text {
+    font-size: 0.85rem;
+  }
+
+  .box_h1 {
+    padding: 0.2em;
+  }
+  .aside {
+    width: 50%;
+    gap: 20px;
+    /* background-color: red; */
+  }
+  .box_h1 {
+    padding: 0.5em;
+    font-size: 1rem;
+  }
+
+  .box_btn button {
+    padding: 0.45em;
+    border: 2px solid white;
+  }
+  select,
+  label {
+    font-size: 11px;
+  }
+
+  .hw {
+    padding: 0.4em 0.3em;
+  }
+}
 /* select design */
 
 .select-wrapper {

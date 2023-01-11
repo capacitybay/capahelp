@@ -96,22 +96,22 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
       msg: 'Inputs fields marked with *, cannot be empty!',
     });
   //
-  if (!assignee_id && dept_id === 'none')
-    return res.send({
-      success: false,
-      msg: 'You Must Choose Assignee Or Department Field',
-      payload: {
-        ticket_type,
-        title,
-        customer_id,
-        assignee_id,
-        dept_id,
-        urgency,
-        priority,
-        ticket_status,
-        description,
-      },
-    });
+  // if (!assignee_id && dept_id === 'none')
+  //   return res.send({
+  //     success: false,
+  //     msg: 'You Must Choose Assignee Or Department Field',
+  //     payload: {
+  //       ticket_type,
+  //       title,
+  //       customer_id,
+  //       assignee_id,
+  //       dept_id,
+  //       urgency,
+  //       priority,
+  //       ticket_status,
+  //       description,
+  //     },
+  //   });
   /**
    * @param all parameter are of type String and are validated before passed as arg
    * * This function is responsible for updating ticket with respect to provided args
@@ -141,12 +141,12 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
     if (_dept_id !== 'none' && _assignee_id)
       return res.send({
         success: false,
-        msg: 'Please Select Either An Assignee Or Department',
+        msg: 'Please Select Either An Assignee Or Department Or leave Both Empty',
       });
     // this changes the values of dept_id and assignee_id based on the conditions below
-    updateTicketInfo.dept_id = _dept_id === 'none' ? null : _dept_id;
+    updateTicketInfo.dept_id =
+      _dept_id.toLowerCase() === 'none' ? null : _dept_id;
     updateTicketInfo.assignee_id = !_assignee_id ? null : _assignee_id;
-    console.log('ooooooo');
     console.log(updateTicketInfo);
     //*creates a new instance of the ticket model
     // const newTicket = new TicketModel(updateTicketInfo);
@@ -239,7 +239,7 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
 });
 
 /**
- * *DELETE TICKET
+ ** DELETE TICKET
  */
 const adminDeleteTicket = asyncWrapper(async (req, res) => {
   const ticketId = req.params.ticketId;
@@ -265,10 +265,13 @@ const getTicket = asyncWrapper(async (req, res, next) => {
 
     // let ticketOwners = [];
 
-    let ticketUser = await UserModel.find({
-      email: ticket.customer_id,
-    });
-    // console.log(ticketUser);
+    let ticketUser = await UserModel.find(
+      {
+        email: ticket.customer_id,
+      },
+      { password: 0 }
+    );
+    console.log(ticketUser);
 
     res.status(200).render('Admin/view_ticket', {
       user: req.user[0],
@@ -287,6 +290,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
   // resetPassword;
 });
 
+// TODO: check this
 const updateTicket = asyncWrapper(async (req, res, next) => {
   // this controller updates the ticket base on the user type
   if (!req.user)
@@ -357,142 +361,85 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 // admin controllers
 const listTicket = asyncWrapper(async (req, res) => {
   const getAllTickets = await TicketModel.find();
-  // console.log(getAllTickets);
+  let agentTickets = [];
+  let activeAgentTickets = [];
+  let inactiveAgentTickets = [];
+  let deptTickets = [];
+  let activeTickets = [];
+  let inActiveTickets = [];
+  let deptActiveTickets = [];
+  let deptInactiveTickets = [];
+  let urgentTickets = [];
+  let activeUnassignedTickets = [];
+  let inactiveUnassignedTickets = [];
+  let unassignedTickets = [];
+  getAllTickets.forEach((element, idx) => {
+    if (element.assignee_id !== null) {
+      agentTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeAgentTickets.push(element);
+      } else {
+        inactiveAgentTickets.push(element);
+      }
+    } else if (element.dept_id !== null) {
+      deptTickets.push(element);
+      if (element.ticket_status === 'active') {
+        deptActiveTickets.push(element);
+      } else {
+        deptInactiveTickets.push(element);
+      }
+    } else {
+      unassignedTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeUnassignedTickets.push(element);
+      } else {
+        inactiveUnassignedTickets.push(element);
+      }
+    }
+  });
+
+  getAllTickets.forEach((element, idx) => {
+    if (element.ticket_status === 'active') {
+      activeTickets.push(element);
+    } else {
+      inActiveTickets.push(element);
+    }
+  });
+  // getAllTickets.forEach((element, idx) => {
+  //   if (element.urgency === 'urgent') {
+  //     urgentTickets.push(element);
+  //     if (element.ticket_status === 'active') {
+  //       activeUrgentTickets.push(element);
+  //     } else {
+  //       inactiveUrgentTickets.push(element);
+  //     }
+  //   }
+  // });
+
   res.render('Admin/tickets', {
     user: req.user[0],
     success: true,
-    // payload: tickets,
-    // hits: tickets.length,
     receivedTickets: getAllTickets,
-    // ticketOwners: ticketOwners,
-  });
-});
-
-const activeTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getActiveTickets = await TicketModel.find({ ticket_status: 'active' });
-  console.log('...........qwerty..................1');
-
-  for (let index = 0; index < getActiveTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getActiveTickets[index].customer_id,
-    });
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  console.log('...........qwerty..................2');
-
-  // console.log(getActiveTickets);
-
-  // if (ticketOwners.length > 0) {
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getActiveTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-
-const cancelledTickets = asyncWrapper(async (req, res, next) => {
-  let cancelledOwners = [];
-  const getCancelledTickets = await TicketModel.find({
-    ticket_status: 'cancelled',
-  });
-
-  for (let index = 0; index < getCancelledTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getCancelledTickets[index].customer_id,
-    });
-
-    cancelledOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getCancelledTickets,
-    ticketOwners: cancelledOwners,
-  });
-});
-// in progress tickets
-const inProgressTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const inProgressTickets = await TicketModel.find({
-    ticket_status: 'in progress',
-  });
-
-  for (let index = 0; index < inProgressTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: inProgressTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: inProgressTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-// pending tickets
-const pendingTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getPendingTickets = await TicketModel.find({
-    ticket_status: 'pending',
-  });
-
-  for (let index = 0; index < getPendingTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getPendingTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getPendingTickets,
-    ticketOwners: ticketOwners,
-  });
-});
-// resolved tickets
-const resolvedTickets = asyncWrapper(async (req, res, next) => {
-  let ticketOwners = [];
-  const getResolvedTickets = await TicketModel.find({
-    ticket_status: 'resolved',
-  });
-
-  for (let index = 0; index < getResolvedTickets.length; index++) {
-    let ticketUser = await UserModel.find({
-      _id: getResolvedTickets[index].customer_id,
-    });
-
-    ticketOwners.push({
-      first_name: ticketUser[0].first_name,
-      last_name: ticketUser[0].last_name,
-    });
-  }
-  // console.log(ticketOwners);
-  // }
-  res.render('Admin/tickets', {
-    user: req.user[0],
-    receivedTickets: getResolvedTickets,
-    ticketOwners: ticketOwners,
+    agentTicketCount: agentTickets ? agentTickets.length : 0,
+    activeAgentTicketsCount: activeAgentTickets ? activeAgentTickets.length : 0,
+    inactiveAgentTicketsCount: inactiveAgentTickets
+      ? inactiveAgentTickets.length
+      : 0,
+    deptTicketCount: deptTickets ? deptTickets.length : 0,
+    totalTickets: getAllTickets ? getAllTickets.length : 0,
+    activeTickets: activeTickets ? activeTickets.length : 0,
+    inactiveTickets: inActiveTickets ? inActiveTickets.length : 0,
+    deptActiveTicketCount: deptActiveTickets ? deptActiveTickets.length : 0,
+    deptInactiveTicketCount: deptInactiveTickets
+      ? deptInactiveTickets.length
+      : 0,
+    unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
+    activeUnassignedTickets: activeUnassignedTickets
+      ? activeUnassignedTickets.length
+      : 0,
+    inactiveUnassignedTickets: inactiveUnassignedTickets
+      ? inactiveUnassignedTickets.length
+      : 0,
   });
 });
 
@@ -711,21 +658,257 @@ const adminCreateTicket = asyncWrapper(async (req, res) => {
   // console.log(getUserInfo);
 });
 
+const filterTickets = asyncWrapper(async (req, res) => {
+  const { selectedOption, inputValue } = req.body;
+  console.log({ selectedOption, inputValue });
+  const getAllTickets = await TicketModel.find();
+  let agentTickets = [];
+  let activeAgentTickets = [];
+  let inactiveAgentTickets = [];
+  let deptTickets = [];
+  let activeTickets = [];
+  let inActiveTickets = [];
+  let deptActiveTickets = [];
+  let deptInactiveTickets = [];
+  let urgentTickets = [];
+  let activeUnassignedTickets = [];
+  let inactiveUnassignedTickets = [];
+  let unassignedTickets = [];
+  getAllTickets.forEach((element, idx) => {
+    if (element.assignee_id !== null) {
+      agentTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeAgentTickets.push(element);
+      } else {
+        inactiveAgentTickets.push(element);
+      }
+    } else if (element.dept_id !== null) {
+      deptTickets.push(element);
+      if (element.ticket_status === 'active') {
+        deptActiveTickets.push(element);
+      } else {
+        deptInactiveTickets.push(element);
+      }
+    } else {
+      unassignedTickets.push(element);
+      if (element.ticket_status === 'active') {
+        activeUnassignedTickets.push(element);
+      } else {
+        inactiveUnassignedTickets.push(element);
+      }
+    }
+  });
+
+  getAllTickets.forEach((element, idx) => {
+    if (element.ticket_status === 'active') {
+      activeTickets.push(element);
+    } else {
+      inActiveTickets.push(element);
+    }
+  });
+  const renderFn = (_tickets, _errors) => {
+    console.log('error', _errors);
+    res.render('Admin/tickets', {
+      errors: _errors ? _errors : null,
+      user: req.user[0],
+      receivedTickets: _tickets ? _tickets : getAllTickets,
+      agentTicketCount: agentTickets ? agentTickets.length : 0,
+      activeAgentTicketsCount: activeAgentTickets
+        ? activeAgentTickets.length
+        : 0,
+      inactiveAgentTicketsCount: inactiveAgentTickets
+        ? inactiveAgentTickets.length
+        : 0,
+      deptTicketCount: deptTickets ? deptTickets.length : 0,
+      totalTickets: getAllTickets ? getAllTickets.length : 0,
+      activeTickets: activeTickets ? activeTickets.length : 0,
+      inactiveTickets: inActiveTickets ? inActiveTickets.length : 0,
+      deptActiveTicketCount: deptActiveTickets ? deptActiveTickets.length : 0,
+      deptInactiveTicketCount: deptInactiveTickets
+        ? deptInactiveTickets.length
+        : 0,
+      unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
+      activeUnassignedTickets: activeUnassignedTickets
+        ? activeUnassignedTickets.length
+        : 0,
+      inactiveUnassignedTickets: inactiveUnassignedTickets
+        ? inactiveUnassignedTickets.length
+        : 0,
+    });
+  };
+  const getFilteredTicket = (_selectedValue, _value, _errors) => {
+    let result = [];
+    let error = [];
+    if (_errors) {
+      error.push(_errors);
+    }
+    if (_selectedValue !== 'All' && !_value) return renderFn(null, error);
+    if (_selectedValue === 'All' && _value) return renderFn(null, error);
+    if (_selectedValue === 'All' && !_value) return renderFn(null, error);
+    if (_selectedValue && !_value) return renderFn(null, error);
+    getAllTickets.forEach((element) => {
+      if (element[_selectedValue] === _value) {
+        result.push(element);
+      }
+    });
+    console.log(result, _value, _selectedValue);
+    if (_errors) return renderFn(result, error);
+
+    if (result <= 0) {
+      return renderFn(result, [
+        { msg: 'Resource cannot be found!, Please try another search term.' },
+      ]);
+    } else {
+      console.log(result);
+      return renderFn(result, null);
+    }
+  };
+
+  const searchCombinationError = () => {
+    getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+  };
+
+  if (selectedOption.toLowerCase() !== 'all' && !inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Please Select And Enter Your Search Term!',
+    });
+  if (selectedOption.toLowerCase() === 'all' && inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+  if (selectedOption.toLowerCase() === 'all' && !inputValue)
+    return getFilteredTicket(undefined, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+  if (selectedOption && !inputValue)
+    return getFilteredTicket(selectedOption, undefined, {
+      msg: 'Invalid Search Combination!',
+    });
+
+  if (selectedOption.toLowerCase() === 'status') {
+    if (inputValue.toLowerCase().trim() === 'pending') {
+      return getFilteredTicket('ticket_status', 'pending', {
+        msg: "Could't Find Ticket With Status 'pending', Please Try Other Options",
+      });
+    } else if (inputValue.toLowerCase().trim() === 'resolved') {
+      return getFilteredTicket(
+        'ticket_status',
+        'resolved',
+        "Could't Find Ticket With Status 'resolved', Please Try Other Options"
+      );
+      // .........................................
+    } else if (inputValue.toLowerCase().trim() === 'cancelled') {
+      return getFilteredTicket(
+        'ticket_status',
+        'cancelled',
+        "Could't Find Ticket With Status 'cancelled', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'active') {
+      return getFilteredTicket(
+        'ticket_status',
+        'active',
+        "Could't Find Ticket With Status 'active', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'in progress') {
+      return getFilteredTicket(
+        'ticket_status',
+        'in progress',
+        "Could't Find Ticket With Status 'in progress', Please Try Other Options"
+      );
+    } else {
+      return getFilteredTicket(undefined, undefined, {
+        msg: 'Invalid Search Combination!',
+      });
+    }
+  } else if (selectedOption.toLowerCase() === 'urgency') {
+    // **Urgency Section
+
+    if (inputValue.toLowerCase().trim() === 'urgent') {
+      return getFilteredTicket(
+        'urgency',
+        'urgent',
+        "Could't Find Ticket With Urgency 'Urgent', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'medium') {
+      return getFilteredTicket(
+        'urgency',
+        'medium',
+        "Could't Find Ticket With Urgency 'Medium', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'open') {
+      return getFilteredTicket(
+        'urgency',
+        'open',
+        "Could't Find Ticket With Urgency 'Open', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'low') {
+      return getFilteredTicket(
+        'urgency',
+        'low',
+        "Could't Find Ticket With Urgency 'Low', Please Try Other Options"
+      );
+    } else {
+      return searchCombinationError();
+    }
+  } else if (selectedOption.toLowerCase() === 'priority') {
+    // **Priority Section
+
+    if (inputValue.toLowerCase().trim() === 'normal') {
+      return getFilteredTicket(
+        'priority',
+        'normal',
+        "Could't Find Ticket With Priority 'Normal', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'low') {
+      return getFilteredTicket(
+        'priority',
+        'low',
+        "Could't Find Ticket With Priority 'Medium', Please Try Other Options"
+      );
+    } else if (inputValue.toLowerCase().trim() === 'high') {
+      return getFilteredTicket(
+        'priority',
+        'high',
+        "Could't Find Ticket With Priority 'Open', Please Try Other Options"
+      );
+    } else {
+      return searchCombinationError();
+    }
+  } else if (selectedOption.toLowerCase() === 'dept') {
+    // **Filter by Dept
+
+    return getFilteredTicket('dept_id', inputValue.toLowerCase().trim(), null);
+  }
+
+  // **Filter by Assignee Email
+
+  if (selectedOption.toLowerCase() === 'assignee') {
+    const { error } = await validateEmail({ email: inputValue.trim() });
+    let errorArg = error ? { msg: error.message } : false;
+    return getFilteredTicket('assignee_id', inputValue.trim(), errorArg);
+  }
+  // **Filter by Customer Email
+
+  if (selectedOption.toLowerCase() === 'customer' && inputValue.trim()) {
+    const { error } = await validateEmail({ email: inputValue.trim() });
+    let errorArg = error ? { msg: error.message } : false;
+    return getFilteredTicket('customer_id', inputValue, errorArg);
+  }
+});
+
 module.exports = {
   getTicket,
   createTicket,
   listTicket,
   updateTicket,
   deleteTicket,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
   adminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  filterTickets,
 };
 
 // assigning ticket to agent or dept should be optional

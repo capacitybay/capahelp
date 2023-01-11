@@ -24,15 +24,12 @@ const {
   listTicket,
   updateTicket,
   deleteTicket,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
+
   adminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  filterTickets,
 } = require('./ticketController');
 
 const {
@@ -55,6 +52,7 @@ module.exports = {
   updateTicket,
   deleteTicket,
   adminCreateTicket,
+  filterTickets,
   // customer
   createUser,
   getUser,
@@ -85,11 +83,7 @@ module.exports = {
   refreshUserToken,
   // admin dashboard
   adminDashboard,
-  activeTickets,
-  cancelledTickets,
-  inProgressTickets,
-  pendingTickets,
-  resolvedTickets,
+
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,

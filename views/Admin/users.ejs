@@ -15,7 +15,7 @@
         <script defer src="/public/script/Admin/userTable.js"></script>
         <link rel="stylesheet" href="/public/styles/Admin/users.css">
 
-        <!-- fontawesome cdn link -->
+        <!-- font awesome cdn link -->
         <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
         <!-- jquery cdn  link -->
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -143,41 +143,46 @@
                     </div>
                 </section>
                 <div class="filter-users-cont">
+                    <div class="filterHeader">
 
+                        <%- include("../partials/messages.ejs") %>
+
+                            <h5>Filter Users</h5>
+                    </div>
 
                     <!-- <h4>select the individual input, if you want to be more specific <%= hits?hits:"none" %> -->
-                    <p>still working on this</p>
                     </h4>
                     <div class="filter-users">
-                        <form class="filter-form" id="filterForm">
-                            <div>
+                        <form class="filter-form" id="filterForm" action="/filter/users" method="post">
+                            <!-- <div>
                                 <label for="email">By Email</label>
                                 <input type="email" id="email" name="email" class="txt_field">
                                 <input type="radio" name="filter" id="forEmail">
-                            </div>
+                            </div> -->
 
                             <div>
-                                <label for="role">By Role</label>
-                                <select name="user_type" class="select_field" id="role">
+                                <label for="role">Filter By: dev in progress</label>
+                                <select name="selectedOption" class="select_field" id="selectedOption">
                                     <div class="options">
 
-                                        <option value="all">All Users</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="agent">Agent</option>
-                                        <option value="user">User</option>
+                                        <option value="all">All</option>
+                                        <option value="email">Email</option>
+                                        <option value="role">Role</option>
+                                        <option value="location">Country</option>
+                                        <option value="status">status</option>
                                     </div>
                                 </select>
-                                <input type="radio" name="filter" id="forUserType">
+                                <!-- <input type="radio" name="filter" id="forUserType"> -->
                             </div>
                             <div>
-                                <label for="country">By Country</label>
-                                <input type="text" id="location" name="location" class="txt_field">
-                                <input type="radio" name="filter" id="forLocation">
+                                <label for="input">Enter Input:</label>
+                                <input type="text" id="input" name="inputValue" class="txt_field">
+                                <!-- <input type="radio" name="filter" id="forLocation"> -->
                             </div>
                             <div class="filter-btn">
                                 <!-- <div> -->
 
-                                <button class="search_button"><i class="fa-brands fa-searchengin"></i>
+                                <button class="search_button" id="filterBtn"><i class="fa-brands fa-searchengin"></i>
                                     <span>Filter</span></button>
                                 <!-- </div> -->
                             </div>
@@ -197,7 +202,13 @@
                     </form>
                 </div>
 
-                <%- include("../partials/usersTable.ejs") %>
+                <div id="usersTable">
+                    <div>
+
+                        <%- include("../partials/usersTable.ejs") %>
+                    </div>
+
+                </div>
 
 
 
@@ -208,57 +219,62 @@
             </section>
             <script>
 
-                const filterForm = document.getElementById("filterForm")
-                //const email = document.getElementById("email")
-                const emailRadio = document.getElementById("forEmail")
-                //const user_type = document.getElementById("role")
-                const userTypeRadio = document.getElementById("forUserType")
-                //const country = document.getElementById("location")
-                const forLocationRadio = document.getElementById("forLocation")
-                async function filterRequest() {
+                const filterBtnElem = document.getElementById("filterBtn");
+                //const email = document.getElementById("email");
+                const selectedOptionElem = document.getElementById("selectedOption");
+                const inputEleme = document.getElementById("input");
 
-                    const location = window.location.hostname;
-                    const formData = new FormData(filterForm)
-                    const queryStrings = new URLSearchParams(filterForm)
+                filterBtnElem?.addEventListener("click", function (event) {
+                    // event.preventDefault()
 
+                    console.log({
+                        inputElem: inputElem.value,
+                        selectedOptionElem: selectedOptionElem.value,
+                    })
+                    const params = new URLSearchParams({
+                        inputElem: inputElem.value,
+                        selectedOptionElem: selectedOptionElem.value
+                    })
+                    console.log(params);
 
-
-                    const response = await fetch(`/filter/users`, {
+                    fetch(`/filter/users`, {
                         method: 'POST',
-
+                        mode: 'cors',
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json; charset=UTF-8"
+                        },
                         body: JSON.stringify({
-                            email: filterForm.email.value,
-                            user_type: filterForm.role.value,
-                            location: filterForm.location.value,
-                            emailRadio: emailRadio.checked,
-                            userTypeRadio: userTypeRadio.checked,
-                            forLocationRadio: forLocationRadio.checked
-
+                            inputValue: inputElem.value,
+                            selectedOption: selectedOptionElem.value
                         })
 
 
+                    }).then(response => {
+                        console.log(response);
+                        if (response.ok) {
+
+                            return response.json();
+                        }
+                    }).then(data => {
+                        if (data) {
+
+                            // let users = data.getAllUsers;
+                            // let getPartial = document.getElementById("usersTable");
+                            // const renderUsersElem = document.querySelector(".renderUsers");
+                            // const createDiv = document.createElement("div");
+                            // getPartial.children[0].remove()
+                            // createDiv.appendChild
+                            // getPartial.appendChild(createDiv)
+
+                        }
+
+
+                    }).catch((error) => {
+                        console.log(error);
                     });
-                    //const data = await response.json();
-                    // document.location.reload()
 
-
-                }
-                filterForm.addEventListener("submit", function (event) {
-                    //event.preventDefault()
-
-                    console.log(new FormData(filterForm))
-                    console.log({
-                        email: filterForm.email.value,
-                        user_type: filterForm.role.value,
-                        location: filterForm.location.value,
-                        emailRadio: emailRadio.checked,
-                        userTypeRadio: userTypeRadio.checked,
-                        forLocationRadio: forLocationRadio.checked
-                    })
-
-                    filterRequest()
                 })
-
             </script>
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

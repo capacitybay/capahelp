@@ -10,10 +10,12 @@ module.exports = {
   },
   // checks if user is logged in
   forwardAuthenticated: function (req, res, next) {
-    // console.log(req);
     if (req.isAuthenticated()) {
       //   console.log(!req.isAuthenticated());
-      if (req.user.user_type === 3 && req.user.active === true) {
+      if (
+        (req.user.user_type === 3 && req.user.active === true) ||
+        (req.user[0].user_type === 3 && req.user[0].active === true)
+      ) {
         // if user is admin - user is redirected to the admin dashboard
         return res.redirect('/admin/dashboard');
       } else if (req.user.user_type === 1 && req.user.active === true) {
@@ -30,7 +32,7 @@ module.exports = {
   isAdmin: function (req, res, next) {
     //console.log('is auth');
     //console.log(req.isAuthenticated());
-    if (!req.isAuthenticated()) return res.status(304).redirect('/login');
+    if (!req.isAuthenticated()) return res.redirect('/login');
     if (req.user[0].user_type === 3) {
       //res.status(304).redirect('/login');
 

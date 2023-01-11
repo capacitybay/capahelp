@@ -16,6 +16,7 @@ const {
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  filterTickets,
 } = require('../controllers');
 
 const {
@@ -29,12 +30,13 @@ router.get('/admin/update/ticket/:ticketId', isAdmin, getAdminEditTicket);
 router.patch('/admin/update/ticket/:ticketId', isAdmin, patchAdminEditTicket);
 router.delete('/admin/delete/ticket/:ticketId', isAdmin, adminDeleteTicket);
 router.get('/admin/view/ticket/:ticketId', isAdmin, getTicket);
-router.get('/admin/ticket/list/active', isAdmin, activeTickets);
-router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
-router.get('/admin/ticket/list/inProgress', isAdmin, inProgressTickets);
-router.get('/admin/ticket/list/pending', isAdmin, pendingTickets);
-router.get('/admin/ticket/list/resolved', isAdmin, resolvedTickets);
+// router.get('/admin/ticket/list/active', isAdmin, activeTickets);
+// router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
+// router.get('/admin/ticket/list/inProgress', isAdmin, inProgressTickets);
+// router.get('/admin/ticket/list/pending', isAdmin, pendingTickets);
+// router.get('/admin/ticket/list/resolved', isAdmin, resolvedTickets);
 router.get('/admin/ticket/list', isAdmin, listTicket);
+router.post('/admin/filter/tickets', isAdmin, filterTickets);
 // Todo: still under review
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
