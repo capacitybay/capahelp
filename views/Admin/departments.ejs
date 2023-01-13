@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
@@ -28,36 +30,152 @@
 
                     <div class="table-desc">
 
-                        <h1 class="text-center">department Management</h1>
+                        <h1 class="text-center">Department Management</h1>
                     </div>
                 </div>
+                <section class="card-section">
+                    <div id="root">
+                        <div class="container pt-5">
+                            <div class="row align-items-stretch">
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Total Depts <i class="fa-solid fa-people-roof margin-icon"></i>
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= 9 %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
 
-                <div class="filter-users">
-                    <form action="/filter/users" class="filter-form">
-                        <div>
-                            <label for="email">By Email</label>
-                            <input type="email" id="email" name="email" class="txt_field">
-                        </div>
+                                            <span class="add text-success">
+                                                <%= 7 %>
+                                            </span>
+                                            <span class="drop text-danger">
 
-                        <div>
-                            <label for="role">Dept. Name</label>
-                            <select name="user-type" class="select_field" id="role">
-                                <div class="options">
+                                                <%= 4 %>
 
-                                    <option value="Development">Development</option>
-                                    <option value="DevOps">DevOps</option>
-                                    <option value="DataScience">Data Science</option>
+                                            </span>
+
+                                        </span>
+                                        <!-- <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span> -->
+
+                                    </div>
                                 </div>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="date">By Date</label>
-                            <input type="date" id="date" name="date" class="date_field">
-                        </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Active Depts.
+                                            <i class="fa-solid fa-house-circle-check margin-icon"></i>
 
-                        <button class="search_button"><i class="fa-brands fa-searchengin"></i>
-                            <span>Filter</span></button>
-                    </form>
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count ">
+                                            <%= 11 %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
+
+                                            <span class="add text-success  ">
+                                                <%= 11 %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= 55%>
+
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Inactve Depts
+                                            <i class="fa-solid fa-house-circle-exclamation margin-icon"></i>
+
+
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= 33 %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+
+                                            <span class="add text-success  ">
+                                                <%= 5 %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= 6 %>
+
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Empty Depts
+                                            <i class="fa-solid fa-house-circle-xmark margin-icon"></i>
+                                        </h4><span <span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= 5 %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+
+                                            <span class="add text-success  ">
+                                                <%= 3 %>
+                                            </span>
+                                            <span class="drop text-danger ">
+
+                                                <%= 44 %>
+
+                                            </span>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="filter-users-cont">
+                    <div class="filterHeader">
+
+                        <%- include("../partials/messages.ejs") %>
+
+                            <h5>Filter Department</h5>
+                    </div>
+                    <div class="filter-users">
+                        <form action="/filter/departments" class="filter-form">
+                            <div>
+                                <label for="role">Filter By: </label>
+                                <select name="selectedOption" class="select_field" id="selectedOption">
+                                    <div class="options">
+
+                                        <option value="email">Email</option>
+                                        <option value="agent">Agent</option>
+                                        <option value="name">Name</option>
+
+                                    </div>
+                                </select>
+                                <!-- <input type="radio" name="filter" id="forUserType"> -->
+                            </div>
+                            <div>
+
+                                <label for="email">Enter Input: </label>
+                                <input type="text" id="inputValue" name="inputValue" class="txt_field">
+                            </div>
+
+
+
+                            <button class="search_button"><i class="fa-brands fa-searchengin"></i>
+                                <span>Filter</span></button>
+                        </form>
+                    </div>
+
+
                 </div>
                 <div class="add-user">
                     <h4>All Departments</h4>

@@ -1,0 +1,43 @@
+/* !CUSTOMERS PROFILES: */
+.customer-title2 {
+  font-size: clamp(23px, 1.7vw, 70px);
+}
+.customer-title2::after {
+  width: 20%;
+}
+
+.profile-title2 {
+  line-height: 1.6;
+  font-size: clamp(35px, 2vw, 100px);
+}
+
+.user-form-div input {
+  background-color: rgb(216, 216, 216);
+}
+
+.deactivate-toggle-container {
+  width: 40%;
+  margin-top: clamp(40px, 1vw, 70px);
+}
+.deactivate-toggle-container :is(.deactivate-toggle) {
+  border: clamp(2px, 0.2vw, 4px) solid var(--Red);
+  color: var(--Red);
+  font-weight: 700;
+}
+
+.deactivate-toggle:hover {
+  color: var(--white);
+  background-color: var(--Red);
+}
+
+.customer-hero2 {
+  padding: 2rem;
+  box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.651);
+}
+
+/* !CUSTOMERS PROFILES RESPONSIVENESS: */
+@media screen and (max-width: 590px) {
+  .deactivate-toggle-container {
+    width: 100%;
+  }
+}

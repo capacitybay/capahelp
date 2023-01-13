@@ -70,29 +70,74 @@ const getDepartment = asyncWrapper(async (req, res) => {
 // get a  department with its id
 
 const viewDepartment = asyncWrapper(async (req, res) => {
-  // verifies if the user is authenticated
-  verifyUser(req, res);
-  if (req.user.user_type !== 3)
-    return res.status(403).json({
-      success: false,
-      payload: 'You are not authorized to perform this operation',
-    });
-  // checks if department id is provided{not functional yet}
-  if (!req.params)
-    return res
-      .status(400)
-      .json({ success: false, payload: 'Select a valid  department' });
+  const getDepartment = await DepartmentModel.find({ _id: req.params.deptId });
 
-  const getDept = await DepartmentModel.findOne({ _id: req.params.deptId });
-  // cj
-  if (!getDept)
-    return res
-      .status(404)
-      .json({ success: false, payload: 'department not found' });
-  res.status(200).json({
-    success: true,
-    payload: getDept,
+  console.log(getDepartment);
+
+  res.render('Admin/viewDepartment', {
+    user: req.user[0],
+    departmentInfo: getDepartment[0],
   });
+  // verifyUser(req, res);
+  // if (req.user.user_type !== 3)
+  //   return res.status(403).json({
+  //     success: false,
+  //     payload: 'You are not authorized to perform this operation',
+  //   });
+  // // checks if department id is provided{not functional yet}
+  // if (!req.params)
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, payload: 'Select a valid  department' });
+  // const getDept = await DepartmentModel.findOne({ _id: req.params.deptId });
+  // // cj
+  // if (!getDept)
+  //   return res
+  //     .status(404)
+  //     .json({ success: false, payload: 'department not found' });
+  // res.status(200).json({
+  //   success: true,
+  //   payload: getDept,
+  // });
+});
+
+const deactivateDepartment = asyncWrapper(async (req, res) => {
+  const deactivateDept = await DepartmentModel.findOneAndUpdate(
+    { _id: req.params.deptId },
+    { active: false },
+    { new: true }
+  );
+  if (deactivateDept) {
+    req.flash(
+      'success_msg',
+      ` ${deactivateDept.dept_name.toUpperCase()} Department  Deactivated!`
+    );
+    // renders message to frontend
+    res
+      .status(200)
+      .render(`Admin/viewDepartment`, { departmentInfo: deactivateDept });
+  } else {
+    // TODO:this will return an error dialog
+  }
+});
+const reactivateDepartment = asyncWrapper(async (req, res) => {
+  const reactivateDept = await DepartmentModel.findOneAndUpdate(
+    { _id: req.params.deptId },
+    { active: true },
+    { new: true }
+  );
+  if (reactivateDept) {
+    req.flash(
+      'success_msg',
+      ` ${reactivateDept.dept_name.toUpperCase()} Department  Activated!`
+    );
+    // renders message to frontend
+    res
+      .status(200)
+      .render(`Admin/viewDepartment`, { departmentInfo: reactivateDept });
+  } else {
+    // TODO:this will return an error dialog
+  }
 });
 
 // updates a specified  department
@@ -212,6 +257,10 @@ const deleteDepartment = asyncWrapper(async (req, res) => {
   // res.status(200).json("delete department route");
 });
 
+// const viewDepartment = asyncWrapper(async(req,res)=>{
+
+// })
+
 module.exports = {
   createDepartment,
   getDepartment,
@@ -219,6 +268,8 @@ module.exports = {
   updateDepartment,
   viewDepartment,
   removeAgentFromDepartment,
+  deactivateDepartment,
+  reactivateDepartment,
 };
 
 const verifyUser = (req, res) => {
