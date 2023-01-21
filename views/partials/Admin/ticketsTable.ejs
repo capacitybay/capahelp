@@ -1,10 +1,12 @@
 <section>
 
 
-    <div class="table-container table-responsive scrollbar-custom " id="style-2" style="font-size: 0.8rem;">
+    <div class="table-container table-responsive scrollbar-custom  table-bordered" id="style-2"
+        style="font-size: 0.8rem;">
 
         <table class="table table-border table-hover">
-            <thead class="th-cont" style="position: sticky;top: 0;">
+            <caption>List of Tickets</caption>
+            <thead class="th-cont thead-light" style="position: sticky;top: 0;">
 
                 <tr>
                     <th class="table-header" scope="col">#</th>
@@ -69,7 +71,12 @@
                         <%= element.priority%>
                     </td>
                     <td>
-                        <%= element.createdAt%>
+                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                            , "August" , "September" , "October" , "November" , "December" ]; %>
+
+                            <% var d=element.createdAt.getDate(); var m=monthNames[element.createdAt.getMonth()]; var
+                                y=element.createdAt.getFullYear(); %>
+                                <%= d+ " " +m+ " " +y%>
                     </td>
                     <td class="action-icons">
                         <div class="td-cont">

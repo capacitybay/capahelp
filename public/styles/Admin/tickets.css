@@ -108,7 +108,7 @@ label {
 .filter-users-cont {
   /* border: 1px solid blue; */
 
-  width: 70%;
+  width: 95%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   height: auto;
@@ -188,6 +188,30 @@ label {
 
   /* color: #fff; */
 }
+.table-container {
+  width: 100%;
+  margin-top: 20px;
+  border-left: 1px solid #dadde4;
+  height: 500px;
+  overflow: auto;
+  top: 0;
+}
+#style-2::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+#style-2::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+#style-2::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #b59191;
+}
 /* @media screen and (max-width: 376px) {
     .info{
         width: 100%;
@@ -264,8 +288,14 @@ label {
 
 @media only screen and (max-width: 600px) {
   .filter-users-cont {
-    width: 90%;
+    width: 95%;
+    padding: 0 1rem;
   }
+  /* .input__label {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid blue;
+  } */
   .filter-users form {
     display: flex;
     flex-direction: column;
@@ -274,7 +304,11 @@ label {
   }
   .filter-form div {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 
+    justify-content: center;
+    align-items: center;
     margin-bottom: 1rem;
   }
   .filter-btn {
@@ -293,7 +327,6 @@ label {
 
   .search_button {
     padding-right: 0;
-    /* padding: 0; */
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -484,4 +517,19 @@ label {
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   user-select: none;
   flex-shrink: 0;
+}
+@media only screen and (min-width: 601px) and (max-width: 124px) {
+  .filter-btn {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .filter-form {
+    padding: 0 1rem;
+    display: flex;
+    align-items: flex-end;
+  }
+  .filter-users-cont {
+    width: 95%;
+  }
 }
