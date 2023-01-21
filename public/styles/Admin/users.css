@@ -223,7 +223,7 @@ h4 .h4 {
 .filter-users-cont {
   /* border: 1px solid blue; */
 
-  width: 70%;
+  width: 90%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   height: auto;
@@ -371,6 +371,9 @@ h4 .h4 {
     width: 100%;
 
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .filter-btn {
     display: flex;
@@ -420,6 +423,11 @@ h4 .h4 {
   }
   .filter-form {
     padding: 0 1rem;
+    display: flex;
+    align-items: flex-end;
+  }
+  .filter-users-cont {
+    width: 95%;
   }
 }
 
