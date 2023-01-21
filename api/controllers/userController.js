@@ -20,9 +20,8 @@ const userModel = require('../../models/userModel');
  * *This function populates the cards in admin dashboard
  */
 const adminDashboard = asyncWrapper(async (req, res) => {
-  // console.log(req.user);
+  // gets all ticket in the system
   const allTickets = await TicketModel.find();
-
   let active = [],
     pending = [],
     resolved = [],
@@ -32,7 +31,6 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   let normalPriority = [],
     highPriority = [],
     lowPriority = [];
-
   let urgent = [],
     low = [],
     high = [],
@@ -49,13 +47,12 @@ const adminDashboard = asyncWrapper(async (req, res) => {
       unassignedTickets.push(element);
     }
   });
-  // custom function that pushes element to different arrays(based on the arguements recieved)
+  // custom function that pushes element to different arrays(based on the arguments received)
   const addElements = (array, element) => {
     array.push(element);
   };
   allTickets.forEach((element, idx) => {
     if (element.ticket_status === 'active') {
-      // console.log(element);
       addElements(active, element);
     } else if (element.ticket_status === 'pending') {
       addElements(pending, element);
@@ -152,6 +149,8 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   });
 });
 
+//* ----------------------------------------------------------------------------------
+
 const createUser = asyncWrapper(async (req, res) => {
   // gets information from request body
   const {
@@ -232,7 +231,10 @@ const createUser = asyncWrapper(async (req, res) => {
        * TODO: savedUser not doing anything
        */
       // sets message to connect flash
-      req.flash('success_msg', 'Registration Successful, you can now login');
+      req.flash(
+        'success_msg',
+        `Registration Successful, ${savedUser.first_name.toUpperCase()} you can now login`
+      );
       // redirects user to login page
       res.redirect('/login');
     }
@@ -642,7 +644,10 @@ const updateProfile = asyncWrapper(async (req, res) => {
       { new: true }
     );
 
-    res.send({ success: true, msg: 'Your Profile has been updated' });
+    res.send({
+      success: true,
+      msg: 'Your Profile Has Been Updated, Please Refresh The Page To Refesh Changes',
+    });
   };
 
   const userId = req.params.userId;
@@ -788,15 +793,13 @@ const updateUser = asyncWrapper(async (req, res, next) => {
     if (errors.length > 0) {
       renderInterface(false);
     } else {
-      console.log('------tttttttttttttt---------');
       // finds user with the provided email
       const findUser = await UserModel.findOne(
         { email: email },
         { password: 0 }
       );
       // check if email checkbox is selected
-      console.log('first');
-      console.log(!selectEmail);
+
       if (selectEmail) {
         if (findUser) {
           errors.push({

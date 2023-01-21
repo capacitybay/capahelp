@@ -243,8 +243,7 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
  */
 const adminDeleteTicket = asyncWrapper(async (req, res) => {
   const ticketId = req.params.ticketId;
-  console.log('888888888888888888888888');
-  console.log(ticketId);
+
   const deletedTicket = await TicketModel.findOneAndDelete(
     { _id: ticketId },
     { new: true }
@@ -752,7 +751,7 @@ const filterTickets = asyncWrapper(async (req, res) => {
       }
     });
     console.log(result, _value, _selectedValue);
-    if (_errors) return renderFn(result, error);
+    // if (_errors) return renderFn(result, error);
 
     if (result <= 0) {
       return renderFn(result, [
