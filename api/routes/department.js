@@ -3,23 +3,28 @@ const authenticateToken = require('../../auth/authenticateToken');
 const {
   createDepartment,
   getDepartment,
-  // viewDepartment,
+  getCreateDepartment,
   deleteDepartment,
   updateDepartment,
   viewDepartment,
   removeAgentFromDepartment,
   deactivateDepartment,
   reactivateDepartment,
+  getUpdateDepartment,
+  filterDepartments,
+  getFilterDepartments,
 } = require('../controllers');
 
-const { isAdmin } = require('../../middleware/auth');
+const { isAdmin, ensureAuthenticated } = require('../../middleware/auth');
 router.get('/admin/manage/department', isAdmin, getDepartment);
 // router.get('/admin/view/department', isAdmin, viewDepartment);
 // router.get('/admin/department/list', (req, res) => {
 //   res.render('Admin/departments');
 // });
-router.post('/department/create', authenticateToken, createDepartment);
-router.patch('/department/update/:deptId', authenticateToken, updateDepartment);
+router.get('/admin/create/department', isAdmin, getCreateDepartment);
+router.post('/admin/create/department', isAdmin, createDepartment);
+router.post('/admin/update/department/:deptId', isAdmin, updateDepartment);
+router.get('/admin/update/department/:deptId', isAdmin, getUpdateDepartment);
 router.patch(
   '/admin/deactivate/department/:deptId',
   isAdmin,
@@ -30,11 +35,9 @@ router.patch(
   isAdmin,
   reactivateDepartment
 );
-router.delete(
-  '/department/delete/:deptId',
-  authenticateToken,
-  deleteDepartment
-);
+router.post('/admin/filter/departments', isAdmin, filterDepartments);
+router.get('/admin/filter/departments', isAdmin, getFilterDepartments);
+router.delete('/admin/delete/department/:deptId', isAdmin, deleteDepartment);
 router.get('/footer', (req, res) => {
   res.render('partials/footer');
 });
