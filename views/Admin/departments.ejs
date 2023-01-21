@@ -10,7 +10,8 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/Admin/departments.css">
     <!-- footer css link -->
@@ -21,9 +22,9 @@
 </head>
 
 <body>
-    <main>
+    <main id="show-message">
         <!-- TODO: update this -->
-        <%- include("../partials/Admin/adminHeader.ejs",{user:undefined}) %>
+        <%- include("../partials/Admin/adminHeader.ejs") %>
 
             <section>
                 <div class="d-flex justify-content-center">
@@ -43,18 +44,14 @@
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                                             Total Depts <i class="fa-solid fa-people-roof margin-icon"></i>
                                         </h4><span class="hind-font caption-12 c-dashboardInfo__count">
-                                            <%= 9 %>
+                                            <%= totalDept %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Description:
 
-                                            <span class="add text-success">
-                                                <%= 7 %>
+                                            <span class=" text-success">
+                                                Total No. of registered departments.
                                             </span>
-                                            <span class="drop text-danger">
 
-                                                <%= 4 %>
-
-                                            </span>
 
                                         </span>
                                         <!-- <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
@@ -70,17 +67,14 @@
                                             <i class="fa-solid fa-house-circle-check margin-icon"></i>
 
                                         </h4><span class="hind-font caption-12 c-dashboardInfo__count ">
-                                            <%= 11 %>
+                                            <%= totalActiveDept %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Statistics:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Description:
 
-                                            <span class="add text-success  ">
-                                                <%= 11 %>
-                                            </span>
-                                            <span class="drop text-danger ">
-
-                                                <%= 55%>
-
+                                            <span class=" text-success  ">
+                                                <span class=" text-success">
+                                                    Total No. of functional departments
+                                                </span>
                                             </span>
 
                                         </span>
@@ -91,23 +85,19 @@
                                     <div class="wrap">
                                         <h4
                                             class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
-                                            Inactve Depts
+                                            Inactive Depts
                                             <i class="fa-solid fa-house-circle-exclamation margin-icon"></i>
 
 
                                         </h4><span class="hind-font caption-12 c-dashboardInfo__count">
-                                            <%= 33 %>
+                                            <%= totalInactiveDept %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Description:
 
-                                            <span class="add text-success  ">
-                                                <%= 5 %>
+                                            <span class=" text-success  ">
+                                                Total No. of deactivated departments
                                             </span>
-                                            <span class="drop text-danger ">
 
-                                                <%= 6 %>
-
-                                            </span>
 
                                         </span>
 
@@ -120,18 +110,14 @@
                                             Empty Depts
                                             <i class="fa-solid fa-house-circle-xmark margin-icon"></i>
                                         </h4><span <span class="hind-font caption-12 c-dashboardInfo__count">
-                                            <%= 5 %>
+                                            <%= totalEmptyDept %>
                                         </span>
-                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Statistics:
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Description:
 
-                                            <span class="add text-success  ">
-                                                <%= 3 %>
+                                            <span class=" text-success  ">
+                                                Total No department without members.
                                             </span>
-                                            <span class="drop text-danger ">
 
-                                                <%= 44 %>
-
-                                            </span>
                                         </span>
 
                                     </div>
@@ -148,22 +134,22 @@
                             <h5>Filter Department</h5>
                     </div>
                     <div class="filter-users">
-                        <form action="/filter/departments" class="filter-form">
+                        <form action="/admin/filter/departments" class="filter-form" method="post">
                             <div>
                                 <label for="role">Filter By: </label>
-                                <select name="selectedOption" class="select_field" id="selectedOption">
+                                <select name="selectedValue" class="select_field" id="selectedOption">
                                     <div class="options">
-
+                                        <option value="">All</option>
                                         <option value="email">Email</option>
-                                        <option value="agent">Agent</option>
-                                        <option value="name">Name</option>
+                                        <option value="head_agent">Agent</option>
+                                        <option value="dept_name">Name</option>
+                                        <option value="status">status</option>
 
                                     </div>
                                 </select>
                                 <!-- <input type="radio" name="filter" id="forUserType"> -->
                             </div>
-                            <div>
-
+                            <div class="input__label">
                                 <label for="email">Enter Input: </label>
                                 <input type="text" id="inputValue" name="inputValue" class="txt_field">
                             </div>
@@ -177,10 +163,11 @@
 
 
                 </div>
-                <div class="add-user">
-                    <h4>All Departments</h4>
+                <h4 class="table__heading">All Departments</h4>
+                <div class="add__dept">
 
-                    <button><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
+                    <button onclick="window.location.href = '/admin/create/department'"><i
+                            class="fa-regular fa-plus"></i><span>Add Department</span> </button>
                 </div>
                 <%- include("../partials/departmentTable.ejs") %>
             </section>

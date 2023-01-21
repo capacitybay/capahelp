@@ -8,6 +8,18 @@
   box-sizing: border-box;
 }
 
+.btn-danger {
+  display: flex;
+  gap: 0.5rem;
+}
+.dialog_content {
+  display: flex;
+  align-items: center;
+}
+.dialog_content .h4 {
+  margin-left: 1rem;
+}
+
 .edit {
   color: #25be64;
 }
@@ -58,8 +70,8 @@
   top: 0;
   /* background-color: #fff; */
 }
-.add-user {
-  margin-top: 2rem;
+.add__dept {
+  /* margin-top: 2rem; */
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -73,7 +85,11 @@
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
-.add-user button {
+.table__heading {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+.add__dept button {
   border: none;
   background-color: #25be64;
   padding-top: 0.5rem;
@@ -93,7 +109,7 @@
 .filter-users-cont {
   /* border: 1px solid blue; */
 
-  width: 70%;
+  width: 90%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   height: auto;
@@ -182,7 +198,7 @@
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
-.add-user button i {
+.add__dept button i {
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
@@ -384,6 +400,9 @@ table {
 /** Responsiveness for filter and add user section  */
 
 @media only screen and (max-width: 600px) {
+  .filter-users {
+    padding: 0;
+  }
   .filter-users-cont {
     width: 90%;
   }
@@ -396,6 +415,11 @@ table {
   .filter-form div {
     width: 100%;
 
+    display: flex;
+    flex-direction: column;
+    border: 1px solid blue;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 1rem;
   }
   .filter-btn {
@@ -413,8 +437,9 @@ table {
   }
 
   .search_button {
-    padding-right: 0;
-    /* padding: 0; */
+    /* padding-right: 0; */
+    padding: 0.5rem 0 0.5rem 0.5rem;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -428,13 +453,29 @@ table {
     font-size: 1.2rem;
   }
 
-  .add-user button {
+  .add__dept button {
     font-size: 0.8rem;
     font-weight: 500;
   }
-  .add-user button i {
+  .add__dept button i {
     font-size: 0.9rem;
     font-weight: 800;
     background-color: #25be64;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 124px) {
+  .filter-btn {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .filter-form {
+    padding: 0 1rem;
+    display: flex;
+    align-items: flex-end;
+  }
+  .filter-users-cont {
+    width: 95%;
   }
 }
