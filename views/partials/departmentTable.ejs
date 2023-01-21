@@ -9,6 +9,7 @@
                     <th scope="col">Head Agent</th>
                     <th scope="col">Dept Email</th>
                     <th scope="col">No. of Members</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Created</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -37,7 +38,16 @@
                                 <%= element.members.length %>
                             </td>
                             <td>
-                                <%= element.createdAt %>
+                                <%= element.active ? "Active" : "Inactive" %>
+                            </td>
+                            <td>
+                                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                                    , "August" , "September" , "October" , "November" , "December" ]; %>
+
+                                    <% var d=element.createdAt.getDate(); var
+                                        m=monthNames[element.createdAt.getMonth()]; var
+                                        y=element.createdAt.getFullYear(); %>
+                                        <%= d+ " " +m+ " " +y%>
                             </td>
                             <td class="action-icons">
                                 <div class="td-cont">
@@ -56,6 +66,9 @@
                                 </div>
 
                             </td>
+                            <div id="modal-container">
+
+                            </div>
                         </tr>
                         <% }) %>
                             <% } %>
@@ -70,12 +83,12 @@
 
     <script>
         const modalContainer = document.getElementById("modal-container");
-        const deleteBtnElem = document.getElementById("deleteSelectedUser")
+        const deleteBtnElem = document.getElementById("deleteSelectedDept")
 
 
-        function renderData(_ticketId, _ticketTitle, _ticket_type) {
+        function renderData(_deptId, _deptName, _deptEmail) {
 
-            console.log(_ticketId, _ticketTitle, _ticket_type)
+            console.log(_deptId, _deptName, _deptEmail)
             const modal = `
 
             <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
@@ -92,27 +105,27 @@
                     <div class="modal-body">
                         <p>Are you sure, you want to delete this Ticket?</p>
                         <div class="dialog_content">
-                            <h4>TicketId:</h4>
+                            <h4>DeptId:</h4>
                             <h4 class="h4" style="color: #4a4747;">
-                                ${_ticketId}
+                                ${_deptId}
                         </h4>
                     </div>
                     <div class=" dialog_content">
-                                    <h4>Type:</h4>
+                                    <h4>Name:</h4>
                                     <h4 class="h4" style="color: #4a4747;">
-                                        ${_ticket_type}
+                                        ${_deptName}
                                     </h4>
                         </div>
                         <div class="dialog_content">
-                            <h4 >Title:</h4>
+                            <h4 >Email:</h4>
                             <h4 class="h4" style="color: #4a4747;">
-                                ${_ticketTitle}
+                                ${_deptEmail}
                             </h4>
                         </div>
                     </div>
                     <div class=" modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"> Close</button>
-                        <button type="button" class="btn btn-danger" id="deleteSelectedUser"><span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> Delete</button>
+                        <button type="button"  class="btn btn-danger" id="deleteSelectedDept"><span class="spinner" ><i class="fa fa-refresh fa-spin"></i></span> <span>Delete</span></button>
                     </div>
                 </div>
             </div>
@@ -150,7 +163,7 @@
         }
 
 
-        let deptId = document.querySelectorAll(".deptId")
+        let deptId = document.querySelectorAll(".deptId");
         //selects of nodes with the class name call-to-action
         let nodeList = document.querySelectorAll(".call-to-action")
         console.log(nodeList);
@@ -163,7 +176,7 @@
                 if (element.classList[2] === "view") {
                     //goes three levels up to get table row
                     let value = element.parentElement.parentElement.parentElement;
-                    //gets and trim email element to eliminate white spaces 
+                    //gets and trim id element to eliminate white spaces 
                     let idString = value.children[1] ? value.children[1].value.trim() : value
                     //validates email
                     console.log(idString);
@@ -172,50 +185,57 @@
                     //condition checks if the clicked icon contains the text "edit"
 
                 } else if (element.classList[2] === "edit") {
-                    //fetchRequest()
-                    let getElement = element.parentElement.parentElement;
-                    //TODO: work on this 
-                    //this gets individual user id from a hidden input
-                    let getUserId = getElement.children[1].value
-                    console.log(getElement)
-
+                    //goes three levels up to get table row
+                    let value = element.parentElement.parentElement.parentElement;
+                    //gets and trim id element to eliminate white spaces 
+                    let idString = value.children[1] ? value.children[1].value.trim() : value
+                    //validates email
+                    console.log(idString);
+                    window.location.href = `/admin/update/department/${idString}`;
 
 
                     //redirects user to update user component with userId
                     // window.location.href = `/admin/update/ticket/${getUserId}`
                 } else if (element.classList[2] === "trash") {
-                    let value = element.parentElement.parentElement.parentElement
+                    let value = element.parentElement.parentElement.parentElement.parentElement;
                     let elementChildren = value.children
-                    console.log(value)
-
-                    return;
-                    modalContainer.innerHTML = renderData(
-                        elementChildren[1].value,
-                        elementChildren[3].textContent.trim(),
+                    console.log(
+                        elementChildren,
+                        elementChildren[1].value.trim(),
                         elementChildren[2].textContent.trim(),
-                        elementChildren[1].value
+
+                    )
+
+
+                    modalContainer.innerHTML = renderData(
+                        elementChildren[1].value.trim(),
+                        elementChildren[2].textContent.trim(),
+                        elementChildren[4].textContent.trim()
                     )
                     //spinner element
                     const spinnerElem = document.querySelector(".spinner")
                     spinnerElem.style.display = "none";
 
-                    document.getElementById("deleteSelectedUser")
+                    document.getElementById("deleteSelectedDept")
                         .addEventListener("click", function (event) {
-                            document.getElementById("deleteSelectedUser").style.disabled = true
+                            document.getElementById("deleteSelectedDept").style.disabled = true
                             spinnerElem.style.display = "block";
                             const id = elementChildren[1].value
                             // event.preventDefault();
-                            fetch(`/admin/delete/ticket/${id}`, {
+                            console.log(id)
+
+                            fetch(`/admin/delete/department/${id}`, {
                                 method: "DELETE"
 
                             }).then(response => {
-
+                                console.log(response);
                                 if (response.statusText === "OK") {
-                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    console.log(document.getElementById("deleteSelectedDept"));
+                                    document.getElementById("deleteSelectedDept").style.disabled = false;
                                     spinnerElem.style.display = "none";
-                                    document.getElementById("show-message").innerHTML = messageDialog("Ticket Has Been Deleted!");
+                                    document.getElementById("show-message").innerHTML = messageDialog("Department Has Been Deleted!");
 
-                                    $('#basicModal').modal('hide')
+                                    $('#basicModal').modal('hide');
 
                                     $('#confirmationModal').modal('show');
                                     document.getElementById("refreshPage").addEventListener("click", function (event) {
@@ -223,7 +243,7 @@
 
                                     })
                                 } else {
-                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    document.getElementById("deleteSelectedDept").style.disabled = false;
                                     spinnerElem.style.display = "none";
 
                                     document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
@@ -231,7 +251,7 @@
                                 }
 
                             }).catch(error => {
-                                document.getElementById("deleteSelectedUser").style.disabled = false
+                                document.getElementById("deleteSelectedDept").style.disabled = false;
                                 spinnerElem.style.display = "none";
 
                                 document.getElementById("show-message").innerHTML = messageDialog(error.message);
