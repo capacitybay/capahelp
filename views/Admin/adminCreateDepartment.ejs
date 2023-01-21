@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Create Department</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/Admin/adminCreateDepartment.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
+
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/hamburger.js"></script>
+</head>
+
+<body>
+    <main class="ticket-main create-main">
+        <%- include("../partials/Admin/adminHeader.ejs")%>
+            <div class="hero solution-hero ticket-hero">
+                <p class="solutions-top ticket-top">
+                    <span><a href="/user">Home</a></span> > <a href="/admin/manage/department">Manage Dept</a>
+                </p>
+                <h1 class="hero-title create-title">Department</h1>
+                <div class="error-plane">
+                    <%- include("../partials/messages.ejs")%>
+
+                </div>
+
+
+                <form id="createDept">
+
+
+                    <div class="form-box">
+                        <label for="dept_name">Department name <span>*</span></label>
+
+                        <input title="This field is readonly" type="text" id="dept_name" name="dept_name">
+                    </div>
+
+                    <div class="form-box">
+                        <label for="agentId">Head Agent </label>
+
+
+                        <input type="text" name="head_agent" id="headAgent">
+                    </div>
+
+                    <div class="form-box">
+                        <label for="email">Department email <span>*</span></label>
+
+                        <input title="This field is readonly" type="email" id="email" name="email" ">
+                    </div>
+                    <div class=" input__box">
+                        <span class="details " for="gender">Add Members</span>
+                        <div id="displayUsers">
+
+                        </div>
+                        <select class="select" name="members" id="members" name="members" onchange="selected(this);">
+                            <option value="" selected disabled hidden>Select--</option>
+                            <% if (agents) { %>
+                                <% agents.forEach(element=> { %>
+                                    <option value=" <%=element._id %>">
+                                        <%= element.first_name +" "+ element.last_name%>  </option>
+                                <% }) %>
+                               
+                           
+                           <% }else{ %>
+                            <option value="" selected disabled hidden>  Select </option>
+                            <% } %>  
+
+
+                        </select>
+                    </div>
+                    <div class=" input__box">
+                                            <span class="details" for="gender">Status</span>
+                                            <select class="select" name="status" id="status" name="status">
+                                                <option value="" selected disabled hidden>
+                                                    Select--
+                                                </option>
+                                                <option value="activate">activate</option>
+                                                <option value="deactivate">deactivate</option>
+
+
+                                            </select>
+                    </div>
+
+
+                    <div class="hero-toggles create-toggles" id="btn-section">
+                        <div class="view"
+                            onclick="window.location = window.location.toString().replace('/admin/create/department','/admin/manage/department')">
+                            <!-- <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> -->
+                            Cancel
+                        </div>
+
+                        <!-- <input type="submit" value="ca" id="submitBtn" /> -->
+                        <button id="submitBtn" type="submit" class="has-spinner">
+                            <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>Create</button>
+
+                        <!-- <div class="create" id="">
+                            <a>Submit</a>
+                        </div> -->
+                    </div>
+
+                </form>
+            </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script>
+        function showMessage(msg, success) {
+
+            if (success) {
+                return (
+                    `
+                <div class="alert alert-success alert-dismissible fade show " role="alert"
+                style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                    <h6 style="font-size:0.9rem;" class="text-center">
+                        ${msg}
+                    </h6>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `
+                )
+            } else {
+                return (`   
+                <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                    <h6 style="font-size:0.9rem;"  class="text-center">
+                            ${msg}
+                    </h6>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                     style="width:1rem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `)
+            }
+        }
+        //this stores the members selected
+        let members = [];
+        const deptNameElem = document.getElementById("dept_name");
+        const agentElem = document.getElementById("headAgent");
+        const emailElem = document.getElementById("email");
+        const statusElem = document.getElementById("status");
+        const submitBtnElem = document.getElementById("createDept");
+        //error message container
+
+        const errorPlaneElem = document.querySelector(".error-plane");
+        //spinner element
+        const spinnerElem = document.querySelector(".spinner");
+        spinnerElem.style.display = "none";
+        let urlString = window.location.href.split("/");
+        let deptId = urlString[urlString.length - 1].trim();
+        const displayUsersElem = document.getElementById("displayUsers");
+        /**
+        * *@params-{accepts select input}
+        * * fn: selects single or multiple agents from the system
+        */
+        function selected(select) {
+            //creates  span and list element
+            let spanElem = document.createElement("span");
+            let listElem = document.createElement("li");
+            //gets the text content and value of select option 
+            let selectedText = select.options[select.selectedIndex].text;
+            let selectedValue = select.options[select.selectedIndex].value;
+            //sets id attribute to the value gotten from select option  span element
+            spanElem.setAttribute("id", selectedValue);
+            spanElem.classList.add("span")
+            listElem.className = "fa-solid fa-xmark";
+            //adds event listener for individual icons
+            listElem.addEventListener("click", (event) => {
+                spanElem.remove()
+                let elementIndex = members.indexOf(spanElem.getAttribute("id").trim());
+                members.splice(elementIndex, 1);
+
+            })
+            //appends cancel icon to span element
+            spanElem.appendChild(listElem)
+            //appends  member's name to span element
+            spanElem.append(selectedText);
+            //checks id member is already selected before appending a specified member
+            if (!document.getElementById(selectedValue)) {
+                displayUsersElem.appendChild(spanElem);
+                //populate the members array with the selected members ids
+                members.push(select.options[select.selectedIndex].value.trim())
+
+            } else {
+                //alerts error if selected member already exists in the selection list
+                alert(`Agent, " ${selectedText}" already exist!`)
+            }
+
+        }
+
+        var actionButton = document.getElementById("actionButton");
+        //onsubmit action event handler
+        submitBtnElem.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            fetch(`/admin/create/department`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Accept': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    dept_name: deptNameElem.value,
+                    head_agent: agentElem.value,
+                    email: emailElem.value,
+                    status: statusElem.value,
+                    members: members.length > 0 ? members : [],
+
+                })
+            }).then(response => {
+                console.log(response);
+                return response.json();
+            }).then(data => {
+                console.log(data);
+
+                if (data) {
+
+                    errorPlaneElem.innerHTML = showMessage(data.msg, data.success);
+                    submitBtnElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    errorPlaneElem.scrollIntoView({ behavior: "smooth" });
+
+                } else {
+                    submitBtnElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    errorPlaneElem.innerHTML = showMessage("Sorry,Something Went Wrong!", false);
+                    errorPlaneElem.scrollIntoView({ behavior: "smooth" });
+                }
+            }).catch(error => {
+                if (error) {
+                    submitBtnElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    errorPlaneElem.innerHTML = showMessage(error.msg, false);
+                    errorPlaneElem.scrollIntoView({ behavior: "smooth" });
+
+                }
+            })
+        })
+
+
+
+    </script>
+</body>
+
+</html>
