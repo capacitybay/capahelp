@@ -21,22 +21,29 @@ const createDepartment = asyncWrapper(async (req, res) => {
   console.log(dept_name, head_agent, email, members);
 
   // verify if user is authenticated
-  console.log(dept_name, head_agent, email, members);
   const validateData = { dept_name, head_agent, email };
   const { error } = await createDeptValidation(validateData);
   // checks if error is returned from the validation
-  if (error) return res.send({ success: false, msg: error.message });
-  // executes if there was no error
-
   const renderFn = (status, message) => {
     res.send({
       success: status,
       msg: message,
     });
   };
+  if (error) return renderFn(false, error.message);
+  // executes if there was no error
+
   const getDept = await DepartmentModel.findOne({
     dept_name: req.body.dept_name,
   });
+
+  const getDeptEmail = await DepartmentModel.findOne({ email: email });
+
+  if (getDeptEmail)
+    return renderFn(
+      false,
+      `Department Email "${getDeptEmail.email}" already exists, please choose another email`
+    );
 
   if (getDept) {
     // Logs error if department is found in DB
@@ -48,8 +55,9 @@ const createDepartment = asyncWrapper(async (req, res) => {
       email,
       members: [...members],
     });
+    console.log('success');
     const savedDept = await newDepartment.save();
-    console.log(savedDept);
+
     if (savedDept) {
       // Logs success msg if update returns true
       return renderFn(true, `Department "${savedDept.dept_name}",  Created !`);
@@ -310,22 +318,33 @@ const getUpdateDepartment = asyncWrapper(async (req, res) => {
     { password: 0 }
   );
 
+  let deptMembers = [];
+  getAgents.forEach((element) => {
+    // console.log(getDepartments?.members);
+    if (getDepartments?.members.includes(element._id)) {
+      deptMembers.push(element);
+    }
+  });
+  console.log(deptMembers);
+
   return res.render('Admin/updateDepartment', {
     user: req.user[0],
     departmentInfo: getDepartments,
     agents: getAgents,
+    deptMembers: deptMembers,
   });
 });
 //* ----------------------------------------------------------------------------------
 // ** Update  department
 const updateDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members, status } = req.body;
-  const renderFn = ({ status, message, agents, departmentInfo }) => {
+  const renderFn = ({ status, message, agents, departmentInfo, members }) => {
     res.send({
       success: status,
       msg: message,
       agents,
       departmentInfo,
+      members,
     });
   };
   console.log(dept_name, head_agent, email, members, status);

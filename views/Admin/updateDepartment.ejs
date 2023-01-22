@@ -59,7 +59,16 @@
                     <div class="input__box">
                         <span class="details " for="gender">Members</span>
                         <div id="displayUsers">
-
+                            <div>
+                                <% if (deptMembers) { %>
+                                    <% deptMembers.forEach(element=> { %>
+                                        <span class="cancel__Icon">
+                                            <li class="fa-solid fa-xmark "></li>
+                                            <%= element.first_name + " " + element.last_name %>
+                                        </span>
+                                        <% }) %>
+                                            <% } %>
+                            </div>
                         </div>
                         <select class="select" name="members" id="members" name="members" onchange="selected(this);">
                             <option value="" selected disabled hidden>Select--</option>
@@ -159,6 +168,23 @@
                 `)
             }
         }
+
+        console.log(document.querySelectorAll(".cancel__Icon"));
+        if (document.querySelectorAll(".cancel__Icon")) {
+
+            document.querySelectorAll(".cancel__Icon").forEach(element => {
+
+                element.addEventListener("click", (event) => {
+                    element.remove()
+                    //let elementIndex = members.indexOf(spanElem.getAttribute("id").trim());
+                    //  members.splice(elementIndex, 1);
+                    //event.target
+                    console.log(event.target)
+
+                })
+            })
+        }
+
         //this stores the members selected
         let members = [];
         const deptNameElem = document.getElementById("dept_name");
