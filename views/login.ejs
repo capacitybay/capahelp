@@ -43,7 +43,7 @@
             <div class="pass">Forgot Password?</div>
 
             <button type="submit" id="loginSubmit">
-                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <span class="spinner" style="margin-right: 1rem;"><i class="fa fa-refresh fa-spin"></i></span>
                 Login
             </button>
             <div class="signup_link">
@@ -94,14 +94,17 @@
         const loginSubmitElem = document.getElementById("loginSubmit");
         //error plane
         const errorPlaneElem = document.querySelector(".error-plane")
-
+        console.log(loginSubmitElem);
         //spinner element
         const spinnerElem = document.querySelector(".spinner")
         spinnerElem.style.display = "none";
         loginSubmitEle.addEventListener("click", (event) => {
+
+            event.preventDefault();
             loginSubmitElem.disabled = true
             spinnerElem.style.display = "block";
             console.log("click");
+
             fetch("/login", {
                 headers: {
                     "Content-Type": "application/json",
@@ -114,22 +117,55 @@
                 })
 
             }).then(response => {
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.indexOf("application/json") !== -1) {
 
-                    return response.json()
-                } else {
-                    console.log(response)
+
+                console.log(response)
+
+                if (response.redirected) {
+                    let splitUrl = response.url.split(":");
+
+                    let destinationRoute = splitUrl[splitUrl.length - 1].split("/");
+                    console.log(destinationRoute);
+                    //let getFinalRoute = (destinationRoute.splice(1, destinationRoute.length - 1));
+                    if (destinationRoute.includes("login")) {
+                        window.location.reload()
+
+                    } else {
+                        window.location.href = response.url;
+                    }
 
                 }
+                return response.json()
+
+
+            }).then(data => {
+                console.log(data)
+                if (data) {
+
+                    submitBtnElem.disabled = false
+                    spinnerElem.style.display = "none";
+                    console.log(data.url);
+
+                } else {
+
+                    errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again.", false);
+
+                    submitBtnElem.disabled = false
+                    spinnerElem.style.display = "none";
+
+                }
+
             }).catch(error => {
+                console.log(error);
+
                 if (error) {
                     loginSubmitElem.disabled = false
                     spinnerElem.style.display = "none";
-                    //errorPlaneElem.innerHTML = showMessage(error.msg, false);
+                    //  errorPlaneElem.innerHTML = showMessage(error, false);
                     console.log(error);
                 }
             })
+
 
         })
     </script>

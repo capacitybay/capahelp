@@ -91,6 +91,9 @@ form .txt_field {
   font-size: 18px;
   cursor: pointer;
   outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #loginSubmit:hover {
   border-color: #25aa72;

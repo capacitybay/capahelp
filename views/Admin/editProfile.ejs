@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <main class="ticket-main create-main">
+    <main class="ticket-main create-main" id="main">
         <%- include("../partials/Admin/adminHeader.ejs") %>
             <div class="hero solution-hero ticket-hero">
                 <p class="solutions-top ticket-top profile-top">
@@ -148,6 +148,7 @@
     //select email with checkbox
 
     const selectEmailElem = document.getElementById("selectEmail")
+    const mainElem = document.getElementById("main")
 
 
     submitElem.addEventListener("click", function (event) {
@@ -179,7 +180,7 @@
             }).then(data => {
                 if (data) {
                     errorPlaneElem.innerHTML = showMessage(data.msg, data.success)
-
+                    mainElem.scrollIntoView({ behavior: "smooth" })
                 }
                 console.log(data)
 

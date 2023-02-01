@@ -37,8 +37,15 @@ const {
   getDepartment,
   deleteDepartment,
   updateDepartment,
-  viewDepartment,
+  // viewDepartment,
   removeAgentFromDepartment,
+  viewDepartment,
+  deactivateDepartment,
+  reactivateDepartment,
+  getUpdateDepartment,
+  getCreateDepartment,
+  filterDepartments,
+  getFilterDepartments,
 } = require('./departmentController');
 const resetPassword = require('./resetPasswordController');
 
@@ -71,10 +78,16 @@ module.exports = {
   // department
   createDepartment,
   getDepartment,
+  getCreateDepartment,
   deleteDepartment,
   updateDepartment,
   viewDepartment,
-
+  deactivateDepartment,
+  reactivateDepartment,
+  getUpdateDepartment,
+  deleteDepartment,
+  filterDepartments,
+  getFilterDepartments,
   // resetPassword
   resetPassword,
   removeAgentFromDepartment,
@@ -83,7 +96,7 @@ module.exports = {
   refreshUserToken,
   // admin dashboard
   adminDashboard,
-
+  // viewDepartment,
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,

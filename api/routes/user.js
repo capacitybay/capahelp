@@ -29,6 +29,7 @@ const userModel = require('../../models/userModel');
 /**
  * !USER ROUTES (CODE 0 AND 2 )
  */
+// TODO:Prevent admin from login in as user
 
 // solutions
 router.get('/user/solutions', ensureAuthenticated, (req, res) => {
@@ -67,7 +68,7 @@ router.post('/user/register', createUser);
  */
 
 // ! ADMIN ROUTES
-router.get('/admin/register', getAdminCreateUser);
+router.get('/admin/register', isAdmin, getAdminCreateUser);
 router.get('/view/user/profile/:email', viewUserProfile);
 
 router.post('/filter/users', isAdmin, filterUsers);

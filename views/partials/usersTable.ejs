@@ -63,7 +63,12 @@
                         <%= element.location %>
                     </td>
                     <td>
-                        <%= element.createdAt ? element.createdAt :"Sun Nov 13 2022 21:57:27 GMT+0100" %>
+                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                            , "August" , "September" , "October" , "November" , "December" ]; %>
+
+                            <% var d=element.createdAt.getDate(); var m=monthNames[element.createdAt.getMonth()]; var
+                                y=element.createdAt.getFullYear(); %>
+                                <%= d+ " " +m+ " " +y%>
                     </td>
                     <td class="action-icons">
                         <div class="td-cont">

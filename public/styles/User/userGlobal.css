@@ -432,7 +432,7 @@ nav ul li a:hover {
     animation-delay: 0.4s;
   }
   .details {
-    position: absolute;
+    /* position: absolute; */
     right: 15px;
     top: 70px;
     display: flex;
@@ -530,7 +530,7 @@ nav ul li a:hover {
   color: var(--maincolor);
 }
 .solution-header {
-  margin-bottom: clamp(50px, 4vw, 250px);
+  margin-bottom: clamp(30px, 4vw, 20px);
 }
 .solution-hero {
   display: block;
@@ -691,11 +691,12 @@ form {
 .form-box textarea {
   width: 100%;
   outline: none;
-  border: clamp(1px, 0.2vw, 3px) solid rgb(99, 99, 99);
-  border-radius: 10px;
+  border: clamp(1px, 0.2vw, 3px) solid #cdcdcd;
+  border-radius: 6px;
   padding: clamp(5px, 0.7vw, 20px);
   font-size: var(--clamp);
   font-weight: 500;
+  background-color: #fff;
 }
 .form-box select {
   font-weight: 600;
