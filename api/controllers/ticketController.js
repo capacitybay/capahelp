@@ -14,7 +14,7 @@ const verifyUser = (req, res) => {
       .status(401)
       .json({ success: false, payload: 'You are not authenticated' });
 };
-const createTicket = asyncWrapper(async (req, res) => {
+const getAdminCreateTicket = asyncWrapper(async (req, res) => {
   // console.log(req.user);
 
   // if (!req.user)
@@ -361,84 +361,37 @@ const updateTicket = asyncWrapper(async (req, res, next) => {
 const listTicket = asyncWrapper(async (req, res) => {
   const getAllTickets = await TicketModel.find();
   let agentTickets = [];
-  let activeAgentTickets = [];
-  let inactiveAgentTickets = [];
+
   let deptTickets = [];
-  let activeTickets = [];
-  let inActiveTickets = [];
-  let deptActiveTickets = [];
-  let deptInactiveTickets = [];
+
   let urgentTickets = [];
-  let activeUnassignedTickets = [];
-  let inactiveUnassignedTickets = [];
+
   let unassignedTickets = [];
   getAllTickets.forEach((element, idx) => {
     if (element.assignee_id !== null) {
       agentTickets.push(element);
-      if (element.ticket_status === 'active') {
-        activeAgentTickets.push(element);
-      } else {
-        inactiveAgentTickets.push(element);
-      }
     } else if (element.dept_id !== null) {
       deptTickets.push(element);
-      if (element.ticket_status === 'active') {
-        deptActiveTickets.push(element);
-      } else {
-        deptInactiveTickets.push(element);
-      }
     } else {
       unassignedTickets.push(element);
-      if (element.ticket_status === 'active') {
-        activeUnassignedTickets.push(element);
-      } else {
-        inactiveUnassignedTickets.push(element);
-      }
     }
   });
 
   getAllTickets.forEach((element, idx) => {
-    if (element.ticket_status === 'active') {
-      activeTickets.push(element);
-    } else {
-      inActiveTickets.push(element);
+    if (element.urgency === 'urgent') {
+      urgentTickets.push(element);
     }
   });
-  // getAllTickets.forEach((element, idx) => {
-  //   if (element.urgency === 'urgent') {
-  //     urgentTickets.push(element);
-  //     if (element.ticket_status === 'active') {
-  //       activeUrgentTickets.push(element);
-  //     } else {
-  //       inactiveUrgentTickets.push(element);
-  //     }
-  //   }
-  // });
 
   res.render('Admin/tickets', {
     user: req.user[0],
     success: true,
     receivedTickets: getAllTickets,
     agentTicketCount: agentTickets ? agentTickets.length : 0,
-    activeAgentTicketsCount: activeAgentTickets ? activeAgentTickets.length : 0,
-    inactiveAgentTicketsCount: inactiveAgentTickets
-      ? inactiveAgentTickets.length
-      : 0,
+
     deptTicketCount: deptTickets ? deptTickets.length : 0,
     totalTickets: getAllTickets ? getAllTickets.length : 0,
-    activeTickets: activeTickets ? activeTickets.length : 0,
-    inactiveTickets: inActiveTickets ? inActiveTickets.length : 0,
-    deptActiveTicketCount: deptActiveTickets ? deptActiveTickets.length : 0,
-    deptInactiveTicketCount: deptInactiveTickets
-      ? deptInactiveTickets.length
-      : 0,
     unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
-    activeUnassignedTickets: activeUnassignedTickets
-      ? activeUnassignedTickets.length
-      : 0,
-    inactiveUnassignedTickets: inactiveUnassignedTickets
-      ? inactiveUnassignedTickets.length
-      : 0,
   });
 });
 
@@ -485,7 +438,7 @@ const deleteTicket = asyncWrapper(async (req, res, next) => {
   );
 });
 
-const adminCreateTicket = asyncWrapper(async (req, res) => {
+const postAdminCreateTicket = asyncWrapper(async (req, res) => {
   const {
     ticket_type,
     title,
@@ -662,49 +615,22 @@ const filterTickets = asyncWrapper(async (req, res) => {
   console.log({ selectedOption, inputValue });
   const getAllTickets = await TicketModel.find();
   let agentTickets = [];
-  let activeAgentTickets = [];
-  let inactiveAgentTickets = [];
+
   let deptTickets = [];
-  let activeTickets = [];
-  let inActiveTickets = [];
-  let deptActiveTickets = [];
-  let deptInactiveTickets = [];
+
   let urgentTickets = [];
-  let activeUnassignedTickets = [];
-  let inactiveUnassignedTickets = [];
+
   let unassignedTickets = [];
   getAllTickets.forEach((element, idx) => {
     if (element.assignee_id !== null) {
       agentTickets.push(element);
-      if (element.ticket_status === 'active') {
-        activeAgentTickets.push(element);
-      } else {
-        inactiveAgentTickets.push(element);
-      }
     } else if (element.dept_id !== null) {
       deptTickets.push(element);
-      if (element.ticket_status === 'active') {
-        deptActiveTickets.push(element);
-      } else {
-        deptInactiveTickets.push(element);
-      }
     } else {
       unassignedTickets.push(element);
-      if (element.ticket_status === 'active') {
-        activeUnassignedTickets.push(element);
-      } else {
-        inactiveUnassignedTickets.push(element);
-      }
     }
   });
 
-  getAllTickets.forEach((element, idx) => {
-    if (element.ticket_status === 'active') {
-      activeTickets.push(element);
-    } else {
-      inActiveTickets.push(element);
-    }
-  });
   const renderFn = (_tickets, _errors) => {
     console.log('error', _errors);
     res.render('Admin/tickets', {
@@ -712,27 +638,10 @@ const filterTickets = asyncWrapper(async (req, res) => {
       user: req.user[0],
       receivedTickets: _tickets ? _tickets : getAllTickets,
       agentTicketCount: agentTickets ? agentTickets.length : 0,
-      activeAgentTicketsCount: activeAgentTickets
-        ? activeAgentTickets.length
-        : 0,
-      inactiveAgentTicketsCount: inactiveAgentTickets
-        ? inactiveAgentTickets.length
-        : 0,
+
       deptTicketCount: deptTickets ? deptTickets.length : 0,
       totalTickets: getAllTickets ? getAllTickets.length : 0,
-      activeTickets: activeTickets ? activeTickets.length : 0,
-      inactiveTickets: inActiveTickets ? inActiveTickets.length : 0,
-      deptActiveTicketCount: deptActiveTickets ? deptActiveTickets.length : 0,
-      deptInactiveTicketCount: deptInactiveTickets
-        ? deptInactiveTickets.length
-        : 0,
       unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
-      activeUnassignedTickets: activeUnassignedTickets
-        ? activeUnassignedTickets.length
-        : 0,
-      inactiveUnassignedTickets: inactiveUnassignedTickets
-        ? inactiveUnassignedTickets.length
-        : 0,
     });
   };
   const getFilteredTicket = (_selectedValue, _value, _errors) => {
@@ -899,11 +808,11 @@ const filterTickets = asyncWrapper(async (req, res) => {
 
 module.exports = {
   getTicket,
-  createTicket,
+  getAdminCreateTicket,
   listTicket,
   updateTicket,
   deleteTicket,
-  adminCreateTicket,
+  postAdminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,

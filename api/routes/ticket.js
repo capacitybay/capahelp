@@ -3,7 +3,7 @@ const { isAdmin } = require('../../middleware/auth');
 const authenticateToken = require('../../auth/authenticateToken');
 const {
   getTicket,
-  createTicket,
+  getAdminCreateTicket,
   listTicket,
   updateTicket,
   deleteTicket,
@@ -12,7 +12,7 @@ const {
   inProgressTickets,
   pendingTickets,
   resolvedTickets,
-  adminCreateTicket,
+  postAdminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
@@ -23,7 +23,7 @@ const {
   forwardAuthenticated,
   ensureAuthenticated,
 } = require('../../middleware/auth');
-router.post('/ticket/new', createTicket);
+router.post('/ticket/new', getAdminCreateTicket);
 
 // admin routes
 router.get('/admin/update/ticket/:ticketId', isAdmin, getAdminEditTicket);
@@ -58,7 +58,7 @@ router.get('/user/create/ticket', ensureAuthenticated, (req, res) => {
 router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
 });
-router.post('/admin/create/ticket', adminCreateTicket);
+router.post('/admin/create/ticket', postAdminCreateTicket);
 module.exports = router;
 /**
  * Tfind if department exist if yes

@@ -21,7 +21,8 @@
         <%- include("../partials/Admin/adminHeader.ejs")%>
             <div class="hero solution-hero ticket-hero">
                 <p class="solutions-top ticket-top">
-                    <span><a href="/user">Home</a></span> > <a href="/user/create/ticket">Create a Ticket</a>
+                    <span><a href="/admin/dashboard">Home</a></span> > <a href="/admin/create/ticket">Create a
+                        Ticket</a>
                 </p>
                 <h1 class="hero-title create-title">Create a Ticket</h1>
                 <div class="error-plane">
@@ -67,7 +68,7 @@
                         <div class="form-box">
                             <label for="priority">Priority <span>*</span></label>
                             <select name="priority" id="priority">
-                                <option value="normal">Normal</option>
+                                <option value="medium">Medium</option>
                                 <option value="low">Low</option>
                                 <option value="high">High</option>
                             </select>

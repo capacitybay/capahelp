@@ -12,7 +12,6 @@ const {
   createCustomError,
   CustomError,
 } = require('../../middleware/customError');
-const RefreshTokenModel = require('../../models/refreshTokenModel');
 const userModel = require('../../models/userModel');
 
 // admin display
@@ -68,7 +67,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
   });
   // filters ticket priority
   allTickets.forEach((element, idx) => {
-    if (element.priority === 'normal') {
+    if (element.priority === 'medium') {
       addElements(normalPriority, element);
     } else if (element.priority === 'high') {
       addElements(highPriority, element);
@@ -93,10 +92,6 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     }
   });
 
-  // console.log(allTickets);
-  /**
-   * TODO: work on this (activatedUsers and deactivatedUsers), should  be fetch once and filter
-   */
   // filters activeUsers
 
   const activeCustomers = [],
@@ -111,12 +106,8 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     }
   });
 
-  // const deactivatedCustomers = await UserModel.find({
-  //   $and: [{ active: false }, { user_type: 0 }],
-  // });
   const totalCustomers = [...activeCustomers, ...deactivatedCustomers];
-  // const allUsers = await UserModel.find({ user_type: 0 });
-  //  renders data to the dashboard
+
   res.render('Admin/adminDashboard.ejs', {
     user: req.user[0],
     allTickets: allTickets,
@@ -242,7 +233,7 @@ const createUser = asyncWrapper(async (req, res) => {
 
   // console.log(CustomerModel);
 });
-const adminCreateUser = asyncWrapper(async (req, res) => {
+const postAdminCreateUser = asyncWrapper(async (req, res) => {
   const {
     first_name,
     last_name,
@@ -252,92 +243,82 @@ const adminCreateUser = asyncWrapper(async (req, res) => {
     user_type,
     confirmPassword,
     location,
+    gender,
   } = req.body;
+  console.log(
+    first_name,
+    last_name,
+    email,
+    phone,
+    password,
+    user_type,
+    confirmPassword,
+    location
+  );
+  const renderFn = ({ success, msg }) => {
+    res.send({
+      success,
+      msg,
+    });
+  };
   // validates important information
-  const validateData = { first_name, last_name, email, phone, password };
-  let errors = [];
+  const validateData = {
+    first_name,
+    last_name,
+    email,
+    phone,
+    password,
+  };
   const { error } = registerValidation(validateData);
   // checks if the validation return error
-  if (error) {
-    errors.push({ msg: error.message });
-  }
+  if (error) return renderFn({ success: false, msg: error.message });
+
   // verifies password equality
-  if (password != confirmPassword) {
-    errors.push({ msg: 'password does not match' });
-  }
-  if (errors.length > 0) {
-    res.render('Admin/adminCreateUser.ejs', {
-      errors,
-      first_name,
-      last_name,
-      email,
-      phone,
-      password,
-      confirmPassword,
-      location,
+  if (password != confirmPassword)
+    return renderFn({ success: false, msg: 'password does not match' });
+
+  //  checks if email is already available in the system
+  const getUserDetails = await UserModel.findOne({ email: email });
+  if (getUserDetails)
+    return renderFn({ success: false, msg: 'user already exists' });
+
+  // hashes user password before storing it
+
+  const encryptedPassword = await hashedPassword(password);
+  // converts user_type from strings to system numbers
+  if (!encryptedPassword)
+    return renderFn({ success: false, msg: 'Sorry,Something wen wrong' });
+  const userRole = user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
+  // create new document
+  const newUser = new UserModel({
+    first_name,
+    last_name,
+    email,
+    password: encryptedPassword,
+    phone,
+    location,
+    user_type: userRole,
+    gender,
+  });
+
+  // save user to database
+  const savedUser = await newUser.save();
+  // sets message to connect flash
+  if (savedUser)
+    return renderFn({
+      success: false,
+      msg: 'System is unable to create account ',
     });
-  } else {
-    //  checks if email is already available in the system
-    const getUserDetails = await UserModel.findOne({ email: email });
-    if (getUserDetails) {
-      errors.push({ msg: 'user already exists' });
-      res.render('Admin/adminCreateUser.ejs', {
-        errors,
-        first_name,
-        last_name,
-        email,
-        phone,
-        password,
-        confirmPassword,
-        location,
-      });
-    } else {
-      // hashes user password before storing it
 
-      const encryptedPassword = await hashedPassword(password);
-      // converts user_type from strings to system numbers
-      const userRole =
-        user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
-      // create new document
-      const newUser = new UserModel({
-        first_name,
-        last_name,
-        email,
-        password: encryptedPassword,
-        phone,
-        location,
-        user_type: userRole,
-      });
+  renderFn({
+    success: false,
+    msg: 'Registration Successful, user can now login',
+  });
+  // redirects admin to dashboard
 
-      // save user to database
-      const savedUser = await newUser.save();
-      // sets message to connect flash
-
-      req.flash('success_msg', 'Registration Successful, user can now login');
-      // redirects admin to dashboard
-
-      res.status(200).redirect('/admin/dashboard');
-    }
-
-    // }
-  }
-  // console.log(CustomerModel);
+  res.status(200).redirect('/admin/dashboard');
 });
-/**
- * * i'm still working on this
- */
-const filterUsersTable = async (arg1, arg2, arg3, ...arg4) => {
-  /**
-   * get search criteria fom  body
-   * check if the option is all
-   * check if input is undefined
-   * validate if input is email
-   *
-   */
-};
-/**
- * TODO: development still inprogress
- */
+
 const filterUsers = asyncWrapper(async (req, res) => {
   const { selectedOption, inputValue } = req.body;
   console.log('filter');
@@ -379,7 +360,6 @@ const filterUsers = asyncWrapper(async (req, res) => {
       deactivatedAgents.length +
       deactivatedCustomers.length;
     console.log('.......');
-    // console.log(req.user[0]);
 
     res.render('Admin/users', {
       errors: _error ? _error : null,
@@ -663,7 +643,7 @@ const updateProfile = asyncWrapper(async (req, res) => {
     if (email === req.user[0].email)
       return res.send({
         success: false,
-        msg: 'You are already using this email; if you would like to update it, please check the box.',
+        msg: 'User is already using this email; if you would like to update it, please check the box.',
       });
 
     if (email !== req.user[0].email) {
@@ -686,7 +666,7 @@ const updateProfile = asyncWrapper(async (req, res) => {
  ** update user route
  *!: Strictly for admin
  */
-const updateUser = asyncWrapper(async (req, res, next) => {
+const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
   const {
     first_name,
@@ -803,7 +783,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
       if (selectEmail) {
         if (findUser) {
           errors.push({
-            msg: 'You are already using this email; if you would like to update it, please check the box.',
+            msg: 'You are already using this email; if you would like to update it, please check the box and choose a diffrent email.',
           });
           // renders interface with error array
           renderInterface(false);
@@ -860,7 +840,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
 
     req.flash('error_msg', ` you are not authorized to update this customer `);
     errors.push({
-      msg: ` you are notP authorized to update this customer `,
+      msg: ` you are not authorized to update this customer `,
     });
     renderInterface(false);
   }
@@ -976,7 +956,7 @@ const getAdminCreateUser = asyncWrapper((req, res) => {
   });
   // return
 });
-const getAdminUpdateUserProfile = asyncWrapper(async (req, res) => {
+const getAdminUpdateUser = asyncWrapper(async (req, res) => {
   const user = await userModel.find(
     { _id: req.params.userId },
     { password: 0 }
@@ -991,12 +971,12 @@ const getRegisterComponent = asyncWrapper((req, res) => {
 module.exports = {
   createUser,
   getUser,
-  updateUser,
+  postAdminUpdateUser,
   viewUser,
   deleteUser,
   deactivateUser,
   reactivateUser,
-  adminCreateUser,
+  postAdminCreateUser,
   adminDashboard,
   filterUsers,
   adminUpdateProfile,
@@ -1004,6 +984,6 @@ module.exports = {
 
   viewUserProfile,
   getAdminCreateUser,
-  getAdminUpdateUserProfile,
+  getAdminUpdateUser,
   getRegisterComponent,
 };

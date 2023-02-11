@@ -15,16 +15,26 @@
 }
 
 body {
-  display: flex;
+  /* display: flex; */
   /* height: 100vh; */
-  justify-content: center; /*center vertically */
-  align-items: center; /* center horizontally */
-  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
-  padding: 10px;
+}
+
+/* style cancel icon */
+
+.fa-xmark {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  color: red;
+}
+.span {
+  margin-right: 0.5rem;
+}
+.align-select-input .form-box {
+  width: 100%;
 }
 /* container and form */
 .container {
-  max-width: 700px;
+  /* max-width: 700px; */
   width: 100%;
   background: #fff;
   padding: 0 30px;
@@ -39,7 +49,7 @@ body {
   font-weight: 500;
   position: relative;
   color: #199561;
-  margin-top: 1rem;
+  margin-top: 2rem !important;
 }
 
 .container .title::before {
@@ -133,7 +143,7 @@ form .button {
   margin: 10px 0;
 }
 
-form .button input {
+form .button #inputButton {
   height: 100%;
   width: 100%;
   outline: none;
@@ -146,9 +156,13 @@ form .button input {
   cursor: pointer;
   /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
   transition: all 0.3s ease;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
-form .button input:hover {
+form .button #inputButton:hover {
   background: #25aa72;
 }
 
