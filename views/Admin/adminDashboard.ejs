@@ -8,7 +8,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
         </head>
 
-        <%- include("../partials/Admin/adminHeader.ejs", {user:user}) %>
+        <%- include("../partials/Admin/adminHeader.ejs") %>
             <main class="content">
                 <div class="row">
 
@@ -57,15 +57,29 @@
                         </div>
                         <div class="display ">
                             <h4>Pending Tickets</h4>
-                            <h1 style="color: #D8AA04;" id="pendingTickets">
-                                <%= pendingTickets %>
-                            </h1>
+                            <div class="ticket-wrapper">
+
+                                <h1 style="color: #D8AA04;" id="pendingTickets">
+                                    <%= pendingTickets %>
+                                </h1>
+                                <div class="ticket-image">
+
+                                    <img src="/public/img/ticketpendingIcon.png" alt="" width="66px" height="66px">
+                                </div>
+                            </div>
                         </div>
                         <div class="display ">
                             <h4>Tickets in Progress</h4>
-                            <h1 style="color: Coral;" id="ticketsInProgress">
-                                <%= ticketsInProgress %>
-                            </h1>
+                            <div class="ticket-wrapper">
+
+                                <h1 style="color: Coral;" id="ticketsInProgress">
+                                    <%= ticketsInProgress %>
+                                </h1>
+                                <div class="ticket-image">
+
+                                    <img src="/public/img/ticket-in-progress.png" alt="" width="66px" height="66px">
+                                </div>
+                            </div>
                         </div>
                         <div class="display">
                             <h4>Active Customers</h4>
@@ -181,8 +195,8 @@
                             backgroundColor: [
                                 '#C00000',
                                 '#1CA76C',
-                                '#93f9b9',
-                                '#D8AA04',
+                                'orange',
+                                'coral',
                                 'yellow',
                             ],
                             borderWidth: 2,
@@ -199,16 +213,15 @@
                 const myChart1 = new Chart(ctx1, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Urgent Tickets', 'High Priority Tickets', 'Medium Priority Tickets', 'Open Tickets', 'low state'],
+                        labels: ['Urgent Tickets', 'Medium Priority Tickets', 'Open Tickets', 'low state'],
                         datasets: [{
                             label: '# of Votes',
-                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(highPriorityTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>', '<%- JSON.stringify(lowTicketState) %>', '<%- JSON.stringify(lowTicketState) %>'],
+                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>', '<%- JSON.stringify(lowTicketState) %>',],
                             backgroundColor: [
                                 '#C00000',
+                                '#ffff00',
                                 '#1CA76C',
-                                '#93f9b9',
-                                '#D8AA04',
-                                'Coral',
+                                '#ffa500',
                                 '#D8AA15',
                             ],
                             borderWidth: 2,
@@ -232,9 +245,7 @@
                             backgroundColor: [
                                 '#C00000',
                                 '#1CA76C',
-                                '#93f9b9',
-                                '#D8AA04',
-                                'Coral',
+
                                 '#D8AA15',
                             ],
                             borderWidth: 2,

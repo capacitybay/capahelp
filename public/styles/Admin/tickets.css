@@ -17,7 +17,7 @@ h1,
 }
 
 main {
-  width: 95%;
+  width: 97%;
   /* background-color: red; */
   /* border-left: 1px solid #bbb9b9;
   border-right: 1px solid #bbb9b9; */
@@ -139,6 +139,55 @@ label {
   width: 100%;
 }
 
+/* indicator styling */
+.status-indicator {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+
+  margin-right: 0.5rem;
+}
+
+.status-indicator--active {
+  background: darkorange;
+}
+.status-indicator--cancelled {
+  background: red;
+}
+.status-indicator--in_progress {
+  background: yellow;
+}
+.status-indicator--resolved {
+  background: rgb(7, 163, 7);
+}
+.status-indicator--pending {
+  background: coral;
+}
+.status-indicator--none {
+  background: rgb(206, 206, 206);
+}
+
+/* priority */
+
+.status-indicator--high {
+  background: red;
+}
+.status-indicator--low {
+  background: orange;
+}
+.status-indicator--medium {
+  background: yellow;
+}
+/* Urgency indicator extends priority */
+
+.status-indicator--open {
+  background: rgb(9, 157, 9);
+}
+.status-indicator--urgent {
+  background: red;
+}
+
 .search_button {
   padding: 0.3rem 2rem 0.3rem 0.5rem;
   /* padding-right: 30rem; */
@@ -150,6 +199,11 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.search_button:focus {
+  outline: none;
+  border: 1px solid #186f3c;
 }
 .search_button i {
   font-size: 1.5rem;

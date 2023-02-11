@@ -224,10 +224,17 @@
 
                 })
             }).then(response => {
-                console.log(response);
-                return response.json();
+
+                if (!response) {
+                    errorPlaneElem.innerHTML = showMessage("Sorry,Something Went Wrong!", false);
+
+                } else {
+
+                    return response.json();
+                }
+
             }).then(data => {
-                console.log(data);
+
 
                 if (data) {
 
@@ -243,6 +250,7 @@
                     errorPlaneElem.scrollIntoView({ behavior: "smooth" });
                 }
             }).catch(error => {
+
                 if (error) {
                     submitBtnElem.disabled = false;
                     spinnerElem.style.display = "none";

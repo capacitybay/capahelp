@@ -140,17 +140,14 @@ h4 .h4 {
 /* Page Wrapper/Container Style */
 .table-container {
   width: 100%;
-  /* max-width: 1140px;
-  margin: 0 auto;
-  padding: 0 15px; */
+
   margin-top: 20px;
-  /* width: 600px; */
   padding: 0 15px;
   border-left: 1px solid #dadde4;
   height: 500px;
   overflow: auto;
   top: 0;
-  /* background-color: #fff; */
+
 }
 
 /* .scrollbar {
@@ -312,6 +309,11 @@ h4 .h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.search_button:focus {
+  outline: none;
+  background-color: #198345;
 }
 .search_button i {
   font-size: 1.5rem;

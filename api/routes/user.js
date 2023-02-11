@@ -2,19 +2,19 @@ const { router } = require('../../utils/packages');
 const {
   createUser,
   getUser,
-  updateUser,
+  postAdminUpdateUser,
   viewUser,
   deleteUser,
   deactivateUser,
   reactivateUser,
-  adminCreateUser,
+  postAdminCreateUser,
   adminDashboard,
   filterUsers,
   adminUpdateProfile,
   updateProfile,
   viewUserProfile,
   getAdminCreateUser,
-  getAdminUpdateUserProfile,
+  getAdminUpdateUser,
   getRegisterComponent,
 } = require('../controllers');
 const authenticateToken = require('../../auth/authenticateToken');
@@ -69,6 +69,7 @@ router.post('/user/register', createUser);
 
 // ! ADMIN ROUTES
 router.get('/admin/register', isAdmin, getAdminCreateUser);
+router.post('/admin/register', isAdmin, postAdminCreateUser);
 router.get('/view/user/profile/:email', viewUserProfile);
 
 router.post('/filter/users', isAdmin, filterUsers);
@@ -85,13 +86,12 @@ router.get(
 router.get('/admin/dashboard', isAdmin, adminDashboard);
 // gets all user (admin route)
 router.get('/admin/manage/users', isAdmin, getUser);
-
-router.get('/admin/register', isAdmin, getRegisterComponent);
-router.post('/admin/register', isAdmin, adminCreateUser);
+// *? what is the function of this route
+// router.get('/admin/register', isAdmin, getRegisterComponent);
 
 // update a user (admin route)
-router.get('/admin/update/user/:userId', getAdminUpdateUserProfile);
-router.post('/admin/update/user/profile/:userId', isAdmin, updateUser);
+router.get('/admin/update/user/:userId', isAdmin, getAdminUpdateUser);
+router.post('/admin/update/user/:userId', isAdmin, postAdminUpdateUser);
 
 router.patch('/admin/update/profile/:userId', isAdmin, updateProfile);
 
