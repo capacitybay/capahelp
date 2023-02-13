@@ -141,30 +141,109 @@
                         </div>
 
                         <div class="btm btm1">
-
-                            <canvas id="myChart5" width="400" height="400"></canvas>
-                            <h5>Ticket Priority </h5>
+                            <% if (highPriority===0 && normalPriority===0 && lowPriority===0) { %>
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for current period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Ticket Priority </h5>
+                                <% }else{ %>
+                                    <canvas id="myChart5" width="400" height="400"></canvas>
+                                    <h5>Ticket Priority </h5>
+                                    <% } %>
                         </div>
                         <div class="btm btm1">
 
-                            <canvas id="myChart2" width="400" height="400"></canvas>
-                            <h5>Customers</h5>
+
+                            <% if (totalCustomers===0 && activeCustomers===0 && deactivatedCustomers===0 ) { %>
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for current period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Customers</h5>
+
+
+                                <% }else{ %>
+                                    <canvas id="myChart2" width="400" height="400"></canvas>
+
+
+                                    <h5>Customers</h5>
+                                    <% } %>
+
+
 
 
                         </div>
 
                         <!-- ticket priority -->
                         <div class="btm chart-width">
+                            <% if (unassignedTickets==0 && assignedTickets==0) { %>
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for current period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Assigned And Unassigned Tickets</h5>
 
-                            <canvas id="myChart3" width="400" height="400"></canvas>
-                            <h5>Assigned And Unassigned Tickets</h5>
+
+
+                                <% }else{ %>
+
+
+                                    <canvas id="myChart3" width="400" height="400"></canvas>
+                                    <h5>Assigned And Unassigned Tickets</h5>
+
+                                    <% } %>
+
+
+
 
 
                         </div>
                         <div class="btm btm1">
 
-                            <canvas id="myChart4" width="100%" height="400"></canvas>
-                            <h5>Users Statistics</h5>
+                            <% if (!allUsersData) { %>
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for curent period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Users Statistics</h5>
+
+
+                                <% }else{ %>
+
+
+                                    <canvas id="myChart4" width="100%" height="400"></canvas>
+                                    <h5>Users Statistics</h5>
+
+                                    <% } %>
 
 
                         </div>
@@ -332,8 +411,8 @@
                     'December'
                 ];
                 const userData = '<%- JSON.stringify( allUsersData) %> '
-                const parsedData = JSON.parse(userData)
-                let createdAt = []
+                const parsedData = JSON.parse(userData);
+                let createdAt = [];
                 let January = 0, February = 0, March = 0, April = 0, May = 0, June = 0, July = 0, August = 0, September = 0, October = 0, November = 0, December = 0
                 parsedData.forEach((element) => {
                     if (element.createdAt) {
