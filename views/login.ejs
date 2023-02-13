@@ -29,7 +29,7 @@
 
         </div>
         <h1>Login</h1>
-        <form id="loginForm" action="/login" method="post">
+        <form id="loginForm">
             <div class="txt_field">
                 <input type="email" id="email" name="email" value="admin@gmail.net" required />
                 <span></span>
@@ -42,7 +42,7 @@
             </div>
             <div class="pass">Forgot Password?</div>
 
-            <button type="submit" id="loginSubmit">
+            <button id="loginSubmit">
                 <span class="spinner" style="margin-right: 1rem;"><i class="fa fa-refresh fa-spin"></i></span>
                 Login
             </button>
@@ -93,17 +93,17 @@
         const passwordElem = document.getElementById("password");
         const loginSubmitElem = document.getElementById("loginSubmit");
         //error plane
-        const errorPlaneElem = document.querySelector(".error-plane")
+        const errorPlaneElem = document.querySelector(".error-plane");
         console.log(loginSubmitElem);
         //spinner element
-        const spinnerElem = document.querySelector(".spinner")
+        const spinnerElem = document.querySelector(".spinner");
         spinnerElem.style.display = "none";
-        loginSubmitEle.addEventListener("click", (event) => {
+        loginSubmitElem.addEventListener("click", function (event) {
 
             event.preventDefault();
-            loginSubmitElem.disabled = true
+            loginSubmitElem.disabled = true;
             spinnerElem.style.display = "block";
-            console.log("click");
+
 
             fetch("/login", {
                 headers: {
@@ -115,54 +115,41 @@
                     email: emailElem.value,
                     password: passwordElem.value,
                 })
-
             }).then(response => {
-
-
-                console.log(response)
-
-                if (response.redirected) {
-                    let splitUrl = response.url.split(":");
-
-                    let destinationRoute = splitUrl[splitUrl.length - 1].split("/");
-                    console.log(destinationRoute);
-                    //let getFinalRoute = (destinationRoute.splice(1, destinationRoute.length - 1));
-                    if (destinationRoute.includes("login")) {
-                        window.location.reload()
+                return response.json()
+            }).then(data => {
+                if (data) {
+                    function changeUrl(url) {
+                        let splitUrl = window.location.toString();
+                        return splitUrl.replace(/login/, url);
+                    }
+                    loginSubmitElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    if (data.success) {
+                        if (data.user_type === 3) {
+                            window.location.href = changeUrl("admin/dashboard");
+                        } else {
+                            window.location.href = changeUrl("user");
+                        }
 
                     } else {
-                        window.location.href = response.url;
+                        errorPlaneElem.innerHTML = showMessage(data.payload.message, false);
+
+                        loginSubmitElem.disabled = false;
+                        spinnerElem.style.display = "none";
                     }
-
-                }
-                return response.json()
-
-
-            }).then(data => {
-                console.log(data)
-                if (data) {
-
-                    submitBtnElem.disabled = false
-                    spinnerElem.style.display = "none";
-                    console.log(data.url);
-
                 } else {
-
                     errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again.", false);
-
-                    submitBtnElem.disabled = false
+                    loginSubmitElem.disabled = false;
                     spinnerElem.style.display = "none";
-
                 }
 
             }).catch(error => {
-                console.log(error);
-
                 if (error) {
-                    loginSubmitElem.disabled = false
+                    loginSubmitElem.disabled = false;
                     spinnerElem.style.display = "none";
-                    //  errorPlaneElem.innerHTML = showMessage(error, false);
-                    console.log(error);
+                    errorPlaneElem.innerHTML = showMessage("Sorry!, Something Went Wrong Pls Try Again", false);
+
                 }
             })
 
