@@ -10,8 +10,9 @@ module.exports = {
   },
   // checks if user is logged in
   forwardAuthenticated: function (req, res, next) {
+    console.log(req.isAuthenticated());
+
     if (req.isAuthenticated()) {
-      //   console.log(!req.isAuthenticated());
       if (
         (req.user.user_type === 3 && req.user.active === true) ||
         (req.user[0]?.user_type === 3 && req.user[0]?.active === true)
@@ -30,12 +31,13 @@ module.exports = {
         return res.redirect('/user');
       }
     }
-    next();
+    return next();
   },
   // checks if user is admin
   isAdmin: function (req, res, next) {
-    //console.log('is auth');
-    //console.log(req.isAuthenticated());
+    console.log('req.isAuthenticated()');
+
+    console.log(req.user);
     if (!req.isAuthenticated()) return res.redirect('/login');
     if (req.user[0].user_type === 3) {
       //res.status(304).redirect('/login');
@@ -50,6 +52,6 @@ module.exports = {
     if (req.isAuthenticated() && req.user[0].user_type === 1) {
       return next();
     }
-    res.status(304).redirect('/error');
+    return res.status(304).redirect('/error');
   },
 };

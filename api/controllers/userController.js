@@ -19,6 +19,8 @@ const userModel = require('../../models/userModel');
  * *This function populates the cards in admin dashboard
  */
 const adminDashboard = asyncWrapper(async (req, res) => {
+  console.log('note authenticatd');
+
   // gets all ticket in the system
   const allTickets = await TicketModel.find();
   let active = [],
@@ -274,7 +276,10 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
 
   // verifies password equality
   if (password != confirmPassword)
-    return renderFn({ success: false, msg: `Password for ${email} Does Not Match` });
+    return renderFn({
+      success: false,
+      msg: `Password for ${email} Does Not Match`,
+    });
 
   //  checks if email is already available in the system
   const getUserDetails = await UserModel.findOne({ email: email });
