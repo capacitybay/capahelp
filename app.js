@@ -10,7 +10,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
 const MongoStore = require('connect-mongo');
-
+const cookieParser = require('cookie-parser');
 // application port
 const port = process.env.PORT || 4000;
 
@@ -32,12 +32,14 @@ app.use(express.urlencoded({ extended: true }));
 //   app.set('trust proxy', 1) // trust first proxy
 //   sess.cookie.secure = true // serve secure cookies
 // }
+app.use(cookieParser());
 // Express session
+
 app.use(
   session({
     secret: process.env.SESSION_SECRETE,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
       collection: 'sessions',
@@ -59,6 +61,7 @@ app.use(function (req, res, next) {
 });
 // Passport middleware
 app.use(passport.initialize());
+
 app.use(passport.session());
 
 app.use(routes);

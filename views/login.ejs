@@ -118,6 +118,7 @@
             }).then(response => {
                 return response.json()
             }).then(data => {
+                console.log(data);
                 if (data) {
                     function changeUrl(url) {
                         let splitUrl = window.location.toString();

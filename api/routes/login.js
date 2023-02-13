@@ -15,7 +15,7 @@ initializePassport(
 router.get('/login', forwardAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
-router.post('/login', forwardAuthenticated, (req, res, next) => {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) return res.status(400).json({ success: false, payload: info });
     if (!user) return res.status(404).json({ success: false, payload: info });
@@ -25,6 +25,8 @@ router.post('/login', forwardAuthenticated, (req, res, next) => {
           return next(err);
         }
         // checks if user is admin or customer
+
+        console.log(req.user);
         if (user?.user_type === 3) {
           return res.send({ success: true, user_type: 3 });
         } else if (user?.user_type === 0) {
@@ -32,6 +34,7 @@ router.post('/login', forwardAuthenticated, (req, res, next) => {
         }
       });
     }
+    // return (req.user = user);
   })(req, res, next);
 });
 

@@ -124,24 +124,54 @@
                     </div><br>
 
                     <div class="bottom_section">
+                        <!-- ticket status -->
                         <div class="btm btm1">
+                            <% if(!activeTickets && !resolvedTickets&& !cancelledTickets && !pendingTickets &&
+                                !ticketsInProgress ){ %>
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for current period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }else{ %>
+                                    <canvas id="myChart" width="400" height="400"></canvas>
 
-                            <canvas id="myChart" width="400" height="400"></canvas>
-
-                            <h5>Tickets</h5>
-
+                                    <h5>Tickets</h5>
+                                    <% } %>
                         </div>
-                        <!-- ticket priority -->
+                        <!-- ticket urgency -->
                         <div class="btm btm1">
 
-                            <canvas id="myChart1" width="400" height="400"></canvas>
-                            <h5>Ticket Urgency</h5>
+                            <% if (!urgentTicket && !lowTicketState && !mediumUrgencyTicket && !openTickets ) { %>
 
+                                <div class="">
+                                    <div class="chart">
+                                        <div class="no-chart-data">
+                                            <h2 class="title">No data for current period</h2>
+                                            <div class="radial">
+                                                <div class="outer-circle"></div>
+                                                <div class="inner-circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <% } else{ %>
+
+                                    <canvas id="myChart1" width="400" height="400"></canvas>
+                                    <h5>Ticket Urgency</h5>
+
+                                    <% } %>
                         </div>
 
                         <div class="btm btm1">
-                            <% if (highPriority===0 && normalPriority===0 && lowPriority===0) { %>
+                            <% if (!highPriority && !normalPriority && !lowPriority) { %>
                                 <div class="">
                                     <div class="chart">
                                         <div class="no-chart-data">
@@ -162,7 +192,7 @@
                         <div class="btm btm1">
 
 
-                            <% if (totalCustomers===0 && activeCustomers===0 && deactivatedCustomers===0 ) { %>
+                            <% if (!totalCustomers && !activeCustomers && !deactivatedCustomers ) { %>
                                 <div class="">
                                     <div class="chart">
                                         <div class="no-chart-data">
@@ -175,77 +205,31 @@
                                     </div>
                                 </div>
                                 <h5>Customers</h5>
-
-
                                 <% }else{ %>
                                     <canvas id="myChart2" width="400" height="400"></canvas>
-
-
                                     <h5>Customers</h5>
                                     <% } %>
-
-
-
-
                         </div>
 
                         <!-- ticket priority -->
                         <div class="btm chart-width">
-                            <% if (unassignedTickets==0 && assignedTickets==0) { %>
-                                <div class="">
-                                    <div class="chart">
-                                        <div class="no-chart-data">
-                                            <h2 class="title">No data for current period</h2>
-                                            <div class="radial">
-                                                <div class="outer-circle"></div>
-                                                <div class="inner-circle"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5>Assigned And Unassigned Tickets</h5>
-
-
-
-                                <% }else{ %>
-
-
-                                    <canvas id="myChart3" width="400" height="400"></canvas>
+                            <% if (!unassignedTickets && !assignedTickets) { %>
+                                <%- include("../partials/Admin/chartPlaceholder.ejs") %>
                                     <h5>Assigned And Unassigned Tickets</h5>
+                                    <% }else{ %>
+                                        <canvas id="myChart3" width="400" height="400"></canvas>
+                                        <h5>Assigned And Unassigned Tickets</h5>
 
-                                    <% } %>
-
-
-
-
-
+                                        <% } %>
                         </div>
                         <div class="btm btm1">
-
                             <% if (!allUsersData) { %>
-                                <div class="">
-                                    <div class="chart">
-                                        <div class="no-chart-data">
-                                            <h2 class="title">No data for curent period</h2>
-                                            <div class="radial">
-                                                <div class="outer-circle"></div>
-                                                <div class="inner-circle"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5>Users Statistics</h5>
-
-
-                                <% }else{ %>
-
-
-                                    <canvas id="myChart4" width="100%" height="400"></canvas>
+                                <%- include("../partials/Admin/chartPlaceholder.ejs") %>
                                     <h5>Users Statistics</h5>
-
-                                    <% } %>
-
-
+                                    <% }else{ %>
+                                        <canvas id="myChart4" width="100%" height="400"></canvas>
+                                        <h5>Users Statistics</h5>
+                                        <% } %>
                         </div>
                     </div>
             </main>
@@ -263,7 +247,7 @@
                 const pendingTickets = parseInt(document.getElementById("pendingTickets").textContent);
                 console.log(totalCustomers)
 
-                const ctx = document.getElementById('myChart').getContext('2d');
+                const ctx = document.getElementById('myChart')?.getContext('2d');
                 const myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -288,14 +272,14 @@
                     }
                 });
 
-                const ctx1 = document.getElementById('myChart1').getContext('2d');
+                const ctx1 = document.getElementById('myChart1')?.getContext('2d');
                 const myChart1 = new Chart(ctx1, {
                     type: 'doughnut',
                     data: {
                         labels: ['Urgent Tickets', 'Medium Priority Tickets', 'Open Tickets', 'low state'],
                         datasets: [{
                             label: '# of Votes',
-                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(mediumPriorityTicket) %>', '<%- JSON.stringify(openTickets) %>', '<%- JSON.stringify(lowTicketState) %>',],
+                            data: ['<%- JSON.stringify(urgentTicket) %>', '<%- JSON.stringify(mediumUrgencyTicket) %>', '<%- JSON.stringify(openTickets) %>', '<%- JSON.stringify(lowTicketState) %>',],
                             backgroundColor: [
                                 '#C00000',
                                 '#ffff00',
@@ -313,7 +297,7 @@
                     }
                 });
                 //urgency
-                const ctx5 = document.getElementById('myChart5').getContext('2d');
+                const ctx5 = document.getElementById('myChart5')?.getContext('2d');
                 const myChart5 = new Chart(ctx5, {
                     type: 'pie',
                     data: {
@@ -324,7 +308,6 @@
                             backgroundColor: [
                                 '#C00000',
                                 '#1CA76C',
-
                                 '#D8AA15',
                             ],
                             borderWidth: 2,
@@ -337,7 +320,7 @@
                     }
                 });
 
-                const cty = document.getElementById('myChart2').getContext('2d');
+                const cty = document.getElementById('myChart2')?.getContext('2d');
 
                 const myChart2 = new Chart(cty, {
                     type: 'pie',
@@ -361,7 +344,7 @@
 
                 });
 
-                const ctx3 = document.getElementById('myChart3').getContext('2d');
+                const ctx3 = document.getElementById('myChart3')?.getContext('2d');
                 const myChart3 = new Chart(ctx3, {
                     type: 'bar',
                     data: {
@@ -395,7 +378,7 @@
                         aspectRatio: 2,
                     }
                 });
-                const ctx4 = document.getElementById('myChart4').getContext('2d');
+                const ctx4 = document.getElementById('myChart4')?.getContext('2d');
                 const labels = [
                     'January',
                     'February',

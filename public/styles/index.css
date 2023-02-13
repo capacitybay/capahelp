@@ -60,7 +60,7 @@ header {
   /* background-color: red; */
 }
 .main {
-  /* height: 100vh; */
+  height: 100vh;
   /* background-color: blue; */
 }
 .house.effect {
