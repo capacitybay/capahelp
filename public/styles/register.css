@@ -16,12 +16,59 @@
 
 body {
   display: flex;
-
+  flex-direction: column;
   justify-content: center; /*center vertically */
   align-items: center; /* center horizontally */
   /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
-  padding: 10px;
+  padding-top: 5px;
 }
+
+/* Header Styling */
+header {
+  width: 100%;
+  padding: 0 5px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header_img {
+  width: 6%;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav_btn {
+  padding: 0.35em 1em;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.btn1 {
+  border: 3px solid #1ca76c;
+  color: #1ca76c;
+  font-weight: bold;
+}
+.btn1:hover {
+  background-color: #1ca76c;
+  color: white;
+}
+.btn2 {
+  background-color: #1ca76c;
+  color: white;
+  font-weight: bold;
+  border: 3px solid #1ca76c;
+}
+.btn2:hover {
+  background-color: white;
+  color: #1ca76c;
+}
+
 /* container and form */
 .container {
   max-width: 700px;

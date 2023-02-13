@@ -62,19 +62,29 @@
                         <%= element.dept_id ?element.dept_id :"None" %>
                     </td>
                     <td>
-                        <span
-                            class="status-indicator status-indicator--<%= element.urgency.toLowerCase()=== 'urgent'?'urgent': element.urgency=== 'low'?'low': element.urgency.toLowerCase() === 'medium' ? 'medium':  element.urgency.toLowerCase() === 'open' ? 'open':'none' %>"></span>
-                        <%= element.urgency %>
+                        <div
+                            class="status-indicator status-indicator--<%= element.urgency.toLowerCase()=== 'urgent'?'urgent': element.urgency=== 'low'?'low': element.urgency.toLowerCase() === 'medium' ? 'medium':  element.urgency.toLowerCase() === 'open' ? 'open':'none' %>">
+                        </div>
+                        <div>
+
+                            <%= element.urgency %>
+                        </div>
                     </td>
                     <td>
-                        <span
-                            class="status-indicator status-indicator--<%= element.ticket_status.toLowerCase()=== 'cancelled'?'cancelled': element.ticket_status === 'active'?'active': element.ticket_status.toLowerCase() === 'in progress' ? 'in_progress':  element.ticket_status.toLowerCase() === 'resolved'?'resolved': element.ticket_status.toLowerCase() ==='pending'?'pending':'none'  %>"></span>
-                        <%= element.ticket_status%>
+                        <div
+                            class="status-indicator status-indicator--<%= element.ticket_status.toLowerCase()=== 'cancelled'?'cancelled': element.ticket_status === 'active'?'active': element.ticket_status.toLowerCase() === 'in progress' ? 'in_progress':  element.ticket_status.toLowerCase() === 'resolved'?'resolved': element.ticket_status.toLowerCase() ==='pending'?'pending':'none'  %>">
+                        </div>
+                        <div>
+                            <%= element.ticket_status%>
+                        </div>
                     </td>
                     <td>
-                        <span
-                            class="status-indicator status-indicator--<%= element.priority.toLowerCase()=== 'high'?'high': element.priority=== 'low'?'low': element.priority.toLowerCase() === 'medium' ? 'medium':'none' %>"></span>
-                        <%= element.priority%>
+                        <div
+                            class="status-indicator status-indicator--<%= element.priority.toLowerCase()=== 'high'?'high': element.priority=== 'low'?'low': element.priority.toLowerCase() === 'medium' ? 'medium':'none' %>">
+                        </div>
+                        <div>
+                            <%= element.priority%>
+                        </div>
                     </td>
                     <td>
                         <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"

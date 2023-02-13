@@ -116,23 +116,22 @@ const adminDashboard = asyncWrapper(async (req, res) => {
     cancelledTickets: cancelled ? cancelled.length : 0,
     pendingTickets: pending ? pending.length : 0,
     ticketsInProgress: inProgress ? inProgress.length : 0,
+    // customers
+    totalCustomers: totalCustomers.length,
     activeCustomers: activeCustomers ? activeCustomers.length : 0,
     deactivatedCustomers: deactivatedCustomers
       ? deactivatedCustomers.length
       : 0,
-    totalCustomers: totalCustomers.length,
     allUsersData: allSystemUsers ? allSystemUsers : 0,
 
     // ticket priority
     normalPriority: normalPriority ? normalPriority.length : 0,
     highPriority: highPriority ? highPriority.length : 0,
     lowPriority: lowPriority ? lowPriority.length : 0,
-    //ticket state
-
+    //ticket urgency
     urgentTicket: urgent ? urgent.length : 0,
     lowTicketState: low ? low.length : 0,
-    highPriorityTicket: high ? high.length : 0,
-    mediumPriorityTicket: medium ? medium.length : 0,
+    mediumUrgencyTicket: medium ? medium.length : 0,
     openTickets: open ? open.length : 0,
     // assigned and unassigned tickets
     unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
@@ -275,12 +274,15 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
 
   // verifies password equality
   if (password != confirmPassword)
-    return renderFn({ success: false, msg: 'password does not match' });
+    return renderFn({ success: false, msg: `Password for ${email} Does Not Match` });
 
   //  checks if email is already available in the system
   const getUserDetails = await UserModel.findOne({ email: email });
   if (getUserDetails)
-    return renderFn({ success: false, msg: 'user already exists' });
+    return renderFn({
+      success: false,
+      msg: ` ${getUserDetails.email} already exists`,
+    });
 
   // hashes user password before storing it
 
@@ -303,26 +305,23 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
 
   // save user to database
   const savedUser = await newUser.save();
+  console.log(savedUser);
   // sets message to connect flash
-  if (savedUser)
+  if (!savedUser)
     return renderFn({
       success: false,
       msg: 'System is unable to create account ',
     });
 
   renderFn({
-    success: false,
-    msg: 'Registration Successful, user can now login',
+    success: true,
+    msg: `Registration Successful, ${savedUser.first_name.toUpperCase()} ${savedUser.last_name.toUpperCase()} Can Now Login`,
   });
-  // redirects admin to dashboard
-
-  res.status(200).redirect('/admin/dashboard');
 });
 
 const filterUsers = asyncWrapper(async (req, res) => {
   const { selectedOption, inputValue } = req.body;
-  console.log('filter');
-  console.log(req.body);
+
   const renderFn = async (_users, _error) => {
     const allSystemUsers = await UserModel.find({}, { password: 0 });
     const addElements = (array, element) => {

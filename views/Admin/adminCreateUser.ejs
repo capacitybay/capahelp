@@ -87,7 +87,7 @@
 
                 <div class="input__box">
                     <span class="details " for="role">User Role</span>
-                    <select class="select" name="role" id="role" name="role" required>
+                    <select class="select" name="user_type" id="role" name="role" required>
                         <option value="admin">admin</option>
                         <option value="agent">agent</option>
                         <option value="customer">customer</option>
@@ -104,7 +104,7 @@
                     user</button>
             </div>
             <div class=" signup_link">
-                <a href="/dashboard">Go To Dashboard</a>
+                <a href="/admin/dashboard">Go To Dashboard</a>
             </div>
         </form>
     </div>
@@ -168,19 +168,6 @@
         const spinnerElem = document.querySelector(".spinner");
         spinnerElem.style.display = "none";
         formElem.addEventListener("submit", (event) => {
-            console.log({
-                firstNameElem: firstNameElem.value,
-                lastNameElem: lastNameElem.value,
-                emailElem: emailElem.value,
-                phoneElem: phoneElem.value,
-                passwordElem: passwordElem.value,
-                confirmPasswordElem: confirmPasswordElem.value,
-                genderElem: genderElem.value,
-                roleElem: genderElem.value,
-                location: locationElem
-
-            })
-
             event.preventDefault();
             fetch("/admin/register", {
                 method: "POST",
@@ -197,7 +184,7 @@
                     confirmPassword: confirmPasswordElem.value,
                     gender: genderElem.value,
                     user_type: genderElem.value,
-                    location: locationElem
+                    location: locationElem.value
                 })
 
             }).then(response => {

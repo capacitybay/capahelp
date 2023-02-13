@@ -10,6 +10,7 @@ function initialize(passport, getUserByEmail, getUserById) {
     const user = await getUserByEmail(email);
     // console.log(e);
     if (user == null) {
+    console.log(object);
       return done(null, false, { message: 'Invalid Credentials' });
     }
 

@@ -200,7 +200,7 @@ form .button #inputButton:hover {
 }
 /* not certain on this */
 .error-plane {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;

@@ -16,7 +16,7 @@
             </thead>
             <tbody>
 
-                <% if(departments){ %>
+                <% if(departments.length>0){ %>
 
                     <% departments.forEach((element,idx)=>{ %>
                         <tr>
@@ -71,7 +71,10 @@
                             </div>
                         </tr>
                         <% }) %>
-                            <% } %>
+                            <% } else{%>
+
+                                
+                                <% } %>
 
 
             </tbody>

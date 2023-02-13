@@ -11,13 +11,30 @@
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+
     <link rel="stylesheet" href="/public/styles/register.css" type="text/css">
+    <link rel="stylesheet" href="/public/styles/footer.css">
+    <!-- font awesome cdn link -->
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+
+    <!-- Header -->
+    <header>
+        <img src="/public/img/logo.png" alt="capacitybay logo" class="header_img" />
+        <nav>
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <a href="/login" class="nav_btn btn1">Login</a>
+                </div>
+                <div class="nav-item">
+                    <a href="/user/register" class="nav_btn btn2">Register</a>
+                </div>
+            </div>
+        </nav>
+    </header>
     <!-- Registration Form -->
-
-
 
     <div class="container">
         <div class="title">Registration</div>
@@ -87,6 +104,10 @@
                 </div>
             </form>
     </div>
+
+    <section>
+        <%- include("./partials/footer.ejs") %>
+    </section>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
