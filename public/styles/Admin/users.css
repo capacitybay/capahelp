@@ -124,6 +124,8 @@ h4 .h4 {
   margin-bottom: 1rem;
   color: #585c64;
 }
+
+/* fi */
 .table-desc {
   margin-top: 2rem;
   /* padding: 1rem 4rem; */
@@ -147,7 +149,6 @@ h4 .h4 {
   height: 500px;
   overflow: auto;
   top: 0;
-
 }
 
 /* .scrollbar {
@@ -216,6 +217,13 @@ h4 .h4 {
 .add-user-form div {
   max-width: 7.5rem;
   margin-left: auto;
+}
+/* filter section */
+.no__click {
+  pointer-events: none;
+}
+.fa-spin {
+  font-size: 0.5rem;
 }
 .filter-users-cont {
   /* border: 1px solid blue; */

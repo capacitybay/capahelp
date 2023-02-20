@@ -1,10 +1,7 @@
 const TicketModel = require('../../models/ticketModel');
 const asyncWrapper = require('../../middleware/controllerWrapper');
 const { createCustomError } = require('../../middleware/customError');
-const { find, findOne } = require('../../models/departmentModel');
-const { resolveHostname } = require('nodemailer/lib/shared');
 const UserModel = require('../../models/userModel');
-const userModel = require('../../models/userModel');
 const { validateEmail } = require('../../validation/validation');
 // const { findOne } = require('../../models/departmentModel');
 
@@ -42,8 +39,15 @@ const getAdminCreateTicket = asyncWrapper(async (req, res) => {
 });
 
 const getAdminEditTicket = asyncWrapper(async (req, res) => {
-  const fetchedTicket = await TicketModel.findOne({ _id: req.params.ticketId });
+  const fetchedTicket = await TicketModel.findOne({
+    _id: req.params.ticketId,
+  });
+  console.log('check ticket');
+  console.log(req.params.ticketId);
+  console.log(req.user[0]._id);
+  console.log(fetchedTicket);
 
+  // return;
   if (fetchedTicket) {
     return res.render('Admin/adminEditTicket', {
       title: fetchedTicket.title,
@@ -61,6 +65,8 @@ const getAdminEditTicket = asyncWrapper(async (req, res) => {
       user: req.user[0],
       description: fetchedTicket.description ? fetchedTicket.description : '',
     });
+  } else {
+    return res.send('error occurred');
   }
 });
 const patchAdminEditTicket = asyncWrapper(async (req, res) => {
@@ -382,7 +388,8 @@ const listTicket = asyncWrapper(async (req, res) => {
       urgentTickets.push(element);
     }
   });
-
+  console.log('object-----------------');
+  console.log(req.user);
   res.render('Admin/tickets', {
     user: req.user[0],
     success: true,

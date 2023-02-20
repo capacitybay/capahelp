@@ -33,6 +33,7 @@ const userModel = require('../../models/userModel');
 
 // solutions
 router.get('/user/solutions', ensureAuthenticated, (req, res) => {
+  console.log(req.user);
   res.render('User/solutions.ejs', {
     first_name: req.user[0].first_name,
     last_name: req.user[0].last_name,
