@@ -278,7 +278,7 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
   if (password != confirmPassword)
     return renderFn({
       success: false,
-      msg: `Password for ${email} Does Not Match`,
+      msg: `Password for ${email} Does Not Match!`,
     });
 
   //  checks if email is already available in the system
@@ -286,7 +286,7 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
   if (getUserDetails)
     return renderFn({
       success: false,
-      msg: ` ${getUserDetails.email} already exists`,
+      msg: ` ${getUserDetails.email} Already Exists!`,
     });
 
   // hashes user password before storing it
@@ -363,7 +363,6 @@ const filterUsers = asyncWrapper(async (req, res) => {
       deactivatedAdmins.length +
       deactivatedAgents.length +
       deactivatedCustomers.length;
-    console.log('.......');
 
     res.render('Admin/users', {
       errors: _error ? _error : null,
@@ -402,7 +401,7 @@ const filterUsers = asyncWrapper(async (req, res) => {
     return renderFn(getAllUsers, null);
   } else if (selectedOption.toLowerCase() === 'email') {
     const { error } = await validateEmail({ email: inputValue.trim() });
-    console.log(error);
+
     if (error) {
       errors.push({ msg: error.message });
       return renderFn(null, errors);
@@ -435,8 +434,7 @@ const filterUsers = asyncWrapper(async (req, res) => {
       { user_type: convertedRole },
       { password: 0 }
     );
-    console.log('check');
-    console.log(convertedRole);
+
     if (convertedRole === undefined) {
       errors.push({
         msg: 'Invalid Role, Please Choose Either Admin,Agent Or Customer',
@@ -615,8 +613,8 @@ const adminUpdateProfile = asyncWrapper(async (req, res) => {
 const updateProfile = asyncWrapper(async (req, res) => {
   const { first_name, last_name, email, phone, location, checkEmail } =
     req.body;
-
-  const updateProfile = async () => {
+  console.log(email);
+  const updateUserProfile = async () => {
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: req.user[0]._id },
       {
@@ -630,7 +628,7 @@ const updateProfile = asyncWrapper(async (req, res) => {
 
     res.send({
       success: true,
-      msg: 'Your Profile Has Been Updated, Please Refresh The Page To Refesh Changes',
+      msg: 'Your Profile Has Been Updated, Please Refresh The Page To Reflect Changes',
     });
   };
 
@@ -642,27 +640,29 @@ const updateProfile = asyncWrapper(async (req, res) => {
     });
 
   if (checkEmail) {
-    const findUser = await userModel.find({ email: email }, { password: 0 });
+    const { error } = await validateEmail({ email: email });
+    if (error) return res.send({ success: false, msg: error.message });
+    const findUser = await userModel.findOne({ email: email }, { password: 0 });
 
     if (email === req.user[0].email)
       return res.send({
         success: false,
-        msg: 'User is already using this email; if you would like to update it, please check the box.',
+        msg: 'This email is currently in use; if you would like to update it, please check the box and use a diffrent email.',
       });
 
     if (email !== req.user[0].email) {
       // checks if passed email equals retrieved user email
-      if (email === findUser[0].email) {
+      if (email === findUser.email) {
         return res.send({
           success: false,
           msg: 'Sorry, you cannot use this email',
         });
       } else {
-        updateProfile();
+        updateUserProfile();
       }
     }
   } else {
-    updateProfile();
+    updateUserProfile();
   }
 });
 
@@ -748,8 +748,9 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
     const renderInterface = async (status, userInfo) => {
       if (!status) {
         const getUserData = await userModel.find({ _id: req.params.userId });
-
-        return res.render('Admin/editUser.ejs', {
+        console.log('first---second');
+        console.log(getUserData);
+        return res.render('Admin/editUser', {
           errors,
           user: getUserData[0],
           id: req.params.userId,
@@ -955,6 +956,7 @@ const viewUserProfile = asyncWrapper(async (req, res) => {
 
 const getAdminCreateUser = asyncWrapper((req, res) => {
   return res.render('Admin/adminCreateUser.ejs', {
+    user: req.user[0],
     message: null,
     email: null,
   });

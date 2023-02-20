@@ -28,6 +28,14 @@
   margin-left: 0.5rem;
   font-size: 0.8rem;
 }
+
+.create {
+  display: flex;
+  color: #fff;
+}
+.create:hover {
+  color: #51a86d !important;
+}
 /* custom end */
 
 
