@@ -1,6 +1,7 @@
 <%- include("../partials/head.ejs",{title:"User"}) %>
     <%- include("../partials/adminHeaderLinks.ejs") %>
         <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
 
         <link rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
@@ -194,31 +195,21 @@
 
                     <h4>All System Users</h4>
                     <form action="/admin/register" method="get" class="add-user-form">
-
                         <div>
-
                             <button class="button"><i class="fa-regular fa-plus"></i><span>Add User</span> </button>
                         </div>
                     </form>
                 </div>
-
                 <div id="usersTable">
                     <div>
-
                         <%- include("../partials/usersTable.ejs") %>
                     </div>
-
                 </div>
-
-
-
-
             </main>
             <section>
                 <%- include("../partials/footer.ejs")%>
             </section>
             <script>
-
                 const filterBtnElem = document.getElementById("filterBtn");
                 //const email = document.getElementById("email");
                 const selectedOptionElem = document.getElementById("selectedOption");

@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
   margin: 0;
@@ -9,16 +9,16 @@
 
 /* Header Styling */
 header {
-  width: 100%;
-  padding: 5px 5px;
-  border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.342);
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background-color: rgb(209,239,204);
 }
 
 .header_img {
-  width: 6%;
+  width: clamp(60px, 4vw, 200px);
 }
 
 .nav-menu {
@@ -28,14 +28,16 @@ header {
 
 .nav_btn {
   padding: 0.35em 1em;
-  border-radius: 10px;
+  border-radius: 7px;
   text-decoration: none;
 }
 
 .btn1 {
-  border: 3px solid #1ca76c;
+  border: 2px solid #1ca76c;
   color: #1ca76c;
   font-weight: bold;
+  background-color: white;
+  margin-right: 10px;
 }
 .btn1:hover {
   background-color: #1ca76c;
@@ -45,7 +47,7 @@ header {
   background-color: #1ca76c;
   color: white;
   font-weight: bold;
-  border: 3px solid #1ca76c;
+  border: 2px solid #1ca76c;
 }
 .btn2:hover {
   background-color: white;
@@ -54,14 +56,11 @@ header {
 
 /* Main */
 .house {
-  /* position: relative; */
-  /* display: none; */
   height: fit-content;
-  /* background-color: red; */
+  margin-top: 40px;
 }
 .main {
-  height: 100vh;
-  /* background-color: blue; */
+  min-height: 100vh;
 }
 .house.effect {
   height: 100vh;
@@ -70,6 +69,11 @@ header {
   color: #fff;
   opacity: 0.3;
 }
+
+.house-sct {
+  display: flex;
+}
+
 .house.thing {
   height: 120vh;
   display: block;
@@ -83,11 +87,9 @@ header {
 
 .section1 {
   width: 90%;
-  /* background-color: rgb(17, 255, 0); */
 }
 .section2 {
   width: 90%;
-  /* background-color: red; */
 }
 .img-sct {
   width: 100%;
@@ -112,7 +114,6 @@ h3 {
   font-weight: bold;
   color: #1ca76c;
   font-size: 5rem;
-  /* margin-top: -15px; */
   margin: 0;
 }
 
@@ -136,107 +137,54 @@ h3 {
   padding: 0.75em 3.5em;
   color: white;
   border-radius: 10px;
-  border: 3px solid #1ca76c;
+  border: 2px solid #1ca76c;
   font-weight: bold;
   margin-top: 1em;
   text-decoration: none;
 }
-
-/* media query */
-@media screen and (max-width: 426px) {
-  header {
-    justify-content: space-between;
-    font-size: 14px;
-  }
-  .header_img {
-    width: 10%;
-  }
-  .nav_btn {
-    padding: 0.2em;
-    border-radius: 10px;
-  }
-  .section .section-text h1,
-  h2,
-  h3 {
-    text-align: left;
-  }
-
-  .section .section-text h3 {
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  .section .section-text h2 {
-    font-weight: bold;
-    color: #ffc800;
-    font-size: 2rem;
-  }
-  .section .section-text h1 {
-    font-weight: bold;
-    color: #1ca76c;
-    font-size: 4rem;
-    /* margin-top: -15px; */
-    margin: 0;
-  }
-
-  .section .section-text p {
-    font-size: 0.6rem;
-    text-align: left;
-    width: 90%;
-  }
-  .section .section-text .p2 {
-    font-size: 0.6rem;
-    text-align: left;
-    width: 90%;
-  }
-  .btn-div {
-    justify-content: left;
-  }
-  .btn3 {
-    padding: 0.75em 2.5em;
-    margin-top: 0em;
-  }
-  #login {
-    width: 90%;
-    /* background-color: blue; */
-  }
-  .house.effect {
-    height: fit-content;
-  }
-  .reg {
-    width: 95%;
-  }
-  .for-name {
-    flex-direction: column;
-  }
-  .house.thing {
-    height: fit-content;
-  }
-  .reg.displayForm {
-    top: 55%;
-  }
-  .lone h1 {
-    font-size: 1.5rem;
-  }
-  .hone h1 {
-    font-size: 1.5rem;
-  }
-  .login-form .input div label {
-    font-size: 12px;
-  }
+.btn3:hover {
+  color: #1ca76c;
+  background-color: white;
 }
 
-@media screen and (max-width: 321px) {
+/* Media Query */
+@media screen and (max-width: 1050px) {
+  header {
+    padding: 10px 0px;
+  }
+  .header_img {
+    width: 60px;
+  }  
+  .house-sct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }  
+  .nav-menu {
+    display: flex;
+    gap: 10px;
+  }
   .nav_btn {
-    padding: 0.1em;
-    font-weight: 500;
-    font-size: 12px;
+    padding: 5px 15px;
+    font-size: 16px;
   }
   .section .section-text h1,
   h2,
   h3 {
-    text-align: left;
+    text-align: center;
   }
-
+  .section-text p {
+    text-align: center;
+  }
+  .p2 {
+    text-align: center;
+  }
+  .section .section-text p {
+    text-align: center;
+  }
+  .section .section-text .p2 {
+    text-align: center;
+  }
   .section .section-text h3 {
     font-weight: bold;
     font-size: 0.8rem;
@@ -246,16 +194,18 @@ h3 {
   }
   .section .section-text h1 {
     font-size: 3rem;
-    /* margin-top: -13px; */
   }
-
+  .btn-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   .btn3 {
     padding: 0.45em 1em;
     margin-top: 0em;
   }
   #login {
     width: 95%;
-    /* background-color: blue; */
   }
   .login-form .input {
     gap: 0;

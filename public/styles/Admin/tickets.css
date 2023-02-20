@@ -6,9 +6,6 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-body {
-  /* background-color: #f6f6f6; */
-}
 
 /* reset bootstrap */
 h1,
@@ -16,12 +13,15 @@ h1,
   font-size: 1.5rem !important;
 }
 
+body {
+  background-color: rgb(237,237,237);
+}
+
 main {
-  width: 97%;
-  /* background-color: red; */
-  /* border-left: 1px solid #bbb9b9;
-  border-right: 1px solid #bbb9b9; */
+  width: 95%;
   margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .table-desc h1 {
@@ -30,7 +30,7 @@ main {
 }
 .h1_tickets {
   width: 5%;
-  border-bottom: 10px solid #1ca76c;
+  border-bottom: 5px solid #1ca76c;
 }
 
 .info {
@@ -106,36 +106,31 @@ label {
 }
 
 .filter-users-cont {
-  /* border: 1px solid blue; */
-
   width: 95%;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   height: auto;
-
+  background-color: rgb(236, 236, 236);
   margin-left: auto;
   margin-right: auto;
   padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 30px;
 }
-.filter-users-cont h4 {
-  text-align: center;
-}
-.filter-users {
-  display: flex;
+.filter-users-cont h5 {
+  /* text-align: center; */
 }
 .filter-btn {
   height: 2rem;
 }
-.filter-btn button {
-}
+
+
 .filter-form {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-inline: 20px;
   align-self: center;
-  /* height: 5rem; */
-  /* border: 1px solid blue; */
   width: 100%;
 }
 
@@ -507,8 +502,9 @@ label {
 }
 /* card design ----start */
 .card-section {
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 }
+
 .c-dashboardInfo {
   margin-bottom: 15px;
 }

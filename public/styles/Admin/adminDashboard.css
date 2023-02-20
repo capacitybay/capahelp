@@ -5,19 +5,24 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  /* outline: #383e38 solid 2px; */
-}
-body {
-  /* background-color: #eee; */
+  text-decoration: none;
 }
 
 h4,
 .h4 {
   font-size: 1rem !important;
 }
-/* .content {
-  padding-top: 60px;
-} */
+
+body {
+  background-color: rgb(237,237,237);
+}
+
+.content {
+  background-color: white;
+  width: 95%;
+  margin-inline: auto;
+  border-radius: 10px;
+}
 .row {
   max-width: 1500px;
   width: 95%;
@@ -26,8 +31,7 @@ h4,
   display: flex;
   flex-direction: column !important;
 }
-.divider {
-}
+
 .d-flex {
   margin-bottom: 1rem;
   text-align: center;
@@ -61,6 +65,9 @@ main {
   flex-direction: column;
   justify-content: space-between;
 }
+.display h4 {
+  text-align: center;
+}
 
 .diff_display {
   background-color: #fce2e2;
@@ -92,9 +99,10 @@ main {
   align-items: flex-end;
   justify-content: space-between;
 }
+
 .ticket-image {
-  width: 66px;
-  height: 66px;
+  width: 60px;
+  height: 60px;
 }
 /* #myChart{
     
