@@ -90,6 +90,8 @@
                             <a style="text-decoration: none;" href="/admin/dashboard">Cancel</a>
                         </div>
                         <div class="create" id="submit">
+                            <span class="spinner" style="margin-right: 1rem;"><i
+                                    class="fa fa-refresh fa-spin"></i></span>
                             <a>Update</a>
                         </div>
                     </div>
@@ -107,7 +109,7 @@
             return (
                 `
             <div class="alert alert-success alert-dismissible fade show " role="alert"
-            style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+            style="height: 3rem; width:100%;  ">
                 <h6 style="font-size:0.9rem;" class="text-center">
                     ${msg}
                 </h6>
@@ -120,7 +122,7 @@
         } else {
             return (`   
             <div class="alert alert-danger alert-dismissible fade show" role="alert"
-            style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+            style="height: 3rem; width:100%;  ">
                 <h6 style="font-size:0.9rem;"  class="text-center">
                         ${msg}
                 </h6>
@@ -134,7 +136,7 @@
     }
 
     const submitElem = document.getElementById("submit");
-
+    const spinnerElem = document.querySelector(".spinner");
     const formElem = document.getElementById("formElem")
     const firstNameElem = document.getElementById("firstName")
     const lastNameElem = document.getElementById("lastName")
@@ -150,10 +152,14 @@
     const selectEmailElem = document.getElementById("selectEmail")
     const mainElem = document.getElementById("main")
 
+    spinnerElem.style.display = "none";
 
     submitElem.addEventListener("click", function (event) {
         const id = userIdElem.value;
+
         async function updateRequest(arg) {
+            submitElem.disabled = true;
+            spinnerElem.style.display = "block";
 
 
             fetch(`/admin/update/profile/${id}`, {
@@ -178,16 +184,20 @@
                 return response.json()
 
             }).then(data => {
+                console.log(data);
                 if (data) {
+                    submitElem.disabled = false;
+                    spinnerElem.style.display = "none";
                     errorPlaneElem.innerHTML = showMessage(data.msg, data.success)
                     mainElem.scrollIntoView({ behavior: "smooth" })
                 }
-                console.log(data)
+
 
             }).catch(error => {
-                errorPlaneElem.innerHTML = showMessage(error.msg, false)
+                errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again", false);
+                submitElem.disabled = false;
+                spinnerElem.style.display = "none";
 
-                console.log(error);
             })
         }
         updateRequest(undefined)
