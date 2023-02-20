@@ -1,8 +1,17 @@
-/* custom */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100,200,300,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  list-style: none;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
 
 .email-class div {
   display: flex;
-  /* border: 1px solid blue; */
   align-items: center;
   gap: 0.3rem;
 }
@@ -20,3 +29,113 @@
   font-size: 0.8rem;
 }
 /* custom end */
+
+
+/* !PROFILE: */
+.profile-title {
+  font-size: clamp(30px, 2vw, 100px);
+  margin-bottom: 0;
+}
+
+.profile-top {
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards 0.5s;
+}
+.edit-div {
+  display: flex;
+  align-items: center;
+  gap: clamp(30px, 1vw, 60px);
+  padding-left: clamp(20px, 1vw, 20px);
+  margin-bottom: clamp(10px, 1vw, 30px);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards 1s;
+}
+
+.profile-form {
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards 0.6s;
+}
+
+.profile-clickable {
+  width: clamp(100px, 2vw, 250px);
+  height: clamp(100px, 2vw, 250px);
+  padding: 15px;
+  color: black;
+  font-size: clamp(40px, 1vw, 100px);
+  font-weight: 800;
+}
+
+.profile-form-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-form-box div {
+  flex-basis: 48%;  
+}
+
+.profile-password {
+  justify-content: left;
+  margin-bottom: clamp(40px, 1vw, 70px);
+  width: 48%;
+}
+.profile-password a {
+  color: var(--maincolor);
+}
+.profile-password:hover a {
+  color: var(--white);
+}
+
+.profile-form-box2 {
+  margin-bottom: clamp(20px, 1vw, 70px);
+}
+
+.password-view {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.edit-update {
+  color: white;
+  transition: unset;
+}
+.edit-update:hover {
+  color: rgb(80, 168, 108);
+}
+
+.profile-form input {
+  border: 2px solid rgb(80, 168, 108);
+}
+
+/* !PROFILE RESPONSIVENESS: */
+@media screen and (max-width: 1050px) and (min-width: 591px) {
+  .profile-form {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .edit-div {
+    justify-content: space-between;
+    padding-inline: clamp(20px, 1vw, 20px);
+    margin-bottom: clamp(40px, 1vw, 30px);
+  }
+  .profile-title {
+    font-size: clamp(20px, 2vw, 100px);
+    margin-bottom: 0;
+  }
+  .profile-clickable {
+    width: clamp(80px, 2vw, 250px);
+    height: clamp(80px, 2vw, 250px);
+    font-size: clamp(20px, 1vw, 100px);
+  }
+  .profile-form-box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: space-between;
+  }
+  .password-view {
+    flex-basis: 70%;
+  }
+}

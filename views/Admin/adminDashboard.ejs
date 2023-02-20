@@ -3,11 +3,14 @@
         <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
 
         <link rel="stylesheet" href="/public/styles/Admin/adminDashboard.css">
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
         <link rel="stylesheet" href="/public/styles/footer.css">
         <!-- <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+        <script src="/"></script>
+        <script defer src="/public/script/Admin/hanburger.js"></script>
         </head>
-
+        <body>
         <%- include("../partials/Admin/adminHeader.ejs") %>
             <main class="content">
                 <div class="row">
@@ -15,7 +18,6 @@
                     <div class="d-flex justify-content-center">
 
                         <div class="table-desc">
-
                             <h1 class="text-center">Dashboard</h1>
                         </div>
                     </div>
@@ -23,10 +25,15 @@
                     <div class="top_section">
                         <div class="display">
                             <h4>Active Tickets</h4>
-                            <h1 style="color: #93f9b9;" id="activeTickets">
-                                <%= activeTickets %>
-                            </h1>
-
+                            <div class="ticket-wrapper">
+                                <h1 style="color: #93f9b9;" id="activeTickets">
+                                    <%= activeTickets %>
+                                </h1>
+                                <div class="ticket-image">
+    
+                                    <img src="/public/img/New Images/icons8-two-tickets-50.png" alt="" width="66px" height="66px">
+                                </div>
+                            </div>
 
                         </div>
                         <div class="display">
@@ -48,8 +55,7 @@
                                 <h1 style="color: #C00000;" id="cancelledTickets">
                                     <%= cancelledTickets %>
                                 </h1>
-                                <div class="ticket-imaget">
-
+                                <div class="ticket-image">
                                     <img src="/public/img/cancelTicket.png" alt="" width="66px" height="66px">
                                 </div>
 
@@ -76,7 +82,6 @@
                                     <%= ticketsInProgress %>
                                 </h1>
                                 <div class="ticket-image">
-
                                     <img src="/public/img/ticket-in-progress.png" alt="" width="66px" height="66px">
                                 </div>
                             </div>

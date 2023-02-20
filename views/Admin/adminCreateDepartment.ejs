@@ -8,12 +8,13 @@
     <title>CapaHelp- Create Department</title>
     <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="/public/styles/Admin/adminCreateTicket.css">
     <link rel="stylesheet" href="/public/styles/Admin/adminCreateDepartment.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
-
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
-    <script defer src="/public/script/User/hamburger.js"></script>
+    <script defer src="/public/script/Admin/hanburger.js"></script>
 </head>
 
 <body>
@@ -29,10 +30,7 @@
 
                 </div>
 
-
                 <form id="createDept">
-
-
                     <div class="form-box">
                         <label for="dept_name">Department name <span>*</span></label>
 
@@ -41,20 +39,15 @@
 
                     <div class="form-box">
                         <label for="agentId">Head Agent </label>
-
-
                         <input type="text" name="head_agent" id="headAgent">
                     </div>
-
                     <div class="form-box">
                         <label for="email">Department email <span>*</span></label>
-
                         <input title="This field is readonly" type="email" id="email" name="email" ">
                     </div>
                     <div class=" input__box">
                         <span class="details " for="gender">Add Members</span>
                         <div id="displayUsers">
-
                         </div>
                         <select class="select" name="members" id="members" name="members" onchange="selected(this);">
                             <option value="" selected disabled hidden>Select--</option>
@@ -63,13 +56,9 @@
                                     <option value=" <%=element._id %>">
                                         <%= element.first_name +" "+ element.last_name%>  </option>
                                 <% }) %>
-                               
-                           
                            <% }else{ %>
                             <option value="" selected disabled hidden>  Select </option>
                             <% } %>  
-
-
                         </select>
                     </div>
                     <div class=" input__box">
@@ -80,28 +69,21 @@
                                                 </option>
                                                 <option value="activate">activate</option>
                                                 <option value="deactivate">deactivate</option>
-
-
                                             </select>
                     </div>
-
-
                     <div class="hero-toggles create-toggles" id="btn-section">
                         <div class="view"
                             onclick="window.location = window.location.toString().replace('/admin/create/department','/admin/manage/department')">
                             <!-- <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> -->
                             Cancel
                         </div>
-
                         <!-- <input type="submit" value="ca" id="submitBtn" /> -->
                         <button id="submitBtn" type="submit" class="has-spinner">
                             <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>Create</button>
-
                         <!-- <div class="create" id="">
                             <a>Submit</a>
                         </div> -->
                     </div>
-
                 </form>
             </div>
     </main>

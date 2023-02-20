@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="/public/styles/Admin/adminCreateUser.css" type="text/css">
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
-
+    <script defer src="/public/script/Admin/hanburger.js"></script>
 </head>
 
 <body>
@@ -21,8 +22,6 @@
     <div>
         <%- include("../partials/Admin/adminHeader.ejs",{user:undefined}) %>
     </div>
-
-
     <div class="container">
         <div class="title">Registration</div>
 
@@ -64,7 +63,7 @@
                         confirmPassword !='undefined' ? confirmPassword : '' %>>
                 </div>
                 <div class="input__box">
-                    <span class="details " for="countries">Country</span>
+                    <span class="details" for="countries">Country</span>
                     <select class="select" id="location" name="location" required>
                         <option value="">Select country</option>
                         <%- include("../partials/countries.ejs") %>
@@ -100,8 +99,8 @@
             <div class="button">
 
                 <button id="inputButton" class="has-spinner" type="submit"> <span class="spinner"><i
-                            class="fa fa-refresh fa-spin"></i></span>create
-                    user</button>
+                            class="fa fa-refresh fa-spin"></i></span>Create
+                    User</button>
             </div>
             <div class=" signup_link">
                 <a href="/admin/dashboard">Go To Dashboard</a>

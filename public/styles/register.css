@@ -1,10 +1,11 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  text-decoration: none;
 }
 
 :root {
@@ -12,30 +13,28 @@
   --main-purple: #9b59b6;
   --main-grey: #ccc;
   --sub-grey: #d9d9d9;
+  --headerBackground: rgb(209, 239, 204);
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /*center vertically */
-  align-items: center; /* center horizontally */
-  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
-  padding-top: 5px;
+.register-main {
+  background-color: rgb(237,237,237);
+  min-height: 100vh;
+  padding-bottom: 50px;
 }
 
 /* Header Styling */
-header {
-  width: 100%;
-  padding: 0 5px;
-  border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+.register-header {
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.342);
   display: flex;
+  padding-block: 10px;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(50px, 2vw, 100px);
+  background-color: var(--headerBackground);
 }
 
-.header_img {
-  width: 6%;
+.register-header img {
+  width: clamp(60px, 4vw, 200px);
 }
 
 .nav-menu {
@@ -49,52 +48,53 @@ header {
   text-decoration: none;
 }
 
+.btn1, 
+.btn2 {
+  font-weight: 500;
+}
+
 .btn1 {
   border: 3px solid #1ca76c;
+  background-color: white;
   color: #1ca76c;
-  font-weight: bold;
 }
 .btn1:hover {
   background-color: #1ca76c;
   color: white;
+  text-decoration: none;
 }
 .btn2 {
   background-color: #1ca76c;
   color: white;
-  font-weight: bold;
   border: 3px solid #1ca76c;
 }
 .btn2:hover {
   background-color: white;
   color: #1ca76c;
+  text-decoration: none;
 }
 
 /* container and form */
 .container {
-  max-width: 700px;
-  width: 100%;
+  width: min(50%, 1200px);
   background: #fff;
-  padding: 12px 30px;
+  padding: 15px 20px;
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  /* height: 100%; */
-  position: relative;
 }
 .container .title {
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 500;
   position: relative;
   color: #199561;
 }
-
 .container .title::before {
   content: '';
   position: absolute;
-  height: 3.5px;
-  width: 30px;
-  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
+  height: 4px;
+  width: 10%;
   left: 0;
-  bottom: 0;
+  bottom: -6%;
   background-color: #199561;
 }
 
@@ -120,7 +120,7 @@ form .user__details .input__box {
   width: 100%;
   outline: none;
   border-radius: 5px;
-  border: 1px solid var(--main-grey);
+  border: 2px solid rgb(80,168,110);
   padding-left: 15px;
   font-size: 16px;
   border-bottom-width: 2px;
@@ -129,11 +129,10 @@ form .user__details .input__box {
 
 .user__details .input__box input:focus,
 .user__details .input__box input:valid {
-  border-color: var(--main-purple);
+  border: 2px solid rgb(80,168,110);
 }
 
 /* inside the form gender details */
-
 form .gender__details .gender__title {
   font-size: 20px;
   font-weight: 500;

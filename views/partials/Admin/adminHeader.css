@@ -280,6 +280,7 @@ nav ul li a:hover {
 }
 .create:hover a {
   color: var(--maincolor);
+  text-decoration: none;
 }
 
 .create a {

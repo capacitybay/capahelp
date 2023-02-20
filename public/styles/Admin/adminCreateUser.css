@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 * {
   margin: 0;
@@ -15,8 +15,9 @@
 }
 
 body {
-  /* display: flex; */
-  /* height: 100vh; */
+  background-color: rgb(237,237,237);
+  min-height: 100vh;
+  padding-bottom: 50px;
 }
 
 /* style cancel icon */
@@ -24,7 +25,7 @@ body {
 .fa-xmark {
   margin-right: 0.5rem;
   cursor: pointer;
-  color: red;
+  /* color: red; */
 }
 .span {
   margin-right: 0.5rem;
@@ -34,14 +35,11 @@ body {
 }
 /* container and form */
 .container {
-  /* max-width: 700px; */
-  width: 100%;
+  width: min(65%, 1200px);
   background: #fff;
-  padding: 0 30px;
+  padding: 40px 30px;
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  /* height: 100%; */
-  /* margin-top: 10rem; */
   position: relative;
 }
 .container .title {
@@ -49,7 +47,6 @@ body {
   font-weight: 500;
   position: relative;
   color: #199561;
-  margin-top: 2rem !important;
 }
 
 .container .title::before {
@@ -57,7 +54,6 @@ body {
   position: absolute;
   height: 3.5px;
   width: 30px;
-  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
   left: 0;
   bottom: 0;
   background-color: #199561;
@@ -85,7 +81,7 @@ form .user__details .input__box {
   width: 100%;
   outline: none;
   border-radius: 5px;
-  border: 1px solid var(--main-grey);
+  border: 2px solid rgb(80, 168, 108) !important;
   padding-left: 15px;
   font-size: 16px;
   border-bottom-width: 2px;
@@ -221,4 +217,11 @@ form .button #inputButton:hover {
 }
 .signup_link a:hover {
   text-decoration: underline;
+}
+
+
+@media (max-width: 700px) {
+  .container {
+    width: 95%;
+  }
 }

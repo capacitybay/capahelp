@@ -16,6 +16,11 @@
   border-radius: 5px;
 }
 
+.c-dashboardInfo:hover {  
+  background-color: red;
+
+}
+
 .all,
 .active,
 .canceled,

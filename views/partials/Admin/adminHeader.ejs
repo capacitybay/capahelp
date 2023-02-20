@@ -5,27 +5,22 @@
         </a>
     </div>
     <nav class="solution-nav">
-
-        <div class="main-navigation ">
-            <ul>
+        <div class="main-navigation">
                 <li><a href="/admin/dashboard">Dashboard</a></li>
-
                 <li><a href="/admin/ticket/list">Tickets</a></li>
                 <li><a href="/admin/manage/users">Users</a></li>
-                <!-- <ul> -->
-
                 <li class="dept"><a href="/admin/manage/department">Departments</a></li>
-                <!-- </ul> -->
-            </ul>
         </div>
         <div class="details solution-deets">
 
             <div class="hero-toggles solutions-hero-toggle">
-                <div class="create solutions-create">
+                <article class="create solutions-create">
                     <a href="/admin/create/ticket">Create a Ticket</a>
-                </div>
+                </article>
             </div>
-            <i class="fa-regular fa-bell"></i>
+            <div class="bell">
+                <i class="fa-regular fa-bell"></i>
+            </div> 
             <div class="user">
                 <p class="clickable-user">
                     <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
@@ -52,11 +47,11 @@
                             <button type="submit" class="custom-btn-logout">Log Out</button>
 
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
+        <div class="x-mark"><i class="fa-solid fa-xmark"></i></div>
     </nav>
     <div class="hamburger solution-ham">
         <div class="ham"></div>

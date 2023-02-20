@@ -11,6 +11,7 @@
         rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/footer.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
     <link rel="stylesheet" href="/public/styles/Admin/tickets.css">
     <link rel="stylesheet" href="/public/styles/Admin/ticketTable.css">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -22,8 +23,6 @@
 <body>
     <%- include("../partials/Admin/adminHeader.ejs") %>
         <main id="show-message">
-
-
             <div class="d-flex justify-content-center flex-column">
 
                 <div id="display-success-msg" class="w-80">
@@ -119,11 +118,10 @@
 
                     <%- include("../partials/messages.ejs") %>
 
-                        <h5>Filter TIckets</h5>
+                        <h5 style="font-weight: 600; margin-bottom: 20px;">Filter Tickets</h5>
                 </div>
 
                 <!-- <h4>select the individual input, if you want to be more specific  -->
-                </h4>
                 <div class="filter-users">
                     <form class="filter-form" id="filterForm" action="/admin/filter/tickets" method="post">
                         <!-- <div>
