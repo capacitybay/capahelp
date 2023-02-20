@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/Admin/departments.css">
+    <!-- footer css link -->
+    <link rel="stylesheet" href="/public/styles/footer.css">
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/Admin/hanburger.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <main id="show-message">
+        <!-- TODO: update this -->
+        <%- include("../partials/Admin/adminHeader.ejs") %>
+
+            <section>
+                <div class="d-flex justify-content-center">
+
+                    <div class="table-desc">
+
+                        <h1 class="text-center">Department Management</h1>
+                    </div>
+                </div>
+                <section class="card-section">
+                    <div id="root">
+                        <div class="container pt-5">
+                            <div class="row align-items-stretch">
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Total Depts <i class="fa-solid fa-people-roof margin-icon"></i>
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= totalDept %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Description:
+
+                                            <span class=" text-success">
+                                                Total No. of registered departments.
+                                            </span>
+
+
+                                        </span>
+                                        <!-- <span class="hind-font caption-12 c-dashboardInfo__subInfo">Last month:
+                                            +30</span> -->
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Active Depts.
+                                            <i class="fa-solid fa-house-circle-check margin-icon"></i>
+
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count ">
+                                            <%= totalActiveDept %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo ">Description:
+
+                                            <span class=" text-success  ">
+                                                <span class=" text-success">
+                                                    Total No. of functional departments
+                                                </span>
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Inactive Depts
+                                            <i class="fa-solid fa-house-circle-exclamation margin-icon"></i>
+
+
+                                        </h4><span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= totalInactiveDept %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Description:
+
+                                            <span class=" text-success  ">
+                                                Total No. of deactivated departments
+                                            </span>
+
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="c-dashboardInfo col-lg-3 col-md-6">
+                                    <div class="wrap">
+                                        <h4
+                                            class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                                            Empty Depts
+                                            <i class="fa-solid fa-house-circle-xmark margin-icon"></i>
+                                        </h4><span <span class="hind-font caption-12 c-dashboardInfo__count">
+                                            <%= totalEmptyDept %>
+                                        </span>
+                                        <span class="hind-font caption-12 c-dashboardInfo__subInfo">Description:
+
+                                            <span class=" text-success  ">
+                                                Total No department without members.
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="filter-users-cont">
+                    <div class="filterHeader">
+
+                        <%- include("../partials/messages.ejs") %>
+
+                            <h5>Filter Department</h5>
+                    </div>
+                    <div class="filter-users">
+                        <form action="/admin/filter/departments" class="filter-form" method="post">
+                            <div>
+                                <label for="role">Filter By: </label>
+                                <select name="selectedValue" class="select_field" id="selectedOption">
+                                    <div class="options">
+                                        <option value="">All</option>
+                                        <option value="email">Email</option>
+                                        <option value="head_agent">Agent</option>
+                                        <option value="dept_name">Name</option>
+                                        <option value="status">status</option>
+
+                                    </div>
+                                </select>
+                                <!-- <input type="radio" name="filter" id="forUserType"> -->
+                            </div>
+                            <div class="input__label">
+                                <label for="email">Enter Input: </label>
+                                <input type="text" id="inputValue" name="inputValue" class="txt_field">
+                            </div>
+
+
+
+                            <button class="search_button"><i class="fa-brands fa-searchengin"></i>
+                                <span>Filter</span></button>
+                        </form>
+                    </div>
+
+
+                </div>
+                <h4 class="table__heading">All Departments</h4>
+                <div class="add__dept">
+
+                    <button onclick="window.location.href = '/admin/create/department'"><i
+                            class="fa-regular fa-plus"></i><span>Add Department</span> </button>
+                </div>
+                <%- include("../partials/departmentTable.ejs") %>
+            </section>
+    </main>
+    <section class="footer-section">
+        <%- include("../partials/footer.ejs")%>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

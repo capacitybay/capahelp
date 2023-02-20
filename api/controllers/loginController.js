@@ -18,8 +18,6 @@ initializePassport(
   (id) => UserModel.find({ _id: id })
 );
 
-
-
 const loginController = controllerWrapper(async (req, res, next) => {
   // not working for now
 });
@@ -53,7 +51,7 @@ const generateJwtRefreshToken = (user) => {
 const refreshUserToken = (req, res) => {
   // console.log('.........');
 
-  // get refresh token from logged user
+  // get refresh token fromadmin logged user
   const refreshToken = req.body.token;
 
   // send error message if refresh token was not found

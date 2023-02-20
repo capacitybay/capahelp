@@ -13,28 +13,30 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-
+    <link rel="stylesheet" href="/public/styles/footer.css">
+    <!-- font awesome cdn link -->
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <img src="/public/img/logo.png" alt="capacitybay logo" class="header_img" />
-        <nav>
-            <div class="nav-menu">
-                <div class="nav-item">
-                    <a href="/login" class="nav_btn btn1">Login</a>
-                </div>
-                <div class="nav-item">
-                    <a href="/user/register" class="nav_btn btn2">Register</a>
-                </div>
-            </div>
-        </nav>
-    </header>
 
     <!-- Main -->
     <div class="main">
+        <!-- Header -->
+        <header>
+            <img src="/public/img/logo.png" alt="capacitybay logo" class="header_img" />
+            <nav>
+                <div class="nav-menu">
+                    <div class="nav-item">
+                        <a href="/login" class="nav_btn btn1">Login</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="/user/register" class="nav_btn btn2">Register</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
         <main class="container house justify-content-between">
             <div class="row house-sct">
                 <section class="col-lg-6 gy-3 section section1">
@@ -60,7 +62,7 @@
                             Track Our Progress
                         </p>
                         <div class="btn-div">
-                            <a href="#" class="btn3">Create a Ticket</a>
+                            <a href="/login" class="btn3">Create a Ticket</a>
                         </div>
                     </div>
                 </section>
@@ -71,7 +73,9 @@
 
     </div>
 
-    <script src="/public/script/index.js"></script>
+    <section>
+        <%- include("./partials/footer.ejs") %>
+    </section>
 </body>
 
 </html>

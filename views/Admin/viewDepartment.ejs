@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Edit Ticket</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/Admin/adminViewDepartment.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
+
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/hamburger.js"></script>
+</head>
+
+<body>
+    <main class="ticket-main create-main">
+        <%- include("../partials/Admin/adminHeader.ejs")%>
+            <div class="hero solution-hero ticket-hero">
+                <p class="solutions-top ticket-top">
+                    <span><a href="/user">Home</a></span> > <a href="/admin/manage/department">Manage Dept</a>
+                </p>
+                <h1 class="hero-title create-title">Department</h1>
+                <div class="error-plane">
+                    <%- include("../partials/messages.ejs",{user:departmentInfo});%>
+
+                </div>
+                <form id="updateTicketForm">
+
+
+                    <div class="form-box">
+                        <label for="dept_name">Department name <span>*</span></label>
+
+                        <input title="This field is readonly" type="text" id="dept_name" name="dept_name"
+                            value="<%= departmentInfo.dept_name %>" style=" background:rgb(233, 233, 233);" readonly>
+                    </div>
+                    <div class="form-box">
+                        <label for="agentId">Head Agent </label>
+
+
+                        <input type="text" title="This field is readonly" name="headAgent" id="headAgent"
+                            value="<%= departmentInfo.head_agent %>" style=" background:rgb(233, 233, 233);" readonly>
+                    </div>
+
+                    <div class="form-box">
+                        <label for="email">Department email <span>*</span></label>
+
+                        <input title="This field is readonly" type="email" id="email" name="email"
+                            value="<%= departmentInfo.email %>" style=" background:rgb(233, 233, 233);" readonly>
+                    </div>
+
+                    <div class="hero-toggles text-center create-toggles profile-password deactivate-toggle-container">
+                        <div class="view password-view deactivate-toggle" id="actionButton">
+                            <%= departmentInfo.active ? "Deactivate" : "Activate" %>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script>
+
+        let urlString = window.location.href.split("/")
+
+        let deptId = urlString[urlString.length - 1].trim()
+
+        var actionButton = document.getElementById("actionButton");
+        async function request(action) {
+            const data = await fetch(`/admin/${action}/department/${deptId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+            })
+            document.location.reload()
+
+
+        }
+
+        actionButton.addEventListener("click", (event) => {
+            if (actionButton.textContent.trim().toLocaleLowerCase() === "deactivate") {
+                request("deactivate")
+            } else {
+                request("reactivate")
+
+                //window.location.href = `/user/reactivate/${userId}`;
+
+            }
+
+        })
+
+
+
+    </script>
+</body>
+
+</html>

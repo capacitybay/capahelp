@@ -1,0 +1,226 @@
+/* ? TICKETS: */
+.ticket-main {
+  background-color: var(--ticketBackground);
+  min-height: 100vh;
+}
+
+.ticket-top {
+  margin-bottom: var(--clamp);
+}
+
+.ticket-hero {
+  background-color: var(--white);
+  padding: clamp(15px, 1.5vw, 70px) clamp(15px, 1vw, 30px)
+    clamp(15px, 2vw, 150px);
+  position: relative;
+  border-radius: 5px;
+}
+
+.all,
+.active,
+.canceled,
+.resolved,
+.progress,
+.pending {
+  color: var(--maincolor);
+  border: 2px solid var(--maincolor);
+  display: inline-block;
+  padding: clamp(3px, 0.2vw, 15px) clamp(10px, 1vw, 25px);
+  border-radius: 7px;
+  text-transform: capitalize;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: clamp(16px, 1vw, 30px);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards 1.1s;
+}
+.ticket-toggles div:hover {
+  background-color: var(--maincolor);
+  color: var(--white);
+}
+.ticket-toggles div:not(:last-child) {
+  margin-right: clamp(10px, 0.7vw, 30px);
+}
+.ticket-toggles {
+  margin-bottom: clamp(20px, 1.8vw, 100px);
+}
+
+.active-ticket {
+  background-color: var(--maincolor);
+  color: var(--white);
+}
+.active-ticket:hover {
+  background-color: var(--white);
+  color: var(--maincolor);
+}
+
+.dashboard {
+  width: 85%;
+  margin-inline: auto;
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards 1.2s;
+}
+
+.track {
+  padding: clamp(6px, 0.7vw, 50px) clamp(10px, 1vw, 30px)
+    clamp(10px, 0.9vw, 50px);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.39);
+  border-radius: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.track:hover {
+  box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.24);
+}
+.track:not(:last-child) {
+  margin-bottom: clamp(25px, 1.9vw, 40px);
+}
+
+.ids-top {
+  display: flex;
+  gap: 10px;
+  margin-bottom: clamp(5px, 0.5vw, 20px);
+}
+.ids-top h1 {
+  font-size: clamp(16px, 1vw, 40px);
+}
+
+.ids-top p {
+  font-size: clamp(16px, 1vw, 40px);
+  font-weight: 500;
+}
+
+.ids-bottom {
+  font-size: var(--clamp);
+}
+
+.track-info {
+  width: clamp(110px, 9vw, 200px);
+  border-radius: 5px;
+  font-weight: 700;
+  text-align: center;
+  padding-block: clamp(5px, 0.2vw, 15px);
+  font-size: var(--clamp);
+  cursor: pointer;
+}
+
+.yellow {
+  background-color: var(--yellow);
+}
+.yellow:hover {
+  background-color: hsl(50, 90%, 65%);
+}
+.green {
+  background-color: var(--lightGreen);
+}
+.green:hover {
+  background-color: hsl(111, 52%, 67%);
+}
+.pink {
+  background-color: var(--pink);
+}
+.pink:hover {
+  background-color: hsl(2, 68%, 75%);
+}
+
+.ellipsis {
+  display: none;
+}
+.ellipsis div {
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 50%;
+}
+.ellipsis div:not(:last-child) {
+  margin-bottom: 3px;
+}
+
+/* * TICKET RESPONSIVENESS: */
+@media screen and (max-width: 1000px) {
+  .ticket-hero {
+    width: 95%;
+  }
+  .ticket-top {
+    margin-bottom: 30px;
+  }
+  .ticket-toggles {
+    text-align: center;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 60%;
+    background-color: var(--white);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.288);
+    transform: scaleY(0);
+    transform-origin: top;
+    z-index: 3;
+  }
+  .ticket-toggles div {
+    width: 90%;
+    margin-inline: auto;
+    margin-right: 0;
+    opacity: 0;
+  }
+  .show-toggle {
+    transform: scaleY(1);
+  }
+  .show-toggle div {
+    opacity: 1;
+  }
+  .all,
+  .active,
+  .canceled,
+  .resolved,
+  .progress,
+  .pending {
+    padding: clamp(10px, 0.2vw, 15px) clamp(10px, 1vw, 25px);
+    font-size: clamp(18px, 1vw, 30px);
+  }
+  .none {
+    opacity: 0;
+    pointer-events: none;
+    transform: scaleY(0);
+  }
+  .ticket-toggles div:not(:last-child) {
+    margin-right: 0px;
+  }
+  .track {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .dashboard {
+    width: 100%;
+    margin-inline: auto;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards 0.4s;
+  }
+  .track {
+    padding: clamp(10px, 0.7vw, 50px) clamp(10px, 1vw, 30px)
+      clamp(15px, 0.9vw, 50px);
+  }
+  .ids-top {
+    gap: 20px;
+  }
+  .ids-top h1 {
+    margin-bottom: 12px;
+  }
+  .ids-top p {
+    text-align: center;
+  }
+  .ids-bottom {
+    text-align: center;
+  }
+  .ellipsis {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+  }
+}

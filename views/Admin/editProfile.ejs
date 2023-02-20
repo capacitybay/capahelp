@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Profile</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/styles/Admin/editProfile.css">
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/hamburger.js"></script>
+</head>
+
+<body>
+    <main class="ticket-main create-main" id="main">
+        <%- include("../partials/Admin/adminHeader.ejs") %>
+            <div class="hero solution-hero ticket-hero">
+                <p class="solutions-top ticket-top profile-top">
+                    <span><a href="/admin/dashboard">Home</a></span> > <a href="/admin/profile/edit">Edit Profile</a>
+                </p>
+                <div class="edit-div">
+                    <div>
+                        <h1 class="hero-title profile-title">Edit Profile</h1>
+                    </div>
+                    <div>
+                        <p class="clickable-user clickable2 profile-clickable">
+                            <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                user.last_name.charAt(0).toUpperCase():"EO" %>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="error-plane">
+                    <%- include("../partials/messages.ejs") %>
+                </div>
+                <form class="profile-form" id="formElem">
+                    <div class="form-box profile-form-box">
+                        <input type="hidden" name="userId" id="userId" value="<%= user?user._id:'' %> ">
+
+                        <div class="form-div">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="first_name" value="<%= user?user.first_name:''%> ">
+                        </div>
+                        <div class="form-div">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="last_name" value="<%= user?user.last_name:''%> ">
+                        </div>
+                    </div>
+                    <div class="form-box profile-form-box">
+                        <div class="form-div email-class">
+                            <label for="profile-email">Email:<span class="check-info">check the box to change
+                                    email</span></label>
+                            <div>
+
+                                <input type="email" id="profile-email" class="" name="email"
+                                    value="<%= user?user.email:''%> ">
+                                <input type="checkbox" class="check-email" name="selectEmail" id="selectEmail">
+                            </div>
+                        </div>
+                        <div class="form-div">
+                            <label for="phone">Phone Number</label>
+                            <input type="number" id="phone" name="phone"
+                                value="<%= user? parseInt(user.phone) :'2348185685922'%>">
+                        </div>
+                    </div>
+                    <div class="form-box profile-form-box profile-form-box2">
+                        <div class="form-div">
+                            <label for="location">Location</label>
+
+                            <select class="select" id="location" name="location">
+                                <option value="<%= user? user.location: '' %>">
+                                    <%= user? user.location: '' %>
+                                </option>
+                                <%- include("../partials/countries.ejs") %>
+                            </select>
+                            <!-- TODO: change this to select -->
+                            <!-- <input type="text" id="location" name="location" value="<%= user? user.location: '' %> "> -->
+                        </div>
+                    </div>
+                    <div class="hero-toggles create-toggles profile-password">
+                        <div style="text-decoration: none;" class="view password-view">
+                            <a href="/password/reset">Change Password</a>
+                        </div>
+                    </div>
+                    <div class="hero-toggles create-toggles" id="cancel">
+                        <div class="view">
+                            <a style="text-decoration: none;" href="/admin/dashboard">Cancel</a>
+                        </div>
+                        <div class="create" id="submit">
+                            <span class="spinner" style="margin-right: 1rem;"><i
+                                    class="fa fa-refresh fa-spin"></i></span>
+                            <a>Update</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </main>
+</body>
+<script>
+
+    function showMessage(msg, success) {
+
+        if (success) {
+
+
+            return (
+                `
+            <div class="alert alert-success alert-dismissible fade show " role="alert"
+            style="height: 3rem; width:100%;  ">
+                <h6 style="font-size:0.9rem;" class="text-center">
+                    ${msg}
+                </h6>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `
+            )
+        } else {
+            return (`   
+            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+            style="height: 3rem; width:100%;  ">
+                <h6 style="font-size:0.9rem;"  class="text-center">
+                        ${msg}
+                </h6>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                 style="width:1rem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `)
+        }
+    }
+
+    const submitElem = document.getElementById("submit");
+    const spinnerElem = document.querySelector(".spinner");
+    const formElem = document.getElementById("formElem")
+    const firstNameElem = document.getElementById("firstName")
+    const lastNameElem = document.getElementById("lastName")
+    const emailElem = document.getElementById("profile-email")
+    const phoneElem = document.getElementById("phone")
+    const locationElem = document.getElementById("location")
+    //userId
+    const userIdElem = document.getElementById("userId")
+    //error plane
+    const errorPlaneElem = document.querySelector(".error-plane")
+    //select email with checkbox
+
+    const selectEmailElem = document.getElementById("selectEmail")
+    const mainElem = document.getElementById("main")
+
+    spinnerElem.style.display = "none";
+
+    submitElem.addEventListener("click", function (event) {
+        const id = userIdElem.value;
+
+        async function updateRequest(arg) {
+            submitElem.disabled = true;
+            spinnerElem.style.display = "block";
+
+
+            fetch(`/admin/update/profile/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                method: "PATCH",
+                body: JSON.stringify({
+                    first_name: firstNameElem.value.trim(),
+                    last_name: lastNameElem.value.trim(),
+                    email: emailElem.value.trim(),
+                    phone: phoneElem.value.trim(),
+                    location: locationElem.value.trim(),
+                    checkEmail: selectEmailElem.checked
+                })
+
+            }).then(response => {
+                console.log(response);
+                //location.reload()
+
+                return response.json()
+
+            }).then(data => {
+                console.log(data);
+                if (data) {
+                    submitElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    errorPlaneElem.innerHTML = showMessage(data.msg, data.success)
+                    mainElem.scrollIntoView({ behavior: "smooth" })
+                }
+
+
+            }).catch(error => {
+                errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again", false);
+                submitElem.disabled = false;
+                spinnerElem.style.display = "none";
+
+            })
+        }
+        updateRequest(undefined)
+
+    })
+
+</script>
+
+</html>

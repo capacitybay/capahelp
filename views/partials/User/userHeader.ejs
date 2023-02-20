@@ -1,0 +1,44 @@
+<header class="solution-header">
+    <div class="logo">
+        <a href="/user">
+            <img src="/public/img/logo.png" alt="CapacityBay-Logo1">
+        </a>
+    </div>
+    <nav class="solution-nav">
+
+        <div class="main-navigation">
+            <ul>
+                <li><a href="/user">Home</a></li>
+                <li><a class="active-nav" href="/user/solutions">Solutions</a></li>
+                <li><a href="/user/tickets">Tickets</a></li>
+            </ul>
+        </div>
+        <div class="details solution-deets">
+            <div class="hero-toggles solutions-hero-toggle">
+                <div class="create solutions-create">
+                    <a href="/user/create/ticket">Create a Ticket</a>
+                </div>
+            </div>
+            <i class="fa-regular fa-bell"></i>
+            <div class="user">
+                <%const name = ((userFN.slice(0,1)) + (userLN.slice(0,1))).toUpperCase(); %>
+                <p class="clickable-user"><%= name %></p>
+                <div class="user-details">
+                    <div class="username">
+                        <p class="clickable-user clickable2">EO</p>
+                        <div class="username-info"><%= userFN%> <%= userLN%></div>
+                    </div>
+                    <div class="username-info info1">
+                        <a href="/user/update/profile">Edit Profile</a>
+                    </div>
+                    <div class="username-info info2"><a href="/user">Logout</a></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="hamburger solution-ham">
+        <div class="ham"></div>
+        <div class="ham"></div>
+        <div class="ham"></div>
+    </div>
+</header>

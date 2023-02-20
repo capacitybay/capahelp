@@ -5,15 +5,42 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  /* outline: #383e38 solid 2px; */
 }
 body {
-  background-color: #eee;
+  /* background-color: #eee; */
 }
 
+h4,
+.h4 {
+  font-size: 1rem !important;
+}
+/* .content {
+  padding-top: 60px;
+} */
 .row {
   max-width: 1500px;
   width: 95%;
-  margin: 30px auto;
+  margin: 0 auto;
+  /* margin-top: 20rem; */
+  display: flex;
+  flex-direction: column !important;
+}
+.divider {
+}
+.d-flex {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #585c64;
+}
+.table-desc {
+  margin-top: 1rem;
+  /* padding: 1rem 4rem; */
+  border-radius: 1rem;
+  /* font-size: 1rem; */
+  /* border: 1px solid blue; */
+
+  /* box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px; */
 }
 main {
   padding: 10px;
@@ -126,4 +153,284 @@ main {
     grid-template-columns: 1fr;
     grid-gap: 20px;
   }
+}
+
+/* chart placeholder */
+
+.chart {
+  position: relative;
+  box-shadow: 0px 0px 0.1em rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: #221616;
+}
+.row {
+}
+
+.no-chart-data {
+  background: #fff;
+  min-height: 400px;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+.no-chart-data .title {
+  color: #757575;
+  position: absolute;
+  display: flex;
+  left: 50%;
+  top: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -100%);
+  z-index: 100;
+  text-align: center;
+}
+.no-chart-data .y-axis,
+.no-chart-data .x-axis {
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+}
+.no-chart-data .y-axis {
+  height: 350px;
+  width: 1px;
+  border-left: 2px solid #f5f5f5;
+}
+.no-chart-data .x-axis {
+  height: 1px;
+  width: 95%;
+  border-bottom: 2px solid #f5f5f5;
+}
+.no-chart-data .bars {
+  position: absolute;
+  display: inline-block;
+  bottom: 15px;
+  left: 35px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.1);
+}
+.no-chart-data .bars .bar {
+  background: #f5f5f5;
+  display: inline-block;
+  position: absolute;
+  min-height: 5px;
+  width: 3%;
+  max-width: 25px;
+  bottom: 10px;
+  margin: 0 0.8%;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+.no-chart-data .bars .bar.bar-0 {
+  height: 314px;
+  display: inline-block;
+  margin-left: 1%;
+}
+.no-chart-data .bars .bar.bar-1 {
+  height: 152px;
+  display: inline-block;
+  margin-left: 5%;
+}
+.no-chart-data .bars .bar.bar-2 {
+  height: 169px;
+  display: inline-block;
+  margin-left: 9%;
+}
+.no-chart-data .bars .bar.bar-3 {
+  height: 19px;
+  display: inline-block;
+  margin-left: 13%;
+}
+.no-chart-data .bars .bar.bar-4 {
+  height: 178px;
+  display: inline-block;
+  margin-left: 17%;
+}
+.no-chart-data .bars .bar.bar-5 {
+  height: 242px;
+  display: inline-block;
+  margin-left: 21%;
+}
+.no-chart-data .bars .bar.bar-6 {
+  height: 99px;
+  display: inline-block;
+  margin-left: 25%;
+}
+.no-chart-data .bars .bar.bar-7 {
+  height: 211px;
+  display: inline-block;
+  margin-left: 29%;
+}
+.no-chart-data .bars .bar.bar-8 {
+  height: 305px;
+  display: inline-block;
+  margin-left: 33%;
+}
+.no-chart-data .bars .bar.bar-9 {
+  height: 289px;
+  display: inline-block;
+  margin-left: 37%;
+}
+.no-chart-data .bars .bar.bar-10 {
+  height: 158px;
+  display: inline-block;
+  margin-left: 41%;
+}
+.no-chart-data .bars .bar.bar-11 {
+  height: 79px;
+  display: inline-block;
+  margin-left: 45%;
+}
+.no-chart-data .bars .bar.bar-12 {
+  height: 133px;
+  display: inline-block;
+  margin-left: 49%;
+}
+.no-chart-data .bars .bar.bar-13 {
+  height: 30px;
+  display: inline-block;
+  margin-left: 53%;
+}
+.no-chart-data .bars .bar.bar-14 {
+  height: 42px;
+  display: inline-block;
+  margin-left: 57%;
+}
+.no-chart-data .bars .bar.bar-15 {
+  height: 300px;
+  display: inline-block;
+  margin-left: 61%;
+}
+.no-chart-data .bars .bar.bar-16 {
+  height: 272px;
+  display: inline-block;
+  margin-left: 65%;
+}
+.no-chart-data .bars .bar.bar-17 {
+  height: 171px;
+  display: inline-block;
+  margin-left: 69%;
+}
+.no-chart-data .bars .bar.bar-18 {
+  height: 62px;
+  display: inline-block;
+  margin-left: 73%;
+}
+.no-chart-data .bars .bar.bar-19 {
+  height: 142px;
+  display: inline-block;
+  margin-left: 77%;
+}
+.no-chart-data .bars .bar.bar-20 {
+  height: 120px;
+  display: inline-block;
+  margin-left: 81%;
+}
+.no-chart-data .bars .bar.bar-21 {
+  height: 202px;
+  display: inline-block;
+  margin-left: 85%;
+}
+.no-chart-data .bars .bar.bar-22 {
+  height: 34px;
+  display: inline-block;
+  margin-left: 89%;
+}
+.no-chart-data .lines {
+  position: absolute;
+  display: inline-block;
+  bottom: 15px;
+  left: 35px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.1);
+}
+.no-chart-data .lines .overlay {
+  background: blue;
+  display: block;
+  width: 100%;
+  height: inherit;
+}
+.no-chart-data .lines .line {
+  background: #f5f5f5;
+  display: inline-block;
+  position: absolute;
+  min-height: 15px;
+  width: 14.28%;
+  bottom: 10px;
+  margin: 0 0.8%;
+  border-top: 1px solid #fff;
+  overflow: hidden;
+}
+.no-chart-data .lines .line.line-0 {
+  margin-left: 1%;
+}
+.no-chart-data .lines .line.line-1 {
+  margin-left: 15.28%;
+}
+.no-chart-data .lines .line.line-2 {
+  margin-left: 29.56%;
+}
+.no-chart-data .lines .line.line-3 {
+  margin-left: 43.84%;
+}
+.no-chart-data .lines .line.line-4 {
+  margin-left: 58.12%;
+}
+.no-chart-data .lines .line.line-5 {
+  margin-left: 72.4%;
+}
+.no-chart-data .lines .line.line-6 {
+  margin-left: 86.68%;
+}
+.no-chart-data .lines .line .line-0 {
+  height: 200px;
+}
+.no-chart-data .lines .line .line-1 {
+  height: 400px;
+}
+.no-chart-data .lines .line .slope {
+  display: block;
+  background: white;
+  width: 300%;
+  height: 100px;
+  margin-top: -50%;
+  margin-left: -50%;
+}
+.no-chart-data .lines .line .slope:nth-of-type(1) {
+  -ms-transform: rotate(-25deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-25deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-25deg);
+}
+.no-chart-data .radial {
+  text-align: center;
+}
+.no-chart-data .radial .outer-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  display: block;
+  background: #f5f5f5;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+}
+.no-chart-data .radial .inner-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  display: block;
+  background: #fff;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
 }

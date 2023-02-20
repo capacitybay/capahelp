@@ -23,6 +23,10 @@ const DepartmentSchema = new mongoose.Schema(
 
       // required: true,
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

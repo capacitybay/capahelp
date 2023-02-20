@@ -6,40 +6,157 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
 
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/styles/login.css" type="text/css">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
+    <!-- <div class="login-container"> -->
+
     <div class="center">
         <div class="error-plane">
+            <!-- TODO: check how you can logout msg when user is redirected -->
             <%- include( "partials/messages" ) %>
+
 
         </div>
         <h1>Login</h1>
-        <form action="/login" method="POST">
+        <form id="loginForm">
             <div class="txt_field">
-                <input type="email" id="email" name="email" required />
+                <input type="email" id="email" name="email" value="admin@gmail.net" required />
                 <span></span>
                 <label>Email</label>
             </div>
             <div class="txt_field">
-                <input type="password" id="password" name="password" required />
+                <input type="password" id="password" name="password" value="Password123*" required />
                 <span></span>
                 <label>Password</label>
             </div>
             <div class="pass">Forgot Password?</div>
 
-            <input type="submit" value="Login" />
+            <button id="loginSubmit">
+                <span class="spinner" style="margin-right: 1rem;"><i class="fa fa-refresh fa-spin"></i></span>
+                Login
+            </button>
             <div class="signup_link">
                 Not a registered yet? <a href="./user/register">Signup</a>
             </div>
         </form>
     </div>
+    <script>
+
+        function showMessage(msg, success) {
+
+            if (success) {
+
+
+                return (
+                    `
+                <div class="alert alert-success alert-dismissible fade show " role="alert"
+                style="height: 3rem;   ">
+                    <h6 style="font-size:0.9rem;" class="text-center">
+                        ${msg}
+                    </h6>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `
+                )
+            } else {
+                return (`   
+                <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                style="height: 3rem;  ">
+                    <h6 style="font-size:0.9rem;"  class="text-center">
+                            ${msg}
+                    </h6>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                     style="width:1rem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                `)
+            }
+        }
+
+
+        const loginFormElem = document.getElementById("loginForm");
+        const emailElem = document.getElementById("email");
+        const passwordElem = document.getElementById("password");
+        const loginSubmitElem = document.getElementById("loginSubmit");
+        //error plane
+        const errorPlaneElem = document.querySelector(".error-plane");
+        console.log(loginSubmitElem);
+        //spinner element
+        const spinnerElem = document.querySelector(".spinner");
+        spinnerElem.style.display = "none";
+        loginSubmitElem.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            loginSubmitElem.disabled = true;
+            spinnerElem.style.display = "block";
+
+
+            fetch("/login", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: emailElem.value,
+                    password: passwordElem.value,
+                })
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                console.log(data);
+                if (data) {
+                    function changeUrl(url) {
+                        let splitUrl = window.location.toString();
+                        return splitUrl.replace(/login/, url);
+                    }
+                    loginSubmitElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    if (data.success) {
+                        if (data.user_type === 3) {
+                            window.location.href = changeUrl("admin/dashboard");
+                        } else {
+                            window.location.href = changeUrl("user");
+                        }
+
+                    } else {
+                        errorPlaneElem.innerHTML = showMessage(data.payload.message, false);
+
+                        loginSubmitElem.disabled = false;
+                        spinnerElem.style.display = "none";
+                    }
+                } else {
+                    errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again.", false);
+                    loginSubmitElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                }
+
+            }).catch(error => {
+                if (error) {
+                    loginSubmitElem.disabled = false;
+                    spinnerElem.style.display = "none";
+                    errorPlaneElem.innerHTML = showMessage("Sorry!, Something Went Wrong Pls Try Again", false);
+
+                }
+            })
+
+
+        })
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

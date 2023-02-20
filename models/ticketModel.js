@@ -15,10 +15,12 @@ const TicketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    //TODO: should be changed to email
     customer_id: {
       type: String,
-      required: true,
+      // required: true,
     },
+    //TODO: should be changed to email
     assignee_id: {
       type: String,
     },
@@ -40,5 +42,6 @@ const TicketSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+// add category to the model select (hardware,software,sys admin,other)
 
 module.exports = mongoose.model('Tickets', TicketSchema);

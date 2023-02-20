@@ -1,0 +1,328 @@
+<section>
+
+
+    <div class="table-container table-responsive scrollbar-custom  table-bordered" id="style-2"
+        style="font-size: 0.8rem;">
+
+        <table class="table table-border table-hover">
+            <caption>List of Tickets</caption>
+            <thead class="th-cont thead-light" style="position: sticky;top: 0;">
+
+                <tr>
+                    <th class="table-header" scope="col">#</th>
+                    <th class="table-header" scope="col">Type</th>
+                    <th class="table-header" scope="col">Title</th>
+                    <th class="table-header" scope="col">Customer</th>
+                    <th class="table-header" scope="col">Assignee</th>
+                    <th class="table-header" scope="col">Dept</th>
+                    <th class="table-header" scope="col">Urgency</th>
+                    <th class="table-header" scope="col">Status</th>
+                    <th class="table-header" scope="col">Priority</th>
+                    <th class="table-header" scope="col">Created At</th>
+                    <th class="table-header" scope="col">Actions</th>
+
+                </tr>
+            </thead>
+
+
+    </div>
+    </div>
+    <tbody id="getTableData">
+
+        <% if(receivedTickets) {%>
+            <% receivedTickets.forEach((element,idx)=>{ %>
+
+                <tr id="getE">
+                    <th scope="row">
+                        <%= idx +=1 %>
+                    </th>
+                    <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
+                    <td class="no-wrap">
+
+                        <span id="user_name">
+
+                            <%= element.ticket_type%>
+                        </span>
+
+                    </td>
+
+                    <td>
+                        <span id="role">
+
+                            <%= element.title?element.title:"element.title" %>
+                        </span>
+                    </td>
+                    <td class="status no-wrap">
+                        <%= element.customer_id%>
+                    </td>
+                    <td id="email-data">
+                        <%= element.assignee_id ?element.assignee_id:"None" %>
+                    </td>
+                    <td class=" no-wrap">
+                        <%= element.dept_id ?element.dept_id :"None" %>
+                    </td>
+                    <td>
+                        <div
+                            class="status-indicator status-indicator--<%= element.urgency.toLowerCase()=== 'urgent'?'urgent': element.urgency=== 'low'?'low': element.urgency.toLowerCase() === 'medium' ? 'medium':  element.urgency.toLowerCase() === 'open' ? 'open':'none' %>">
+                        </div>
+                        <div>
+
+                            <%= element.urgency %>
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            class="status-indicator status-indicator--<%= element.ticket_status.toLowerCase()=== 'cancelled'?'cancelled': element.ticket_status === 'active'?'active': element.ticket_status.toLowerCase() === 'in progress' ? 'in_progress':  element.ticket_status.toLowerCase() === 'resolved'?'resolved': element.ticket_status.toLowerCase() ==='pending'?'pending':'none'  %>">
+                        </div>
+                        <div>
+                            <%= element.ticket_status%>
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            class="status-indicator status-indicator--<%= element.priority.toLowerCase()=== 'high'?'high': element.priority=== 'low'?'low': element.priority.toLowerCase() === 'medium' ? 'medium':'none' %>">
+                        </div>
+                        <div>
+                            <%= element.priority%>
+                        </div>
+                    </td>
+                    <td>
+                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                            , "August" , "September" , "October" , "November" , "December" ]; %>
+
+                            <% var d=element.createdAt.getDate(); var m=monthNames[element.createdAt.getMonth()]; var
+                                y=element.createdAt.getFullYear(); %>
+                                <%= d+ " " +m+ " " +y%>
+                    </td>
+                    <td class="action-icons">
+                        <div class="td-cont">
+
+                            <i class="fa-solid fa-pen-to-square edit call-to-action" style="color: green;"></i>
+
+                            <i class="fa-regular fa-eye view call-to-action" style="color: hsl(137, 36%, 58%);"></i>
+
+                            <a href="#" data-toggle="modal" data-target="#basicModal"><i id="deleteUser"
+                                    class="fa-solid fa-trash trash call-to-action" style="color: red;">
+
+                                </i>
+                            </a>
+
+                        </div>
+
+                    </td>
+                    <!-- basic modal -->
+                    <div id="modal-container">
+
+                    </div>
+
+                </tr>
+
+                <% }) %>
+                    <% } %>
+    </tbody>
+    </table>
+
+    </div>
+
+    </main>
+    <script src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+
+    <script>
+        const modalContainer = document.getElementById("modal-container");
+        const deleteBtnElem = document.getElementById("deleteSelectedUser")
+
+
+
+        function renderData(_ticketId, _ticketTitle, _ticket_type) {
+
+            console.log(_ticketId, _ticketTitle, _ticket_type)
+            const modal = `
+
+            <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="basicModal" aria-hidden="true">
+        
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Confirmation Message</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure, you want to delete this Ticket?</p>
+                        <div class="dialog_content">
+                            <h4>TicketId:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_ticketId}
+                        </h4>
+                    </div>
+                    <div class=" dialog_content">
+                                    <h4>Type:</h4>
+                                    <h4 class="h4" style="color: #4a4747;">
+                                        ${_ticket_type}
+                                    </h4>
+                        </div>
+                        <div class="dialog_content">
+                            <h4 >Title:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_ticketTitle}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class=" modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close</button>
+                        <button type="button" class="btn btn-danger" id="deleteSelectedUser"><span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            `
+            return modal
+        }
+
+
+
+        function messageDialog(msg) {
+            return (
+                `
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title" id="myModalLabel">Confirmation Message</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>${msg}.</p>
+                </div>
+                <div class="modal-footer">
+                  
+                  <button type="button" class="btn btn-success" id="refreshPage">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+            )
+        }
+
+        //makes a get fetch request to update user route
+        const fetchRequest = async () => {
+            const location = window.location.hostname;
+            const settings = {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+
+
+            };
+
+            try {
+                const response = await fetch(`${location}:3400/admin/update/user/${userId}`, settings);
+                const data = await response.json();
+                return console.log(data);
+            } catch (e) {
+                return e;
+            }
+        }
+        let userId = document.querySelectorAll(".userId")
+        //selects of nodes with the class name call-to-action
+        let nodeList = document.querySelectorAll(".call-to-action")
+        nodeList.forEach((element, idx) => {
+            //console.log(element)
+            element.addEventListener("click", function (event) {
+                //change the identifiers to id(to be unique in the app)
+                console.log(element.classList[2])
+                if (element.classList[2] === "view") {
+                    //goes three levels up to get table row
+                    let value = element.parentElement.parentElement.parentElement;
+                    //gets and trim email element to eliminate white spaces 
+                    let idString = value.children[1] ? value.children[1].value.trim() : value
+                    //validates email
+
+                    window.location.href = `/admin/view/ticket/${idString}`;
+
+                    //condition checks if the clicked icon contains the text "edit"
+
+                } else if (element.classList[2] === "edit") {
+                    //fetchRequest()
+                    let getElement = element.parentElement.parentElement.parentElement;
+                    //TODO: work on this 
+                    //this gets individual user id from a hidden input
+                    let getUserId = getElement.children[1].value
+
+
+
+                    //redirects user to update user component with userId
+                    window.location.href = `/admin/update/ticket/${getUserId}`
+                } else if (element.classList[2] === "trash") {
+                    let value = element.parentElement.parentElement.parentElement.parentElement
+                    let elementChildren = value.children
+
+
+                    modalContainer.innerHTML = renderData(
+                        elementChildren[1].value,
+                        elementChildren[3].textContent.trim(),
+                        elementChildren[2].textContent.trim(),
+                        elementChildren[1].value
+                    )
+                    //spinner element
+                    const spinnerElem = document.querySelector(".spinner")
+                    spinnerElem.style.display = "none";
+
+                    document.getElementById("deleteSelectedUser")
+                        .addEventListener("click", function (event) {
+                            document.getElementById("deleteSelectedUser").style.disabled = true
+                            spinnerElem.style.display = "block";
+                            const id = elementChildren[1].value
+                            // event.preventDefault();
+                            fetch(`/admin/delete/ticket/${id}`, {
+                                method: "DELETE"
+
+                            }).then(response => {
+
+                                if (response.statusText === "OK") {
+                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    spinnerElem.style.display = "none";
+                                    document.getElementById("show-message").innerHTML = messageDialog("Ticket Has Been Deleted!");
+
+                                    $('#basicModal').modal('hide')
+
+                                    $('#confirmationModal').modal('show');
+                                    document.getElementById("refreshPage").addEventListener("click", function (event) {
+                                        location.reload()
+
+                                    })
+                                } else {
+                                    document.getElementById("deleteSelectedUser").style.disabled = false
+                                    spinnerElem.style.display = "none";
+
+                                    document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
+
+                                }
+
+                            }).catch(error => {
+                                document.getElementById("deleteSelectedUser").style.disabled = false
+                                spinnerElem.style.display = "none";
+
+                                document.getElementById("show-message").innerHTML = messageDialog(error.message);
+                            })
+                        })
+
+
+                    //console.log(renderData(userName, emailData, role))
+                }
+            })
+        })
+
+
+
+    </script>
+
+
+</section>

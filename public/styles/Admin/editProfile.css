@@ -1,0 +1,30 @@
+/* custom */
+
+.email-class div {
+  display: flex;
+  /* border: 1px solid blue; */
+  align-items: center;
+  gap: 0.3rem;
+}
+.check-email {
+  height: 1rem;
+  width: 1rem !important;
+}
+.email-class #profile-email {
+  width: 100%;
+}
+
+.check-info {
+  color: red;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.create {
+  display: flex;
+  color: #fff;
+}
+.create:hover {
+  color: #51a86d !important;
+}
+/* custom end */

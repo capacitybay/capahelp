@@ -1,0 +1,271 @@
+<section>
+
+    <div class="table-container table-responsive py-5">
+        <table class="table table-bordered table-hover">
+            <thead class="">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Head Agent</th>
+                    <th scope="col">Dept Email</th>
+                    <th scope="col">No. of Members</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% if(departments.length>0){ %>
+
+                    <% departments.forEach((element,idx)=>{ %>
+                        <tr>
+                            <th scope="row">
+                                <%= ++idx %>
+                            </th>
+                            <input type="hidden" name="deptId" class="deptId" value="<%= element._id %> ">
+
+                            <td>
+                                <%= element.dept_name %>
+                            </td>
+                            <td>
+                                <%= element.head_agent %>
+                            </td>
+                            <td>
+                                <%= element.email %>
+                            </td>
+                            <td>
+                                <%= element.members.length %>
+                            </td>
+                            <td>
+                                <%= element.active ? "Active" : "Inactive" %>
+                            </td>
+                            <td>
+                                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                                    , "August" , "September" , "October" , "November" , "December" ]; %>
+
+                                    <% var d=element.createdAt.getDate(); var
+                                        m=monthNames[element.createdAt.getMonth()]; var
+                                        y=element.createdAt.getFullYear(); %>
+                                        <%= d+ " " +m+ " " +y%>
+                            </td>
+                            <td class="action-icons">
+                                <div class="td-cont">
+
+                                    <i class="fa-solid fa-pen-to-square edit call-to-action" style="color: green;"></i>
+
+                                    <i class="fa-regular fa-eye view call-to-action"
+                                        style="color: hsl(137, 36%, 58%);"></i>
+
+                                    <a href="#" data-toggle="modal" data-target="#basicModal"><i id="deleteUser"
+                                            class="fa-solid fa-trash trash call-to-action" style="color: red;">
+
+                                        </i>
+                                    </a>
+
+                                </div>
+
+                            </td>
+                            <div id="modal-container">
+
+                            </div>
+                        </tr>
+                        <% }) %>
+                            <% } else{%>
+
+                                
+                                <% } %>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    </main>
+
+    <script>
+        const modalContainer = document.getElementById("modal-container");
+        const deleteBtnElem = document.getElementById("deleteSelectedDept")
+
+
+        function renderData(_deptId, _deptName, _deptEmail) {
+
+            console.log(_deptId, _deptName, _deptEmail)
+            const modal = `
+
+            <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="basicModal" aria-hidden="true">
+        
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Confirmation Message</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure, you want to delete this Ticket?</p>
+                        <div class="dialog_content">
+                            <h4>DeptId:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_deptId}
+                        </h4>
+                    </div>
+                    <div class=" dialog_content">
+                                    <h4>Name:</h4>
+                                    <h4 class="h4" style="color: #4a4747;">
+                                        ${_deptName}
+                                    </h4>
+                        </div>
+                        <div class="dialog_content">
+                            <h4 >Email:</h4>
+                            <h4 class="h4" style="color: #4a4747;">
+                                ${_deptEmail}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class=" modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close</button>
+                        <button type="button"  class="btn btn-danger" id="deleteSelectedDept"><span class="spinner" ><i class="fa fa-refresh fa-spin"></i></span> <span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            `
+            return modal
+        }
+
+
+
+        function messageDialog(msg) {
+            return (
+                `
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title" id="myModalLabel">Confirmation Message</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>${msg}.</p>
+                </div>
+                <div class="modal-footer">
+                  
+                  <button type="button" class="btn btn-success" id="refreshPage">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+            )
+        }
+
+
+        let deptId = document.querySelectorAll(".deptId");
+        //selects of nodes with the class name call-to-action
+        let nodeList = document.querySelectorAll(".call-to-action")
+        console.log(nodeList);
+        nodeList.forEach((element, idx) => {
+            let value = element.parentElement.parentElement;
+            console.log(value)
+            element.addEventListener("click", function (event) {
+                //change the identifiers to id(to be unique in the app)
+                console.log(element.classList[2])
+                if (element.classList[2] === "view") {
+                    //goes three levels up to get table row
+                    let value = element.parentElement.parentElement.parentElement;
+                    //gets and trim id element to eliminate white spaces 
+                    let idString = value.children[1] ? value.children[1].value.trim() : value
+                    //validates email
+                    console.log(idString);
+                    window.location.href = `/admin/view/department/${idString}`;
+
+                    //condition checks if the clicked icon contains the text "edit"
+
+                } else if (element.classList[2] === "edit") {
+                    //goes three levels up to get table row
+                    let value = element.parentElement.parentElement.parentElement;
+                    //gets and trim id element to eliminate white spaces 
+                    let idString = value.children[1] ? value.children[1].value.trim() : value
+                    //validates email
+                    console.log(idString);
+                    window.location.href = `/admin/update/department/${idString}`;
+
+
+                    //redirects user to update user component with userId
+                    // window.location.href = `/admin/update/ticket/${getUserId}`
+                } else if (element.classList[2] === "trash") {
+                    let value = element.parentElement.parentElement.parentElement.parentElement;
+                    let elementChildren = value.children
+                    console.log(
+                        elementChildren,
+                        elementChildren[1].value.trim(),
+                        elementChildren[2].textContent.trim(),
+
+                    )
+
+
+                    modalContainer.innerHTML = renderData(
+                        elementChildren[1].value.trim(),
+                        elementChildren[2].textContent.trim(),
+                        elementChildren[4].textContent.trim()
+                    )
+                    //spinner element
+                    const spinnerElem = document.querySelector(".spinner")
+                    spinnerElem.style.display = "none";
+
+                    document.getElementById("deleteSelectedDept")
+                        .addEventListener("click", function (event) {
+                            document.getElementById("deleteSelectedDept").style.disabled = true
+                            spinnerElem.style.display = "block";
+                            const id = elementChildren[1].value
+                            // event.preventDefault();
+                            console.log(id)
+
+                            fetch(`/admin/delete/department/${id}`, {
+                                method: "DELETE"
+
+                            }).then(response => {
+                                console.log(response);
+                                if (response.statusText === "OK") {
+                                    console.log(document.getElementById("deleteSelectedDept"));
+                                    document.getElementById("deleteSelectedDept").style.disabled = false;
+                                    spinnerElem.style.display = "none";
+                                    document.getElementById("show-message").innerHTML = messageDialog("Department Has Been Deleted!");
+
+                                    $('#basicModal').modal('hide');
+
+                                    $('#confirmationModal').modal('show');
+                                    document.getElementById("refreshPage").addEventListener("click", function (event) {
+                                        location.reload()
+
+                                    })
+                                } else {
+                                    document.getElementById("deleteSelectedDept").style.disabled = false;
+                                    spinnerElem.style.display = "none";
+
+                                    document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
+
+                                }
+
+                            }).catch(error => {
+                                document.getElementById("deleteSelectedDept").style.disabled = false;
+                                spinnerElem.style.display = "none";
+
+                                document.getElementById("show-message").innerHTML = messageDialog(error.message);
+                            })
+                        })
+
+
+                    //console.log(renderData(userName, emailData, role))
+                }
+            })
+        })
+
+    </script>
+</section>

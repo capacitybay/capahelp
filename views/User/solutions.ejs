@@ -2,73 +2,56 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- displays site properly based on user's device -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapaHelp- Solutions</title>
+    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <!-- <link rel="stylesheet" href="/public/styles/User/partials_styles/userHeader.css"> -->
+    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
+    <script defer src="/public/script/User/solutions.js"></script>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/public/styles/User/solutions.css " type="text/css" />
-    <link rel=" stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <title>CapaHelpDesk</title>
 </head>
 
 <body>
-    <header class="header">
-        <div class="overlay has-fade"></div>
+    <main>
+        <%- include("../partials/User/userHeader.ejs",{user:undefined}) %>
 
-        <nav class="container container--pall flex flex-jc-sb flex-ai-c">
-            <a href="/" class="header__logo">
-                <img src="images/CapacityBay Logo1.png" alt="CapaHelpDesk" />
-            </a>
-
-            <a id="btnHamburger" href="#" class="header__toggle hide-for-desktop">
-                <span></span>
-                <span></span>
-                <span></span>
-            </a>
-
-            <div class="header__links hide-for-mobile">
-                <a href="home.html">Home</a>
-                <a href="solution.html">Solution</a>
-                <a href="tickets.html">Tickets</a>
-                <a href="register.html"><button style="background-color: green; color:white">Create new</button></a>
-                <a href="#"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
-                <a href="#"><img src="images/EO.png" alt="EO" width="20px"></a>
-            </div>
-        </nav>
-        <br><br>
-        <p align="center">FIND <b style="color: green;">HELP</b> AND SERVICES</p>
-        <br>
-        <div class="flexbox">
-            <div class="block">
-                <a href="#"><img src="images/graphic design.png" alt="webd"></a>
-                <p>Graphics Design</p>
-            </div>
-            <div class="block">
-                <a href="#"><img src="images/grow your audience.png" alt="webd"></a>
-                <p>Grow Your Audience</p>
-            </div>
-            <div class="block">
-                <a href="#"><img src="images/Service 24_7-bro.png" alt="webd"></a>
-                <p>Find Talent</p>
-            </div><br><br>
-            <main class="main3">
-                <div class="block1">
-                    <a href="#"><img src="images/training.png" alt="webd"></a>
-                    <p>Training</p>
+            <div class="hero solution-hero">
+                <p class="solutions-top">
+                    <span><a href="/user">Home</a></span> > <a href="/user/solutions">Solutions</a>
+                </p>
+                <div class="solutions-head">
+                    <h1>FIND <span>HELP</span> AND SERVICES</h1>
                 </div>
-                <div class="block1">
-                    <a href="#"><img src="images/others.png" alt="webds"></a>
-                    <p>Others</p>
+                <div class="solution-hero-content">
+                    <div>
+                        <img src="/public/img/solutions_assets/Business_chat_.png" alt="business">
+                        <h1>Web Development</h1>
+                    </div>
+                    <div>
+                        <img src="/public/img/solutions_assets/Co_workers.png" alt="Coworkers">
+                        <h1>Graphic Design</h1>
+                    </div>
+                    <div>
+                        <img src="/public/img/solutions_assets/Designer_.png" alt="Designer">
+                        <h1>Grow Your Audience</h1>
+                    </div>
+                    <div>
+                        <img src="/public/img/solutions_assets/Work_together.png" alt="Work-Together">
+                        <h1>Find Talent</h1>
+                    </div>
+                    <div>
+                        <img src="/public/img/solutions_assets/Working_.png" alt="Working">
+                        <h1>Training</h1>
+                    </div>
+                    <div class="plus">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
                 </div>
-                <div class="block1">
-                    <a href="#"><img src="images/web deve.png" alt="webd"></a>
-                    <p>Web Design</p>
-                </div>
-            </main>
-
+            </div>
+    </main>
 </body>
 
 </html>

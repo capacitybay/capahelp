@@ -1,7 +1,7 @@
 const joi = require('joi');
 
 function registerValidation(data) {
-  console.log(data);
+
   const schema = joi.object({
     // first name validation
     first_name: joi.string().min(2).required(),
@@ -30,9 +30,18 @@ function registerValidation(data) {
         'string.empty': ` password field cannot be empty `,
         'object.regex': 'Must have at least 8 characters',
         'string.pattern.base':
-          'Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character',
+          'Password Must Contain Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character',
       }),
-    phone: joi.string().alphanum().min(10).max(13).required(),
+    phone: joi
+      .string()
+
+      .pattern(/^[0-9]+$/)
+      .messages({
+        'string.pattern.base': `Phone number must have  at least 10 digits.`,
+      })
+      .min(2)
+      .max(13)
+      .required(),
   });
   return schema.validate(data);
 }
@@ -82,7 +91,16 @@ function updateUserValidation(data) {
       })
       .required(),
 
-    phone: joi.string().alphanum().min(10).max(13).required(),
+    phone: joi
+      .string()
+
+      .pattern(/^[0-9]+$/)
+      .messages({
+        'string.pattern.base': `Phone number must have  at least 10 digits.`,
+      })
+      .min(2)
+      .max(13)
+      .required(),
   });
   return schema.validate(data);
 }
@@ -118,6 +136,8 @@ async function updateDeptValidation(data) {
   return schema.validate(data);
 }
 async function validatePassword(data) {
+  console.log('validation data');
+  console.log(data);
   const schema = joi.object({
     // password  validation
     password: joi
@@ -135,9 +155,25 @@ async function validatePassword(data) {
         'string.empty': ` password field cannot be empty `,
         'object.regex': 'Must have at least 8 characters',
         'string.pattern.base':
-          'Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character,',
+          'Password must contain Minimum eight characters,at least one upper case,one lower case letter , one digit and  one special character,',
       }),
   });
+  return schema.validate(data);
+}
+
+async function validateEmail(data) {
+  // console.log(data);
+
+  const schema = joi.object({
+    email: joi
+      .string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] },
+      })
+      .required(),
+  });
+
   return schema.validate(data);
 }
 
@@ -148,4 +184,5 @@ module.exports = {
   createDeptValidation,
   updateDeptValidation,
   validatePassword,
+  validateEmail,
 };
