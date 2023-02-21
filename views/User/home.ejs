@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CapaHelp- Home</title>
+    <title>Customer Home</title>
     <link rel="icon" sizes="32x32" type="jpg/png" href="./images/CapacityBay-Logo1.png">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/User/home.css">
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
     <script defer src="/public/script/User/home.js"></script>
 </head>
 
 <body>
     <main>
-        <%- include("../partials/User/userHeader.ejs") %>
+        <%- include("../partials/User/userHeader.ejs",{user:undefined}) %>
 
             <div class="hero">
                 <div class="hero-content">

@@ -8,6 +8,9 @@
     <title>Update Account</title>
     <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
     <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="../partials/Admin/adminHeader.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
@@ -16,6 +19,9 @@
 </head>
 
 <body>
+    <div>
+        <%- include("../partials/Admin/adminHeader.ejs") %>
+    </div>
     <!-- User update Form -->
     <div class="container">
         <div class="title">Update Account</div>
@@ -44,9 +50,7 @@
                     </button>
                 </div>
                 <% }else{ %>
-
                     <% } %>
-
                         <form action="/admin/update/user/<%= user? user._id:id %>" id="form" method="post">
                             <input type="hidden" name="hidden" id="hidden" value="">
                             <div class="user__details">
@@ -135,7 +139,7 @@
                                             disabled hidden>
 
 
-                                            <%= user ? user.active ? 'Activated' : 'Deactivated' :'' %>
+                                            <%= user ? user.active ? 'Activate' : 'Deactivate' :'' %>
                                         </option>
 
 

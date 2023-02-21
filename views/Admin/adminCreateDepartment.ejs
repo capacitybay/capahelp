@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CapaHelp- Create Department</title>
     <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
-    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/Admin/adminCreateTicket.css">
     <link rel="stylesheet" href="/public/styles/Admin/adminCreateDepartment.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
@@ -22,7 +22,8 @@
         <%- include("../partials/Admin/adminHeader.ejs")%>
             <div class="hero solution-hero ticket-hero">
                 <p class="solutions-top ticket-top">
-                    <span><a href="/user">Home</a></span> > <a href="/admin/manage/department">Manage Dept</a>
+                    <span><a href="/admin/dashboard">Home</a></span> > <a href="/admin/manage/department">Manage
+                        Department</a>
                 </p>
                 <h1 class="hero-title create-title">Department</h1>
                 <div class="error-plane">
@@ -106,7 +107,7 @@
                 return (
                     `
                 <div class="alert alert-success alert-dismissible fade show " role="alert"
-                style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                style="height: 3rem; width: 100%;  ">
                     <h6 style="font-size:0.9rem;" class="text-center">
                         ${msg}
                     </h6>
@@ -119,7 +120,7 @@
             } else {
                 return (`   
                 <div class="alert alert-danger alert-dismissible fade show" role="alert"
-                style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                style="height: 3rem; width: 100%;  ">
                     <h6 style="font-size:0.9rem;"  class="text-center">
                             ${msg}
                     </h6>
@@ -190,7 +191,8 @@
         //onsubmit action event handler
         submitBtnElem.addEventListener("submit", (event) => {
             event.preventDefault();
-
+            submitBtnElem.disabled = true;
+            spinnerElem.style.display = "block";
             fetch(`/admin/create/department`, {
                 headers: {
                     "Content-Type": "application/json",
