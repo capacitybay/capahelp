@@ -35,16 +35,12 @@ const userModel = require('../../models/userModel');
 router.get('/user/solutions', ensureAuthenticated, (req, res) => {
   console.log(req.user);
   res.render('User/solutions.ejs', {
-    first_name: req.user[0].first_name,
-    last_name: req.user[0].last_name,
-    email: req.user[0].email,
+    user: req.user[0],
   });
 });
 router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
   res.render('User/editProfile', {
-    userFN: req.user[0].first_name,
-    userLN: req.user[0].last_name,
-    userEmail: req.user[0].email,
+    user: req.user[0],
   });
 });
 

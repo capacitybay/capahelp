@@ -7,11 +7,11 @@
     <nav class="solution-nav">
 
         <div class="main-navigation">
-            <ul>
-                <li><a href="/user">Home</a></li>
-                <li><a class="active-nav" href="/user/solutions">Solutions</a></li>
-                <li><a href="/user/tickets">Tickets</a></li>
-            </ul>
+
+            <li><a href="/user">Home</a></li>
+            <li><a class="active-nav" href="/user/solutions">Solutions</a></li>
+            <li><a href="/user/tickets">Tickets</a></li>
+
         </div>
         <div class="details solution-deets">
             <div class="hero-toggles solutions-hero-toggle">
@@ -21,15 +21,24 @@
             </div>
             <i class="fa-regular fa-bell"></i>
             <div class="user">
-                <%const name = ((userFN.slice(0,1)) + (userLN.slice(0,1))).toUpperCase(); %>
-                <p class="clickable-user"><%= name %></p>
+
+                <p class="clickable-user">
+                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
+                        %>
+                </p>
                 <div class="user-details">
                     <div class="username">
-                        <p class="clickable-user clickable2">EO</p>
-                        <div class="username-info"><%= userFN%> <%= userLN%></div>
+                        <p class="clickable-user clickable2">
+                            <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                user.last_name.charAt(0).toUpperCase():"EO" %>
+                        </p>
+                        <div class="username-info">
+                            <%= user ? user.first_name: "System" %>
+                                <%= user ? user.last_name : "User" %>
+                        </div>
                     </div>
                     <div class="username-info info1">
-                        <a href="/user/update/profile">Edit Profile</a>
+                        <a href="/user/profile/edit">Edit Profile</a>
                     </div>
                     <div class="username-info info2"><a href="/user">Logout</a></div>
                 </div>

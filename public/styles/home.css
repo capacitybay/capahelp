@@ -170,6 +170,9 @@ ul li a:hover {
   background-color: #1ca76c;
   color: white;
 }
+.main-navigation ul {
+  display: flex;
+}
 
 .topnav a.icon {
   /* background: #04AA6D; */
