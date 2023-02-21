@@ -45,8 +45,8 @@ router.get('/user/tickets', ensureAuthenticated, (req, res) => {
   res.render('User/tickets', {
     userFN: req.user[0].first_name,
     userLN: req.user[0].last_name,
-    userEmail: req.user[0].emil,
-  });a
+    userEmail: req.user[0].email,
+  });
 });
 router.get('/user/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('User/createTicket', {
