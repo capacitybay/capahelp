@@ -212,6 +212,9 @@ form {
     padding-inline: clamp(20px, 1vw, 20px);
     margin-bottom: clamp(40px, 1vw, 30px);
   }
+  .create-toggles {
+    justify-content: center;
+  }
   .profile-title {
     font-size: clamp(20px, 2vw, 100px);
     margin-bottom: 0;
@@ -228,6 +231,7 @@ form {
     justify-content: space-between;
   }
   .password-view {
-    flex-basis: 70%;
+    width: 100%;
+    /* flex-basis: 70%; */
   }
 }

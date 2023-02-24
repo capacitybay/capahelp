@@ -127,11 +127,14 @@ a:hover {
   transition-delay: 0.2s;
 }
 
+/* ?:what is the function of this */
 .clickable2 {
   background-color: var(--headerBackground);
-  width: clamp(30px, 2vw, 80px);
-  height: clamp(30px, 2vw, 80px);
+  width: clamp(60px, 2vw, 80px);
+  height: clamp(60px, 2vw, 80px);
   padding: 15px;
+  font-size: 1.5rem;
+  font-weight: bolder;
 }
 
 .username {
@@ -162,6 +165,7 @@ a:hover {
   width: 35px;
   display: none;
   position: relative;
+  cursor: pointer;
 }
 
 .hamburger div {
@@ -186,6 +190,7 @@ a:hover {
     top: 20px;
     right: 25px;
     opacity: 0;
+    cursor: pointer;
   }
   .x-mark i {
     font-size: 40px;

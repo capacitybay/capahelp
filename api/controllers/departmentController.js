@@ -18,7 +18,6 @@ const populateCard = (getAllDept) => {
 // creates new department
 const createDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members } = req.body;
-  console.log(dept_name, head_agent, email, members);
 
   // verify if user is authenticated
   const validateData = { dept_name, head_agent, email };

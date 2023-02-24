@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/head.ejs",{title:"Edit User"}) %>
+    <%- include("../partials/adminHeaderLinks.ejs") %>
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
+        <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+        <link rel="stylesheet" href="../partials/Admin/adminHeader.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+            integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+        <link rel="stylesheet" href="/public/styles/Admin/adminEditUser.css" type="text/css">
+        </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Account</title>
-    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
-    <link rel="stylesheet" href="/public/styles/User/nav.css">
-    <link rel="stylesheet" href="../partials/Admin/adminHeader.css">
-    <link rel="stylesheet" href="/public/styles/User/nav.css">
-    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
-        integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/styles/Admin/adminEditUser.css" type="text/css">
-</head>
+        <body>
+            <div>
+                <%- include("../partials/Admin/adminHeader.ejs") %>
+            </div>
+            <!-- User update Form -->
+            <div class="container">
+                <div class="title">Update Account</div>
 
-<body>
-    <div>
-        <%- include("../partials/Admin/adminHeader.ejs") %>
-    </div>
-    <!-- User update Form -->
-    <div class="container">
-        <div class="title">Update Account</div>
+                <%- include("../partials/messages"); %>
 
-        <%- include("../partials/messages"); %>
-
-            <% if(feedback.updated){ %>
-                <!-- <div class="alert alert-success alert-dismissible fade show " role="alert"
+                    <% if(feedback.updated){ %>
+                        <!-- <div class="alert alert-success alert-dismissible fade show " role="alert"
                         style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
                         <p style="" class="align-middle">
 
@@ -39,147 +31,150 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div> -->
-                <div class="alert alert-warning alert-dismissible fade show " role="alert"
-                    style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
-                    <p style="font-size:0.7rem;" class="align-middle">
+                        <div class="alert alert-warning alert-dismissible fade show " role="alert"
+                            style="height: 3rem; padding: 0 1.6rem  0 0.5rem ;  ">
+                            <p style="font-size:0.7rem;" class="align-middle">
 
-                        <%= feedback.msg %>
-                    </p>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <% }else{ %>
-                    <% } %>
-                        <form action="/admin/update/user/<%= user? user._id:id %>" id="form" method="post">
-                            <input type="hidden" name="hidden" id="hidden" value="">
-                            <div class="user__details">
-                                <div class="input__box">
-                                    <span class="details">First Name</span>
-                                    <input type="text" placeholder="E.g: John " id="first_name" name="first_name"
-                                        value="<%= user?user.first_name: ''%>">
-                                </div>
-                                <div class="input__box">
-                                    <span class="details">Last Name</span>
-                                    <input type="text" placeholder="Baba" id="last_name" name="last_name"
-                                        value="<%= user?user.last_name:''%>">
-                                </div>
-                                <div class="input__box">
-                                    <span class="details">Email:<span class="check-info">check the box to change
-                                            email</span>
-                                        <div class="div">
-
-                                            <input type="email" placeholder="john@hotmail.com" id="email" name="email"
-                                                value="<%= user?user.email:'' %>">
-                                            <input type="checkbox" class="check-email" name="selectEmail"
-                                                id="selectEmail">
-
+                                <%= feedback.msg %>
+                            </p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                style="width:1rem">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <% }else{ %>
+                            <% } %>
+                                <form action="/admin/update/user/<%= user? user._id:id %>" id="form" method="post">
+                                    <input type="hidden" name="hidden" id="hidden" value="">
+                                    <div class="user__details">
+                                        <div class="input__box">
+                                            <span class="input__details">First Name</span>
+                                            <input type="text" placeholder="E.g: John " id="first_name"
+                                                name="first_name" value="<%= user?user.first_name: ''%>">
                                         </div>
-                                </div>
-                                <div class="input__box">
-                                    <span class="details">Phone Number</span>
-                                    <input type="text" id="phone" name="phone" placeholder="012-345-6789"
-                                        value="<%= user? user.phone:''%>">
-                                </div>
+                                        <div class="input__box">
+                                            <span class="input__details">Last Name</span>
+                                            <input type="text" placeholder="Baba" id="last_name" name="last_name"
+                                                value="<%= user?user.last_name:''%>">
+                                        </div>
+                                        <div class="input__box">
+                                            <span class="input__details">Email:<span class="check-info">check the box to
+                                                    change
+                                                    email</span>
+                                                <div class="div">
 
-                                <div class="input__box">
-                                    <span class="details " for="countries">Country</span>
-                                    <select class="select" id="location" name="location" required>
-                                        <option value="<%= user? user.location:'' %>">
-                                            <%= user? user.location:"" %>
-                                        </option>
-                                        <%- include("../partials/countries.ejs") %>
-                                    </select>
-                                    <!-- <input  type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
-                                </div>
-                                <!-- 
+                                                    <input type="email" placeholder="john@hotmail.com" id="email"
+                                                        name="email" value="<%= user?user.email:'' %>">
+                                                    <input type="checkbox" class="check-email" name="selectEmail"
+                                                        id="selectEmail">
+
+                                                </div>
+                                        </div>
+                                        <div class="input__box">
+                                            <span class="input__details">Phone Number</span>
+                                            <input type="text" id="phone" name="phone" placeholder="012-345-6789"
+                                                value="<%= user? user.phone:''%>">
+                                        </div>
+
+                                        <div class="input__box">
+                                            <span class="input__details " for="countries">Country</span>
+                                            <select class="select" id="location" name="location" required>
+                                                <option value="<%= user? user.location:'' %>">
+                                                    <%= user? user.location:"" %>
+                                                </option>
+                                                <%- include("../partials/countries.ejs") %>
+                                            </select>
+                                            <!-- <input  type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
+                                        </div>
+                                        <!-- 
 
                  -->
-                                <div class="input__box">
-                                    <span class="details " for="gender">Gender</span>
-                                    <select class="select" name="gender" id="gender" required>
+                                        <div class="input__box">
+                                            <span class="input__details " for="gender">Gender</span>
+                                            <select class="select" name="gender" id="gender" required>
 
-                                        <option name="gender" value="<%= user? user.gender:'' %>" selected disabled
-                                            hidden>
-                                            <%= user? user.gender:'None' %>
-                                        </option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Others">Prefer not to say</option>
+                                                <option name="gender" value="<%= user? user.gender:'' %>" selected
+                                                    disabled hidden>
+                                                    <%= user? user.gender:'None' %>
+                                                </option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Others">Prefer not to say</option>
 
-                                    </select>
-
-
-                                    <!-- <input  type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
-                                </div>
-
-                                <div class="input__box">
-                                    <span class="details " for="role">User Role: </span>
-                                    <select class="select" name="role" id="role" name="role">
-                                        <option
-                                            value="<%= user? user.user_type === 3 ? 'admin': user.user_type === 1 ? 'agent' : 'customer' :'' %>"
-                                            selected disabled hidden>
-                                            <%=user? user.user_type===3 ? 'admin' : user.user_type===1 ? 'agent'
-                                                : 'customer' :'' %>
-                                        </option>
-                                        <option value="admin">admin</option>
-                                        <option value="agent">agent</option>
-                                        <option value="customer">customer</option>
-
-                                    </select>
-                                </div>
-                                <div class="input__box">
-                                    <span class="details " for="state">User State:<span class="user-state-hint">
-                                            <%= user ? user.active ? "active" : "inactive" :"" %>
-                                        </span>
-
-                                    </span>
-                                    <select class="select" name="state" id="state" name="state">
-                                        <option value="select" selected disabled hidden>
-                                            Select--
-                                        </option>
-
-                                        <option value="activate">Activate</option>
-                                        <option value="deactivate">Deactivate</option>
-
-                                        <!-- <option value="deactivate">Deactivate</option> -->
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="button">
-                                <input type="submit" value="Update" id="button">
-                            </div>
-                            <div class="signup_link">
-                                <a href="/admin/dashboard">Go To Dashboard</a>
-                            </div>
+                                            </select>
 
 
-                        </form>
-    </div>
-    <script>
+                                            <!-- <input  type="select" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="012-345-6789" required> -->
+                                        </div>
 
-        document.getElementById("button").addEventListener("submit", (event) => {
+                                        <div class="input__box">
+                                            <span class="input__details " for="role">User Role: </span>
+                                            <select class="select" name="role" id="role" name="role">
+                                                <option
+                                                    value="<%= user? user.user_type === 3 ? 'admin': user.user_type === 1 ? 'agent' : 'customer' :'' %>"
+                                                    selected disabled hidden>
+                                                    <%=user? user.user_type===3 ? 'admin' : user.user_type===1 ? 'agent'
+                                                        : 'customer' :'' %>
+                                                </option>
+                                                <option value="admin">admin</option>
+                                                <option value="agent">agent</option>
+                                                <option value="customer">customer</option>
 
-            console.log(window.history);
-        })
-        //select email with checkbox
-        const selectEmailElem = document.getElementById("selectEmail")
+                                            </select>
+                                        </div>
+                                        <div class="input__box">
+                                            <span class="input__details " for="state">User State:<span
+                                                    class="user-state-hint">
+                                                    <%= user ? user.active ? "active" : "inactive" :"" %>
+                                                </span>
 
-        selectEmailElem.addEventListener("click", () => {
-            console.log(selectEmailElem.checked);
-        })
-    </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
-</body>
+                                            </span>
+                                            <select class="select" name="state" id="state" name="state">
+                                                <option value="select" selected disabled hidden>
+                                                    Select--
+                                                </option>
 
-</html>
+                                                <option value="activate">Activate</option>
+                                                <option value="deactivate">Deactivate</option>
+
+                                                <!-- <option value="deactivate">Deactivate</option> -->
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="button">
+                                        <input type="submit" value="Update" id="button">
+                                    </div>
+                                    <div class="signup_link">
+                                        <a href="/admin/dashboard">Go To Dashboard</a>
+                                    </div>
+
+
+                                </form>
+            </div>
+            <script>
+
+                document.getElementById("button").addEventListener("submit", (event) => {
+
+                    console.log(window.history);
+                })
+                //select email with checkbox
+                const selectEmailElem = document.getElementById("selectEmail")
+
+                selectEmailElem.addEventListener("click", () => {
+                    console.log(selectEmailElem.checked);
+                })
+            </script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
+        </body>
+
+        </html>
