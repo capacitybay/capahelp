@@ -37,8 +37,10 @@
             </div>
             <div class="txt_field">
                 <input type="password" id="password" name="password" required />
-                <span></span>
                 <label>Password</label>
+                <div class="toggleView">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
             </div>
             <div class="pass">Forgot Password?</div>
 
@@ -52,6 +54,21 @@
         </form>
     </div>
     <script>
+        const inputField = document.getElementById("password")
+        const toggleView = document.querySelector(".toggleView")
+        let password = true
+        function setPasswordState() {
+            if (password) {
+                inputField.setAttribute("type", "password")
+                toggleView.innerHTML = '<i class="fa-solid fa-eye"></i>'
+            } else {
+                inputField.setAttribute("type", "text")
+                toggleView.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'
+            }
+            password = !password
+        }
+        toggleView.addEventListener("click", setPasswordState)
+
 
         function showMessage(msg, success) {
 
