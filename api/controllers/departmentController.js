@@ -73,7 +73,7 @@ const getDepartment = asyncWrapper(async (req, res) => {
   const [emptyDept, activeDept, inactiveDept, totalDept] =
     populateCard(getAllDept);
   if (!getAllDept)
-    return render('Admin/manage/departments', {
+    return render('Admin/manage/adminGetDepartments', {
       totalDept: totalDept ? totalDept.length : 0,
       totalActiveDept: activeDept ? activeDept.length : 0,
       totalInactiveDept: inactiveDept ? inactiveDept.length : 0,
@@ -82,7 +82,7 @@ const getDepartment = asyncWrapper(async (req, res) => {
       errors: [{ msg: 'No Department found' }],
     });
   // sends response to frontend
-  res.render('Admin/departments', {
+  res.render('Admin/adminGetDepartments', {
     totalDept: getAllDept ? getAllDept.length : 0,
     totalActiveDept: activeDept ? activeDept.length : 0,
     totalInactiveDept: inactiveDept ? inactiveDept.length : 0,
@@ -93,9 +93,9 @@ const getDepartment = asyncWrapper(async (req, res) => {
 });
 //* ----------------------------------------------------------------------------------
 // get a  department with its id
-const viewDepartment = asyncWrapper(async (req, res) => {
+const adminViewDepartment = asyncWrapper(async (req, res) => {
   const getDepartment = await DepartmentModel.find({ _id: req.params.deptId });
-  res.render('Admin/viewDepartment', {
+  res.render('Admin/adminViewDepartment', {
     user: req.user[0],
     departmentInfo: getDepartment[0],
   });
@@ -115,10 +115,10 @@ const deactivateDepartment = asyncWrapper(async (req, res) => {
       ` ${deactivateDept.dept_name.toUpperCase()} Department  Deactivated!`
     );
     // renders message to frontend
-    res.render(`Admin/viewDepartment`, { departmentInfo: deactivateDept });
+    res.render(`Admin/adminViewDepartment`, { departmentInfo: deactivateDept });
   } else {
     req.flash('error_msg', `Sorry!, Something Went Wrong`);
-    res.render(`Admin/viewDepartment`, { user: req.user[0] });
+    res.render(`Admin/adminViewDepartment`, { user: req.user[0] });
   }
 });
 //* ----------------------------------------------------------------------------------
@@ -137,11 +137,11 @@ const reactivateDepartment = asyncWrapper(async (req, res) => {
     // renders message to frontend
     res
       .status(200)
-      .render(`Admin/viewDepartment`, { departmentInfo: reactivateDept });
+      .render(`Admin/adminViewDepartment`, { departmentInfo: reactivateDept });
   } else {
     req.flash('error_msg', `Sorry!, Something Went Wrong`);
 
-    res.render(`Admin/viewDepartment`, { user: req.user[0] });
+    res.render(`Admin/adminViewDepartment`, { user: req.user[0] });
   }
 });
 
@@ -152,7 +152,7 @@ const getFilterDepartments = asyncWrapper(async (req, res) => {
   const getAllDept = await DepartmentModel.find({});
   const [emptyDept, activeDept, inactiveDept, totalDept] =
     populateCard(getAllDept);
-  return res.render('Admin/departments', {
+  return res.render('Admin/adminGetDepartments', {
     totalDept,
     totalActiveDept: activeDept ? activeDept.length : 0,
     totalInactiveDept: inactiveDept ? inactiveDept.length : 0,
@@ -183,7 +183,7 @@ const filterDepartments = asyncWrapper(async (req, res) => {
 
     if (_errors) {
       error.push(_errors);
-      return res.render('Admin/departments', {
+      return res.render('Admin/adminGetDepartments', {
         errors: _errors ? error : null,
         user: req.user[0],
         departments: getAllDept,
@@ -219,7 +219,7 @@ const filterDepartments = asyncWrapper(async (req, res) => {
         error.push({
           msg: 'Resource Cannot Be Found!, Please Try Another Search Term.',
         });
-        return res.render('Admin/departments', {
+        return res.render('Admin/adminGetDepartments', {
           totalActiveDept: activeDept ? activeDept.length : 0,
           totalInactiveDept: inactiveDept ? inactiveDept.length : 0,
           totalEmptyDept: emptyDept ? emptyDept.length : 0,
@@ -229,7 +229,7 @@ const filterDepartments = asyncWrapper(async (req, res) => {
           departments: getAllDept,
         });
       } else {
-        return res.render('Admin/departments', {
+        return res.render('Admin/adminGetDepartments', {
           errors: null,
           user: req.user[0],
           totalDept,
@@ -327,7 +327,7 @@ const getUpdateDepartment = asyncWrapper(async (req, res) => {
   });
   console.log(deptMembers);
 
-  return res.render('Admin/updateDepartment', {
+  return res.render('Admin/adminUpdateDepartment', {
     user: req.user[0],
     departmentInfo: getDepartments,
     agents: getAgents,
@@ -336,7 +336,7 @@ const getUpdateDepartment = asyncWrapper(async (req, res) => {
 });
 //* ----------------------------------------------------------------------------------
 // ** Update  department
-const updateDepartment = asyncWrapper(async (req, res) => {
+const adminUpdateDepartment = asyncWrapper(async (req, res) => {
   const { dept_name, head_agent, email, members, status } = req.body;
   const renderFn = ({ status, message, agents, departmentInfo, members }) => {
     res.send({
@@ -495,8 +495,8 @@ module.exports = {
   createDepartment,
   getDepartment,
   deleteDepartment,
-  updateDepartment,
-  viewDepartment,
+  adminUpdateDepartment,
+  adminViewDepartment,
   removeAgentFromDepartment,
   deactivateDepartment,
   reactivateDepartment,

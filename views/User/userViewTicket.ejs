@@ -9,7 +9,8 @@
     <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
 
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link rel="stylesheet" href="/public/styles/Admin/view_ticket.css">
+    <link rel="stylesheet" href="/public/styles/Admin/adminViewTicket.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
     <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
 
 </head>
@@ -17,7 +18,7 @@
 <body>
 
     <!-- Navbar set up  -->
-    <%- include( "../partials/Admin/adminHeader.ejs" ) %>
+    <%- include( "../partials/User/userHeader.ejs" ) %>
 
         <!-- Main container starts  -->
 
@@ -33,7 +34,7 @@
                 <!-- Heading Section -->
                 <div class="title">
                     <h1>
-                        <%= ticketOwner[0].first_name+ " " +ticketOwner[0].last_name%>
+                        <%= ticketOwner.first_name+ " " +ticketOwner.last_name%>
                     </h1>
                     <h3>Subject: <%= ticket.title %>
                     </h3>
@@ -45,7 +46,7 @@
                         y=ticket.createdAt.getFullYear(); %>
                         <div class="status">
                             <p class="stat"><strong>Status:</strong>
-                                <%= ticket.ticket_status %>
+                                <%= ticket.hasOwnProperty("ticket_status") ? ticket.ticket_status :"Pending" %>
                             </p>
                             <p class="date">Created on <%= d+ " " +m+ " " +y %>
                             </p>
@@ -126,7 +127,7 @@
 
 
                                     <div class="file-upload">
-                                        <label for="myfile"><b style="color: green;">Attach a files:</b>&nbsp;&nbsp;
+                                        <label for="myfile"><b style="color: green;">Attach a file:</b>&nbsp;&nbsp;
                                             &nbsp;<small style="color:black;">(File size < 35MB)</small></label>
                                         <input type="file" id="myfile" name="myfile" multiple><br><br>
                                     </div>

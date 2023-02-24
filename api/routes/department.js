@@ -5,8 +5,8 @@ const {
   getDepartment,
   getCreateDepartment,
   deleteDepartment,
-  updateDepartment,
-  viewDepartment,
+  adminUpdateDepartment,
+  adminViewDepartment,
   removeAgentFromDepartment,
   deactivateDepartment,
   reactivateDepartment,
@@ -23,7 +23,7 @@ router.get('/admin/manage/department', isAdmin, getDepartment);
 // });
 router.get('/admin/create/department', isAdmin, getCreateDepartment);
 router.post('/admin/create/department', isAdmin, createDepartment);
-router.post('/admin/update/department/:deptId', isAdmin, updateDepartment);
+router.post('/admin/update/department/:deptId', isAdmin, adminUpdateDepartment);
 router.get('/admin/update/department/:deptId', isAdmin, getUpdateDepartment);
 router.patch(
   '/admin/deactivate/department/:deptId',
@@ -41,7 +41,7 @@ router.delete('/admin/delete/department/:deptId', isAdmin, deleteDepartment);
 router.get('/footer', (req, res) => {
   res.render('partials/footer');
 });
-router.get('/admin/view/department/:deptId', isAdmin, viewDepartment);
+router.get('/admin/view/department/:deptId', isAdmin, adminViewDepartment);
 router.put(
   '/department/remove_agent/:deptId',
   authenticateToken,

@@ -186,13 +186,13 @@ const patchAdminEditTicket = asyncWrapper(async (req, res) => {
     return res.send({ success: false, msg: agentValError.message });
 
   // *fetch customer  with the provided email
-  const getUserInfo = await userModel.findOne(
+  const getUserInfo = await UserModel.findOne(
     { email: customer_id },
     { password: 0 }
   );
 
   // *fetch Agent  with the provided email ie if email is provided
-  const getAssigneeInfo = await userModel.findOne(
+  const getAssigneeInfo = await UserModel.findOne(
     { email: assignee_id },
     { password: 0 }
   );
@@ -263,7 +263,7 @@ const adminDeleteTicket = asyncWrapper(async (req, res) => {
 
 // gets a single ticket
 
-const getTicket = asyncWrapper(async (req, res, next) => {
+const getAdminGetTicket = asyncWrapper(async (req, res, next) => {
   if (req.user[0].user_type === 3) {
     const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
     if (!ticket) return next(createCustomError('no ticket found!', 404));
@@ -278,7 +278,7 @@ const getTicket = asyncWrapper(async (req, res, next) => {
     );
     console.log(ticketUser);
 
-    res.status(200).render('Admin/view_ticket', {
+    res.status(200).render('Admin/adminViewTicket', {
       user: req.user[0],
       ticket: ticket,
       ticketOwner: ticketUser,
@@ -390,7 +390,7 @@ const listTicket = asyncWrapper(async (req, res) => {
   });
   console.log('object-----------------');
   console.log(req.user);
-  res.render('Admin/tickets', {
+  res.render('Admin/adminGetTickets', {
     user: req.user[0],
     success: true,
     receivedTickets: getAllTickets,
@@ -554,13 +554,13 @@ const postAdminCreateTicket = asyncWrapper(async (req, res) => {
     return res.send({ success: false, msg: agentValError.message });
 
   // *fetch customer  with the provided email
-  const getUserInfo = await userModel.findOne(
+  const getUserInfo = await UserModel.findOne(
     { email: customer_id },
     { password: 0 }
   );
 
   // *fetch Agent  with the provided email ie if email is provided
-  const getAssigneeInfo = await userModel.findOne(
+  const getAssigneeInfo = await UserModel.findOne(
     { email: assignee_id },
     { password: 0 }
   );
@@ -640,7 +640,7 @@ const filterTickets = asyncWrapper(async (req, res) => {
 
   const renderFn = (_tickets, _errors) => {
     console.log('error', _errors);
-    res.render('Admin/tickets', {
+    res.render('Admin/adminGetTickets', {
       errors: _errors ? _errors : null,
       user: req.user[0],
       receivedTickets: _tickets ? _tickets : getAllTickets,
@@ -813,8 +813,127 @@ const filterTickets = asyncWrapper(async (req, res) => {
   }
 });
 
+// customer create ticket controller
+
+const postCustomerCreateTicket = asyncWrapper(async (req, res) => {
+  const { ticket_type, title, customer_id, priority, description } = req.body;
+
+  if (!ticket_type || !title || !customer_id || !priority || !description)
+    return res.send({
+      success: false,
+      msg: 'Inputs fields marked with *, cannot be empty!',
+    });
+
+  /**
+   * @param all parameter are of type String and are validated before passed as arg
+   * * This function is responsible for creating ticket with respect to provided args
+   */
+  const createTicketFn = async (
+    addDept,
+    _ticket_type,
+    _title,
+    _customer_id,
+    _priority,
+    _description
+  ) => {
+    const createTicketInfo = {
+      ticket_type: _ticket_type,
+      title: _title,
+      customer_id: _customer_id,
+      priority: _priority,
+      description: _description,
+    };
+
+    //*creates a new instance of the ticket model
+
+    const newTicket = new TicketModel(createTicketInfo);
+    const storedTicket = await newTicket.save();
+    // sends created ticket and a success msg
+    console.log(storedTicket);
+    return res.send({
+      success: true,
+      msg: 'Ticket Has Been Created !',
+      payload: storedTicket,
+    });
+  };
+
+  // *fetch customer  with the provided email
+  const getUserInfo = await UserModel.findOne(
+    { email: customer_id },
+    { password: 0 }
+  );
+
+  // *check if customer and agent exist in th DB
+  if (!getUserInfo)
+    return res.send({
+      success: false,
+      msg: `This customer ${customer_id} does not exist,Please create account for this customer`,
+    });
+
+  createTicketFn(false, ticket_type, title, customer_id, priority, description);
+});
+// admin controllers
+const getCustomerListTickets = asyncWrapper(async (req, res) => {
+  const getCustomerTickets = await TicketModel.find({
+    customer_id: req.user[0].email,
+  });
+  console.log(getCustomerTickets, req.user[0]);
+  // let agentTickets = [];
+
+  // let deptTickets = [];
+
+  // let urgentTickets = [];
+
+  // let unassignedTickets = [];
+  // getAllTickets.forEach((element, idx) => {
+  //   if (element.assignee_id !== null) {
+  //     agentTickets.push(element);
+  //   } else if (element.dept_id !== null) {
+  //     deptTickets.push(element);
+  //   } else {
+  //     unassignedTickets.push(element);
+  //   }
+  // });
+
+  // getAllTickets.forEach((element, idx) => {
+  //   if (element.urgency === 'urgent') {
+  //     urgentTickets.push(element);
+  //   }
+  // });
+  // console.log('object-----------------');
+  // console.log(req.user);
+  res.render('User/tickets', {
+    user: req.user[0],
+    success: true,
+    tickets: getCustomerTickets,
+    // receivedTickets: getAllTickets,
+    // agentTicketCount: agentTickets ? agentTickets.length : 0,
+
+    // deptTicketCount: deptTickets ? deptTickets.length : 0,
+    // totalTickets: getAllTickets ? getAllTickets.length : 0,
+    // unassignedTickets: unassignedTickets ? unassignedTickets.length : 0,
+  });
+});
+
+const getCustomerRequestTickets = asyncWrapper(async (req, res) => {
+  const getCustomerTickets = await TicketModel.find({
+    customer_id: req.user[0].email,
+  });
+  res.send({ success: true, payload: getCustomerTickets });
+});
+const customerGetTicket = asyncWrapper(async (req, res) => {
+  const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
+  console.log(ticket);
+  if (!ticket) return next(createCustomError('no ticket found!', 404));
+
+  return res.status(200).render('User/userViewTicket', {
+    user: req.user[0],
+    ticket: ticket,
+    ticketOwner: req.user[0],
+  });
+});
 module.exports = {
-  getTicket,
+  getAdminGetTicket,
   getAdminCreateTicket,
   listTicket,
   updateTicket,
@@ -822,8 +941,12 @@ module.exports = {
   postAdminCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
+  postCustomerCreateTicket,
+  getCustomerListTickets,
   adminDeleteTicket,
   filterTickets,
+  getCustomerRequestTickets,
+  customerGetTicket,
 };
 
 // assigning ticket to agent or dept should be optional

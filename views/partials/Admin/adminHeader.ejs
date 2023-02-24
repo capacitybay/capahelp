@@ -6,10 +6,10 @@
     </div>
     <nav class="solution-nav">
         <div class="main-navigation">
-                <li><a href="/admin/dashboard">Dashboard</a></li>
-                <li><a href="/admin/ticket/list">Tickets</a></li>
-                <li><a href="/admin/manage/users">Users</a></li>
-                <li class="dept"><a href="/admin/manage/department">Departments</a></li>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/ticket/list">Tickets</a></li>
+            <li><a href="/admin/manage/users">Users</a></li>
+            <li class="dept"><a href="/admin/manage/department">Departments</a></li>
         </div>
         <div class="details solution-deets">
 
@@ -20,7 +20,7 @@
             </div>
             <div class="bell">
                 <i class="fa-regular fa-bell"></i>
-            </div> 
+            </div>
             <div class="user">
                 <p class="clickable-user">
                     <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
@@ -30,7 +30,7 @@
                     <div class="username">
                         <p class="clickable-user clickable2">
                             <%= user? user.first_name.charAt(0).toUpperCase() + "" +
-                                user.last_name.charAt(0).toUpperCase():"EO" %>
+                                user.last_name.charAt(0).toUpperCase():"SU" %>
                         </p>
                         <div class="username-info">
                             <%= user ? user.first_name: "System" %>

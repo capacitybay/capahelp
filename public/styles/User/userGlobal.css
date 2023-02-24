@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100,200,300,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -98,7 +97,7 @@ header {
 .view:hover {
   background-color: var(--maincolor);
 }
-.view:hover a {
+.view:hover {
   color: var(--white);
 }
 .view a {
@@ -197,74 +196,72 @@ header {
   display: none;
 }
 
-
-
 /* ? Intro Responsiveness: */
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1200px) {
   main {
-      padding-bottom: 50px;
+    padding-bottom: 50px;
   }
   header {
-      padding: 10px 20px;
-      margin-bottom: 50px;
-  }   
+    padding: 10px 20px;
+    margin-bottom: 50px;
+  }
   .logo a img {
-      width: 60px;
+    width: 60px;
   }
   .hero {
-      padding: 0px;
-      width: 90%;
-      margin-inline: auto;
-      flex-direction: column;
+    padding: 0px;
+    width: 90%;
+    margin-inline: auto;
+    flex-direction: column;
   }
   .hero-content {
-      flex-basis: 100%;
-      opacity: 0;
-      animation: slideUp .5s ease forwards .3s;
+    flex-basis: 100%;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards 0.3s;
   }
   .hero-title {
-      text-align: center;
-      font-size: clamp(14px, 4vw, 50px);
-      margin-bottom: clamp(25px, 2vw, 60px);
+    text-align: center;
+    font-size: clamp(14px, 4vw, 50px);
+    margin-bottom: clamp(25px, 2vw, 60px);
   }
   .hero-title span {
-      font-weight: 900;
-      font-size: clamp(45px, 10vw, 70px);
+    font-weight: 900;
+    font-size: clamp(45px, 10vw, 70px);
   }
   .sub {
-      margin-bottom: clamp(30px, 2vw, 60px);
-      font-size: clamp(14px, 2.3vw, 50px);
-      text-align: center;
+    margin-bottom: clamp(30px, 2vw, 60px);
+    font-size: clamp(14px, 2.3vw, 50px);
+    text-align: center;
   }
   .hero-toggles {
-      display: flex;
-      gap: 30px;
-      justify-content: center;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
   }
   .hero-toggles div {
-      text-align: center;
-      padding: 6px 20px;
-      font-size: clamp(14px, 2vw, 50px);
+    text-align: center;
+    padding: 6px 20px;
+    font-size: clamp(14px, 2vw, 50px);
   }
   .hero-img {
-      flex-basis: 100%;
+    flex-basis: 100%;
   }
   .hero-img img {
-      opacity: 0;
-      animation: slideUp .5s ease forwards .4s;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards 0.4s;
   }
   .links-container {
-      text-align: center;
-      opacity: 0;
-      animation: slideUp .5s ease forwards .5s;
-      flex-direction: column;
-      padding-bottom: 30px;       
+    text-align: center;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards 0.5s;
+    flex-direction: column;
+    padding-bottom: 30px;
   }
   .link a {
-      font-size: clamp(16px, 2.5vw, 50px);
-      font-weight: 500;
-      color: var(--maincolor);
-  } 
+    font-size: clamp(16px, 2.5vw, 50px);
+    font-weight: 500;
+    color: var(--maincolor);
+  }
 }
 
 /*! SOLUTIONS: */
@@ -369,17 +366,17 @@ header {
   }
   @keyframes show {
     from {
-        opacity: 0;
-        transform: translateY(15px);
+      opacity: 0;
+      transform: translateY(15px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   .display-links {
-    animation: show .3s ease forwards;
-    animation-delay: .4s;
+    animation: show 0.3s ease forwards;
+    animation-delay: 0.4s;
   }
   .solution-.solution-nav {
     padding-top: 190px;

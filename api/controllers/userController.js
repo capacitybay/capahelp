@@ -18,7 +18,7 @@ const userModel = require('../../models/userModel');
 /**
  * *This function populates the cards in admin dashboard
  */
-const adminDashboard = asyncWrapper(async (req, res) => {
+const getAdminDashboard = asyncWrapper(async (req, res) => {
   console.log('note authenticatd');
 
   // gets all ticket in the system
@@ -143,7 +143,7 @@ const adminDashboard = asyncWrapper(async (req, res) => {
 
 //* ----------------------------------------------------------------------------------
 
-const createUser = asyncWrapper(async (req, res) => {
+const userRegistration = asyncWrapper(async (req, res) => {
   // gets information from request body
   const {
     first_name,
@@ -297,6 +297,8 @@ const postAdminCreateUser = asyncWrapper(async (req, res) => {
     return renderFn({ success: false, msg: 'Sorry,Something wen wrong' });
   const userRole = user_type === 'admin' ? 3 : user_type === 'agent' ? 1 : 0;
   // create new document
+  console.log('-----select');
+  console.log(userRole);
   const newUser = new UserModel({
     first_name,
     last_name,
@@ -364,7 +366,7 @@ const filterUsers = asyncWrapper(async (req, res) => {
       deactivatedAgents.length +
       deactivatedCustomers.length;
 
-    res.render('Admin/users', {
+    res.render('Admin/adminGetUsers', {
       errors: _error ? _error : null,
       user: req.user[0],
       users: _users ? _users : allSystemUsers,
@@ -486,7 +488,7 @@ const filterUsers = asyncWrapper(async (req, res) => {
 });
 
 // get all user  : this  can only be done by the admin
-const getUser = asyncWrapper(async (req, res, next) => {
+const adminGetUser = asyncWrapper(async (req, res, next) => {
   const loggedUser = req.user;
 
   if (loggedUser[0].user_type === 3) {
@@ -530,7 +532,7 @@ const getUser = asyncWrapper(async (req, res, next) => {
     console.log(req.user[0]);
 
     if (!getUsers) return next(createCustomError('no user found', 404));
-    res.render('Admin/users', {
+    res.render('Admin/adminGetUsers', {
       errors: undefined,
       user: req.user[0],
       users: getUsers,
@@ -599,7 +601,7 @@ const viewUser = asyncWrapper(async (req, res, next) => {
 const adminUpdateProfile = asyncWrapper(async (req, res) => {
   const user = req.user[0];
 
-  res.render('Admin/editProfile', {
+  res.render('Admin/adminEditProfile', {
     user: user,
     phoneNo: +user.phone,
   });
@@ -695,10 +697,23 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
     userEmail,
     phone,
     first_name,
-    last_nam
+    last_name
   ) => {
-    const convertStateToBool = userState === 'activate' ? true : false;
+    console.log('first---second');
+    console.log(userState);
+
+    let getCustomer;
+    if (userState === undefined) {
+      getCustomer = await UserModel.findOne({ email: email }, { password: 0 });
+    }
+    const convertStateToBool =
+      userState === 'activate'
+        ? true
+        : userState === 'deactivate'
+        ? false
+        : getCustomer.active;
     const convertRole = userRole === 'admin' ? 3 : userRole === 'agent' ? 1 : 0;
+    console.log(convertStateToBool);
     const query = {
       first_name,
       last_name,
@@ -748,16 +763,15 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
     const renderInterface = async (status, userInfo) => {
       if (!status) {
         const getUserData = await userModel.find({ _id: req.params.userId });
-        console.log('first---second');
-        console.log(getUserData);
-        return res.render('Admin/editUser', {
+
+        return res.render('Admin/adminEditUser', {
           errors,
           user: getUserData[0],
           id: req.params.userId,
           feedback: { success: false },
         });
       } else {
-        return res.status(200).render('Admin/editUser', {
+        return res.status(200).render('Admin/adminEditUser', {
           user: userInfo,
           first_name: userInfo.first_name,
           last_name: userInfo.last_name,
@@ -852,7 +866,7 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
 });
 // deactivate user
 
-const deactivateUser = asyncWrapper(async (req, res) => {
+const adminDeactivateUser = asyncWrapper(async (req, res) => {
   if (req.user[0].user_type === 3) {
     // updates and return updated user
     const blockUser = await UserModel.findOneAndUpdate(
@@ -869,7 +883,9 @@ const deactivateUser = asyncWrapper(async (req, res) => {
         ` ${blockUser.first_name.toUpperCase()} ${blockUser.last_name.toUpperCase()}'s Account  Deactivated!`
       );
       // renders message to frontend
-      res.status(200).render(`Admin/viewUserProfile`, { userData: blockUser });
+      res
+        .status(200)
+        .render(`Admin/adminViewUserProfile`, { userData: blockUser });
     } else {
       // TODO:this will return an error dialog
     }
@@ -882,7 +898,7 @@ const deactivateUser = asyncWrapper(async (req, res) => {
 });
 // delete user
 
-const reactivateUser = asyncWrapper(async (req, res) => {
+const adminReactivateUser = asyncWrapper(async (req, res) => {
   console.log(req.params.userId);
   if (req.user[0].user_type === 3) {
     const activateUser = await UserModel.findOneAndUpdate(
@@ -901,7 +917,7 @@ const reactivateUser = asyncWrapper(async (req, res) => {
 
       res
         .status(200)
-        .render(`Admin/viewUserProfile`, { userData: activateUser });
+        .render(`Admin/adminViewUserProfile`, { userData: activateUser });
     } else {
       // this will return an error dialog if error occurred
     }
@@ -915,7 +931,7 @@ const reactivateUser = asyncWrapper(async (req, res) => {
 
 // delete user
 
-const deleteUser = asyncWrapper(async (req, res) => {
+const adminDeleteUser = asyncWrapper(async (req, res) => {
   if (req.user[0].id === req.params.userId || req.user[0].user_type === 3) {
     const deletedUser = await UserModel.findOneAndDelete(
       { _id: req.params.userId },
@@ -942,13 +958,13 @@ const deleteUser = asyncWrapper(async (req, res) => {
 
 // !Admin routes
 
-const viewUserProfile = asyncWrapper(async (req, res) => {
+const adminViewUserProfile = asyncWrapper(async (req, res) => {
   const userData = await userModel.findOne(
     { email: req.params.email },
     { password: 0 }
   );
   console.log(userData);
-  res.render('Admin/viewUserProfile', {
+  res.render('Admin/adminViewUserProfile', {
     user: req.user[0],
     userData: userData,
   });
@@ -967,28 +983,27 @@ const getAdminUpdateUser = asyncWrapper(async (req, res) => {
     { _id: req.params.userId },
     { password: 0 }
   );
-  console.log('user');
-  console.log(user);
-  res.render('Admin/editUser', { user: user[0], feedback: false });
+
+  res.render('Admin/adminEditUser', { user: user[0], feedback: false });
 });
 const getRegisterComponent = asyncWrapper((req, res) => {
   res.render('Admin/adminCreateUser');
 });
 module.exports = {
-  createUser,
-  getUser,
+  userRegistration,
+  adminGetUser,
   postAdminUpdateUser,
   viewUser,
-  deleteUser,
-  deactivateUser,
-  reactivateUser,
+  adminDeleteUser,
+  adminDeactivateUser,
+  adminReactivateUser,
   postAdminCreateUser,
-  adminDashboard,
+  getAdminDashboard,
   filterUsers,
   adminUpdateProfile,
   updateProfile,
 
-  viewUserProfile,
+  adminViewUserProfile,
   getAdminCreateUser,
   getAdminUpdateUser,
   getRegisterComponent,

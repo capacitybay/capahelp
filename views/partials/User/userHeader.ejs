@@ -23,14 +23,14 @@
             <div class="user">
 
                 <p class="clickable-user">
-                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
+                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"SU"
                         %>
                 </p>
                 <div class="user-details">
                     <div class="username">
                         <p class="clickable-user clickable2">
                             <%= user? user.first_name.charAt(0).toUpperCase() + "" +
-                                user.last_name.charAt(0).toUpperCase():"EO" %>
+                                user.last_name.charAt(0).toUpperCase():"SU" %>
                         </p>
                         <div class="username-info">
                             <%= user ? user.first_name: "System" %>
@@ -40,7 +40,15 @@
                     <div class="username-info info1">
                         <a href="/user/profile/edit">Edit Profile</a>
                     </div>
-                    <div class="username-info info2"><a href="/user">Logout</a></div>
+
+                    <div class="info2">
+                        <!-- <div> -->
+
+                        <form style="width: 100%;" action="/logout?_method=DELETE" method="POST">
+                            <button type="submit" class="custom-btn-logout">Log Out</button>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
