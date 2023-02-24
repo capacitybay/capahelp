@@ -1,58 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/head.ejs",{title:"Customer Home"}) %>
+    <%- include("../partials/userHeaderLinks.ejs") %>
+        <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
+        <!-- <link rel="stylesheet" href="/public/styles/User/home.css"> -->
+        <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Home</title>
-    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
-    <link rel="stylesheet" href="/public/styles/User/nav.css">
-    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link rel="stylesheet" href="/public/styles/User/home.css">
-    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
-    <script defer src="/public/script/User/home.js"></script>
-</head>
+        </head>
 
-<body>
-    <main>
-        <%- include("../partials/User/userHeader.ejs") %>
+        <body>
+            <main>
+                <%- include("../partials/User/userHeader.ejs") %>
 
-            <div class="hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        Welcome to<br><span>CapaHelp</span>
-                    </h1>
-                    <p class="sub">
-                        At CapacityBay, Inc. we support you with you with our great services and our core values: Hard
-                        work,
-                        Punctuality, Respect, Cooperation and collaboration, Partnership, Diversity, Tolerance,
-                        Teamwork,
-                        Research, Equity.
-                    </p>
-                    <p class="sub">
-                        Tell us what you want, we build you a solution, create a Ticket and Track Our Progress
-                    </p>
-                    <div class="hero-toggles">
-                        <div class="create">
-                            <a href="/user/create/ticket">Create a Ticket</a>
+                    <div class="hero">
+                        <div class="hero-content">
+                            <h1 class="hero-title">
+                                Welcome to<br><span>CapaHelp</span>
+                            </h1>
+                            <p class="sub">
+                                At CapacityBay, Inc. we support you with you with our great services and our core
+                                values: Hard
+                                work,
+                                Punctuality, Respect, Cooperation and collaboration, Partnership, Diversity, Tolerance,
+                                Teamwork,
+                                Research, Equity.
+                            </p>
+                            <p class="sub">
+                                Tell us what you want, we build you a solution, create a Ticket and Track Our Progress
+                            </p>
+                            <div class="hero-toggles">
+                                <div class="create">
+                                    <a href="/user/create/ticket">Create a Ticket</a>
+                                </div>
+                                <div class="view">
+                                    <a href="/user/solutions">View Solutions</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="view">
-                            <a href="/user/solutions">View Solutions</a>
+                        <div class="hero-img">
+                            <img src="/public/img/work_time_.svg" alt="work_time">
                         </div>
                     </div>
-                </div>
-                <div class="hero-img">
-                    <img src="/public/img/work_time_.svg" alt="work_time">
-                </div>
-            </div>
-            <div class="links-container">
-                <div class="link"><a href="/login">Go to Login/Register Page <span><i
-                                class="fa-solid fa-arrow-right"></i></span></a></div>
-                <div class="link"><a href="/">Go to Home Page <span><i class="fa-solid fa-arrow-right"></i></span></a>
-                </div>
-            </div>
-    </main>
-</body>
+                    <div class="links-container">
+                        <div class="link"><a href="/login">Go to Login/Register Page <span><i
+                                        class="fa-solid fa-arrow-right"></i></span></a></div>
+                        <div class="link"><a href="/">Go to Home Page <span><i
+                                        class="fa-solid fa-arrow-right"></i></span></a>
+                        </div>
+                    </div>
+            </main>
+        </body>
 
-</html>
+        </html>

@@ -15,7 +15,7 @@
 }
 
 body {
-  background-color: rgb(237,237,237);
+  background-color: rgb(237, 237, 237);
   min-height: 100vh;
   padding-bottom: 50px;
 }
@@ -71,7 +71,7 @@ form .user__details .input__box {
   margin-bottom: 15px;
 }
 
-.user__details .input__box .details {
+.user__details .input__box .input__details {
   font-weight: 500;
   margin-bottom: 5px;
   display: block;
@@ -218,7 +218,6 @@ form .button #inputButton:hover {
 .signup_link a:hover {
   text-decoration: underline;
 }
-
 
 @media (max-width: 700px) {
   .container {
