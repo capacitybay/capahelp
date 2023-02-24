@@ -8,9 +8,7 @@ router.get(
 
   asyncWrapper((req, res) => {
     res.render('User/home.ejs', {
-      userFN: req.user[0].first_name,
-      userLN: req.user[0].last_name,
-      userEmail: req.user[0].email,
+      user: req.user[0],
     });
   })
 );

@@ -39,7 +39,7 @@ router.get('/user/solutions', ensureAuthenticated, (req, res) => {
   });
 });
 router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
-  res.render('User/adminEditProfile', {
+  res.render('User/editProfile', {
     user: req.user[0],
   });
 });
