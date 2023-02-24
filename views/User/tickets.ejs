@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CapaHelp- Tickets</title>
-    <link rel="icon" sizes="32x32" type="jpg/png" href="./images/CapacityBay-Logo1.png">
+    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
     <!-- separate css files -->
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
     <!-- tickets css -->
     <link rel="stylesheet" href="/public/styles/User/tickets.css">
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
@@ -18,14 +19,17 @@
 
 <body>
     <main class="ticket-main">
-        <%- include("../partials/Admin/adminHeader.ejs" %>
+        <%- include("../partials/User/userHeader.ejs") %>
 
             <div class="hero solution-hero ticket-hero">
                 <p class="solutions-top ticket-top">
                     <span><a href="/user">Home</a></span> > <a href="/user/tickets">Tickets</a>
                 </p>
                 <div class="ticket-toggles">
-                    <div class="all active-ticket">all</div>
+
+
+                    <div class="all active-ticket" id="activeTickets">all</div>
+
                     <div class="active">active</div>
                     <div class="canceled">canceled</div>
                     <div class="resolved">resolved</div>
@@ -37,58 +41,70 @@
                     <div></div>
                     <div></div>
                 </div>
-                <div class="dashboard">
-                    <div class="track">
-                        <div class="ids">
-                            <div class="ids-top">
-                                <h1>I want to Create a Website-</h1>
-                                <p>TickedId: 2</p>
+                <div class="dashboard" id="style-2">
+
+                    <% if (tickets.length>0) { %>
+                        <% tickets.forEach(ticket=> { %>
+                            <div class="track" onclick="window.location.href = '/user/view/ticket/<%= ticket._id %>'">
+                                <input type="hidden" name="" id="ticketId" value="<%= ticket._id %>">
+                                <div class="ids">
+                                    <div class="ids-top">
+                                        <h1>
+                                            <%= ticket.title %>
+                                        </h1>
+                                        <p>TickedId: <%= ticket._id %>
+                                        </p>
+                                    </div>
+                                    <div class="ids-bottom">
+                                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June"
+                                            , "July" , "August" , "September" , "October" , "November" , "December" ];
+                                            %>
+
+                                            <% var d=ticket.createdAt.getDate(); var
+                                                m=monthNames[ticket.createdAt.getMonth()]; var
+                                                y=ticket.createdAt.getFullYear(); let
+                                                hr=parseInt(ticket.createdAt.getHours()) ;let
+                                                mins=ticket.createdAt.getMinutes() %>
+                                                <%= d+ " " +m+ " " +y +" "+ (hr > 12 ? hr-12:hr)+ " :".trim()+mins+":"+(
+                                                    hr>
+                                                    12
+                                                    ? " PM":"AM")%>
+                                    </div>
+                                </div>
+                                <div class="track-info yellow">
+
+                                    <%= ticket.hasOwnProperty("ticket_status" ) ? ticket.ticket_status:"Pending" %>
+
+                                </div>
                             </div>
-                            <div class="ids-bottom">
-                                Created on Thu, 22 Sep 2022 9:05PM
-                            </div>
-                        </div>
-                        <div class="track-info yellow">In Progress</div>
-                    </div>
-                    <div class="track">
-                        <div class="ids">
-                            <div class="ids-top">
-                                <h1>I need Help with Install... - </h1>
-                                <p>TicketId: 4</p>
-                            </div>
-                            <div class="ids-bottom">
-                                Created on Web, 28 Sep 2022 2:30PM
-                            </div>
-                        </div>
-                        <div class="track-info green">Resolved</div>
-                    </div>
-                    <div class="track">
-                        <div class="ids">
-                            <div class="ids-top">
-                                <h1>I need Help with configure... </h1>
-                                <p>TicketId: 8</p>
-                            </div>
-                            <div class="ids-bottom">
-                                Created on Tue, 27 Sep 2022 5:30PM
-                            </div>
-                        </div>
-                        <div class="track-info yellow">Planning</div>
-                    </div>
-                    <div class="track">
-                        <div class="ids">
-                            <div class="ids-top">
-                                <h1>I want to Create a Website-</h1>
-                                <p>TicketId: 12</p>
-                            </div>
-                            <div class="ids-bottom">
-                                Created on Mon, 26 Sep 2022 8:10PM
-                            </div>
-                        </div>
-                        <div class="track-info pink">Canceled</div>
-                    </div>
+                            <% }) %>
+                                <% }else{ %>
+                                    <div class="error__display">
+                                        <h1>
+                                            Nothing To Display
+                                        </h1>
+
+                                    </div>
+
+                                    <% } %>
                 </div>
             </div>
     </main>
+
+    <script>
+        var receivedTickets = '<%- JSON.stringify(tickets) %>';
+        const parsedTickets = JSON.parse(receivedTickets);
+
+
+
+
+        const ticketId = document.getElementById("ticketId");
+
+
+
+    </script>
+
+
 </body>
 
 </html>

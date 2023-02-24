@@ -35,7 +35,7 @@
                     </th>
                     <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
                     <td class="no-wrap">
-                        <!-- <%- include("../partials/avatar.ejs") %> -->
+
                         <span id="user_name">
 
                             <%= element.first_name+" "+element.last_name  %>
@@ -143,7 +143,7 @@
                     </div>
                     <div class=" modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" id="deleteSelectedUser">Delete</button>
+                        <button type="button" class="btn btn-danger" id="deleteSelectedUser" style="display:flex; gap:1rem"><span class="spinner"><i class="fa fa-refresh fa-spin" style="font-size:1rem;"></i></span>Delete</button>
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p>User has been deleted!, please refresh the page to reflect changes.</p>
+                  <p>User has been deleted!.</p>
                 </div>
                 <div class="modal-footer">
                   
@@ -263,17 +263,26 @@
                     )
 
                     console.log()
-
+                    //spinner element
+                    const spinnerElem = document.querySelector(".spinner")
+                    console.log(spinnerElem);
+                    spinnerElem.style.display = "none";
                     document.getElementById("deleteSelectedUser")
                         .addEventListener("click", function (event) {
                             const id = elementChildren[1].value
                             // event.preventDefault();
+                            //spinner element
+
+                            spinnerElem.style.display = "block";
                             fetch(`/user/delete/${id}`, {
                                 method: "DELETE"
 
                             }).then(response => {
 
                                 if (response.statusText === "OK") {
+                                    //spinner element
+
+                                    spinnerElem.style.display = "none";
                                     document.getElementById("show-message").innerHTML = messageDialog();
 
                                     $('#basicModal').modal('hide')
@@ -288,12 +297,11 @@
                                 }
 
                             }).catch(error => {
-                                console.log(error);
+                                alert("Sorry!, Something went wrong")
+                                spinnerElem.style.display = "none";
                             })
                         })
 
-
-                    //console.log(renderData(userName, emailData, role))
                 }
             })
         })

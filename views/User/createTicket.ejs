@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
     <link rel="stylesheet" href="/public/styles/User/createTicket.css">
     <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
     <script defer src="/public/script/User/hamburger.js"></script>
 </head>
@@ -22,21 +24,36 @@
                     <span><a href="/user">Home</a></span> > <a href="/user/create/ticket">Create a Ticket</a>
                 </p>
                 <h1 class="hero-title create-title">Create a Ticket</h1>
+                <div class="error-plane">
+
+                </div>
                 <form>
+                    <div class="form-box">
+                        <label for="priority">Ticket Type*</label>
+                        <select name="ticket-type" id="ticketType">
+                            <option value="none" selected disabled hidden>
+                                Select--
+                            </option>
+                            <option value="incident">Incident</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="service">Request service</option>
+                        </select>
+                    </div>
+                    <div class="form-box">
+                        <label for="title">Title <span>*</span></label>
+                        <input type="text" name="ticketTitle" id="ticketTitle">
+                    </div>
                     <div class="form-box">
                         <label for="email">Customer email <span>*</span></label>
 
 
-                        <input type="email" id="email" value="<%= userEmail %>" readonly style="background: #eee;">
-                    </div>
-                    <div class="form-box">
-                        <label for="title">Title <span>*</span></label>
-                        <input type="text" id="title">
+                        <input type="email" id="email" value="<%= user? user.email:" System User" %>" readonly
+                        style="background: #eee;">
                     </div>
                     <div class="form-box">
                         <label for="priority">Priority</label>
                         <select name="priority" id="priority">
-                            <option value="normal">Normal</option>
+                            <option value="medium">Medium</option>
                             <option value="low">Low</option>
                             <option value="high">High</option>
                         </select>
@@ -51,16 +68,30 @@
                                 <input type="file" id="file" class="file">
                     </div>
                     <div class="hero-toggles create-toggles">
-                        <div class="view">
+                        <div class="view" onclick="window.location.href = '/user'">
                             Cancel
                         </div>
-                        <div class="create">
+                        <div class="create__btn" id="submitBtn" style="display: flex; gap:1rem">
+                            <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
                             <a>Submit</a>
                         </div>
                     </div>
                 </form>
             </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="/public/script/User/createTicket.js"></script>
 </body>
 
 </html>

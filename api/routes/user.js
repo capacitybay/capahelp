@@ -1,18 +1,18 @@
 const { router } = require('../../utils/packages');
 const {
-  createUser,
-  getUser,
+  userRegistration,
   postAdminUpdateUser,
   viewUser,
-  deleteUser,
-  deactivateUser,
-  reactivateUser,
+  adminDeleteUser,
+  adminDeactivateUser,
+  adminReactivateUser,
+  getAdminDashboard,
+  adminGetUser,
   postAdminCreateUser,
-  adminDashboard,
   filterUsers,
   adminUpdateProfile,
   updateProfile,
-  viewUserProfile,
+  adminViewUserProfile,
   getAdminCreateUser,
   getAdminUpdateUser,
   getRegisterComponent,
@@ -39,7 +39,7 @@ router.get('/user/solutions', ensureAuthenticated, (req, res) => {
   });
 });
 router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
-  res.render('User/editProfile', {
+  res.render('User/adminEditProfile', {
     user: req.user[0],
   });
 });
@@ -57,7 +57,7 @@ router.get('/user/register', (req, res) => {
   // return
 });
 // POST RE
-router.post('/user/register', createUser);
+router.post('/user/register', userRegistration);
 
 /**
  ** END OF GENERAL ROUTE
@@ -67,7 +67,7 @@ router.post('/user/register', createUser);
 // ! ADMIN ROUTES
 router.get('/admin/register', isAdmin, getAdminCreateUser);
 router.post('/admin/register', isAdmin, postAdminCreateUser);
-router.get('/view/user/profile/:email', viewUserProfile);
+router.get('/view/user/profile/:email', adminViewUserProfile);
 
 router.post('/filter/users', isAdmin, filterUsers);
 
@@ -80,9 +80,9 @@ router.get(
 );
 
 // Admin dashboard route
-router.get('/admin/dashboard', isAdmin, adminDashboard);
+router.get('/admin/dashboard', isAdmin, getAdminDashboard);
 // gets all user (admin route)
-router.get('/admin/manage/users', isAdmin, getUser);
+router.get('/admin/manage/users', isAdmin, adminGetUser);
 // *? what is the function of this route
 // router.get('/admin/register', isAdmin, getRegisterComponent);
 
@@ -93,9 +93,9 @@ router.post('/admin/update/user/:userId', isAdmin, postAdminUpdateUser);
 router.patch('/admin/update/profile/:userId', isAdmin, updateProfile);
 
 // TODO: WORK ON CHANGING THE ROUTE FROM USER TO ADMIN
-router.delete('/user/delete/:userId', isAdmin, deleteUser);
-router.patch('/user/deactivate/:userId', isAdmin, deactivateUser);
-router.patch('/user/reactivate/:userId', isAdmin, reactivateUser);
+router.delete('/user/delete/:userId', isAdmin, adminDeleteUser);
+router.patch('/user/deactivate/:userId', isAdmin, adminDeactivateUser);
+router.patch('/user/reactivate/:userId', isAdmin, adminReactivateUser);
 // !END OF ADMIN ROUTE
 
 // gets a user(admin route)

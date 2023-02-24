@@ -2,7 +2,7 @@ const { router } = require('../../utils/packages');
 const { isAdmin } = require('../../middleware/auth');
 const authenticateToken = require('../../auth/authenticateToken');
 const {
-  getTicket,
+  getAdminGetTicket,
   getAdminCreateTicket,
   listTicket,
   updateTicket,
@@ -13,10 +13,14 @@ const {
   pendingTickets,
   resolvedTickets,
   postAdminCreateTicket,
+  postCustomerCreateTicket,
   getAdminEditTicket,
   patchAdminEditTicket,
+  getCustomerListTickets,
+  getCustomerRequestTickets,
   adminDeleteTicket,
   filterTickets,
+  customerGetTicket,
 } = require('../controllers');
 
 const {
@@ -29,7 +33,12 @@ router.post('/ticket/new', getAdminCreateTicket);
 router.get('/admin/update/ticket/:ticketId', isAdmin, getAdminEditTicket);
 router.patch('/admin/update/ticket/:ticketId', isAdmin, patchAdminEditTicket);
 router.delete('/admin/delete/ticket/:ticketId', isAdmin, adminDeleteTicket);
-router.get('/admin/view/ticket/:ticketId', isAdmin, getTicket);
+router.get('/admin/view/ticket/:ticketId', isAdmin, getAdminGetTicket);
+router.get(
+  '/user/view/ticket/:ticketId',
+  ensureAuthenticated,
+  customerGetTicket
+);
 // router.get('/admin/ticket/list/active', isAdmin, activeTickets);
 // router.get('/admin/ticket/list/cancelled', isAdmin, cancelledTickets);
 // router.get('/admin/ticket/list/inProgress', isAdmin, inProgressTickets);
@@ -40,21 +49,26 @@ router.post('/admin/filter/tickets', isAdmin, filterTickets);
 // Todo: still under review
 router.patch('/ticket/update/:ticketId', authenticateToken, updateTicket);
 router.delete('/ticket/delete/:ticketId', authenticateToken, deleteTicket);
+// get al tickets
+router.get('/user/tickets', ensureAuthenticated, getCustomerListTickets);
+router.get(
+  '/user/request/tickets',
+  ensureAuthenticated,
+  getCustomerRequestTickets
+);
 
-router.get('/user/tickets', ensureAuthenticated, (req, res) => {
-  res.render('User/tickets', {
-    userFN: req.user[0].first_name,
-    userLN: req.user[0].last_name,
-    userEmail: req.user[0].email,
-  });
-});
+// get create ticket
 router.get('/user/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('User/createTicket', {
-    userFN: req.user[0].first_name,
-    userLN: req.user[0].last_name,
-    userEmail: req.user[0].email,
+    user: req.user[0],
   });
 });
+router.post(
+  '/user/create/ticket',
+  ensureAuthenticated,
+  postCustomerCreateTicket
+);
+
 router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
 });

@@ -1,6 +1,6 @@
 /* CREATE A TICKET: */
 .create-main {
-  background-color: var(--ticketBackground);
+  /* background-color: var(--ticketBackground); */
   min-height: 100vh;
   padding-bottom: clamp(60px, 1vw, 120px);
 }
@@ -81,6 +81,15 @@ form {
   padding-bottom: 40px;
 }
 
+.create__btn {
+  color: #fff;
+  background-color: #51a86d;
+  transition: 0.1sec;
+}
+.create__btn:hover {
+  background-color: #fff;
+  color: #51a86d;
+}
 /* CREATE RESPONSIVENESS */
 @media screen and (max-width: 768px) {
   form {

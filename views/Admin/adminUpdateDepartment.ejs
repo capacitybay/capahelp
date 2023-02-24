@@ -8,7 +8,8 @@
     <title>CapaHelp- Update Department</title>
     <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link rel="stylesheet" href="/public/styles/Admin/updateDepartment.css">
+    <link rel="stylesheet" href="/public/styles/User/nav.css">
+    <link rel="stylesheet" href="/public/styles/Admin/adminUpdateDepartment.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
 
@@ -21,7 +22,8 @@
         <%- include("../partials/Admin/adminHeader.ejs")%>
             <div class="hero solution-hero ticket-hero">
                 <p class="solutions-top ticket-top">
-                    <span><a href="/user">Home</a></span> > <a href="/admin/manage/department">Manage Dept</a>
+                    <span><a href="/admin/dashboard">Home</a></span> > <a href="/admin/manage/department">Manage
+                        Dept</a>
                 </p>
                 <h1 class="hero-title create-title">Department</h1>
                 <div class="error-plane">
@@ -104,11 +106,13 @@
 
 
                     <div class="hero-toggles create-toggles" id="btn-section">
-                        <div class="view"
-                            onclick="window.location = window.location.toString().replace('admin/create/ticket','admin/dashboard')">
-                            <!-- <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> -->
-                            Cancel
-                        </div>
+                        <a href="/admin/dashboard" style="text-decoration: none;">
+
+                            <div class="view">
+                                <!-- <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> -->
+                                Cancel
+                            </div>
+                        </a>
 
                         <!-- <input type="submit" value="ca" id="submitBtn" /> -->
                         <button id="submitBtn" type="submit" class="has-spinner">

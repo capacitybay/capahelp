@@ -29,12 +29,15 @@ const TicketSchema = new mongoose.Schema(
     },
     urgency: {
       type: String,
+      default: 'open',
     },
     priority: {
       type: String,
+      default: 'low',
     },
     ticket_status: {
       type: String,
+      default: 'pending',
     },
     attachment: {
       type: Array,
