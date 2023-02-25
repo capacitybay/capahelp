@@ -196,6 +196,24 @@ form .button input {
 form .button input:hover {
   background: #25aa72;
 }
+.input__box{
+  position: relative;
+}
+.input__box .eye{
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.input__box .eye-slash{
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
 
 @media only screen and (max-width: 584px) {
   .container {
