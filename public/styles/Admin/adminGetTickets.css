@@ -25,7 +25,8 @@ main {
 }
 
 .table-desc h1 {
-  font-size: 2.5rem !important;
+  margin-top: 1rem;
+  font-size: clamp(2rem, 1vw, 30px) !important;
   color: #585c64;
 }
 .h1_tickets {
