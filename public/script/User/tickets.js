@@ -38,7 +38,10 @@ ticketBtn[0].addEventListener('click', function () {
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
       dashBoard.innerHTML += `
-      <div class="track">
+      
+      <div class="track ticket__card_all" onclick="window.location.href = '/user/view/ticket/${
+        ticket._id
+      }'">
         <div class="ids">
             <div class="ids-top">
                 <h1>${ticket.title}</h1>
@@ -60,7 +63,7 @@ ticketBtn[0].addEventListener('click', function () {
            }
             </div>
         </div>
-        <div class="track-info green">Resolved</div>
+        <div class="track-info green">${ticket.ticket_status}</div>
       </div>
       `;
     });
@@ -72,9 +75,14 @@ ticketBtn[0].addEventListener('click', function () {
           Nothing To Display  
       </h1>
     
-    </div>
-    `;
+      </div>
+      `;
   }
+  document
+    .querySelector('.ticket__card__all')
+    ?.addEventListener('click', (event) => {
+      console.log('working');
+    });
 });
 ticketBtn[1].addEventListener('click', function () {
   var d;
@@ -84,6 +92,7 @@ ticketBtn[1].addEventListener('click', function () {
   let mins;
   ticketBtn[1].classList.add('active-ticket');
   let activeTickets = [];
+  dashBoard.innerHTML = '';
 
   data.forEach((ticket) => {
     if (
@@ -101,15 +110,16 @@ ticketBtn[1].addEventListener('click', function () {
       y = date.getFullYear();
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
-      dashBoard.innerHTML = '';
 
-      dashBoard.innerHTML = `
-    <div class="track">
+      dashBoard.innerHTML += `
+    <div class="track ticket__card"  onclick="window.location.href = '/user/view/ticket/${
+      ticket._id
+    }'">
     <div class="ids">
         <div class="ids-top">
             <h1>${ticket.title}</h1>
             <p>TickedId: ${ticket._id}</p>
-    
+    <input type="hidden" value=${ticket._id} id="ticketId" >
         </div>
         <div class="ids-bottom">
         ${
@@ -127,7 +137,7 @@ ticketBtn[1].addEventListener('click', function () {
         }
         </div>
     </div>
-    <div class="track-info yellow">Active</div>
+    <div class="track-info yellow">${ticket.ticket_status}</div>
   </div>
   `;
     });
@@ -151,7 +161,7 @@ ticketBtn[2].addEventListener('click', function () {
   let mins;
   ticketBtn[2].classList.add('active-ticket');
   let activeTickets = [];
-
+  dashBoard.innerHTML = '';
   data.forEach((ticket) => {
     if (
       ticket.hasOwnProperty('ticket_status') &&
@@ -169,10 +179,11 @@ ticketBtn[2].addEventListener('click', function () {
       y = date.getFullYear();
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
-      dashBoard.innerHTML = '';
 
-      dashBoard.innerHTML = `
-    <div class="track">
+      dashBoard.innerHTML += `
+    <div class="track ticket__card"  onclick="window.location.href = '/user/view/ticket/${
+      ticket._id
+    }'">
     <div class="ids">
         <div class="ids-top">
             <h1>${ticket.title}</h1>
@@ -195,7 +206,7 @@ ticketBtn[2].addEventListener('click', function () {
         }
         </div>
     </div>
-    <div class="track-info yellow">Cancelled</div>
+    <div class="track-info yellow">${ticket.ticket_status}</div>
   </div>
   `;
     });
@@ -219,6 +230,7 @@ ticketBtn[3].addEventListener('click', function () {
   let mins;
   ticketBtn[3].classList.add('active-ticket');
   let activeTickets = [];
+  dashBoard.innerHTML = '';
 
   data.forEach((ticket) => {
     if (
@@ -237,10 +249,11 @@ ticketBtn[3].addEventListener('click', function () {
       y = date.getFullYear();
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
-      dashBoard.innerHTML = '';
 
-      dashBoard.innerHTML = `
-    <div class="track">
+      dashBoard.innerHTML += `
+    <div class="track ticket__card"  onclick="window.location.href = '/user/view/ticket/${
+      ticket._id
+    }'">
     <div class="ids">
         <div class="ids-top">
             <h1>${ticket.title}</h1>
@@ -263,7 +276,7 @@ ticketBtn[3].addEventListener('click', function () {
         }
         </div>
     </div>
-    <div class="track-info yellow">Resolved</div>
+    <div class="track-info yellow">${ticket.ticket_status}</div>
   </div>
   `;
     });
@@ -287,7 +300,7 @@ ticketBtn[4].addEventListener('click', function () {
   let mins;
   ticketBtn[4].classList.add('active-ticket');
   let activeTickets = [];
-
+  dashBoard.innerHTML = '';
   data.forEach((ticket) => {
     if (
       ticket.hasOwnProperty('ticket_status') &&
@@ -305,10 +318,11 @@ ticketBtn[4].addEventListener('click', function () {
       y = date.getFullYear();
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
-      dashBoard.innerHTML = '';
 
-      dashBoard.innerHTML = `
-    <div class="track">
+      dashBoard.innerHTML += `
+    <div class="track ticket__card"  onclick="window.location.href = '/user/view/ticket/${
+      ticket._id
+    }'">
     <div class="ids">
         <div class="ids-top">
             <h1>${ticket.title}</h1>
@@ -331,7 +345,7 @@ ticketBtn[4].addEventListener('click', function () {
         }
         </div>
     </div>
-    <div class="track-info yellow">In Progress</div>
+    <div class="track-info yellow">${ticket.ticket_status}</div>
   </div>
   `;
     });
@@ -355,7 +369,7 @@ ticketBtn[5].addEventListener('click', function () {
   let mins;
   ticketBtn[5].classList.add('active-ticket');
   let activeTickets = [];
-
+  dashBoard.innerHTML = '';
   data.forEach((ticket) => {
     if (
       ticket.hasOwnProperty('ticket_status') &&
@@ -373,15 +387,16 @@ ticketBtn[5].addEventListener('click', function () {
       y = date.getFullYear();
       hr = parseInt(date.getHours());
       mins = date.getMinutes();
-      dashBoard.innerHTML = '';
 
-      dashBoard.innerHTML = `
-    <div class="track">
+      dashBoard.innerHTML += `
+    <div class="track ticket__card"  onclick="window.location.href = '/user/view/ticket/${
+      ticket._id
+    }'">
     <div class="ids">
         <div class="ids-top">
             <h1>${ticket.title}</h1>
-            <p>TickedId: ${ticket._id}</p>
-    
+            <p >TickedId: ${ticket._id}</p>
+
         </div>
         <div class="ids-bottom">
         ${
@@ -399,7 +414,7 @@ ticketBtn[5].addEventListener('click', function () {
         }
         </div>
     </div>
-    <div class="track-info yellow">Pending</div>
+    <div class="track-info yellow">${ticket.ticket_status}</div>
   </div>
   `;
     });
@@ -438,7 +453,7 @@ ticketToggles.onclick = function (e) {
 };
 
 ellipsis.addEventListener('click', function () {
-  ticketToggles.classList.add('show-toggle');
+  ticketToggles.classList.toggle('show-toggle');
   ticketToggles.classList.remove('none');
 });
 

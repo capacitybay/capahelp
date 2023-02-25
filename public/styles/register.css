@@ -17,7 +17,7 @@
 }
 
 .register-main {
-  background-color: rgb(237,237,237);
+  background-color: rgb(237, 237, 237);
   min-height: 100vh;
   padding-bottom: 50px;
 }
@@ -48,7 +48,7 @@
   text-decoration: none;
 }
 
-.btn1, 
+.btn1,
 .btn2 {
   font-weight: 500;
 }
@@ -120,7 +120,7 @@ form .user__details .input__box {
   width: 100%;
   outline: none;
   border-radius: 5px;
-  border: 2px solid rgb(80,168,110);
+  border: 2px solid rgb(80, 168, 110);
   padding-left: 15px;
   font-size: 16px;
   border-bottom-width: 2px;
@@ -129,7 +129,7 @@ form .user__details .input__box {
 
 .user__details .input__box input:focus,
 .user__details .input__box input:valid {
-  border: 2px solid rgb(80,168,110);
+  border: 2px solid rgb(80, 168, 110);
 }
 
 /* inside the form gender details */
@@ -196,9 +196,15 @@ form .button input:hover {
   background: #25aa72;
 }
 
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  .container {
+    width: 95%;
+  }
+}
+
 @media only screen and (max-width: 584px) {
   .container {
-    max-width: 100%;
+    width: 100%;
   }
 
   form .user__details .input__box {

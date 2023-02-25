@@ -9,10 +9,9 @@
         CapaHelp- Tickets
     </title>
     <!-- TODO: work on this global css -->
+
     <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css"
-        rel="stylesheet" crossorigin="anonymous">
-    <script defer src="/public/script/Admin/hanburger.js">   </script>
+
     <script src="https://kit.fontawesome.com/9f1f230ebc.js" crossorigin="anonymous"></script>
     <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
     <!-- separate css files -->
@@ -21,7 +20,7 @@
     <link rel="stylesheet" href="/public/styles/User/tickets.css">
     <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
     <script defer src="/public/script/User/tickets.js"></script>
-    <script defer src="/public/script/User/hamburger.js"></script>
+    <script defer src="/public/script/User/hanburger.js"></script>
 </head>
 
 <body>
@@ -40,7 +39,7 @@
                     <div class="active">active</div>
                     <div class="canceled">canceled</div>
                     <div class="resolved">resolved</div>
-                    <div class="progress">In Progress</div>
+                    <div class="progress">Progress</div>
                     <div class="pending">Pending</div>
                 </div>
                 <div class="ellipsis">
@@ -80,7 +79,7 @@
                                 </div>
                                 <div class="track-info yellow">
 
-                                    <%= ticket.hasOwnProperty("ticket_status" ) ? ticket.ticket_status:"Pending" %>
+                                    <%= ticket.ticket_status %>
 
                                 </div>
                             </div>

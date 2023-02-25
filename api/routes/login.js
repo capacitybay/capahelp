@@ -18,7 +18,7 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) return res.status(400).json({ success: false, payload: info });
-    if (!user) return res.status(404).json({ success: false, payload: info });
+    if (!user) return res.status(400).json({ success: false, payload: info });
     if (user) {
       req.login(user, function (err) {
         if (err) {
