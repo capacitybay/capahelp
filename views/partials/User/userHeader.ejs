@@ -1,29 +1,29 @@
 <header class="solution-header">
     <div class="logo">
-        <a href="/user">
+        <a href="/">
             <img src="/public/img/logo.png" alt="CapacityBay-Logo1">
         </a>
     </div>
     <nav class="solution-nav">
-
         <div class="main-navigation">
-
             <li><a href="/user">Home</a></li>
             <li><a class="active-nav" href="/user/solutions">Solutions</a></li>
             <li><a href="/user/tickets">Tickets</a></li>
 
         </div>
         <div class="details solution-deets">
-            <div class="hero-toggles solutions-hero-toggle">
-                <div class="create solutions-create">
-                    <a href="/user/create/ticket">Create a Ticket</a>
-                </div>
-            </div>
-            <i class="fa-regular fa-bell"></i>
-            <div class="user">
 
+            <div class="hero-toggles solutions-hero-toggle">
+                <article class="create solutions-create">
+                    <a href="/user/create/ticket">Create a Ticket</a>
+                </article>
+            </div>
+            <div class="bell">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <div class="user">
                 <p class="clickable-user">
-                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"SU"
+                    <%= user? user.first_name.charAt(0).toUpperCase() + "" + user.last_name.charAt(0).toUpperCase():"EO"
                         %>
                 </p>
                 <div class="user-details">
@@ -40,7 +40,6 @@
                     <div class="username-info info1">
                         <a href="/user/profile/edit">Edit Profile</a>
                     </div>
-
                     <div class="info2">
                         <!-- <div> -->
 
@@ -52,6 +51,7 @@
                 </div>
             </div>
         </div>
+        <div class="x-mark"><i class="fa-solid fa-xmark"></i></div>
     </nav>
     <div class="hamburger solution-ham">
         <div class="ham"></div>

@@ -72,7 +72,7 @@ router.post(
 router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
 });
-router.post('/admin/create/ticket', postAdminCreateTicket);
+router.post('/admin/create/ticket', isAdmin, postAdminCreateTicket);
 module.exports = router;
 /**
  * Tfind if department exist if yes
