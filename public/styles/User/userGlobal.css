@@ -69,6 +69,7 @@ header {
   display: block;
   animation: slideUp 0.5s ease forwards;
 }
+/* Table head styling */
 
 .create {
   background-color: var(--maincolor);
@@ -77,6 +78,8 @@ header {
   border-radius: 5px;
   border: 2px solid transparent;
 }
+/* display description */
+
 .create:hover {
   background-color: var(--white);
   border: 2px solid var(--maincolor);

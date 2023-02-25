@@ -1,14 +1,11 @@
 <section>
-
-
     <div class="table-container table-responsive scrollbar-custom " id="style-2">
 
         <table class="table table-border table-hover">
             <thead class="th-cont" style="position: sticky;top: 0;">
 
                 <tr>
-                    <th class="t
-                    able-header" scope="col">#</th>
+                    <th class="table-header" scope="col">#</th>
                     <th class="table-header" scope="col">Name</th>
                     <th class="table-header" scope="col">Role</th>
                     <th class="table-header" scope="col">Status</th>
@@ -20,8 +17,6 @@
 
                 </tr>
             </thead>
-
-
     </div>
     </div>
     <tbody id="getTableData">
@@ -106,7 +101,6 @@
 
         function renderData(name, email, userRole, id) {
 
-
             const modal = `
 
             <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
@@ -189,8 +183,6 @@
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 }
-
-
             };
 
             try {
@@ -231,8 +223,6 @@
                     if (validateEmail(emailText)) {
                         window.location.href = `/view/user/profile/${emailText}`;
                     }
-
-
                     //condition checks if the clicked icon contains the text "edit"
 
                 } else if (element.classList[2] === "edit") {
@@ -240,10 +230,7 @@
                     let getElement = element.parentElement.parentElement.parentElement;
                     //TODO: work on this 
                     //this gets individual user id from a hidden input
-                    let getUserId = getElement.children[1].value
-
-
-
+                    let getUserId = getElement.children[1].value;
                     //redirects user to update user component with userId
                     window.location.href = `/admin/update/user/${getUserId}`
                 } else if (element.classList[2] === "trash") {
@@ -251,18 +238,13 @@
                     let elementChildren = value.children
 
                     //element.parentElement.setAttribute("id", "confirm")
-                    console.log(elementChildren[5].textContent.trim())
-                    console.log(elementChildren[2].textContent.trim())
-                    console.log(elementChildren[3].textContent.trim())
-                    console.log(elementChildren[1].value)
+
                     modalContainer.innerHTML = renderData(
                         elementChildren[2].textContent.trim(),
                         elementChildren[5].textContent.trim(),
                         elementChildren[3].textContent.trim(),
                         elementChildren[1].value
                     )
-
-                    console.log()
                     //spinner element
                     const spinnerElem = document.querySelector(".spinner")
                     console.log(spinnerElem);
@@ -270,26 +252,16 @@
                     document.getElementById("deleteSelectedUser")
                         .addEventListener("click", function (event) {
                             const id = elementChildren[1].value
-                            // event.preventDefault();
-                            //spinner element
-
                             spinnerElem.style.display = "block";
-                            fetch(`/user/delete/${id}`, {
+                            fetch(`/admin/delete/${id}`, {
                                 method: "DELETE"
-
                             }).then(response => {
-
                                 if (response.statusText === "OK") {
                                     //spinner element
-
                                     spinnerElem.style.display = "none";
                                     document.getElementById("show-message").innerHTML = messageDialog();
-
                                     $('#basicModal').modal('hide')
-
                                     $('#confirmationModal').modal('show');
-                                    console.log($('#confirmationModal').modal('show'))
-
                                     document.getElementById("refreshPage").addEventListener("click", function (event) {
                                         location.reload()
 

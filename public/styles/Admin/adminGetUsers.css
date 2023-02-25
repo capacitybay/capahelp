@@ -136,6 +136,10 @@ main {
   color: #585c64;
 }
 
+.table-desc h1 {
+  margin-top: 1rem;
+  font-size: clamp(2rem, 1vw, 30px) !important;
+}
 /* fi */
 .table-desc {
   margin-top: 2rem;
