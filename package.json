@@ -38,5 +38,6 @@
   "devDependencies": {
     "dotenv": "^16.0.2",
     "nodemon": "^2.0.20"
-  }
+  },
+  "keywords": []
 }

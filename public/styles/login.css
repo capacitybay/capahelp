@@ -72,6 +72,21 @@ form .txt_field {
 .txt_field input:valid ~ span::before {
   width: 100%;
 }
+.txt_field #eye{
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.txt_field #eye-slash{
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
 .pass {
   margin: -5px 0 20px 5px;
   color: #666666;
