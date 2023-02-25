@@ -46,7 +46,7 @@
                         y=ticket.createdAt.getFullYear(); %>
                         <div class="status">
                             <p class="stat"><strong>Status:</strong>
-                                <%= ticket.hasOwnProperty("ticket_status") ? ticket.ticket_status :"Pending" %>
+                                <%= ticket.ticket_status %>
                             </p>
                             <p class="date">Created on <%= d+ " " +m+ " " +y %>
                             </p>

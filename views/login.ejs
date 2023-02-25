@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
-
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
         integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
@@ -25,8 +24,6 @@
         <div class="error-plane">
             <!-- TODO: check how you can logout msg when user is redirected -->
             <%- include( "partials/messages" ) %>
-
-
         </div>
         <h1>Login</h1>
         <form id="loginForm">
@@ -39,6 +36,9 @@
                 <input type="password" id="password" name="password" required />
                 <span></span>
                 <label>Password</label>
+                <div class="toggleView">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
             </div>
             <div class="pass">Forgot Password?</div>
 
@@ -53,11 +53,25 @@
     </div>
     <script>
 
+
+        const inputField = document.getElementById("password")
+        const toggleView = document.querySelector(".toggleView")
+        let password = true
+        function setPasswordState() {
+            if (password) {
+                inputField.setAttribute("type", "password")
+                toggleView.innerHTML = '<i class="fa-solid fa-eye"></i>'
+            } else {
+                inputField.setAttribute("type", "text")
+                toggleView.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'
+            }
+            password = !password
+        }
+        toggleView.addEventListener("click", setPasswordState)
+
         function showMessage(msg, success) {
 
             if (success) {
-
-
                 return (
                     `
                 <div class="alert alert-success alert-dismissible fade show " role="alert"

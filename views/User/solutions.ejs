@@ -1,58 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/head.ejs",{title:"CapaHelp- Solutions"}) %>
+    <%- include("../partials/userHeaderLinks.ejs") %>
+        <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
+        <!-- <link rel="stylesheet" href="/public/styles/User/partials_styles/userHeader.css"> -->
+        <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CapaHelp- Solutions</title>
-    <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
-    <link rel="stylesheet" href="/public/styles/User/userGlobal.css">
-    <link rel="stylesheet" href="/public/styles/User/nav.css">
-    <!-- <link rel="stylesheet" href="/public/styles/User/partials_styles/userHeader.css"> -->
-    <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
-    <script defer src="/public/script/User/solutions.js"></script>
 
-</head>
+        </head>
 
-<body>
-    <main>
-        <%- include("../partials/User/userHeader.ejs") %>
+        <body>
+            <main>
+                <%- include("../partials/User/userHeader.ejs") %>
 
-            <div class="hero solution-hero">
-                <p class="solutions-top">
-                    <span><a href="/user">Home</a></span> > <a href="/user/solutions">Solutions</a>
-                </p>
-                <div class="solutions-head">
-                    <h1>FIND <span>HELP</span> AND SERVICES</h1>
-                </div>
-                <div class="solution-hero-content">
-                    <div>
-                        <img src="/public/img/solutions_assets/Business_chat_.png" alt="business">
-                        <h1>Web Development</h1>
+                    <div class="hero solution-hero">
+                        <p class="solutions-top">
+                            <span><a href="/user">Home</a></span> > <a href="/user/solutions">Solutions</a>
+                        </p>
+                        <div class="solutions-head">
+                            <h1>FIND <span>HELP</span> AND SERVICES</h1>
+                        </div>
+                        <div class="solution-hero-content">
+                            <div>
+                                <img src="/public/img/solutions_assets/Business_chat_.png" alt="business">
+                                <h1>Web Development</h1>
+                            </div>
+                            <div>
+                                <img src="/public/img/solutions_assets/Co_workers.png" alt="Coworkers">
+                                <h1>Graphic Design</h1>
+                            </div>
+                            <div>
+                                <img src="/public/img/solutions_assets/Designer_.png" alt="Designer">
+                                <h1>Grow Your Audience</h1>
+                            </div>
+                            <div>
+                                <img src="/public/img/solutions_assets/Work_together.png" alt="Work-Together">
+                                <h1>Find Talent</h1>
+                            </div>
+                            <div>
+                                <img src="/public/img/solutions_assets/Working_.png" alt="Working">
+                                <h1>Training</h1>
+                            </div>
+                            <div class="plus">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <img src="/public/img/solutions_assets/Co_workers.png" alt="Coworkers">
-                        <h1>Graphic Design</h1>
-                    </div>
-                    <div>
-                        <img src="/public/img/solutions_assets/Designer_.png" alt="Designer">
-                        <h1>Grow Your Audience</h1>
-                    </div>
-                    <div>
-                        <img src="/public/img/solutions_assets/Work_together.png" alt="Work-Together">
-                        <h1>Find Talent</h1>
-                    </div>
-                    <div>
-                        <img src="/public/img/solutions_assets/Working_.png" alt="Working">
-                        <h1>Training</h1>
-                    </div>
-                    <div class="plus">
-                        <i class="fa-solid fa-circle-plus"></i>
-                    </div>
-                </div>
-            </div>
-    </main>
-</body>
+            </main>
+        </body>
 
-</html>
+        </html>

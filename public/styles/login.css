@@ -124,3 +124,16 @@ form .txt_field {
   /* border: 1px solid blue; */
   margin-top: 0.5rem;
 }
+
+.toggleView {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fa-eye,
+.fa-eye-slash {
+  color: #25aa72;
+}
