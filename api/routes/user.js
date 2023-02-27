@@ -43,6 +43,7 @@ router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
     user: req.user[0],
   });
 });
+router.patch('/user/profile/edit', ensureAuthenticated, updateProfile);
 
 /**
  * *END OF USER ROUTES

@@ -1,4 +1,4 @@
-<%- include("../partials/head.ejs",{title:"Edit User"}) %>
+<%- include("../partials/head.ejs",{title:"Add User"}) %>
     <%- include("../partials/adminHeaderLinks.ejs") %>
         <link rel="stylesheet" href="/public/styles/User/nav.css">
         <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
@@ -12,7 +12,7 @@
 
         <body>
             <div>
-                <%- include("../partials/Admin/adminHeader.ejs") %>
+                <%- include("../partials/Admin/adminHeader.ejs",{user:userInfo}) %>
             </div>
             <!-- User update Form -->
             <div class="container">
