@@ -87,7 +87,6 @@
   justify-content: left;
   margin-bottom: clamp(40px, 1vw, 70px);
   width: 48%;
-  margin-top: 1rem;
 }
 .profile-password a {
   color: var(--maincolor);
@@ -150,7 +149,7 @@ form {
   width: 100%;
   outline: none;
   border: clamp(1px, 0.2vw, 3px) solid rgb(99, 99, 99);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: clamp(5px, 0.7vw, 20px);
   font-size: var(--clamp);
   font-weight: 500;
@@ -201,6 +200,7 @@ form {
     animation: slideUp 0.5s ease forwards 0.4s;
   }
 }
+
 /* !PROFILE RESPONSIVENESS: */
 @media screen and (max-width: 1050px) and (min-width: 591px) {
   .profile-form {
@@ -209,18 +209,13 @@ form {
 }
 
 @media screen and (max-width: 590px) {
-  .profile-password {
-    width: 100%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-  .profile-password .password-view {
-  }
   .edit-div {
     justify-content: space-between;
     padding-inline: clamp(20px, 1vw, 20px);
     margin-bottom: clamp(40px, 1vw, 30px);
+  }
+  .create-toggles {
+    justify-content: center;
   }
   .profile-title {
     font-size: clamp(20px, 2vw, 100px);
@@ -238,6 +233,7 @@ form {
     justify-content: space-between;
   }
   .password-view {
-    flex-basis: 70%;
+    width: 100%;
+    /* flex-basis: 70%; */
   }
 }

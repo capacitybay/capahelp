@@ -29,7 +29,9 @@
   background-color: #3ab984;
   transition: 0.5s;
 }
-
+.hero-toggles div {
+  border: 2px solid rgb(248, 12, 12) !important;
+}
 #btn-section {
   margin-left: auto;
   width: 60%;
@@ -37,6 +39,7 @@
 }
 .view:hover {
   color: #fff;
+  background-color: red;
 }
 
 @media screen and (max-width: 820px) {
@@ -79,7 +82,7 @@ form {
   width: 100%;
   outline: none;
   border: clamp(1px, 0.2vw, 3px) solid rgb(99, 99, 99);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: clamp(5px, 0.7vw, 20px);
   font-size: var(--clamp);
   font-weight: 500;

@@ -43,6 +43,7 @@ router.get('/user/profile/edit', ensureAuthenticated, (req, res) => {
     user: req.user[0],
   });
 });
+router.patch('/user/profile/edit', ensureAuthenticated, updateProfile);
 
 /**
  * *END OF USER ROUTES
@@ -91,6 +92,11 @@ router.get('/admin/update/user/:userId', isAdmin, getAdminUpdateUser);
 router.post('/admin/update/user/:userId', isAdmin, postAdminUpdateUser);
 
 router.patch('/admin/update/profile/:userId', isAdmin, updateProfile);
+router.patch(
+  '/user/update/profile/:userId',
+  ensureAuthenticated,
+  updateProfile
+);
 
 // TODO: WORK ON CHANGING THE ROUTE FROM USER TO ADMIN
 router.delete('/user/delete/:userId', isAdmin, adminDeleteUser);

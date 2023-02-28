@@ -615,16 +615,29 @@ const adminUpdateProfile = asyncWrapper(async (req, res) => {
 const updateProfile = asyncWrapper(async (req, res) => {
   const { first_name, last_name, email, phone, location, checkEmail } =
     req.body;
-  console.log(email);
-  const updateUserProfile = async () => {
+
+  const updateUserProfile = async (isMail,_email) => {
+
+    const query =  {
+      first_name: first_name,
+      last_name: last_name,
+      phone: phone,
+      location,
+    }
+
+
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: req.user[0]._id },
+    
       {
         first_name: first_name,
         last_name: last_name,
         phone: phone,
         location,
-      },
+        email: isMail ? _email : undefined
+      }
+  
+      ,
       { new: true }
     );
 
@@ -640,7 +653,8 @@ const updateProfile = asyncWrapper(async (req, res) => {
       success: false,
       msg: 'Input field(s) must not be empty',
     });
-
+  console.log('check email');
+  console.log(checkEmail);
   if (checkEmail) {
     const { error } = await validateEmail({ email: email });
     if (error) return res.send({ success: false, msg: error.message });
@@ -654,17 +668,18 @@ const updateProfile = asyncWrapper(async (req, res) => {
 
     if (email !== req.user[0].email) {
       // checks if passed email equals retrieved user email
-      if (email === findUser.email) {
+      console.log('....', findUser);
+      if (findUser) {
         return res.send({
           success: false,
           msg: 'Sorry, you cannot use this email',
         });
       } else {
-        updateUserProfile();
+        updateUserProfile(true,email);
       }
     }
   } else {
-    updateUserProfile();
+    updateUserProfile(false);
   }
 });
 
@@ -699,9 +714,6 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
     first_name,
     last_name
   ) => {
-    console.log('first---second');
-    console.log(userState);
-
     let getCustomer;
     if (userState === undefined) {
       getCustomer = await UserModel.findOne({ email: email }, { password: 0 });
@@ -766,12 +778,13 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
 
         return res.render('Admin/adminEditUser', {
           errors,
-          user: getUserData[0],
+          userInfo: getUserData[0],
           id: req.params.userId,
           feedback: { success: false },
         });
       } else {
         return res.status(200).render('Admin/adminEditUser', {
+          userInfo: req.user[0],
           user: userInfo,
           first_name: userInfo.first_name,
           last_name: userInfo.last_name,
@@ -979,12 +992,17 @@ const getAdminCreateUser = asyncWrapper((req, res) => {
   // return
 });
 const getAdminUpdateUser = asyncWrapper(async (req, res) => {
-  const user = await userModel.find(
+  const user = await userModel.findOne(
     { _id: req.params.userId },
     { password: 0 }
   );
-
-  res.render('Admin/adminEditUser', { user: user[0], feedback: false });
+  console.log(req.user);
+  res.render('Admin/adminEditUser', {
+    loggedUser: req.user[0],
+    user: user,
+    userInfo: req.user[0],
+    feedback: false,
+  });
 });
 const getRegisterComponent = asyncWrapper((req, res) => {
   res.render('Admin/adminCreateUser');

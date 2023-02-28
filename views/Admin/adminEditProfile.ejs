@@ -48,8 +48,8 @@
                             </div>
                             <div class="form-box profile-form-box">
                                 <div class="form-div email-class">
-                                    <label for="profile-email">Email:<span class="check-info">check the box to change
-                                            email</span></label>
+                                    <label for="profile-email">Email:<div class="check-info">check the box to change
+                                            email</div></label>
                                     <div>
 
                                         <input type="email" id="profile-email" class="" name="email"
@@ -59,8 +59,7 @@
                                 </div>
                                 <div class="form-div">
                                     <label for="phone">Phone Number</label>
-                                    <input type="number" id="phone" name="phone"
-                                        value="<%= user? parseInt(user.phone) :'2348185685922'%>">
+                                    <input type="text" id="phone" name="phone" value="<%= user?user.phone:''%>">
                                 </div>
                             </div>
                             <div class="form-box profile-form-box profile-form-box2">
@@ -83,8 +82,8 @@
                                 </div>
                             </div>
                             <div class="hero-toggles create-toggles" id="cancel">
-                                <div class="view">
-                                    <a style="text-decoration: none;" href="/admin/dashboard">Cancel</a>
+                                <div class="view" onclick="window.location.href='/admin/dashboard'">
+                                    Cancel
                                 </div>
                                 <div class="create" id="submit">
                                     <span class="spinner" style="margin-right: 1rem;"><i
@@ -148,7 +147,7 @@
 
             const selectEmailElem = document.getElementById("selectEmail")
             const mainElem = document.getElementById("main")
-
+            console.log(selectEmailElem.checked);
             spinnerElem.style.display = "none";
 
             submitElem.addEventListener("click", function (event) {
@@ -157,7 +156,6 @@
                 async function updateRequest(arg) {
                     submitElem.disabled = true;
                     spinnerElem.style.display = "block";
-
 
                     fetch(`/admin/update/profile/${id}`, {
                         headers: {
@@ -175,13 +173,10 @@
                         })
 
                     }).then(response => {
-                        console.log(response);
-                        //location.reload()
-
                         return response.json()
 
                     }).then(data => {
-                        console.log(data);
+
                         if (data) {
                             submitElem.disabled = false;
                             spinnerElem.style.display = "none";

@@ -12,7 +12,7 @@
 }
 
 .user-form-div input {
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(248, 247, 247);
 }
 
 .deactivate-toggle-container {
@@ -32,7 +32,7 @@
 
 .customer-hero2 {
   padding: 2rem;
-  box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.651);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 /* ADMIN  UPDATE USER: */
@@ -66,7 +66,7 @@ form {
   width: 100%;
   outline: none;
   border: clamp(1px, 0.2vw, 3px) solid rgb(99, 99, 99);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: clamp(5px, 0.7vw, 20px);
   font-size: var(--clamp);
   font-weight: 500;

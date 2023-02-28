@@ -145,7 +145,7 @@ header {
 }
 .hero-toggles div {
   padding: 6px 20px;
-  border-radius: 7px;
+  border-radius: 5px;
   font-size: var(--clamp);
   font-weight: 600;
   cursor: pointer;

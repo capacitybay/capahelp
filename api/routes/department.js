@@ -17,10 +17,7 @@ const {
 
 const { isAdmin, ensureAuthenticated } = require('../../middleware/auth');
 router.get('/admin/manage/department', isAdmin, getDepartment);
-// router.get('/admin/view/department', isAdmin, viewDepartment);
-// router.get('/admin/department/list', (req, res) => {
-//   res.render('Admin/departments');
-// });
+
 router.get('/admin/create/department', isAdmin, getCreateDepartment);
 router.post('/admin/create/department', isAdmin, createDepartment);
 router.post('/admin/update/department/:deptId', isAdmin, adminUpdateDepartment);
@@ -42,10 +39,6 @@ router.get('/footer', (req, res) => {
   res.render('partials/footer');
 });
 router.get('/admin/view/department/:deptId', isAdmin, adminViewDepartment);
-router.put(
-  '/department/remove_agent/:deptId',
-  authenticateToken,
-  removeAgentFromDepartment
-);
+router.put('/department/remove/agent', isAdmin, removeAgentFromDepartment);
 
 module.exports = router;

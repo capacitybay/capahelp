@@ -1,72 +1,102 @@
 <%- include("../partials/head.ejs",{title:"CapaHelp- Profile"}) %>
     <%- include("../partials/userHeaderLinks.ejs") %>
         <link rel="icon" sizes="32x32" type="jpg/png" href="/public/img/logo.png">
+        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
         <link rel="stylesheet" href="/public/styles/User/nav.css">
         <link rel="stylesheet" href="/public/styles/User/editProfile.css">
         <script defer src="https://kit.fontawesome.com/96a70be8ea.js" crossorigin="anonymous"></script>
-        <script defer src="/public/script/Admin/hamburger.js"></script>
+
         </head>
 
         <body>
-            <div>
+            <main class="ticket-main create-main" id="main">
                 <%- include("../partials/User/userHeader.ejs") %>
-            </div>
-            <main class="ticket-main create-main">
-                <div class="hero solution-hero ticket-hero">
-                    <p class="solutions-top ticket-top profile-top">
-                        <span><a href="/user">Home</a></span> > <a href="/user/profile/edit">Edit Profile</a>
-                    </p>
-                    <div class="edit-div">
-                        <div>
-                            <h1 class="hero-title profile-title">Edit Profile</h1>
+                    <div class="hero solution-hero ticket-hero">
+                        <p class="solutions-top ticket-top profile-top">
+                            <span><a href="/user">Home</a></span> > <a href="/user/profile/edit">Edit
+                                Profile</a>
+                        </p>
+                        <div class="edit-div">
+                            <div>
+                                <h1 class="hero-title profile-title">Edit Profile</h1>
+                            </div>
+                            <div>
+                                <p class="clickable-user clickable2 profile-clickable">
+                                    <%= user? user.first_name.charAt(0).toUpperCase() + "" +
+                                        user.last_name.charAt(0).toUpperCase():"EO" %>
+                                </p>
+                            </div>
+
                         </div>
-                        <div>
-                            <p class="clickable-user clickable2 profile-clickable">EO</p>
+                        <div class="error-plane">
+                            <%- include("../partials/messages.ejs") %>
                         </div>
+                        <form class="profile-form" id="formElem">
+                            <div class="form-box profile-form-box">
+                                <input type="hidden" name="userId" id="userId" value="<%= user?user._id:'' %> ">
+
+                                <div class="form-div">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" name="first_name"
+                                        value="<%= user?user.first_name:''%> ">
+                                </div>
+                                <div class="form-div">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="last_name"
+                                        value="<%= user?user.last_name:''%> ">
+                                </div>
+                            </div>
+                            <div class="form-box profile-form-box">
+                                <div class="form-div email-class">
+                                    <label for="profile-email">Email:
+                                        <div>
+
+                                            <input type="email" id="profile-email" class="" name="email"
+                                                value="<%= user?user.email:''%> ">
+                                            <input type="checkbox" class="check-email" name="selectEmail"
+                                                id="selectEmail">
+                                        </div>
+                                        <div class="check-info">check the box to change email</div>
+                                    </label>
+                                </div>
+                                <div class="form-div">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="text" id="phone" name="phone" value="<%= user? user.phone:''%>">
+                                </div>
+                            </div>
+                            <div class="form-box profile-form-box profile-form-box2">
+                                <div class="form-div">
+                                    <label for="location">Location</label>
+
+                                    <select class="select" id="location" name="location">
+                                        <option value="<%= user? user.location: '' %>">
+                                            <%= user? user.location: '' %>
+                                        </option>
+                                        <%- include("../partials/countries.ejs") %>
+                                    </select>
+                                    <!-- TODO: change this to select -->
+                                    <!-- <input type="text" id="location" name="location" value="<%= user? user.location: '' %> "> -->
+                                </div>
+                            </div>
+                            <div class="hero-toggles create-toggles profile-password">
+                                <div style="text-decoration: none; " class="view password-view">
+                                    <a href="/password/reset">Change Password</a>
+                                </div>
+                            </div>
+                            <div class="hero-toggles create-toggles" id="cancel">
+                                <div class="view" onclick="window.location.href = '/user'">
+                                    Cancel
+                                </div>
+                                <div class="create" id="submit">
+                                    <span class="spinner" style="margin-right: 1rem;"><i
+                                            class="fa fa-refresh fa-spin"></i></span>
+                                    <a>Update</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form class="profile-form">
-                        <div class="form-box profile-form-box">
-                            <div class="form-div">
-                                <label for="firstname">First Name</label>
-                                <input type="text" id="firstname" value="Emmanuel">
-                            </div>
-                            <div class="form-div">
-                                <label for="lastname">Last Name</label>
-                                <input type="text" id="lastname" value="Onyenegbutu">
-                            </div>
-                        </div>
-                        <div class="form-box profile-form-box">
-                            <div class="form-div">
-                                <label for="profile-email">Email</label>
-                                <input type="email" id="profile-email" value="emmao@capacitybay.org" readonly class="profile-email">
-                            </div>
-                            <div class="form-div">
-                                <label for="phone">Phone Number</label>
-                                <input type="number" id="phone" value="2348185685922">
-                            </div>
-                        </div>
-                        <div class="form-box profile-form-box profile-form-box2">
-                            <div class="form-div">
-                                <label for="country">Country</label>
-                                <input type="text" id="country" value="Nigeria">
-                            </div>
-                        </div>
-                        <div class="hero-toggles create-toggles profile-password">
-                            <div class="view password-view">
-                                <a href="/password/reset">Change Password</a>
-                            </div>
-                        </div>
-                        <div class="hero-toggles create-toggles">
-                            <div class="view">
-                                <a>Cancel</a>
-                            </div>
-                            <div class="create">
-                                <a>Update</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </main>
         </body>
+        <script src="/public/script/User/editProfile.js"></script>
 
         </html>
