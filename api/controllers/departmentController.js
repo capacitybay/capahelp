@@ -346,7 +346,6 @@ const adminUpdateDepartment = asyncWrapper(async (req, res) => {
       members,
     });
   };
-  console.log(dept_name, head_agent, email, members, status);
 
   const getDepartments = await DepartmentModel.findOne({
     _id: req.params.deptId,
@@ -401,7 +400,7 @@ const adminUpdateDepartment = asyncWrapper(async (req, res) => {
       head_agent,
       email,
       active: convertStatus,
-      $push: { members: { $each: [...members] } },
+      $addToSet: { members: { $each: [...members] } },
     },
     { runValidators: true, context: 'query' }
   );
@@ -409,7 +408,7 @@ const adminUpdateDepartment = asyncWrapper(async (req, res) => {
   if (!updatedDept)
     return renderFn({
       status: false,
-      message: 'Department not updatedt!',
+      message: 'Department not updated!',
       agents: getAgents,
       departmentInfo: getDepartments,
     });
@@ -421,51 +420,57 @@ const adminUpdateDepartment = asyncWrapper(async (req, res) => {
     agents: getAgents,
     departmentInfo: getDepartments,
   });
-
-  // const getDept = await DepartmentModel.findOne({
-  //   $and: [{ members: { $in: [members] } }, { _id: req.params.deptId }],
-  // });
 });
 
 const removeAgentFromDepartment = asyncWrapper(async (req, res) => {
-  const { dept_name, head_agent, email, userId } = req.body;
+  // const { dept_name, head_agent, email, userId } = req.body;
 
-  if (req.user.user_type !== 3)
-    return res.status(401).json({
-      success: false,
-      payload: 'You are not authorized to access this resource',
-    });
+  // if (req.user.user_type !== 3)
+  //   return res.status(401).json({
+  //     success: false,
+  //     payload: 'You are not authorized to access this resource',
+  //   });
 
-  if (!req.params.deptId)
-    return res
-      .status(400)
-      .json({ success: false, payload: 'Please select a department' });
-  const validateData = { dept_name, head_agent, email };
-  const { error } = await updateDeptValidation(validateData);
-  if (error) return res.status(400).json(error.message);
+  // if (!req.params.deptId)
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, payload: 'Please select a department' });
+  // const validateData = { dept_name, head_agent, email };
+  // const { error } = await updateDeptValidation(validateData);
+  // if (error) return res.status(400).json(error.message);
 
-  if (!error) {
-    // checks if user is already in the department
-    const getDept = await DepartmentModel.findOne({
-      $and: [{ _id: req.params.deptId }, { members: userId }],
-    });
+  // if (!error) {
+  // checks if user is already in the department
+  // const getDept = await DepartmentModel.findOne({
+  //   $and: [{ _id: req.params.deptId }, { members: req.userId }],
+  // });
 
-    if (getDept) {
-      const deleteAgent = await DepartmentModel.updateOne(
-        {
-          _id: req.params.deptId,
-        },
-        {
-          $pull: { members: userId },
-        }
-      );
-      res.status(200).json({
-        success: true,
-        payload: deleteAgent,
-      });
+  const { deptId, agentId } = req.body;
+  console.log({ deptId, agentId });
+
+  const deleteAgent = await DepartmentModel.updateOne(
+    {
+      _id: deptId,
+    },
+    {
+      $pull: { members: agentId },
     }
-    // return res.status(409).json('user already exist in department');
+  );
+  console.log(deleteAgent);
+  if (deleteAgent) {
+    return res.status(200).json({
+      success: true,
+      payload: `Operation Successful  ! `,
+    });
+  } else {
+    return res.status(500).json({
+      success: false,
+      payload: `Operation Not Successful, Please Try Again `,
+    });
   }
+
+  // return res.status(409).json('user already exist in department');
+  // }
 });
 
 // delete departments
