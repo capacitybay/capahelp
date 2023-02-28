@@ -2,3 +2,17 @@
   display: flex;
   gap: 1.5rem;
 }
+.view__solutions a {
+  color: rgb(80, 168, 108);
+}
+
+.view__solutions {
+  color: rgb(80, 168, 108);
+  background: #fff;
+}
+.view__solutions:hover {
+  background-color: rgb(80, 168, 108);
+}
+.view__solutions a:hover {
+  color: rgb(255, 255, 255);
+}
