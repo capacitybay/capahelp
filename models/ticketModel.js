@@ -39,6 +39,9 @@ const TicketSchema = new mongoose.Schema(
       type: String,
       default: 'pending',
     },
+    conversation_id: {
+      type: String,
+    },
     attachment: {
       type: Array,
     },

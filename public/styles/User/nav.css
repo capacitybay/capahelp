@@ -93,20 +93,20 @@ a:hover {
   width: clamp(40px, 2vw, 80px);
   height: clamp(40px, 2vw, 80px);
   display: flex;
-  transform: translateY(8px);
   justify-content: center;
   align-items: center;
   font-weight: 600;
   color: var(--maincolor);
   border-radius: 50%;
   font-size: var(--clamp);
+  margin: 0;
 }
 
 .user-details {
   background-color: var(--white);
   position: absolute;
   left: -190%;
-  right: -150%;
+  /* right: -150%; */
   top: 70px;
   padding: 10px clamp(15px, 1vw, 30px) 15px;
   border-radius: 7px;
@@ -261,7 +261,7 @@ a:hover {
   }
   .user-details {
     position: absolute;
-    left: -300%;
+    left: -450%;
     top: 50px;
   }
   .username {
