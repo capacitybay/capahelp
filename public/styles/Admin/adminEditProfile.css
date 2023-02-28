@@ -147,7 +147,7 @@ form {
   width: 100%;
   outline: none;
   border: clamp(1px, 0.2vw, 3px) solid rgb(99, 99, 99);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: clamp(5px, 0.7vw, 20px);
   font-size: var(--clamp);
   font-weight: 500;
