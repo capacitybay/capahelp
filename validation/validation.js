@@ -1,7 +1,6 @@
 const joi = require('joi');
 
 function registerValidation(data) {
-
   const schema = joi.object({
     // first name validation
     first_name: joi.string().min(2).required(),
@@ -12,7 +11,7 @@ function registerValidation(data) {
       .string()
       .email({
         minDomainSegments: 2,
-        tlds: { allow: ['com', 'net'] },
+        tlds: { allow: ['com', 'net', 'org'] },
       })
       .required(),
     password: joi
@@ -87,7 +86,7 @@ function updateUserValidation(data) {
       .string()
       .email({
         minDomainSegments: 2,
-        tlds: { allow: ['com', 'net'] },
+        tlds: { allow: ['com', 'net', 'org'] },
       })
       .required(),
 
@@ -115,7 +114,7 @@ async function createDeptValidation(data) {
       .string()
       .email({
         minDomainSegments: 2,
-        tlds: { allow: ['com', 'net'] },
+        tlds: { allow: ['com', 'net', 'org'] },
       })
       .required(),
   });
@@ -169,7 +168,7 @@ async function validateEmail(data) {
       .string()
       .email({
         minDomainSegments: 2,
-        tlds: { allow: ['com', 'net'] },
+        tlds: { allow: ['com', 'net', 'org'] },
       })
       .required(),
   });
