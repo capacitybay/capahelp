@@ -20,6 +20,7 @@ form {
 }
 .create-title {
   opacity: 0;
+  font-family: 'Poppins', sans-serif;
   animation: slideUp 0.5s ease forwards 1s;
 }
 .form-box {

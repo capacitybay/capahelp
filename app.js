@@ -11,8 +11,10 @@ const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
+const server = require("./utils/socketServer")(app);
 // application port
 const port = process.env.PORT || 4000;
+
 
 // passport config
 // require('./middleware/passportConfig')(passport);
@@ -77,7 +79,7 @@ const startApp = async () => {
     // connect to database
     await connectDb(process.env.MONGO_URL);
     console.log(`mongodb is connected`);
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`app is listening on port ${port}`);
     });
   } catch (error) {

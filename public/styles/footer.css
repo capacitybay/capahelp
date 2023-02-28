@@ -150,6 +150,7 @@
 @media (max-width: 870px) {
   .footer {
     flex-direction: column-reverse;
+    align-items: center;
   }
   .footer .footer-left,
   .footer .footer-center,
@@ -223,3 +224,4 @@
     gap: 10px;
   }
 }
+
