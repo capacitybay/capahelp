@@ -30,6 +30,7 @@ main {
   color: #585c64;
 }
 .h1_tickets {
+  margin-left: 1rem;
   width: 5%;
   border-bottom: 5px solid #1ca76c;
 }

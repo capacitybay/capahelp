@@ -616,15 +616,28 @@ const updateProfile = asyncWrapper(async (req, res) => {
   const { first_name, last_name, email, phone, location, checkEmail } =
     req.body;
 
-  const updateUserProfile = async () => {
+  const updateUserProfile = async (isMail,_email) => {
+
+    const query =  {
+      first_name: first_name,
+      last_name: last_name,
+      phone: phone,
+      location,
+    }
+
+
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: req.user[0]._id },
+    
       {
         first_name: first_name,
         last_name: last_name,
         phone: phone,
         location,
-      },
+        email: isMail ? _email : undefined
+      }
+  
+      ,
       { new: true }
     );
 
@@ -640,7 +653,8 @@ const updateProfile = asyncWrapper(async (req, res) => {
       success: false,
       msg: 'Input field(s) must not be empty',
     });
-
+  console.log('check email');
+  console.log(checkEmail);
   if (checkEmail) {
     const { error } = await validateEmail({ email: email });
     if (error) return res.send({ success: false, msg: error.message });
@@ -654,17 +668,18 @@ const updateProfile = asyncWrapper(async (req, res) => {
 
     if (email !== req.user[0].email) {
       // checks if passed email equals retrieved user email
-      if (email === findUser.email) {
+      console.log('....', findUser);
+      if (findUser) {
         return res.send({
           success: false,
           msg: 'Sorry, you cannot use this email',
         });
       } else {
-        updateUserProfile();
+        updateUserProfile(true,email);
       }
     }
   } else {
-    updateUserProfile();
+    updateUserProfile(false);
   }
 });
 
