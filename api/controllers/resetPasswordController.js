@@ -7,56 +7,44 @@ const userModel = require('../../models/userModel');
 // resets user password
 const resetPassword = asyncWrapper(async (req, res, next) => {
   // get data from req body
-  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const { newPassword, confirmPassword } = req.body;
   const userId = req.params.userId;
   let errors = [];
   // check logged in user
   if (req.user[0]) {
-    console.log('start');
     //  check for empty input
-    if (!oldPassword || !newPassword || !confirmPassword)
+    if (!newPassword || !confirmPassword)
       return res.send({ error: true, msg: 'Input cannot be empty' });
     // validate passwords
 
-    const { error } = await validatePassword({ password: oldPassword });
+    const { error } = await validatePassword({ password: newPassword });
 
     if (error) return res.send({ error: true, msg: error.message });
     // get user with ID
     const user = await userModel.find({ _id: req.user[0]._id });
-    console.log('find user with ID');
-    console.log(user[0].password);
 
     if (!user) return res.send({ error: true, msg: 'user not found' });
-    const decryptedPassword = await unHashPassword(
-      oldPassword,
-      user[0].password
-    );
-    console.log(decryptedPassword);
-    // logs if compare returns false
-    if (!decryptedPassword)
-      return res.send({ error: true, msg: 'Invalid Password!' });
+
     // check equality
     if (newPassword !== confirmPassword)
-      return res.send({ error: true, msg: "password doesn't match" });
+      return res.send({ error: true, msg: "Password Doesn't Match" });
     // hash password
     const encryptedPassword = await hashedPassword(confirmPassword);
     // update password
-    const updatePassword = await userModel.findOneAndUpdate(
+    const updatePassword = await userModel.UpdateOne(
       { _id: req.user[0]._id },
       { password: encryptedPassword },
       { new: true }
     );
-
+    console.log(updatePassword);
     // log user out
     req.logout(function (error) {
       if (error) {
         req.next(error);
       }
-      // TODO: flash message not implemented yet
-      req.flash('success_msg', 'Please login with your new password');
+      req.flash('success_msg', 'Please login With Your New Password');
       return res.redirect('/login');
     });
-    console.log(updatePassword);
   }
 });
 
