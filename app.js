@@ -11,29 +11,17 @@ const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
-const server = require("./utils/socketServer")(app);
+const server = require('./utils/socketServer')(app);
+const asyncWrapper = require('./middleware/controllerWrapper');
 // application port
 const port = process.env.PORT || 4000;
 
-
-// passport config
-// require('./middleware/passportConfig')(passport);
 // use middleWares
 app.use('/public', express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// const sessionStore = new MongoStore({
-//   mongooseConnection: process.env.MONGO_URL,
-//   coll
-// })
-// console.log(session);
-
-// if (app.get('env') === 'production') {
-//   app.set('trust proxy', 1) // trust first proxy
-//   sess.cookie.secure = true // serve secure cookies
-// }
 app.use(cookieParser());
 // Express session
 
@@ -67,24 +55,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(routes);
+app.use(error404);
 
-app.get(error404);
 // ejs
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.use(errorHandler);
 
-const startApp = async () => {
-  try {
-    // connect to database
-    await connectDb(process.env.MONGO_URL);
-    console.log(`mongodb is connected`);
-    server.listen(port, () => {
-      console.log(`app is listening on port ${port}`);
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+const startApp = asyncWrapper(async () => {
+  // connect to database
+  const establishConn = await connectDb(process.env.MONGO_URL);
+  console.log(`mongodb is connected`);
+  app.listen(port, () => {
+    console.log(`app is listening on port ${port}`);
+  });
+});
 // starts application
 startApp();

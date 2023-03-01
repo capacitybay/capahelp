@@ -35,13 +35,9 @@ module.exports = {
   },
   // checks if user is admin
   isAdmin: function (req, res, next) {
-    console.log('req.isAuthenticated()');
-
-    console.log(req.user);
     if (!req.isAuthenticated()) return res.redirect('/login');
     if (req.user[0].user_type === 3) {
       //res.status(304).redirect('/login');
-
       return next();
     }
     // redirects to access denied page
