@@ -3,6 +3,8 @@ const asyncWrapper = require('../../middleware/controllerWrapper');
 const { createCustomError } = require('../../middleware/customError');
 const UserModel = require('../../models/userModel');
 const { validateEmail } = require('../../validation/validation');
+const {Conversation} = require('../../models/conversationModel');
+
 // const { findOne } = require('../../models/departmentModel');
 
 const verifyUser = (req, res) => {
@@ -276,12 +278,16 @@ const getAdminGetTicket = asyncWrapper(async (req, res, next) => {
       },
       { password: 0 }
     );
-    console.log(ticketUser);
-
+    
+    // startSocketio().on("connection", (socket)=>{
+    //   console.log("Socket ------------")
+    //   console.log("User connected");
+      
+    // })
     res.status(200).render('Admin/adminViewTicket', {
       user: req.user[0],
       ticket: ticket,
-      ticketOwner: ticketUser,
+      ticketOwner: ticketUser[0],
     });
   } else {
     res.status(401).json({
@@ -390,7 +396,7 @@ const listTicket = asyncWrapper(async (req, res) => {
   });
   console.log('object-----------------');
   console.log(req.user);
-  res.render('Admin/adminGetTickets', {
+res.render('Admin/adminGetTickets', {
     user: req.user[0],
     success: true,
     receivedTickets: getAllTickets,
@@ -924,6 +930,7 @@ const getCustomerRequestTickets = asyncWrapper(async (req, res) => {
 const customerGetTicket = asyncWrapper(async (req, res) => {
   const ticket = await TicketModel.findOne({ _id: req.params.ticketId });
   console.log(ticket);
+  // console.log(req.user[0]);
   if (!ticket) return next(createCustomError('no ticket found!', 404));
 
   return res.status(200).render('User/userViewTicket', {
@@ -931,6 +938,40 @@ const customerGetTicket = asyncWrapper(async (req, res) => {
     ticket: ticket,
     ticketOwner: req.user[0],
   });
+});
+const postUserConversation = asyncWrapper(async (req, res) => {
+  const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
+  console.log(ticket);
+
+  const newChat = new Conversation({
+    sendersFName: req.user[0].first_name,
+    sendersLName: req.user[0].last_name,
+    message: req.body.editor,
+    user_type: req.user[0].user_type,
+  })
+  ticket.conversation.push(newChat);
+  const savedTicket = await ticket.save();
+  
+
+
+  return res.status(200).redirect(`/user/view/ticket/${req.body.ticketId}`);
+});
+const postAdminConversation = asyncWrapper(async (req, res) => {
+  const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
+  console.log(ticket);
+
+  const newChat = new Conversation({
+    sendersFName: req.user[0].first_name,
+    sendersLName: req.user[0].last_name,
+    message: req.body.editor,
+    user_type: req.user[0].user_type,
+  })
+  ticket.conversation.push(newChat);
+  const savedTicket = await ticket.save();
+  
+
+
+  return res.status(200).redirect(`/admin/view/ticket/${req.body.ticketId}`);
 });
 module.exports = {
   getAdminGetTicket,
@@ -947,6 +988,8 @@ module.exports = {
   filterTickets,
   getCustomerRequestTickets,
   customerGetTicket,
+  postUserConversation,
+  postAdminConversation
 };
 
 // assigning ticket to agent or dept should be optional

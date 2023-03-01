@@ -33,6 +33,8 @@ const {
   filterTickets,
   getCustomerRequestTickets,
   customerGetTicket,
+  postUserConversation,
+  postAdminConversation,
 } = require('./ticketController');
 
 const {
@@ -67,6 +69,8 @@ module.exports = {
   getCustomerListTickets,
   getCustomerRequestTickets,
   customerGetTicket,
+  postUserConversation,
+  postAdminConversation,
   // customer
   userRegistration,
   filterUsers,

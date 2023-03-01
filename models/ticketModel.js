@@ -1,4 +1,6 @@
 const { mongoose, Schema } = require('./getMongoose');
+const {conversationModel} = require('./conversationModel');
+
 
 const TicketSchema = new mongoose.Schema(
   {
@@ -39,9 +41,7 @@ const TicketSchema = new mongoose.Schema(
       type: String,
       default: 'pending',
     },
-    conversation_id: {
-      type: String,
-    },
+    conversation: [conversationModel],
     attachment: {
       type: Array,
     },
