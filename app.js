@@ -11,8 +11,11 @@ const flash = require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
+
+
 const server = require('./utils/socketServer')(app);
 const asyncWrapper = require('./middleware/controllerWrapper');
+
 // application port
 const port = process.env.PORT || 4000;
 
@@ -70,5 +73,6 @@ const startApp = asyncWrapper(async () => {
     console.log(`app is listening on port ${port}`);
   });
 });
+
 // starts application
 startApp();

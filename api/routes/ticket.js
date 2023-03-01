@@ -21,6 +21,8 @@ const {
   adminDeleteTicket,
   filterTickets,
   customerGetTicket,
+  postUserConversation,
+  postAdminConversation,
 } = require('../controllers');
 
 const {
@@ -68,11 +70,17 @@ router.post(
   ensureAuthenticated,
   postCustomerCreateTicket
 );
+//User Create Chat Conversation
+router.post("/user/create/conversation", ensureAuthenticated, postUserConversation)
+
+//Admin Create Chat Conversation
+router.post("/admin/create/conversation", isAdmin, postAdminConversation)
 
 router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
 });
 router.post('/admin/create/ticket', isAdmin, postAdminCreateTicket);
+
 module.exports = router;
 /**
  * Tfind if department exist if yes

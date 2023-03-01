@@ -72,6 +72,18 @@ body {
   position: relative;
   border: 1px solid #eee;
 }
+.btn-chat-sub{
+  padding: 6px 20px;
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgb(80, 168, 108);
+  margin-top: 25px;
+}
 .messages {
   transition: all 0.6s ease-in-out;
 }
