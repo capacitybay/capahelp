@@ -99,9 +99,9 @@ router.patch(
 );
 
 // TODO: WORK ON CHANGING THE ROUTE FROM USER TO ADMIN
-router.delete('/user/delete/:userId', isAdmin, adminDeleteUser);
-router.patch('/user/deactivate/:userId', isAdmin, adminDeactivateUser);
-router.patch('/user/reactivate/:userId', isAdmin, adminReactivateUser);
+router.delete('/admin/delete/:userId', isAdmin, adminDeleteUser);
+router.patch('/admin/deactivate/:userId', isAdmin, adminDeactivateUser);
+router.patch('/admin/reactivate/:userId', isAdmin, adminReactivateUser);
 // !END OF ADMIN ROUTE
 
 // gets a user(admin route)

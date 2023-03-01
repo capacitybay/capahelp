@@ -329,6 +329,11 @@ header {
   padding-top: clamp(10px, 1vw, 40px);
   cursor: pointer;
   opacity: 0;
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   animation: slideUp 0.5s ease forwards 1.1s;
 }
 .solution-hero-content div:hover {
@@ -339,7 +344,8 @@ header {
   width: 100%;
   height: clamp(220px, 15vw, 1400px);
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  width: 100%;
   margin-bottom: 10px;
 }
 .solution-hero-content div h1 {
@@ -351,6 +357,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
 }
 
 .plus i {

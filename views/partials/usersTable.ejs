@@ -22,18 +22,20 @@
     <tbody id="getTableData">
 
         <% if(users) {%>
-            <% users.forEach((element,idx)=>{ %>
+            <% if(users.length> 0) {%>
 
-                <tr id="getE">
-                    <th scope="row">
-                        <%= idx +=1 %>
-                    </th>
-                    <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
-                    <td class="no-wrap">
+                <% users.forEach((element,idx)=>{ %>
 
-                        <span id="user_name">
+                    <tr id="getE">
+                        <th scope="row">
+                            <%= idx +=1 %>
+                        </th>
+                        <input type="hidden" name="userId" class="userId" value="<%= element._id %> ">
+                        <td class="no-wrap">
 
-                            <%= element.first_name+" "+element.last_name  %>
+                            <span id="user_name">
+
+                                <%= element.first_name+" "+element.last_name  %>
                        </span>
 
                             </td>
@@ -41,55 +43,59 @@
                             <td>
                                 <span id=" role">
 
-                                <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
-                        </span>
-                    </td>
-                    <td class="status no-wrap"><span
-                            class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
-                        <%= element.active ?"Active": "inactive" %>
-                    </td>
-                    <td id="email-data">
-                        <%= element.email %>
-                    </td>
-                    <td class="no-wrap">
-                        <%= element.phone ? element.phone: "+133 934465654" %>
-                    </td>
-                    <td>
-                        <%= element.location %>
-                    </td>
-                    <td>
-                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
-                            , "August" , "September" , "October" , "November" , "December" ]; %>
+                                    <%= element.user_type===0 ? " User" :element.user_type===3 ? "Admin" :"Agent" %>
+                            </span>
+                        </td>
+                        <td class="status no-wrap"><span
+                                class="status-indicator status-indicator--<%= element.active?'active':'inactive' %>"></span>
+                            <%= element.active ?"Active": "inactive" %>
+                        </td>
+                        <td id="email-data">
+                            <%= element.email %>
+                        </td>
+                        <td class="no-wrap">
+                            <%= element.phone ? element.phone: "+133 934465654" %>
+                        </td>
+                        <td>
+                            <%= element.location %>
+                        </td>
+                        <td>
+                            <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
+                                , "August" , "September" , "October" , "November" , "December" ]; %>
 
-                            <% var d=element.createdAt.getDate(); var m=monthNames[element.createdAt.getMonth()]; var
-                                y=element.createdAt.getFullYear(); %>
-                                <%= d+ " " +m+ " " +y%>
-                    </td>
-                    <td class="action-icons">
-                        <div class="td-cont">
+                                <% var d=element.createdAt.getDate(); var m=monthNames[element.createdAt.getMonth()];
+                                    var y=element.createdAt.getFullYear(); %>
+                                    <%= d+ " " +m+ " " +y%>
+                        </td>
+                        <td class="action-icons">
+                            <div class="td-cont">
 
-                            <i class="fa-solid fa-pen-to-square edit call-to-action"></i>
+                                <i class="fa-solid fa-pen-to-square edit call-to-action"></i>
 
-                            <i class="fa-regular fa-eye view call-to-action"></i>
+                                <i class="fa-regular fa-eye view call-to-action"></i>
 
-                            <a href="#" data-toggle="modal" data-target="#basicModal"><i id="deleteUser"
-                                    class="fa-solid fa-trash trash call-to-action">
+                                <a href="#" data-toggle="modal" data-target="#basicModal"><i id="deleteUser"
+                                        class="fa-solid fa-trash trash call-to-action">
 
-                                </i>
-                            </a>
+                                    </i>
+                                </a>
+
+                            </div>
+
+                        </td>
+                        <!-- basic modal -->
+                        <div id="modal-container">
 
                         </div>
 
-                    </td>
-                    <!-- basic modal -->
-                    <div id="modal-container">
+                    </tr>
 
-                    </div>
+                    <% }) %>
+                        <% } else{%>
+                            <%- include("../../partials/Admin/chartPlaceholder.ejs") %>
 
-                </tr>
-
-                <% }) %>
-                    <% } %>
+                                <% } %>
+                                    <% } %>
     </tbody>
     </table>
 
@@ -228,7 +234,7 @@
                 } else if (element.classList[2] === "edit") {
                     //fetchRequest()
                     let getElement = element.parentElement.parentElement.parentElement;
-                    //TODO: work on this 
+
                     //this gets individual user id from a hidden input
                     let getUserId = getElement.children[1].value;
                     //redirects user to update user component with userId
@@ -247,7 +253,7 @@
                     )
                     //spinner element
                     const spinnerElem = document.querySelector(".spinner")
-                    console.log(spinnerElem);
+
                     spinnerElem.style.display = "none";
                     document.getElementById("deleteSelectedUser")
                         .addEventListener("click", function (event) {
@@ -260,7 +266,7 @@
                                     //spinner element
                                     spinnerElem.style.display = "none";
                                     document.getElementById("show-message").innerHTML = messageDialog();
-                                    $('#basicModal').modal('hide')
+                                    $('#basicModal').modal('hide');
                                     $('#confirmationModal').modal('show');
                                     document.getElementById("refreshPage").addEventListener("click", function (event) {
                                         location.reload()
