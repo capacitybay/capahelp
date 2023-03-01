@@ -4,6 +4,9 @@ const { createCustomError } = require('../../middleware/customError');
 const UserModel = require('../../models/userModel');
 const { validateEmail } = require('../../validation/validation');
 const {Conversation} = require('../../models/conversationModel');
+const sendMessageEmail = require('../../utils/messageMail');
+const adminSendMessageEmail = require('../../utils/adminMessageSend');
+
 
 // const { findOne } = require('../../models/departmentModel');
 
@@ -941,7 +944,14 @@ const customerGetTicket = asyncWrapper(async (req, res) => {
 });
 const postUserConversation = asyncWrapper(async (req, res) => {
   const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
-  console.log(ticket);
+  // console.log(ticket);
+
+  let ticketUser = await UserModel.find(
+    {
+      email: ticket.customer_id,
+    },
+    { password: 0 }
+  );
 
   const newChat = new Conversation({
     sendersFName: req.user[0].first_name,
@@ -952,13 +962,20 @@ const postUserConversation = asyncWrapper(async (req, res) => {
   ticket.conversation.push(newChat);
   const savedTicket = await ticket.save();
   
-
+  const messageSent = await adminSendMessageEmail(ticket.id, "info@capacitybay.org", ticketUser[0].first_name, ticket.title)
 
   return res.status(200).redirect(`/user/view/ticket/${req.body.ticketId}`);
 });
 const postAdminConversation = asyncWrapper(async (req, res) => {
   const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
-  console.log(ticket);
+  // console.log(ticket);
+
+  let ticketUser = await UserModel.find(
+    {
+      email: ticket.customer_id,
+    },
+    { password: 0 }
+  );
 
   const newChat = new Conversation({
     sendersFName: req.user[0].first_name,
@@ -968,8 +985,9 @@ const postAdminConversation = asyncWrapper(async (req, res) => {
   })
   ticket.conversation.push(newChat);
   const savedTicket = await ticket.save();
-  
 
+  const messageSent = await sendMessageEmail(ticket.id, ticketUser[0].email, ticketUser[0].first_name, ticket.title)
+  // console.log(messageSent);
 
   return res.status(200).redirect(`/admin/view/ticket/${req.body.ticketId}`);
 });

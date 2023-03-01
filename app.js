@@ -12,8 +12,6 @@ const expressLayouts = require('express-ejs-layouts');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 
-
-const server = require('./utils/socketServer')(app);
 const asyncWrapper = require('./middleware/controllerWrapper');
 
 // application port
