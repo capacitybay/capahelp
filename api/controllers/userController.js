@@ -616,28 +616,25 @@ const updateProfile = asyncWrapper(async (req, res) => {
   const { first_name, last_name, email, phone, location, checkEmail } =
     req.body;
 
-  const updateUserProfile = async (isMail,_email) => {
-
-    const query =  {
+  const updateUserProfile = async (isMail, _email) => {
+    const query = {
       first_name: first_name,
       last_name: last_name,
       phone: phone,
       location,
-    }
-
+    };
 
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: req.user[0]._id },
-    
+
       {
         first_name: first_name,
         last_name: last_name,
         phone: phone,
         location,
-        email: isMail ? _email : undefined
-      }
-  
-      ,
+        email: isMail ? _email : undefined,
+      },
+
       { new: true }
     );
 
@@ -675,7 +672,7 @@ const updateProfile = asyncWrapper(async (req, res) => {
           msg: 'Sorry, you cannot use this email',
         });
       } else {
-        updateUserProfile(true,email);
+        updateUserProfile(true, email);
       }
     }
   } else {
@@ -950,6 +947,7 @@ const adminDeleteUser = asyncWrapper(async (req, res) => {
       { _id: req.params.userId },
       { new: true }
     );
+    console.log(deletedUser);
     if (deletedUser) {
       req.flash(
         'success_msg',
