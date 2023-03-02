@@ -4,13 +4,13 @@ const userDetails = document.querySelector('.user-details');
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.solution-nav');
 const links = document.querySelectorAll('.main-navigation li a');
-const bell = document.querySelector('.bell');
+
 const xMark = document.querySelector('.x-mark');
 const create = document.querySelector('.solutions-create');
 
 hamburger.addEventListener('click', function () {
   nav.classList.add('display-nav');
-  bell.classList.add('display-links');
+  // bell.classList.add('display-links');
   create.classList.add('display-links');
   links.forEach(function (link) {
     link.classList.add('display-links');

@@ -1,81 +1,29 @@
-
-<%- include("../partials/head.ejs",{title:"View Ticket"}) %>
+<%- include("../partials/head.ejs",{title:"CapaHelp- View Ticket"}) %>
     <%- include("../partials/userHeaderLinks.ejs") %>
-    <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
+        <title>View Ticket</title>
+        <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
 
-    <!-- <link rel="stylesheet" href="/public/styles/User/userGlobal.css"> -->
-    <link rel="stylesheet" href="/public/styles/Admin/adminViewTicket.css">
-    <link rel="stylesheet" href="/public/styles/User/nav.css">
-    <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
+        <link rel="stylesheet" href="/public/styles/User/userViewTicket.css">
+        <link rel="stylesheet" href="/public/styles/User/nav.css">
+        <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
 
+        </head>
+
+        <body>
 
             <!-- Navbar set up  -->
             <%- include( "../partials/User/userHeader.ejs" ) %>
 
                 <!-- Main container starts  -->
 
-
-    <!-- Navbar set up  -->
-    <%- include("../partials/User/userHeader.ejs") %>
-
+                <div class="row">
+                    <section>
 
                         <div class="tick">
                             <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
                             </p>
                             <div class="re-btn">Resolve</div>
                         </div>
-
-                        <hr>
-
-
-                        <!-- Time Ago Section Start -->
-                        <% function timeSince(date) {%>
-                            <%var seconds = Math.floor((new Date() - date) / 1000);%>
-                            <%var interval = seconds / 31536000;%>
-                          
-                            <%if (interval > 1) {%>
-                              <%return Math.floor(interval) + " years";%>
-                            <%}%>
-                            <%interval = seconds / 2592000;%>
-                            <%if (interval > 1) {%>
-                            <%  return Math.floor(interval) + " months";%>
-                            <%}%>
-                            <%interval = seconds / 86400;%>
-                            <%if (interval > 1) {%>
-                            <%  return Math.floor(interval) + " days";%>
-                            <%}%>
-                            <%interval = seconds / 3600;%>
-                            <%if (interval > 1) {%>
-                            <%  return Math.floor(interval) + " hours";%>
-                            <%}%>
-                            <%interval = seconds / 60;%>
-                            <%if (interval == 1) {%>
-                                <%  return Math.floor(interval) + " minute";%>
-                                <%}%>
-                            <%if (interval > 1) {%>
-                            <%  return Math.floor(interval) + " minutes";%>
-                            <%}%>
-                            <%return Math.floor(seconds) + " seconds";%>
-                          <%}%>
-                        <!-- Time Ago Section End -->
-
-
-                        <!-- Messages section Agent -->
-                        <div class="messages right">
-                            <div class="user_icon">
-                                <div class="icon"><% const initials = (ticketOwner.first_name.substring(0, 1)+ticketOwner.last_name.substring(0, 1)).toUpperCase()%>
-                                <%= initials%></div>
-                            </div>
-                            <div class="body-part">
-                                <h2><%= ticketOwner.first_name+ " " +ticketOwner.last_name%> <span><% const agoT = timeSince(ticket.createdAt) %> Posted <%= agoT %> ago</span></h2>
-                                <p><%= ticket.description%></p>
-
-                                <!-- Attachment Section -->
-                                <!-- <p class="atta">1 Attachment (Scanned for Virus)</p>
-                                <div class="di">
-                                    <div class="filename">Mai Tea.Docx</div>
-                                    <div class="filesize">368.67KB</div>
-                                </div> -->
 
                         <!-- Heading Section -->
                         <div class="title">
@@ -99,79 +47,67 @@
                                 </div>
                                 <hr>
 
+                                <!-- Messages section Agent -->
+                                <div class="messages right">
+                                    <div class="user_icon">
+                                        <div class="icon">EO</div>
+                                    </div>
+                                    <div class="body-part">
+                                        <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2>
+                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
 
-                        <!-- Messages section User -->
-                        <% ticket.conversation.forEach(chat => {%>
-                            <% const initials = (chat.sendersFName.substring(0, 1)+chat.sendersLName.substring(0, 1)).toUpperCase()%>
-                            <% const agoTime = timeSince(chat.createdAt)%>
-                            <%if(chat.user_type == "3"){%>
-                               
-                                
+                                        <!-- Attachment Section -->
+                                        <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                        <div class="di">
+                                            <div class="filename">Mai Tea.Docx</div>
+                                            <div class="filesize">368.67KB</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Messages section User -->
                                 <div class="messages left">
 
                                     <div class="body-part right">
-                                        <h2><span> Posted <%= agoTime%> ago</span> <%= chat.sendersFName+ " " +chat.sendersLName%> </h2>
-                                        <%- chat.message%>
-        
+                                        <h2><span>Posted 1 day ago</span> Emmanuel Onyenegbutu </h2>
+                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
                                         <!-- Attachment Section -->
-                                        <!-- <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                        <p class="atta">1 Attachment (Scanned for Virus)</p>
                                         <div class="diwrapper">
                                             <div class="di">
                                                 <div class="filename">Mai Tea.Docx</div>
                                                 <div class="filesize">368.67KB</div>
                                             </div>
-                                        </div> -->
-        
+                                        </div>
+
                                     </div>
+
                                     <div class="user_icon">
-                                        <div class="icon"><%= initials%></div>
+                                        <div class="icon">EO</div>
                                     </div>
                                 </div>
-                            <%}else{%>
+
                                 <div class="messages right">
                                     <div class="user_icon">
-                                        <div class="icon"><%= initials%></div>
+                                        <div class="icon">EO</div>
                                     </div>
                                     <div class="body-part">
-                                        <h2><%= chat.sendersFName+ " " +chat.sendersLName%> <span>Posted <%= agoTime%> ago</h2>
-                                            <%- chat.message%>
-        
+                                        <h2>Emmanuel Onyenegbutu <span>Posted 1 day ago</span></h2>
+                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, delectus?</p>
+
                                         <!-- Attachment Section -->
-                                        <!-- <p class="atta">1 Attachment (Scanned for Virus)</p>
+                                        <p class="atta">1 Attachment (Scanned for Virus)</p>
                                         <div class="di">
                                             <div class="filename">Mai Tea.Docx</div>
                                             <div class="filesize">368.67KB</div>
-                                        </div> -->
-        
+                                        </div>
+
                                     </div>
                                 </div>
-                            <%}%>
-                            
-                        <%})%>
-                       
-
-
-                        
-                        <!-- Reply Section -->
-                        <div class="reply">
-
-                            <div class="user_icon">
-                                <div class="icon"><% const userIn = (user.first_name.substring(0, 1) +user.last_name.substring(0, 1)).toUpperCase()%> <%= userIn %></div>
-                            </div>
-                            <div class="body-part">
-                                <h3>Reply</h3>
-
-                                <form action="/user/create/conversation" method="post" id="sd">
-                                    <textarea class="text-area" name="editor" id="editor" rowss="20"
-                                        placeholder="Please Input a Description"></textarea>
-                                        <input type="hidden" name="ticketId" value="<%= ticket._id %>">
-                                    
-                                    <!-- <div class="file-upload">
-                                        <label for="myfile"><b style="color: green;">Attach a file:</b>&nbsp;&nbsp;
-                                            &nbsp;<small style="color:black;">(File size < 35MB)</small></label>
-                                        <input type="file" id="myfile" name="myfile" multiple><br><br>
-                                    </div> -->
-                                    <button type="submit" class="btn-chat-sub">Send Reply</button>
+                                <!-- Reply Section -->
+                                <div class="reply">
 
                                     <div class="user_icon">
                                         <div class="icon">EO</div>
@@ -180,7 +116,7 @@
                                         <h3>Reply</h3>
 
                                         <form action="#" id="sd">
-                                            <textarea class="text-area" name="editor" id="editor" rowss="20"
+                                            <textarea class="text-area" name="editor" id="editor" rows="20"
                                                 placeholder="Please Input a Description"></textarea>
 
 
@@ -207,7 +143,6 @@
                 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
                 <script>
                     CKEDITOR.replace("editor");
-
                 </script>
         </body>
 

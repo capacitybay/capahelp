@@ -14,7 +14,6 @@
     clamp(15px, 2vw, 150px);
   position: relative;
   border-radius: 5px;
-  height: 80vh;
 }
 
 .c-dashboardInfo:hover {

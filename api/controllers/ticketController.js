@@ -3,10 +3,9 @@ const asyncWrapper = require('../../middleware/controllerWrapper');
 const { createCustomError } = require('../../middleware/customError');
 const UserModel = require('../../models/userModel');
 const { validateEmail } = require('../../validation/validation');
-const {Conversation} = require('../../models/conversationModel');
+const { Conversation } = require('../../models/conversationModel');
 const sendMessageEmail = require('../../utils/messageMail');
 const adminSendMessageEmail = require('../../utils/adminMessageSend');
-
 
 // const { findOne } = require('../../models/departmentModel');
 
@@ -281,11 +280,11 @@ const getAdminGetTicket = asyncWrapper(async (req, res, next) => {
       },
       { password: 0 }
     );
-    
+
     // startSocketio().on("connection", (socket)=>{
     //   console.log("Socket ------------")
     //   console.log("User connected");
-      
+
     // })
     res.status(200).render('Admin/adminViewTicket', {
       user: req.user[0],
@@ -399,7 +398,7 @@ const listTicket = asyncWrapper(async (req, res) => {
   });
   console.log('object-----------------');
   console.log(req.user);
-res.render('Admin/adminGetTickets', {
+  res.render('Admin/adminGetTickets', {
     user: req.user[0],
     success: true,
     receivedTickets: getAllTickets,
@@ -958,11 +957,16 @@ const postUserConversation = asyncWrapper(async (req, res) => {
     sendersLName: req.user[0].last_name,
     message: req.body.editor,
     user_type: req.user[0].user_type,
-  })
+  });
   ticket.conversation.push(newChat);
   const savedTicket = await ticket.save();
-  
-  const messageSent = await adminSendMessageEmail(ticket.id, "info@capacitybay.org", ticketUser[0].first_name, ticket.title)
+
+  const messageSent = await adminSendMessageEmail(
+    ticket.id,
+    'info@capacitybay.org',
+    ticketUser[0].first_name,
+    ticket.title
+  );
 
   return res.status(200).redirect(`/user/view/ticket/${req.body.ticketId}`);
 });
@@ -982,14 +986,28 @@ const postAdminConversation = asyncWrapper(async (req, res) => {
     sendersLName: req.user[0].last_name,
     message: req.body.editor,
     user_type: req.user[0].user_type,
-  })
+  });
   ticket.conversation.push(newChat);
   const savedTicket = await ticket.save();
 
-  const messageSent = await sendMessageEmail(ticket.id, ticketUser[0].email, ticketUser[0].first_name, ticket.title)
+  const messageSent = await sendMessageEmail(
+    ticket.id,
+    ticketUser[0].email,
+    ticketUser[0].first_name,
+    ticket.title
+  );
   // console.log(messageSent);
 
   return res.status(200).redirect(`/admin/view/ticket/${req.body.ticketId}`);
+});
+
+const userResolveTicket = asyncWrapper(async (req, res) => {
+  const ticketId = req.params.ticketId;
+
+  const updatedTicket = await TicketModel.updateOne({
+    _id: ticketId,
+  });
+  console.log(updatedTicket);
 });
 module.exports = {
   getAdminGetTicket,
@@ -1007,7 +1025,8 @@ module.exports = {
   getCustomerRequestTickets,
   customerGetTicket,
   postUserConversation,
-  postAdminConversation
+  postAdminConversation,
+  userResolveTicket,
 };
 
 // assigning ticket to agent or dept should be optional

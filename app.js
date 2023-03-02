@@ -61,7 +61,7 @@ app.use(error404);
 // ejs
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-app.use(errorHandler);
+// app.use(errorHandler);
 
 const startApp = asyncWrapper(async () => {
   // connect to database

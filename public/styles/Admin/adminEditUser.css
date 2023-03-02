@@ -108,7 +108,7 @@ body {
 
 .user__details .input__box input:focus,
 .user__details .input__box input:valid {
-  border-color: var(--main-purple);
+  border-color: #199561;
 }
 
 /* inside the #form gender details */
@@ -246,7 +246,7 @@ body {
   color: #666666;
 }
 .signup_link a {
-  color: #2691d9;
+  color: #25aa72;
   text-decoration: none;
 }
 .signup_link a:hover {

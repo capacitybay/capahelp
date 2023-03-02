@@ -35,6 +35,7 @@ const {
   customerGetTicket,
   postUserConversation,
   postAdminConversation,
+  userResolveTicket,
 } = require('./ticketController');
 
 const {
@@ -111,4 +112,5 @@ module.exports = {
   getAdminEditTicket,
   patchAdminEditTicket,
   adminDeleteTicket,
+  userResolveTicket,
 };
