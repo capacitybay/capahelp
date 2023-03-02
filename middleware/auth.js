@@ -2,8 +2,22 @@ module.exports = {
   // checks if user is authenticated
   ensureAuthenticated: function (req, res, next) {
     if (req.isAuthenticated()) {
-      return next();
+      if (req.user[0]?.active === false || req.user?.active === false) {
+        req.logout(function (err) {
+          if (err) {
+            return next(err);
+          }
+          req.flash(
+            'error_msg',
+            'Your Account Is Not Active, Please Contact The Admin For More Info'
+          );
+          return res.redirect('/login');
+        });
+      } else {
+        return next();
+      }
     }
+
     // redirects user to login page if not authenticated
     req.flash('error_msg', 'Please Log In With Your Credentials');
     return res.status(304).redirect('/login');
@@ -13,7 +27,6 @@ module.exports = {
     console.log(req.isAuthenticated());
 
     if (req.isAuthenticated()) {
-      console.log(req.user);
       if (
         (req.user.user_type === 3 && req.user.active === true) ||
         (req.user[0]?.user_type === 3 && req.user[0]?.active === true)

@@ -27,10 +27,17 @@ router.post('/login', (req, res, next) => {
         // checks if user is admin or customer
 
         console.log(req.user);
-        if (user?.user_type === 3) {
+        if (user?.user_type === 3 && user?.active === true) {
           return res.send({ success: true, user_type: 3 });
-        } else if (user?.user_type === 0) {
+        } else if (user?.user_type === 0 && user?.active === true) {
           return res.send({ success: true, user_type: 0 });
+        } else {
+          return res.send({
+            success: false,
+            user_type: 0,
+            payload:
+              'Your Account Is Not Active, Please Contact The Admin For More Info',
+          });
         }
       });
     }
@@ -44,7 +51,7 @@ router.post('/logout', (req, res) => {
       return next(err);
     }
 
-    req.flash('success_msg', 'You are logged out');
+    req.flash('success_msg', 'You Are Logged Out');
     res.redirect('/login');
   });
 });
