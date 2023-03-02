@@ -944,7 +944,9 @@ const customerGetTicket = asyncWrapper(async (req, res) => {
 const postUserConversation = asyncWrapper(async (req, res) => {
   const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
   // console.log(ticket);
-
+  if(req.body.editor == ""){
+    return res.status(200).redirect(`/user/view/ticket/${req.body.ticketId}`);
+  }
   let ticketUser = await UserModel.find(
     {
       email: ticket.customer_id,
@@ -973,6 +975,9 @@ const postUserConversation = asyncWrapper(async (req, res) => {
 const postAdminConversation = asyncWrapper(async (req, res) => {
   const ticket = await TicketModel.findOne({ _id: req.body.ticketId });
   // console.log(ticket);
+  if(req.body.editor == ""){
+    return res.status(200).redirect(`/admin/view/ticket/${req.body.ticketId}`);
+  }
 
   let ticketUser = await UserModel.find(
     {

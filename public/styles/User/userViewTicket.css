@@ -5,35 +5,36 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
 }
 body {
   background-color: #eee;
 }
 
-.row {
+.rows {
   max-width: 1500px;
   width: 95%;
   margin: 0 auto;
 }
-.row section {
+.rows section {
   background-color: #fff;
   margin-top: 40px;
   padding: 40px;
 }
 
-.row section .tick {
+.rows section .tick {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.row section .tick p {
+.rows section .tick p {
   font-size: 1.2rem;
 }
-.row section .tick p a {
+.rows section .tick p a {
   text-decoration: none;
   color: #1ca76c;
 }
-.row section .tick .re-btn {
+.rows section .tick .re-btn {
   background-color: #1ca76c;
   border: 1px solid #1ca76c;
   border-radius: 20px;
@@ -43,19 +44,19 @@ body {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-.row section .tick .re-btn:hover {
+.rows section .tick .re-btn:hover {
   background-color: #fff;
   color: #1ca76c;
   border: 1px solid #1ca76c;
 }
 
-.row section .status {
+.rows section .status {
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin: 7px 0px;
 }
-.row section .status .stat {
+.rows section .status .stat {
   background-color: #f8de6a;
   padding: 2px 10px;
   border-radius: 10px;
@@ -75,7 +76,7 @@ body {
 .messages {
   transition: all 0.6s ease-in-out;
 }
-.row section .messages:nth-last-child(2) {
+.rows section .messages:nth-last-child(2) {
   animation: slide 0.4s ease-in;
 }
 @keyframes slide {
@@ -87,6 +88,18 @@ body {
     transform: translateX(0%);
     display: flex;
   }
+}
+.btn-chat-sub{
+  padding: 6px 20px;
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgb(80, 168, 108);
+  margin-top: 25px;
 }
 .messages:nth-last-child() {
   background: red !important;
@@ -243,7 +256,7 @@ hr {
   .date {
     font-size: 13px;
   }
-  .row section .status .stat {
+  .rows section .status .stat {
     font-size: 13px;
   }
   .messages .body-part p {
@@ -254,7 +267,7 @@ hr {
     width: 50px;
     height: 50px;
   }
-  .row section {
+  .rows section {
     padding: 15px;
   }
   .messages .body-part .di {
@@ -282,7 +295,7 @@ hr {
   .messages .body-part h2 {
     font-size: 1rem;
   }
-  .row section .status .date {
+  .rows section .status .date {
     font-size: 0.7rem;
   }
   .messages .body-part p {
@@ -296,10 +309,10 @@ hr {
   .reply .body-part {
     width: 87%;
   }
-  .row section .tick p {
+  .rows section .tick p {
     font-size: 0.9rem;
   }
-  .row section .tick .re-btn {
+  .rows section .tick .re-btn {
     font-size: 0.7rem;
     padding: 5px 7px;
   }
@@ -315,10 +328,10 @@ hr {
 }
 
 @media screen and (max-width: 434px) {
-  .row section .status .date {
+  .rows section .status .date {
     font-size: 0.65rem;
   }
-  .row section .status .stat {
+  .rows section .status .stat {
     font-size: 0.7rem;
   }
   .title h1 {
@@ -329,18 +342,18 @@ hr {
   }
 }
 @media screen and (max-width: 394px) {
-  .row section .status .date {
+  .rows section .status .date {
     font-size: 0.55rem;
   }
-  .row section .status .stat {
+  .rows section .status .stat {
     font-size: 0.5rem;
   }
 }
 @media screen and (max-width: 324px) {
-  .row section .status .date {
+  .rows section .status .date {
     font-size: 0.5rem;
   }
-  .row section .status .stat {
+  .rows section .status .stat {
     font-size: 0.45rem;
   }
   .messages .user_icon .icon,
