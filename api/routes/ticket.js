@@ -23,6 +23,7 @@ const {
   customerGetTicket,
   postUserConversation,
   postAdminConversation,
+  userResolveTicket,
 } = require('../controllers');
 
 const {
@@ -71,18 +72,23 @@ router.post(
   postCustomerCreateTicket
 );
 //User Create Chat Conversation
-router.post("/user/create/conversation", ensureAuthenticated, postUserConversation)
+router.post(
+  '/user/create/conversation',
+  ensureAuthenticated,
+  postUserConversation
+);
 
 //Admin Create Chat Conversation
-router.post("/admin/create/conversation", isAdmin, postAdminConversation)
+router.post('/admin/create/conversation', isAdmin, postAdminConversation);
 
 router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
   res.render('Admin/adminCreateTicket', { user: req.user[0], id: undefined });
 });
 router.post('/admin/create/ticket', isAdmin, postAdminCreateTicket);
+router.patch(
+  '/resolve/ticket:ticketId',
+  ensureAuthenticated,
+  userResolveTicket
+);
 
 module.exports = router;
-/**
- * Tfind if department exist if yes
- * compare dept details
- */
