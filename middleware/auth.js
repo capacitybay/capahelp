@@ -13,6 +13,7 @@ module.exports = {
     console.log(req.isAuthenticated());
 
     if (req.isAuthenticated()) {
+      console.log(req.user);
       if (
         (req.user.user_type === 3 && req.user.active === true) ||
         (req.user[0]?.user_type === 3 && req.user[0]?.active === true)
