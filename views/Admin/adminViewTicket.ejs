@@ -44,8 +44,7 @@
                                     </p>
                                 </div>
                                 <hr>
-
-                               <!-- Time Ago Section Start -->
+                                 <!-- Time Ago Section Start -->
                         <% function timeSince(date) {%>
                             <%var seconds = Math.floor((new Date() - date) / 1000);%>
                             <%var interval = seconds / 31536000;%>
@@ -76,7 +75,6 @@
                           <%}%>
                         <!-- Time Ago Section End -->
 
-
                         <!-- Messages section Agent -->
                         <div class="messages right">
                             <div class="user_icon">
@@ -93,11 +91,10 @@
                                     <div class="filename">Mai Tea.Docx</div>
                                     <div class="filesize">368.67KB</div>
                                 </div> -->
-
                             </div>
                         </div>
 
-                        <!-- Messages section User -->
+                               <!-- Messages section User -->
                         <% ticket.conversation.forEach(chat => {%>
                             <% const initials = (chat.sendersFName.substring(0, 1)+chat.sendersLName.substring(0, 1)).toUpperCase()%>
                             <% const agoTime = timeSince(chat.createdAt)%>
@@ -145,11 +142,7 @@
                             <%}%>
                             
                         <%})%>
-                       
-
-
-                        
-                        <!-- Reply Section -->
+                               <!-- Reply Section -->
                         <div class="reply">
 
                             <div class="user_icon">
@@ -159,7 +152,7 @@
                                 <h3>Reply</h3>
 
                                 <form action="/admin/create/conversation" method="post" id="sd">
-                                    <textarea class="text-area" name="editor" id="editor" rowss="20"
+                                    <textarea class="text-area" name="editor" id="editor" rows="20"
                                         placeholder="Please Input a Description"></textarea>
                                         <input type="hidden" name="ticketId" value="<%= ticket._id %>">
                                     
@@ -170,13 +163,12 @@
                                     </div> -->
                                     <button type="submit" class="btn-chat-sub">Send Reply</button>
 
+                                            <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
 
-                                    <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
+                                        </form>
 
-                                </form>
-
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
 
                     </section>
@@ -186,7 +178,12 @@
                 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
                 <script>
                     CKEDITOR.replace("editor");
-
+                    window.addEventListener("load", ()=>{
+                        function exec(){
+                            window.scrollTo(0,document.body.scrollHeight);
+                        }
+                        setTimeout(exec, 1000);
+                    })
                 </script>
         </body>
 
