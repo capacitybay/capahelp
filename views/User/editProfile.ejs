@@ -51,12 +51,12 @@
                                     <label for="profile-email">Email:
                                         <div>
 
-                                            <input type="email" id="profile-email" class="form-box profile-form-box"
-                                                name="email" value="<%= user?user.email:''%> ">
-
+                                            <input type="email" id="profile-email" class="" name="email"
+                                                value="<%= user?user.email:''%> ">
+                                            <input type="checkbox" class="check-email" name="selectEmail"
+                                                id="selectEmail">
                                         </div>
-                                        <div class="check-info">check the box to change email <input type="checkbox"
-                                                class="check-email" name="selectEmail" id="selectEmail"></div>
+                                        <div class="check-info">check the box to change email</div>
                                     </label>
                                 </div>
                                 <div class="form-div">

@@ -1,4 +1,3 @@
-
 <%- include("../partials/head.ejs",{title:"View Ticket"}) %>
     <%- include("../partials/userHeaderLinks.ejs") %>
     <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
@@ -8,23 +7,44 @@
     <link rel="stylesheet" href="/public/styles/User/nav.css">
     <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
 
+</head>
 
-            <!-- Navbar set up  -->
-            <%- include( "../partials/User/userHeader.ejs" ) %>
-
-                <!-- Main container starts  -->
-
+<body>
 
     <!-- Navbar set up  -->
     <%- include("../partials/User/userHeader.ejs") %>
 
+        <!-- Main container starts  -->
 
-                        <div class="tick">
-                            <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
+        <div class="rows">
+            <section>
+
+                <div class="tick">
+                    <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
+                    </p>
+                    <div class="re-btn">Resolve</div>
+                </div>
+
+                <!-- Heading Section -->
+                <div class="title">
+                    <h1>
+                        <%= ticketOwner.first_name+ " " +ticketOwner.last_name%>
+                    </h1>
+                    <h3>Subject: <%= ticket.title %>
+                    </h3>
+                </div>
+                <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July" , "August"
+                    , "September" , "October" , "November" , "December" ]; %>
+
+                    <% var d=ticket.createdAt.getDate(); var m=monthNames[ticket.createdAt.getMonth()]; var
+                        y=ticket.createdAt.getFullYear(); %>
+                        <div class="status">
+                            <p class="stat"><strong>Status:</strong>
+                                <%= ticket.ticket_status %>
                             </p>
-                            <div class="re-btn">Resolve</div>
+                            <p class="date">Created on <%= d+ " " +m+ " " +y %>
+                            </p>
                         </div>
-
                         <hr>
 
 
@@ -77,28 +97,8 @@
                                     <div class="filesize">368.67KB</div>
                                 </div> -->
 
-                        <!-- Heading Section -->
-                        <div class="title">
-                            <h1>
-                                <%= ticketOwner.first_name+ " " +ticketOwner.last_name%>
-                            </h1>
-                            <h3>Subject: <%= ticket.title %>
-                            </h3>
+                            </div>
                         </div>
-                        <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
-                            , "August" , "September" , "October" , "November" , "December" ]; %>
-
-                            <% var d=ticket.createdAt.getDate(); var m=monthNames[ticket.createdAt.getMonth()]; var
-                                y=ticket.createdAt.getFullYear(); %>
-                                <div class="status">
-                                    <p class="stat"><strong>Status:</strong>
-                                        <%= ticket.ticket_status %>
-                                    </p>
-                                    <p class="date">Created on <%= d+ " " +m+ " " +y %>
-                                    </p>
-                                </div>
-                                <hr>
-
 
                         <!-- Messages section User -->
                         <% ticket.conversation.forEach(chat => {%>
@@ -173,42 +173,24 @@
                                     </div> -->
                                     <button type="submit" class="btn-chat-sub">Send Reply</button>
 
-                                    <div class="user_icon">
-                                        <div class="icon">EO</div>
-                                    </div>
-                                    <div class="body-part">
-                                        <h3>Reply</h3>
 
-                                        <form action="#" id="sd">
-                                            <textarea class="text-area" name="editor" id="editor" rowss="20"
-                                                placeholder="Please Input a Description"></textarea>
+                                    <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
+
+                                </form>
+
+                            </div>
+                        </div>
 
 
-                                            <div class="file-upload">
-                                                <label for="myfile"><b style="color: green;">Attach a
-                                                        file:</b>&nbsp;&nbsp;
-                                                    &nbsp;<small style="color:black;">(File size < 35MB)</small></label>
-                                                <input type="file" id="myfile" name="myfile" multiple><br><br>
-                                            </div>
+            </section>
+        </div>
 
+        <!-- <img src="gif.svg" alt=""> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+        <script>
+            CKEDITOR.replace("editor");
 
-                                            <!-- <input type="file" upload value="Attache a file"> <span>(File size < 35 MB)</span> -->
+        </script>
+</body>
 
-                                        </form>
-
-                                    </div>
-                                </div>
-
-
-                    </section>
-                </div>
-
-                <!-- <img src="gif.svg" alt=""> -->
-                <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-                <script>
-                    CKEDITOR.replace("editor");
-
-                </script>
-        </body>
-
-        </html>
+</html>

@@ -1,5 +1,5 @@
 async function request(action) {
-  const data = await fetch(`/admin/${action}/${userId}`, {
+  const data = await fetch(`/user/${action}/${userId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
