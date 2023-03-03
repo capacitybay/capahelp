@@ -21,7 +21,7 @@
 
                         </div>
                         <div class="tick">
-                            <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
+                            <p><a href="/user/tickets">Tickets</a> > # <%= ticket.ticket_type %>
                             </p>
 
                             <div class="re-btn" id="resolveBtn"> <span class="spinner"><i
@@ -33,7 +33,7 @@
                             <h1>
                                 <%= ticketOwner.first_name+ " " +ticketOwner.last_name%>
                             </h1>
-                            <h3>Subject: <%= ticket.title %>
+                            <h3><strong>Subject:</strong> <%= ticket.title %>
                             </h3>
                         </div>
                         <% var monthNames=[ "January" , "February" , "March" , "April" , "May" , "June" , "July"
@@ -152,7 +152,7 @@
                             <div class="user_icon">
                                 <div class="icon"><% const userIn = (user.first_name.substring(0, 1) +user.last_name.substring(0, 1)).toUpperCase()%> <%= userIn %></div>
                             </div>
-                            <div class="body-part">
+                            <div class="body-part tbox">
                                 <h3>Reply</h3>
 
                                 <form action="/user/create/conversation" method="post" id="sd">
@@ -236,7 +236,7 @@
                         spinnerElem.style.display = "block";
                         const params = window.location.href.split("/");
                         const ticketId = params[params.length - 1].trim()
-                        console.log(ticketId);
+                        
 
                         fetch(`/user/resolve/ticket/${ticketId}`, {
                             method: "PATCH",

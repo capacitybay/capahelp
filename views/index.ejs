@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="/public/styles/index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
+    <%- include("./partials/userHeaderLinks.ejs") %>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" /> -->
     <link rel="stylesheet" href="/public/styles/footer.css">
     <!-- font awesome cdn link -->
     <script src="https://kit.fontawesome.com/edd6b66792.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 </head>
 
 <body>
@@ -38,37 +38,36 @@
                 </div>
             </nav>
         </header>
-        <main class="container house justify-content-between">
-            <div class="row house-sct">
-                <section class="col-lg-6 gy-3 section section1">
-                    <img src="/public/img/solutions_assets/undraw_team_spirit_re_yl1v.svg" alt="" class="img-sct" />
-                </section>
-                <section class="col-lg-6 gy-3 section section2">
-                    <div class="section-text">
-                        <div class="h">
-                            <h3>Need Support?</h3>
-                            <h2>WE'VE GOT YOU</h2>
-                            <h1>COVERED</h1>
-                        </div>
-                        <p>
-                            At CapacityBay, Inc. we support you with our great services and
-                            our core values: Hard work, Punctuality, Respect, Cooperation
-                            and collaboration, Partnership, Diversity, Tolerance, Teamwork,
-                            Research, Equity.
-                        </p>
-
-                        <p class="p2">
-                            Tell us what you want, we build you a solution, create a Ticket
-                            and <br />
-                            Track Our Progress
-                        </p>
-                        <div class="btn-div">
-                            <a href="/login" class="btn3">Create a Ticket</a>
-                        </div>
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Need Support?<br><br><span class="gotu">WE'VE GOT YOU </span><br><span class="covered">COVERED</span>
+                    <!-- <h3>Need Support?</h3>
+                    <h2>WE'VE GOT YOU</h2>
+                    <h1>COVERED</h1> -->
+                </h1>
+                <p class="sub">
+                    At CapacityBay, Inc. we support you with you with our great services and our core
+                    values: Hard
+                    work,
+                    Punctuality, Respect, Cooperation and collaboration, Partnership, Diversity, Tolerance,
+                    Teamwork,
+                    Research, Equity.
+                </p>
+                <p class="sub">
+                    Tell us what you want, we build you a solution, create a Ticket and Track Our Progress
+                </p>
+                <div class="hero-toggles">
+                    <div class="create">
+                        <a href="/login">Create a Ticket</a>
                     </div>
-                </section>
+                    
+                </div>
             </div>
-        </main>
+            <div class="hero-img">
+                <img src="/public/img/solutions_assets/undraw_team_spirit_re_yl1v.svg" alt="" class="img-sct"/>
+            </div>
+        </div>
     </div>
     <section>
         <%- include("./partials/footer.ejs") %>

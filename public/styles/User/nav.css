@@ -261,7 +261,7 @@ a:hover {
   }
   .user-details {
     position: absolute;
-    left: -300%;
+    left: -175px;
     top: 50px;
   }
   .username {
