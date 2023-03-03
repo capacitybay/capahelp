@@ -234,23 +234,19 @@
                         })
                     })
                         .then(response => {
-                            console.log(response);
+
 
                             return response.json();
                         }).then(data => {
                             if (data) {
                                 errorPlaneElem.innerHTML = showMessage(data.msg, data.success);
                                 let str = "security"
-                                //TODO: work on this
-                                // ticketTitleElem.value = data.payload?.title
-                                //ticketTypeOptionElem.value = data.payload?.ticket_type
-                                //ticketTypeOptionElem.textContent = "data.payload?.ticket_type"
+                                
                                 submitBtnElem.disabled = false
                                 spinnerElem.style.display = "none";
                                 errorPlaneElem.scrollIntoView({ behavior: "smooth" });
 
                             }
-                            console.log(data);
                         }).catch(error => {
                             if (error) {
                                 submitBtnElem.disabled = false

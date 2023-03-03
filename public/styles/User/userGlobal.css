@@ -224,7 +224,7 @@ header {
   }
   .hero-title {
     text-align: center;
-    font-size: clamp(14px, 4vw, 50px);
+    /* font-size: clamp(14px, 4vw, 50px); */
     margin-bottom: clamp(25px, 2vw, 60px);
   }
   .hero-title span {
@@ -372,7 +372,7 @@ header {
     top: 60px;
     right: 0;
     opacity: 0;
-    width: 120%;
+    width: 152px;
   }
   @keyframes show {
     from {

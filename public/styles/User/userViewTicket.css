@@ -10,6 +10,9 @@
 body {
   background-color: #eee;
 }
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Poppins', sans-serif !important;
+}
 
 .rows {
   max-width: 1500px;
@@ -20,6 +23,15 @@ body {
   background-color: #fff;
   margin-top: 40px;
   padding: 40px;
+}
+h1{
+  font-weight: 600 !important;
+}
+h2{
+  font-weight: 500 !important;
+}
+h3{
+  font-weight: 500 !important;
 }
 
 .rows section .tick {
@@ -111,8 +123,8 @@ body {
 .messages.left::after {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   background-color: #e9fee6;
   transform: rotate(45deg);
   top: -3%;
@@ -225,8 +237,7 @@ hr {
   }
 }
 @media screen and (max-width: 706px) {
-  .messages .body-part p {
-  }
+  
   .messages .body-part h2 span {
     font-size: 12px;
   }
@@ -307,9 +318,16 @@ hr {
   .reply .user_icon {
     width: 10%;
   }
+  .reply .user_icon {
+    display: none;
+  }
   .messages .body-part,
   .reply .body-part {
     width: 87%;
+  }
+  .reply .body-part {
+    width: 100%;
+    padding: 0;
   }
   .rows section .tick p {
     font-size: 0.9rem;

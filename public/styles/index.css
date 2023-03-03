@@ -16,11 +16,29 @@ header {
   align-items: center;
   background-color: rgb(209,239,204);
 }
+.gotu{
+  color: #ffc800 !important;
+  font-size: 2.3rem !important;
+}
 
 .header_img {
   width: clamp(60px, 4vw, 200px);
 }
-
+.terms-page{
+  max-width: 1200px;
+  width: 98%;
+  margin: 0 auto;
+}
+.terms-page ul{
+  padding: 10px;
+}
+.terms-page ul h2{
+  text-align: center !important;
+}
+.terms-page ul li{
+  margin-bottom: 10px;
+  list-style: disc !important;
+}
 .nav-menu {
   display: flex;
   gap: 20px;
@@ -61,6 +79,7 @@ header {
 }
 .main {
   min-height: 100vh;
+  /* background-color: red; */
 }
 .house.effect {
   height: 100vh;
@@ -68,6 +87,7 @@ header {
   background-color: #000;
   color: #fff;
   opacity: 0.3;
+  background-color: blue;
 }
 
 .house-sct {
