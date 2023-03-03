@@ -218,15 +218,11 @@
                 filterBtnElem?.addEventListener("click", function (event) {
                     // event.preventDefault()
 
-                    console.log({
-                        inputElem: inputElem.value,
-                        selectedOptionElem: selectedOptionElem.value,
-                    })
                     const params = new URLSearchParams({
                         inputElem: inputElem.value,
                         selectedOptionElem: selectedOptionElem.value
                     })
-                    console.log(params);
+
 
                     fetch(`/filter/users`, {
                         method: 'POST',

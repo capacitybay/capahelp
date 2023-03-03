@@ -37,12 +37,14 @@ body {
 .rows section .tick .re-btn {
   background-color: #1ca76c;
   border: 1px solid #1ca76c;
-  border-radius: 20px;
+  border-radius: 6px;
   padding: 8px 15px;
   color: #fff;
   height: fit-content;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  gap: 1rem;
 }
 .rows section .tick .re-btn:hover {
   background-color: #fff;

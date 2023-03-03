@@ -2,7 +2,7 @@
     <%- include("../partials/userHeaderLinks.ejs") %>
         <title>View Ticket</title>
         <link rel="icon" type="image/x-icon" href="/public/img/logo.png">
-
+        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
         <link rel="stylesheet" href="/public/styles/User/userViewTicket.css">
         <link rel="stylesheet" href="/public/styles/User/nav.css">
         <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
@@ -14,15 +14,18 @@
             <!-- Navbar set up  -->
             <%- include( "../partials/User/userHeader.ejs" ) %>
 
-                <!-- Main container starts  -->
 
                 <div class="rows">
                     <section>
+                        <div class="error-plane">
 
+                        </div>
                         <div class="tick">
                             <p><a href="#">Tickets</a> > # <%= ticket.ticket_type %>
                             </p>
-                            <div class="re-btn">Resolve</div>
+
+                            <div class="re-btn" id="resolveBtn"> <span class="spinner"><i
+                                        class="fa fa-refresh fa-spin"></i> </span> Resolve</div>
                         </div>
 
                         <!-- Heading Section -->
@@ -187,6 +190,92 @@
                 </script>
                 <script>
                     CKEDITOR.replace("editor");
+                </script>
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                    crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                    crossorigin="anonymous"></script>
+                <script>
+                    function showMessage(msg, success) {
+                        if (success) {
+                            return `
+                      <div class="alert alert-success alert-dismissible fade show " role="alert" style="height: 3rem;  width:100%;">
+                          <h6 style="font-size:0.9rem;" class="text-center">
+                              ${msg}
+                          </h6>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width:1rem">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      `;
+                        } else {
+                            return `
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                          style="height: 3rem; width: 100%; ">
+                          <h6 style="font-size:0.9rem;" class="text-center">
+                              ${msg}
+                          </h6>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                              style="width:1rem">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      `;
+                        }
+                    }
+                    const errorPlaneElem = document.querySelector('.error-plane');
+                    const resolveBtnElem = document.getElementById("resolveBtn");
+                    const spinnerElem = document.querySelector('.spinner');
+                    resolveBtnElem.disabled = true;
+                    spinnerElem.style.display = 'none';
+                    resolveBtnElem.addEventListener("click", (event) => {
+                        event.preventDefault();
+                        resolveBtnElem.disabled = true
+                        spinnerElem.style.display = "block";
+                        const params = window.location.href.split("/");
+                        const ticketId = params[params.length - 1].trim()
+                        console.log(ticketId);
+
+                        fetch(`/user/resolve/ticket/${ticketId}`, {
+                            method: "PATCH",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                "Accept": 'application/json',
+                            }
+                        }
+
+                        )
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data) {
+                                    errorPlaneElem.innerHTML = showMessage(data.payload, data.success);
+                                    resolveBtnElem.disabled = false;
+                                    spinnerElem.style.display = 'none';
+                                    errorPlaneElem.scrollIntoView({ behavior: 'smooth' });
+
+                                } else {
+                                    resolveBtnElem.disabled = false;
+                                    spinnerElem.style.display = 'none';
+                                    errorPlaneElem.innerHTML = showMessage(
+                                        'Sorry,Something Went Wrong!',
+                                        false
+                                    );
+                                    errorPlaneElem.scrollIntoView({ behavior: 'smooth' });
+                                }
+
+                            })
+                            .catch((error) => {
+                                if (error) {
+                                    resolveBtnElem.disabled = false;
+                                    spinnerElem.style.display = 'none';
+                                    errorPlaneElem.innerHTML = showMessage('Sorry,Something Went Wrong!', false);
+                                    errorPlaneElem.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            });
+                    })
+
                 </script>
         </body>
 
