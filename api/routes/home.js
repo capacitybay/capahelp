@@ -17,5 +17,9 @@ router.get(
 router.get('/', (req, res) => {
   res.render('index');
 });
+router.get("/terms", (req, res) => {
+  res.render("terms");
+
+})
 
 module.exports = router;

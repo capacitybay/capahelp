@@ -24,7 +24,21 @@ header {
 .header_img {
   width: clamp(60px, 4vw, 200px);
 }
-
+.terms-page{
+  max-width: 1200px;
+  width: 98%;
+  margin: 0 auto;
+}
+.terms-page ul{
+  padding: 10px;
+}
+.terms-page ul h2{
+  text-align: center !important;
+}
+.terms-page ul li{
+  margin-bottom: 10px;
+  list-style: disc !important;
+}
 .nav-menu {
   display: flex;
   gap: 20px;
