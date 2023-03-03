@@ -238,7 +238,7 @@
     opacity: 0;
     animation: slideUp 0.5s ease forwards 0.4s;
     overflow-y: scroll;
-    height: 400px;
+    height: 700px;
     padding: 1rem 2rem;
   }
 
