@@ -14,7 +14,7 @@ h4,
 }
 
 body {
-  background-color: rgb(237,237,237);
+  background-color: rgb(237, 237, 237);
 }
 
 .content {
@@ -441,4 +441,7 @@ main {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+}
+.align_caption {
+  text-align: center;
 }

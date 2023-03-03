@@ -177,7 +177,7 @@ form .button #inputButton:hover {
   }
 
   .container form .user__details {
-    max-height: 300px;
+    max-height: 500px;
     overflow-y: scroll;
   }
 
