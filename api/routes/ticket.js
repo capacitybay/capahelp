@@ -86,7 +86,7 @@ router.get('/admin/create/ticket', ensureAuthenticated, (req, res) => {
 });
 router.post('/admin/create/ticket', isAdmin, postAdminCreateTicket);
 router.patch(
-  '/resolve/ticket:ticketId',
+  '/user/resolve/ticket/:ticketId',
   ensureAuthenticated,
   userResolveTicket
 );

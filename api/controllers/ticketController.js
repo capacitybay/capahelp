@@ -1009,10 +1009,24 @@ const postAdminConversation = asyncWrapper(async (req, res) => {
 const userResolveTicket = asyncWrapper(async (req, res) => {
   const ticketId = req.params.ticketId;
 
-  const updatedTicket = await TicketModel.updateOne({
-    _id: ticketId,
-  });
-  console.log(updatedTicket);
+  const updatedTicket = await TicketModel.updateOne(
+    {
+      _id: ticketId,
+    },
+    { ticket_status: 'resolved' }
+  );
+
+  if (updatedTicket.modifiedCount > 0) {
+    return res.send({
+      success: true,
+      payload: `Ticket ${req.params.ticketId} Is Resolved.!`,
+    });
+  } else {
+    return res.send({
+      success: false,
+      payload: `Not Able To Resolve Ticket ${req.params.ticketId} `,
+    });
+  }
 });
 module.exports = {
   getAdminGetTicket,
