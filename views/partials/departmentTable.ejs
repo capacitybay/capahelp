@@ -1,22 +1,22 @@
 <section>
+    <% if(departments.length>0){ %>
 
-    <div class="table-container table-responsive py-5">
-        <table class="table table-bordered table-hover">
-            <thead class="th-cont">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Head Agent</th>
-                    <th scope="col">Department Email</th>
-                    <th scope="col">No. of Members</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-container table-responsive py-5">
+            <table class="table table-bordered table-hover">
+                <thead class="th-cont">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Head Agent</th>
+                        <th scope="col">Department Email</th>
+                        <th scope="col">No. of Members</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <% if(departments.length>0){ %>
 
                     <% departments.forEach((element,idx)=>{ %>
                         <tr>
@@ -77,22 +77,22 @@
                                     <% } %>
 
 
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
 
 
-    </main>
+        </main>
 
-    <script>
-        const modalContainer = document.getElementById("modal-container");
-        const deleteBtnElem = document.getElementById("deleteSelectedDept")
+        <script>
+            const modalContainer = document.getElementById("modal-container");
+            const deleteBtnElem = document.getElementById("deleteSelectedDept")
 
 
-        function renderData(_deptId, _deptName, _deptEmail) {
+            function renderData(_deptId, _deptName, _deptEmail) {
 
-            console.log(_deptId, _deptName, _deptEmail)
-            const modal = `
+                console.log(_deptId, _deptName, _deptEmail)
+                const modal = `
 
             <div class="modal fade" id="basicModal" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="basicModal" aria-hidden="true">
@@ -134,14 +134,14 @@
             </div>
         </div>
             `
-            return modal
-        }
+                return modal
+            }
 
 
 
-        function messageDialog(msg) {
-            return (
-                `
+            function messageDialog(msg) {
+                return (
+                    `
         <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-sm">
               <div class="modal-content">
@@ -162,110 +162,110 @@
             </div>
           </div>
         `
-            )
-        }
+                )
+            }
 
 
-        let deptId = document.querySelectorAll(".deptId");
-        //selects of nodes with the class name call-to-action
-        let nodeList = document.querySelectorAll(".call-to-action")
-        console.log(nodeList);
-        nodeList.forEach((element, idx) => {
-            let value = element.parentElement.parentElement;
-            console.log(value)
-            element.addEventListener("click", function (event) {
-                //change the identifiers to id(to be unique in the app)
-                console.log(element.classList[2])
-                if (element.classList[2] === "view") {
-                    //goes three levels up to get table row
-                    let value = element.parentElement.parentElement.parentElement;
-                    //gets and trim id element to eliminate white spaces 
-                    let idString = value.children[1] ? value.children[1].value.trim() : value
-                    //validates email
-                    console.log(idString);
-                    window.location.href = `/admin/view/department/${idString}`;
+            let deptId = document.querySelectorAll(".deptId");
+            //selects of nodes with the class name call-to-action
+            let nodeList = document.querySelectorAll(".call-to-action")
+            console.log(nodeList);
+            nodeList.forEach((element, idx) => {
+                let value = element.parentElement.parentElement;
+                console.log(value)
+                element.addEventListener("click", function (event) {
+                    //change the identifiers to id(to be unique in the app)
+                    console.log(element.classList[2])
+                    if (element.classList[2] === "view") {
+                        //goes three levels up to get table row
+                        let value = element.parentElement.parentElement.parentElement;
+                        //gets and trim id element to eliminate white spaces 
+                        let idString = value.children[1] ? value.children[1].value.trim() : value
+                        //validates email
+                        console.log(idString);
+                        window.location.href = `/admin/view/department/${idString}`;
 
-                    //condition checks if the clicked icon contains the text "edit"
+                        //condition checks if the clicked icon contains the text "edit"
 
-                } else if (element.classList[2] === "edit") {
-                    //goes three levels up to get table row
-                    let value = element.parentElement.parentElement.parentElement;
-                    //gets and trim id element to eliminate white spaces 
-                    let idString = value.children[1] ? value.children[1].value.trim() : value
-                    //validates email
-                    console.log(idString);
-                    window.location.href = `/admin/update/department/${idString}`;
-
-
-                    //redirects user to update user component with userId
-                    // window.location.href = `/admin/update/ticket/${getUserId}`
-                } else if (element.classList[2] === "trash") {
-                    let value = element.parentElement.parentElement.parentElement.parentElement;
-                    let elementChildren = value.children
-                    console.log(
-                        elementChildren,
-                        elementChildren[1].value.trim(),
-                        elementChildren[2].textContent.trim(),
-
-                    )
+                    } else if (element.classList[2] === "edit") {
+                        //goes three levels up to get table row
+                        let value = element.parentElement.parentElement.parentElement;
+                        //gets and trim id element to eliminate white spaces 
+                        let idString = value.children[1] ? value.children[1].value.trim() : value
+                        //validates email
+                        console.log(idString);
+                        window.location.href = `/admin/update/department/${idString}`;
 
 
-                    modalContainer.innerHTML = renderData(
-                        elementChildren[1].value.trim(),
-                        elementChildren[2].textContent.trim(),
-                        elementChildren[4].textContent.trim()
-                    )
-                    //spinner element
-                    const spinnerElem = document.querySelector(".spinner")
-                    spinnerElem.style.display = "none";
+                        //redirects user to update user component with userId
+                        // window.location.href = `/admin/update/ticket/${getUserId}`
+                    } else if (element.classList[2] === "trash") {
+                        let value = element.parentElement.parentElement.parentElement.parentElement;
+                        let elementChildren = value.children
+                        console.log(
+                            elementChildren,
+                            elementChildren[1].value.trim(),
+                            elementChildren[2].textContent.trim(),
 
-                    document.getElementById("deleteSelectedDept")
-                        .addEventListener("click", function (event) {
-                            document.getElementById("deleteSelectedDept").style.disabled = true
-                            spinnerElem.style.display = "block";
-                            const id = elementChildren[1].value
-                            // event.preventDefault();
-                            console.log(id)
+                        )
 
-                            fetch(`/admin/delete/department/${id}`, {
-                                method: "DELETE"
 
-                            }).then(response => {
-                                console.log(response);
-                                if (response.statusText === "OK") {
-                                    console.log(document.getElementById("deleteSelectedDept"));
+                        modalContainer.innerHTML = renderData(
+                            elementChildren[1].value.trim(),
+                            elementChildren[2].textContent.trim(),
+                            elementChildren[4].textContent.trim()
+                        )
+                        //spinner element
+                        const spinnerElem = document.querySelector(".spinner")
+                        spinnerElem.style.display = "none";
+
+                        document.getElementById("deleteSelectedDept")
+                            .addEventListener("click", function (event) {
+                                document.getElementById("deleteSelectedDept").style.disabled = true
+                                spinnerElem.style.display = "block";
+                                const id = elementChildren[1].value
+                                // event.preventDefault();
+                                console.log(id)
+
+                                fetch(`/admin/delete/department/${id}`, {
+                                    method: "DELETE"
+
+                                }).then(response => {
+                                    console.log(response);
+                                    if (response.statusText === "OK") {
+                                        console.log(document.getElementById("deleteSelectedDept"));
+                                        document.getElementById("deleteSelectedDept").style.disabled = false;
+                                        spinnerElem.style.display = "none";
+                                        document.getElementById("show-message").innerHTML = messageDialog("Department Has Been Deleted!");
+
+                                        $('#basicModal').modal('hide');
+
+                                        $('#confirmationModal').modal('show');
+                                        document.getElementById("refreshPage").addEventListener("click", function (event) {
+                                            location.reload()
+
+                                        })
+                                    } else {
+                                        document.getElementById("deleteSelectedDept").style.disabled = false;
+                                        spinnerElem.style.display = "none";
+
+                                        document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
+
+                                    }
+
+                                }).catch(error => {
                                     document.getElementById("deleteSelectedDept").style.disabled = false;
                                     spinnerElem.style.display = "none";
-                                    document.getElementById("show-message").innerHTML = messageDialog("Department Has Been Deleted!");
 
-                                    $('#basicModal').modal('hide');
-
-                                    $('#confirmationModal').modal('show');
-                                    document.getElementById("refreshPage").addEventListener("click", function (event) {
-                                        location.reload()
-
-                                    })
-                                } else {
-                                    document.getElementById("deleteSelectedDept").style.disabled = false;
-                                    spinnerElem.style.display = "none";
-
-                                    document.getElementById("show-message").innerHTML = messageDialog("some thing went wrong");
-
-                                }
-
-                            }).catch(error => {
-                                document.getElementById("deleteSelectedDept").style.disabled = false;
-                                spinnerElem.style.display = "none";
-
-                                document.getElementById("show-message").innerHTML = messageDialog(error.message);
+                                    document.getElementById("show-message").innerHTML = messageDialog(error.message);
+                                })
                             })
-                        })
 
 
-                    //console.log(renderData(userName, emailData, role))
-                }
+                        //console.log(renderData(userName, emailData, role))
+                    }
+                })
             })
-        })
 
-    </script>
+        </script>
 </section>

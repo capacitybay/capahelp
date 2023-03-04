@@ -686,6 +686,8 @@ const updateProfile = asyncWrapper(async (req, res) => {
  */
 const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
   // validates the provided fields
+  let getCustomer =  await UserModel.findOne({ _id: req.params.userId }, { password: 0 });
+
   const {
     first_name,
     last_name,
@@ -711,10 +713,9 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
     first_name,
     last_name
   ) => {
-    let getCustomer;
-    if (userState === undefined) {
-      getCustomer = await UserModel.findOne({ email: email }, { password: 0 });
-    }
+    // if (userState === undefined) {
+    //   getCustomer = await UserModel.findOne({ _id: req.params.userId }, { password: 0 });
+    // }
     const convertStateToBool =
       userState === 'activate'
         ? true
@@ -776,6 +777,7 @@ const postAdminUpdateUser = asyncWrapper(async (req, res, next) => {
         return res.render('Admin/adminEditUser', {
           errors,
           userInfo: getUserData[0],
+          user: getUserData,
           id: req.params.userId,
           feedback: { success: false },
         });

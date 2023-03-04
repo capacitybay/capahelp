@@ -94,16 +94,21 @@
                         </form>
                     </div>
             </main>
-        </body>
-        <script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
+            <script>
 
-            function showMessage(msg, success) {
+                function showMessage(msg, success) {
 
-                if (success) {
+                    if (success) {
 
 
-                    return (
-                        `
+                        return (
+                            `
             <div class="alert alert-success alert-dismissible fade show " role="alert"
             style="height: 3rem; width:100%;  ">
                 <h6 style="font-size:0.9rem;" class="text-center">
@@ -114,9 +119,9 @@
                 </button> 
             </div>
             `
-                    )
-                } else {
-                    return (`   
+                        )
+                    } else {
+                        return (`   
             <div class="alert alert-danger alert-dismissible fade show" role="alert"
             style="height: 3rem; width:100%;  ">
                 <h6 style="font-size:0.9rem;"  class="text-center">
@@ -128,74 +133,75 @@
                 </button>
             </div>
             `)
+                    }
                 }
-            }
 
-            const submitElem = document.getElementById("submit");
-            const spinnerElem = document.querySelector(".spinner");
-            const formElem = document.getElementById("formElem")
-            const firstNameElem = document.getElementById("firstName")
-            const lastNameElem = document.getElementById("lastName")
-            const emailElem = document.getElementById("profile-email")
-            const phoneElem = document.getElementById("phone")
-            const locationElem = document.getElementById("location")
-            //userId
-            const userIdElem = document.getElementById("userId")
-            //error plane
-            const errorPlaneElem = document.querySelector(".error-plane")
-            //select email with checkbox
+                const submitElem = document.getElementById("submit");
+                const spinnerElem = document.querySelector(".spinner");
+                const formElem = document.getElementById("formElem")
+                const firstNameElem = document.getElementById("firstName")
+                const lastNameElem = document.getElementById("lastName")
+                const emailElem = document.getElementById("profile-email")
+                const phoneElem = document.getElementById("phone")
+                const locationElem = document.getElementById("location")
+                //userId
+                const userIdElem = document.getElementById("userId")
+                //error plane
+                const errorPlaneElem = document.querySelector(".error-plane")
+                //select email with checkbox
 
-            const selectEmailElem = document.getElementById("selectEmail")
-            const mainElem = document.getElementById("main")
-            console.log(selectEmailElem.checked);
-            spinnerElem.style.display = "none";
+                const selectEmailElem = document.getElementById("selectEmail")
+                const mainElem = document.getElementById("main")
+                console.log(selectEmailElem.checked);
+                spinnerElem.style.display = "none";
 
-            submitElem.addEventListener("click", function (event) {
-                const id = userIdElem.value;
+                submitElem.addEventListener("click", function (event) {
+                    const id = userIdElem.value;
 
-                async function updateRequest(arg) {
-                    submitElem.disabled = true;
-                    spinnerElem.style.display = "block";
+                    async function updateRequest(arg) {
+                        submitElem.disabled = true;
+                        spinnerElem.style.display = "block";
 
-                    fetch(`/admin/update/profile/${id}`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        method: "PATCH",
-                        body: JSON.stringify({
-                            first_name: firstNameElem.value.trim(),
-                            last_name: lastNameElem.value.trim(),
-                            email: emailElem.value.trim(),
-                            phone: phoneElem.value.trim(),
-                            location: locationElem.value.trim(),
-                            checkEmail: selectEmailElem.checked
-                        })
+                        fetch(`/admin/update/profile/${id}`, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            method: "PATCH",
+                            body: JSON.stringify({
+                                first_name: firstNameElem.value.trim(),
+                                last_name: lastNameElem.value.trim(),
+                                email: emailElem.value.trim(),
+                                phone: phoneElem.value.trim(),
+                                location: locationElem.value.trim(),
+                                checkEmail: selectEmailElem.checked
+                            })
 
-                    }).then(response => {
-                        return response.json()
+                        }).then(response => {
+                            return response.json()
 
-                    }).then(data => {
+                        }).then(data => {
 
-                        if (data) {
+                            if (data) {
+                                submitElem.disabled = false;
+                                spinnerElem.style.display = "none";
+                                errorPlaneElem.innerHTML = showMessage(data.msg, data.success)
+                                mainElem.scrollIntoView({ behavior: "smooth" })
+                            }
+
+
+                        }).catch(error => {
+                            errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again", false);
                             submitElem.disabled = false;
                             spinnerElem.style.display = "none";
-                            errorPlaneElem.innerHTML = showMessage(data.msg, data.success)
-                            mainElem.scrollIntoView({ behavior: "smooth" })
-                        }
 
+                        })
+                    }
+                    updateRequest(undefined)
 
-                    }).catch(error => {
-                        errorPlaneElem.innerHTML = showMessage("Sorry, Something Went Wrong Pls Try Again", false);
-                        submitElem.disabled = false;
-                        spinnerElem.style.display = "none";
+                })
 
-                    })
-                }
-                updateRequest(undefined)
-
-            })
-
-        </script>
+            </script>
+        </body>
 
         </html>
